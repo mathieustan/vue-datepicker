@@ -1,5 +1,7 @@
 # vue-datepicker
 
+> A vue component for select dates
+
 ## Project setup
 ```
 yarn install

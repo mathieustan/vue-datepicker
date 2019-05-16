@@ -1,0 +1,135 @@
+// --------------------------------------------
+// Media Query Mixin --------------------------
+// --------------------------------------------
+
+/*
+  Media Query mixin
+  @example scss
+
+  @include mq($from: mobile) {
+    color: red;
+  }
+  @include mq($to: tablet) {
+    color: blue;
+  }
+  @include mq(mobile, tablet) {
+    color: green;
+  }
+  @include mq($from: tablet, $and: '(orientation: landscape)') {
+    color: teal;
+  }
+*/
+
+$breakpoints: (
+  "phone":        map-get($screen__sizes, phone),
+  "tablet":       map-get($screen__sizes, tablet),
+  "desktop":      map-get($screen__sizes, desktop),
+);
+@mixin mq(
+  $from: false,
+  $to: false,
+  $and: false,
+  $media-feature: width,
+  $media-type: 'only screen'
+) {
+  $media-query: '';
+  $min-width: 0;
+  $max-width: 0;
+
+  @if ($from) {
+    @if type-of($from) == number {
+      $min-width: $from;
+    } @else if map_has_key($breakpoints, $from) {
+      $min-width: map_get($breakpoints, $from);
+    }
+  }
+
+  @if $to {
+    @if type-of($to) == number {
+      $max-width: $to - 1px;
+    } @else if map_has_key($breakpoints, $to) {
+      $max-width: map_get($breakpoints, $to) - 1px;
+    }
+  }
+
+  @if $media-feature {
+    @if $min-width != 0 {
+      $media-query: '#{$media-query} and (min-#{$media-feature}: #{$min-width})';
+    }
+    @if $max-width != 0 {
+      $media-query: '#{$media-query} and (max-#{$media-feature}: #{$max-width})';
+    }
+  }
+
+  @if $and {
+    $media-query: '#{$media-query} and #{$and}';
+  }
+
+  // Remove unnecessary media query prefix 'all and '
+  @if ($media-type == 'all' and $media-query != '') {
+    $media-type: '';
+    $media-query: str-slice(unquote($media-query), 6);
+  }
+
+  @media #{$media-type + $media-query} {
+    @content;
+  }
+
+}
+
+// --------------------------------------------
+// Typography Mixins --------------------------
+// --------------------------------------------
+
+
+// Font Weight
+@mixin font-weight($elem) {
+	font-weight: get-font-weight($elem);
+}
+
+@mixin pseudo($display: block, $pos: absolute, $content: '') {
+    content: $content;
+    display: $display;
+    position: $pos;
+}
+
+@mixin truncate {
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin input-placeholder {
+  &.placeholder { @content; }
+  &::placeholder { @content; }
+  &:-moz-placeholder { @content; }
+  &::-moz-placeholder { @content; }
+  &:-ms-input-placeholder { @content; }
+  &::-webkit-input-placeholder { @content; }
+}
+
+// --------------------------------------------
+// Alignment Mixin ----------------------------
+// --------------------------------------------
+@mixin flex-align($direction: row, $vertical: flex-start, $horizontal: flex-start) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $horizontal;
+  align-items: $vertical;
+  align-content: $vertical;
+}
+
+// --------------------------------------------
+// Keyframes Mixin ----------------------------
+// --------------------------------------------
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}

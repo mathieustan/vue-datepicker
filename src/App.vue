@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <DatePicker />
+    <DatePicker
+      v-model="currentDate"
+    />
   </div>
 </template>
 
@@ -12,6 +14,9 @@ export default {
   components: {
     DatePicker,
   },
+  data: () => ({
+    currentDate: Date.now(),
+  }),
 };
 </script>
 

@@ -10,11 +10,13 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lint:fix": "vue-cli-service lint --fix",
-    "test:unit": "vue-cli-service test:unit"
+    "test:client": "vue-cli-service test:unit"
   },
   "dependencies": {
     "core-js": "^2.6.5",
-    "vue": "^2.6.10"
+    "dayjs": "^1.8.14",
+    "vue": "^2.6.10",
+    "vue-clickaway": "^2.2.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.7.0",
