@@ -5,14 +5,14 @@
 </template>
 
 <script>
-import DatePicker from './components/DatePicker.vue'
+import DatePicker from './components/DatePicker.vue';
 
 export default {
   name: 'App',
   components: {
     DatePicker,
   },
-}
+};
 </script>
 
 <style lang="scss">

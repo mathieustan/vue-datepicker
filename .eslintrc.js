@@ -17,7 +17,7 @@ module.exports = {
         ignoreTemplateLiterals: true,
       },
     ],
-    semi: 2,
+    semi: [2, 'always'],
     'no-undef': 2,
     'no-unused-vars': [2, { vars: 'all' }],
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
@@ -54,4 +54,4 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint',
   },
-}
+};
