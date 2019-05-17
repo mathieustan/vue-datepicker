@@ -43,7 +43,7 @@ module.exports = {
       lines: 90,
       statements: 90,
     },
-    './src/**/client/**/*.vue': {
+    './src/**/*.vue': {
       statements: 90,
     },
   },
