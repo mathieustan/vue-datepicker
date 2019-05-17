@@ -7,12 +7,10 @@
       @click.stop>
 
       <!-- Header -->
-      <div
-        :style="{ backgroundColor: color }"
-        class="datepicker_header">
-        <div class="datepicker_year">{{ year }}</div>
-        <div class="datepicker_date">{{ dateFormatted }}</div>
-      </div>
+      <DatePickerHeader
+        :current-date="mutableDate"
+        :color="color"
+      />
 
       <!-- Controls -->
       <div class="datepicker_controls">
@@ -97,10 +95,14 @@
 
 <script>
 import dayjs from 'dayjs';
+
 import Dates from '../utils/Dates';
+
+import DatePickerHeader from './DatePickerHeader.vue';
 
 export default {
   name: 'DatepickerAgenda',
+  components: { DatePickerHeader },
   props: {
     date: { type: [Date, Object], required: true },
     isVisible: { type: Boolean, default: false },
@@ -117,12 +119,6 @@ export default {
     };
   },
   computed: {
-    year () {
-      return this.mutableDate.format('YYYY');
-    },
-    dateFormatted () {
-      return this.mutableDate.format('dddd DD MMM');
-    },
     monthFormatted () {
       return this.currentDate.getMonthFormatted();
     },
@@ -186,43 +182,6 @@ export default {
     z-index: 5;
     background-color: white;
     box-shadow: 0 14px 45px rgba(0,0,0,.25), 0 10px 18px rgba(0,0,0,.22);
-  }
-
-  // ----------------------
-  // Header
-  // ----------------------
-  .datepicker_header{
-    color: white;
-    padding: ($gutter*2);
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    flex-wrap: wrap;
-    line-height: 1;
-
-    .datepicker_year {
-      align-items: center;
-      display: inline-flex;
-      font-size: 14px;
-      font-weight: 500;
-      margin-bottom: 8px;
-    }
-
-    .datepicker_date {
-      font-size: 28px;
-      text-align: left;
-      font-weight: 500;
-      position: relative;
-      overflow: hidden;
-      padding-bottom: $gutter;
-      margin-bottom: -#{$gutter};
-      opacity: 0.6;
-      transition: opacity .3s;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
   }
 
   // ----------------------

@@ -55,20 +55,6 @@ describe('DatePickerAgenda', () => {
   });
 
   describe('computed', () => {
-    describe('year', () => {
-      it('should return date formatted', () => {
-        const wrapper = mountComponent({ date: dayjs(new Date([2018, 5, 16])) });
-        expect(wrapper.vm.year).toEqual('2018');
-      });
-    });
-
-    describe('dateFormatted', () => {
-      it('should return dateFormatted for header', () => {
-        const wrapper = mountComponent({ date: dayjs(new Date([2018, 5, 16])) });
-        expect(wrapper.vm.dateFormatted).toEqual('Wednesday 16 May');
-      });
-    });
-
     describe('monthFormatted', () => {
       it('should return month with format MMMM', () => {
         const wrapper = mountComponent({ date: dayjs(new Date([2018, 5, 16])) });
