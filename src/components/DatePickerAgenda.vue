@@ -21,17 +21,30 @@
             <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
           </svg>
         </button>
-        <TransitionGroup
-          :name="transitionLabelName"
-          tag="div"
-          class="datepicker_controls_container">
-          <div
-            v-for="dates in [currentDate]"
-            :key="dates.month"
-            class="datepicker_controls_label">
-            {{ monthFormatted }}
-          </div>
-        </TransitionGroup>
+        <div class="datepicker_controls_container">
+          <TransitionGroup
+            :name="transitionLabelName"
+            tag="span"
+            class="datepicker_controls_month">
+            <div
+              v-for="dates in [currentDate]"
+              :key="dates.month"
+              class="datepicker_controls_label">
+              {{ monthFormatted }}
+            </div>
+          </TransitionGroup>
+          <TransitionGroup
+            :name="transitionLabelName"
+            tag="span"
+            class="datepicker_controls_year">
+            <div
+              v-for="year in [currentDate.year]"
+              :key="year"
+              class="datepicker_controls_label">
+              {{ yearFormatted }}
+            </div>
+          </TransitionGroup>
+        </div>
         <button class="datepicker_controls_next" @click="nextMonth">
           <svg viewBox="0 0 24 24">
             <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
@@ -42,7 +55,7 @@
       <!-- Week -->
       <div class="datepicker_week">
         <div
-          v-for="(day, index) in local.days"
+          v-for="(day, index) in locale.days"
           :key="index"
           class="datepicker_weekday">
           {{ day }}
@@ -91,7 +104,7 @@ export default {
   props: {
     date: { type: [Date, Object], required: true },
     isVisible: { type: Boolean, default: false },
-    local: { type: Object },
+    locale: { type: Object },
     color: { type: String },
     close: { type: Function },
   },
@@ -112,6 +125,9 @@ export default {
     },
     monthFormatted () {
       return this.currentDate.getMonthFormatted();
+    },
+    yearFormatted () {
+      return this.currentDate.getYearFormatted();
     },
     classWeeks () {
       if (this.currentDate.getDays().length + this.currentDate.start.weekday() > 35) {
@@ -193,7 +209,7 @@ export default {
     }
 
     .datepicker_date {
-      font-size: 34px;
+      font-size: 28px;
       text-align: left;
       font-weight: 500;
       position: relative;
@@ -216,7 +232,6 @@ export default {
     position: relative;
     display: flex;
     height: get-size(controls);
-    line-height: get-size(controls);
     text-align: center;
     position: relative;
 
@@ -227,6 +242,25 @@ export default {
       justify-content: center;
       align-items: center;
       flex: 1;
+
+      .datepicker_controls_month,
+      .datepicker_controls_year {
+        position: relative;
+        display: flex;
+        flex: 1;
+        align-items: center;
+      }
+
+      .datepicker_controls_month {
+        justify-content: flex-end;
+      }
+      .datepicker_controls_year {
+        justify-content: flex-start;
+      }
+
+      .datepicker_controls_label {
+        padding: $gutter $gutter/2;
+      }
     }
 
     button {

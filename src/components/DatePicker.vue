@@ -14,7 +14,7 @@
     <DatepickerAgenda
       :isVisible="isVisible"
       :date="date"
-      :local="local"
+      :locale="locale"
       :color="color"
       :close="hideDatePicker"
       @selectDate="changeDate"
@@ -45,7 +45,7 @@ export default {
     // Show/hide datepicker
     visible: { type: Boolean, default: false },
     // Sets the locale.
-    local: {
+    locale: {
       type: Object,
       default: () => ({
         days: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
@@ -57,6 +57,7 @@ export default {
     // TODO : Props to add
     // allowedDates / max & min
     // disabled
+    // readonly
     // type (date, month or year picker)
 
   },
@@ -92,11 +93,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
   *, ::before, ::after {
     box-sizing: border-box;
   }
+</style>
 
+<style lang="scss" scoped>
   .datepicker_container {
     position: relative;
     display: flex;

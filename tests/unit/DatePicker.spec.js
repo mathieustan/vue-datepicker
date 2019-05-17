@@ -2,9 +2,11 @@ import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
 import DatePicker from '@/components/DatePicker.vue';
 
+jest.useFakeTimers();
+
 describe('DatePicker', () => {
   let mountComponent;
-  const dummyDate = dayjs(new Date(2019, 5, 16));
+  const dummyDate = dayjs(new Date([2019, 5, 16]));
 
   beforeEach(() => {
     mountComponent = (date = dummyDate) =>
@@ -30,11 +32,64 @@ describe('DatePicker', () => {
   describe('computed', () => {
     describe('dateFormatted', () => {
       it.each([
-        [dayjs(new Date(2019, 5, 16)), '16 Juin 2019'],
-        [dayjs(new Date(2019, 4, 12)), '12 Mai 2019'],
+        [dayjs(new Date([2019, 5, 16])), '16 Mai 2019'],
+        [dayjs(new Date([2019, 4, 12])), '12 Avril 2019'],
       ])('When date equal %p, should return %p', (date, expectedResult) => {
         const wrapper = mountComponent(date);
         expect(wrapper.vm.dateFormatted).toEqual(expectedResult);
+      });
+    });
+
+    describe('dateRaw', () => {
+      it.each([
+        [dayjs(new Date([2019, 5, 16])), '2019-05-16'],
+        [dayjs(new Date([2019, 4, 12])), '2019-04-12'],
+      ])('When date equal %p, should return %p', (date, expectedResult) => {
+        const wrapper = mountComponent(date);
+        expect(wrapper.vm.dateRaw).toEqual(expectedResult);
+      });
+    });
+  });
+
+  describe('methods', () => {
+    describe('showDatepicker', () => {
+      beforeEach(() => {
+        jest.spyOn(document, 'addEventListener');
+      });
+
+      it('should set isVisible to true & init a clic listener', () => {
+        const wrapper = mountComponent();
+        expect(wrapper.vm.isVisible).toEqual(false);
+
+        wrapper.vm.showDatepicker();
+        expect(wrapper.vm.isVisible).toEqual(true);
+
+        jest.runOnlyPendingTimers();
+
+        expect(document.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
+      });
+    });
+
+    describe('hideDatePicker', () => {
+      beforeEach(() => {
+        jest.spyOn(document, 'removeEventListener');
+      });
+
+      it('should set isVisible to false & remove a clic listener', () => {
+        const wrapper = mountComponent();
+        wrapper.setData({ isVisible: true });
+
+        wrapper.vm.hideDatePicker();
+        expect(wrapper.vm.isVisible).toEqual(false);
+        expect(document.removeEventListener).toHaveBeenCalledWith('click', expect.any(Function));
+      });
+    });
+
+    describe('changeDate', () => {
+      it('should update date', () => {
+        const wrapper = mountComponent();
+        wrapper.vm.changeDate(dayjs(new Date([2019, 5, 18])));
+        expect(wrapper.vm.date.format('YYYY-MM-DD')).toEqual('2019-05-18');
       });
     });
   });

@@ -19,7 +19,10 @@ export default class PickerDate {
     return Array.from(this.generateDateRange(this.start, this.end, 'day'));
   }
   getMonthFormatted () {
-    return this.start.format('MMMM YYYY');
+    return this.start.format('MMMM');
+  }
+  getYearFormatted () {
+    return this.start.format('YYYY');
   }
   generateDateRange (startDate, endDate, interval) {
     const diffBetweenDates = endDate.diff(startDate, interval);

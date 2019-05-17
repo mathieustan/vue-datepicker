@@ -27,4 +27,24 @@ module.exports = {
     'jest-watch-typeahead/filename',
     'jest-watch-typeahead/testname',
   ],
+  collectCoverage: true,
+  collectCoverageFrom: [
+    'src/**/*.{vue}',
+    // exclude node_modules
+    '!**/node_modules/**',
+    // exclude the root component app.vue
+    '!src/App.vue',
+  ],
+  coverageDirectory: '<rootDir>/tests/coverage/',
+  coverageThreshold: {
+    global: {
+      branches: 90,
+      functions: 90,
+      lines: 90,
+      statements: 90,
+    },
+    './src/**/client/**/*.vue': {
+      statements: 90,
+    },
+  },
 };
