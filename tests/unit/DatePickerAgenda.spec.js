@@ -55,20 +55,6 @@ describe('DatePickerAgenda', () => {
   });
 
   describe('computed', () => {
-    describe('monthFormatted', () => {
-      it('should return month with format MMMM', () => {
-        const wrapper = mountComponent({ date: dayjs(new Date([2018, 5, 16])) });
-        expect(wrapper.vm.monthFormatted).toEqual('May');
-      });
-    });
-
-    describe('yearFormatted', () => {
-      it('should return year with format YYYY', () => {
-        const wrapper = mountComponent({ date: dayjs(new Date([2018, 5, 16])) });
-        expect(wrapper.vm.yearFormatted).toEqual('2018');
-      });
-    });
-
     describe('classWeeks', () => {
       it.each([
         [dayjs(new Date([2018, 5, 16])), 'has-5-weeks'],
@@ -119,50 +105,38 @@ describe('DatePickerAgenda', () => {
       });
     });
 
-    describe('nextMonth', () => {
+    describe('changeMonth', () => {
       it.each([
-        [dummyDate, {
+        ['next', dummyDate, {
           start: dummyDate.add(1, 'month').startOf('month'),
           end: dummyDate.add(1, 'month').endOf('month'),
           month: 5,
           year: 2019,
         }],
-        [dayjs(new Date([2019, 12, 16])), {
+        ['next', dayjs(new Date([2019, 12, 16])), {
           start: dayjs(new Date([2019, 12, 16])).add(1, 'month').startOf('month'),
           end: dayjs(new Date([2019, 12, 16])).add(1, 'month').endOf('month'),
           month: 0,
           year: 2020,
         }],
-      ])('Should update dates to next month', (date, expectedResult) => {
-        const wrapper = mountComponent({ date });
-        wrapper.vm.nextMonth();
-
-        expect(wrapper.vm.transitionDaysName).toEqual('slide-h-next');
-        expect(wrapper.vm.transitionLabelName).toEqual('slide-v-next');
-        expect(wrapper.vm.currentDate).toEqual(expectedResult);
-      });
-    });
-
-    describe('prevMonth', () => {
-      it.each([
-        [dummyDate, {
+        ['prev', dummyDate, {
           start: dummyDate.subtract(1, 'month').startOf('month'),
           end: dummyDate.subtract(1, 'month').endOf('month'),
           month: 3,
           year: 2019,
         }],
-        [dayjs(new Date([2019, 1, 16])), {
+        ['prev', dayjs(new Date([2019, 1, 16])), {
           start: dayjs(new Date([2019, 1, 16])).subtract(1, 'month').startOf('month'),
           end: dayjs(new Date([2019, 1, 16])).subtract(1, 'month').endOf('month'),
           month: 11,
           year: 2018,
         }],
-      ])('Should update dates to next month', (date, expectedResult) => {
+      ])('Should update dates to next month', (direction, date, expectedResult) => {
         const wrapper = mountComponent({ date });
-        wrapper.vm.prevMonth();
+        wrapper.vm.changeMonth(direction);
 
-        expect(wrapper.vm.transitionDaysName).toEqual('slide-h-prev');
-        expect(wrapper.vm.transitionLabelName).toEqual('slide-v-prev');
+        expect(wrapper.vm.transitionDaysName).toEqual(`slide-h-${direction}`);
+        expect(wrapper.vm.transitionLabelName).toEqual(`slide-v-${direction}`);
         expect(wrapper.vm.currentDate).toEqual(expectedResult);
       });
     });

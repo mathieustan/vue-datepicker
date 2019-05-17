@@ -8,47 +8,16 @@
 
       <!-- Header -->
       <DatePickerHeader
-        :current-date="mutableDate"
+        :mutable-date="mutableDate"
         :color="color"
       />
 
       <!-- Controls -->
-      <div class="datepicker_controls">
-        <button class="datepicker_controls_prev" @click="prevMonth">
-          <svg viewBox="0 0 24 24">
-            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
-          </svg>
-        </button>
-        <div class="datepicker_controls_container">
-          <TransitionGroup
-            :name="transitionLabelName"
-            tag="span"
-            class="datepicker_controls_month">
-            <div
-              v-for="dates in [currentDate]"
-              :key="dates.month"
-              class="datepicker_controls_label">
-              {{ monthFormatted }}
-            </div>
-          </TransitionGroup>
-          <TransitionGroup
-            :name="transitionLabelName"
-            tag="span"
-            class="datepicker_controls_year">
-            <div
-              v-for="year in [currentDate.year]"
-              :key="year"
-              class="datepicker_controls_label">
-              {{ yearFormatted }}
-            </div>
-          </TransitionGroup>
-        </div>
-        <button class="datepicker_controls_next" @click="nextMonth">
-          <svg viewBox="0 0 24 24">
-            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
-          </svg>
-        </button>
-      </div>
+      <DatePickerControls
+        :current-date="currentDate"
+        :transition-name="transitionLabelName"
+        @changeMonth="changeMonth"
+      />
 
       <!-- Week -->
       <div class="datepicker_week">
@@ -99,10 +68,11 @@ import dayjs from 'dayjs';
 import Dates from '../utils/Dates';
 
 import DatePickerHeader from './DatePickerHeader.vue';
+import DatePickerControls from './DatePickerControls.vue';
 
 export default {
   name: 'DatepickerAgenda',
-  components: { DatePickerHeader },
+  components: { DatePickerHeader, DatePickerControls },
   props: {
     date: { type: [Date, Object], required: true },
     isVisible: { type: Boolean, default: false },
@@ -119,12 +89,6 @@ export default {
     };
   },
   computed: {
-    monthFormatted () {
-      return this.currentDate.getMonthFormatted();
-    },
-    yearFormatted () {
-      return this.currentDate.getYearFormatted();
-    },
     classWeeks () {
       if (this.currentDate.getDays().length + this.currentDate.start.weekday() > 35) {
         return `has-6-weeks`;
@@ -144,26 +108,15 @@ export default {
       this.$emit('selectDate', this.mutableDate);
       this.close();
     },
-    nextMonth () {
-      let month = this.currentDate.month + 1;
+    changeMonth (direction) {
+      let month = this.currentDate.month + (direction === 'prev' ? -1 : +1);
       let year = this.currentDate.year;
-      if (month > 11) {
-        month = 0;
-        year += 1;
+      if (month > 11 || month < 0) {
+        year += (direction === 'prev' ? -1 : +1);
+        month = (direction === 'prev' ? 11 : 0);
       }
-      this.transitionDaysName = 'slide-h-next';
-      this.transitionLabelName = 'slide-v-next';
-      this.currentDate = new Dates(month, year);
-    },
-    prevMonth () {
-      let month = this.currentDate.month - 1;
-      let year = this.currentDate.year;
-      if (month < 0) {
-        month = 11;
-        year -= 1;
-      }
-      this.transitionDaysName = 'slide-h-prev';
-      this.transitionLabelName = 'slide-v-prev';
+      this.transitionDaysName = `slide-h-${direction}`;
+      this.transitionLabelName = `slide-v-${direction}`;
       this.currentDate = new Dates(month, year);
     },
   },
@@ -182,70 +135,6 @@ export default {
     z-index: 5;
     background-color: white;
     box-shadow: 0 14px 45px rgba(0,0,0,.25), 0 10px 18px rgba(0,0,0,.22);
-  }
-
-  // ----------------------
-  // Controls
-  // ----------------------
-  .datepicker_controls {
-    position: relative;
-    display: flex;
-    height: get-size(controls);
-    text-align: center;
-    position: relative;
-
-    .datepicker_controls_container {
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex: 1;
-
-      .datepicker_controls_month,
-      .datepicker_controls_year {
-        position: relative;
-        display: flex;
-        flex: 1;
-        align-items: center;
-      }
-
-      .datepicker_controls_month {
-        justify-content: flex-end;
-      }
-      .datepicker_controls_year {
-        justify-content: flex-start;
-      }
-
-      .datepicker_controls_label {
-        padding: $gutter $gutter/2;
-      }
-    }
-
-    button {
-      height: get-size(controls);
-      width: get-size(controls);
-      position: relative;
-      border: none;
-      outline: none;
-      background-color: transparent;
-      user-select: none;
-      cursor: pointer;
-
-      &.datepicker_controls_next {
-        flex: 0 0 40px;
-      }
-      &.datepicker_controls_prev {
-        flex: 0 0 40px;
-      }
-    }
-
-    svg{
-      width: 24px;
-      height: 24px;
-      fill: rgba(0, 0, 0, 0.87);
-      vertical-align: middle;
-    }
   }
 
   // ----------------------

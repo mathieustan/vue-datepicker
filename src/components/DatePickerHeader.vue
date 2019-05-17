@@ -12,14 +12,14 @@ export default {
   name: 'DatePickerHeader',
   props: {
     color: { type: String },
-    currentDate: { type: [String, Object] },
+    mutableDate: { type: [String, Object] },
   },
   computed: {
     year () {
-      return this.currentDate.format('YYYY');
+      return this.mutableDate.format('YYYY');
     },
     dateFormatted () {
-      return this.currentDate.format('dddd DD MMM');
+      return this.mutableDate.format('dddd DD MMM');
     },
   },
 };

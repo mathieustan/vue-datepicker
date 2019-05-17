@@ -1,17 +1,8 @@
 import dayjs from 'dayjs';
-import mockDate from 'mockdate';
 import { shallowMount } from '@vue/test-utils';
 import DatePickerHeader from '@/components/DatePickerHeader.vue';
 
 jest.useFakeTimers();
-
-beforeEach(() => {
-  mockDate.set(new Date([2019, 5, 16]));
-});
-
-afterEach(() => {
-  mockDate.reset();
-});
 
 describe('DatePickerHeader', () => {
   let mountComponent;
@@ -21,7 +12,7 @@ describe('DatePickerHeader', () => {
     mountComponent = ({ date = dummyDate } = {}) =>
       shallowMount(DatePickerHeader, {
         propsData: {
-          currentDate: date,
+          mutableDate: date,
           color: 'color',
         },
       });
@@ -36,7 +27,7 @@ describe('DatePickerHeader', () => {
     const wrapper = mountComponent();
     expect(wrapper.isVueInstance()).toBeTruthy();
     expect(wrapper.vm.color).toEqual('color');
-    expect(wrapper.vm.currentDate).toEqual(dummyDate);
+    expect(wrapper.vm.mutableDate).toEqual(dummyDate);
   });
 
   describe('computed', () => {
