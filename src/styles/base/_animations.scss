@@ -3,10 +3,6 @@
 .slide-h-prev-leave-active,
 .slide-h-prev-enter-active {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   transition: transform .3s, opacity .3s;
 }
 .slide-h-next-enter, .slide-h-prev-leave-to {
@@ -31,5 +27,17 @@
 }
 .slide-v-next-leave-to, .slide-v-prev-enter {
   transform: translateY(-100%);
+  opacity: 0;
+}
+
+.yearMonth-leave-active, .yearMonth-enter-active {
+  position: absolute;
+  transition: opacity .3s;
+}
+
+.yearMonth-enter {
+  opacity: 0;
+}
+.yearMonth-leave-to {
   opacity: 0;
 }

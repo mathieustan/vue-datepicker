@@ -11,9 +11,12 @@ describe('DatePickerControls', () => {
   const dummyDate = dayjs(new Date([2019, 5, 16]));
 
   beforeEach(() => {
-    mountComponent = ({ date = new Dates(dummyDate.month(), dummyDate.year()) } = {}) =>
+    mountComponent = ({
+      date = new Dates(dummyDate.month(), dummyDate.year()),
+      mode = 'month',
+    } = {}) =>
       shallowMount(DatePickerControls, {
-        propsData: { currentDate: date },
+        propsData: { currentDate: date, mode },
       });
   });
 
@@ -54,7 +57,16 @@ describe('DatePickerControls', () => {
         const wrapper = mountComponent();
         wrapper.vm.changeMonth('prev');
 
-        expect(wrapper.emitted().changeMonth).toBeTruthy();
+        expect(wrapper.emitted().changeVisibleDate[0]).toEqual(['prev']);
+      });
+    });
+
+    describe('showYearMonthSelector', () => {
+      it('Should send an event to show year/month selector', () => {
+        const wrapper = mountComponent();
+        wrapper.vm.showYearMonthSelector('month');
+
+        expect(wrapper.emitted().showYearMonthSelector[0]).toEqual(['month']);
       });
     });
   });

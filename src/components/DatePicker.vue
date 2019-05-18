@@ -10,6 +10,7 @@
       :style="{ color: color }"
       :value="dateFormatted"
       type="text"
+      readonly
       @click="showDatepicker">
     <DatepickerAgenda
       :isVisible="isVisible"

@@ -12,25 +12,35 @@
 
     <div class="datepicker_controls_container">
       <TransitionGroup
+        v-if="mode === 'month'"
         :name="transitionName"
         tag="span"
         class="datepicker_controls_month">
         <div
-          v-for="dates in [currentDate]"
-          :key="dates.month"
+          v-for="month in [currentDate.month]"
+          :key="month"
           class="datepicker_controls_label">
-          {{ monthFormatted }}
+          <button
+            type="button"
+            @click="showYearMonthSelector('month')">
+            {{ monthFormatted }}
+          </button>
         </div>
       </TransitionGroup>
       <TransitionGroup
         :name="transitionName"
         tag="span"
+        :class="{ 'datepicker_controls_year--center' : mode === 'year' }"
         class="datepicker_controls_year">
         <div
           v-for="year in [currentDate.year]"
           :key="year"
           class="datepicker_controls_label">
-          {{ yearFormatted }}
+          <button
+            type="button"
+            @click="showYearMonthSelector('year')">
+              {{ yearFormatted }}
+            </button>
         </div>
       </TransitionGroup>
     </div>
@@ -53,6 +63,7 @@ export default {
   props: {
     transitionName: { type: String },
     currentDate: { type: Object, required: true },
+    mode: { type: String, default: 'month' },
   },
   computed: {
     monthFormatted () {
@@ -64,7 +75,10 @@ export default {
   },
   methods: {
     changeMonth (direction) {
-      this.$emit('changeMonth', direction);
+      this.$emit('changeVisibleDate', direction);
+    },
+    showYearMonthSelector (mode) {
+      this.$emit('showYearMonthSelector', mode);
     },
   },
 };
@@ -79,6 +93,7 @@ export default {
     height: get-size(controls);
     text-align: center;
     position: relative;
+    width: 100%;
 
     .datepicker_controls_container {
       position: relative;
@@ -101,14 +116,30 @@ export default {
       }
       .datepicker_controls_year {
         justify-content: flex-start;
+
+        &.datepicker_controls_year--center {
+          justify-content: center;
+        }
       }
 
       .datepicker_controls_label {
         padding: $gutter $gutter/2;
+
+        button {
+          position: relative;
+          display: flex;
+          font-size: 15px;
+          line-height: 15px;
+          padding: 0;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
       }
     }
 
-    button {
+    button.datepicker_controls_prev,
+    button.datepicker_controls_next {
       height: get-size(controls);
       width: get-size(controls);
       position: relative;

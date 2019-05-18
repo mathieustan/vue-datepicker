@@ -12,52 +12,66 @@
         :color="color"
       />
 
-      <!-- Controls -->
-      <DatePickerControls
-        :current-date="currentDate"
-        :transition-name="transitionLabelName"
-        @changeMonth="changeMonth"
-      />
+      <div class="datepicker__content">
+        <!-- Controls -->
+        <DatePickerControls
+          :current-date="currentDate"
+          :transition-name="transitionLabelName"
+          mode="month"
+          @changeVisibleDate="changeMonth"
+          @showYearMonthSelector="showYearMonthSelector"
+        />
 
-      <!-- Week -->
-      <div class="datepicker_week">
-        <div
-          v-for="(day, index) in locale.days"
-          :key="index"
-          class="datepicker_weekday">
-          {{ day }}
-        </div>
-      </div>
-
-      <!-- Days -->
-      <TransitionGroup
-        tag="div"
-        class="datepicker_days__wrapper"
-        :class="classWeeks"
-        :name="transitionDaysName">
-        <div
-          v-for="dates in [currentDate]"
-          :key="dates.month"
-          class="datepicker_days">
+        <!-- Week -->
+        <div class="datepicker_week">
           <div
-            class="datepicker_day"
-            :style="{ width: `${currentDate.getWeekStart() * 41}px` }"
-          />
-          <div
-            v-for="(day, index) in currentDate.getDays()"
+            v-for="(day, index) in locale.days"
             :key="index"
-            :class="{selected : isSelected(day)}"
-            class="datepicker_day"
-            @click="selectDate(day)"
-          >
-            <span v-if="isToday(day)" class="datepicker_day--current" />
-            <span
-              :style="{ backgroundColor: color }"
-              class="datepicker_day_effect" />
-            <span class="datepicker_day_text">{{day.format('D')}}</span>
+            class="datepicker_weekday">
+            {{ day }}
           </div>
         </div>
-      </TransitionGroup>
+
+        <!-- Days -->
+        <TransitionGroup
+          tag="div"
+          class="datepicker_days__wrapper"
+          :class="classWeeks"
+          :name="transitionDaysName">
+          <div
+            v-for="dates in [currentDate]"
+            :key="dates.month"
+            class="datepicker_days">
+            <div
+              class="datepicker_day"
+              :style="{ width: `${currentDate.getWeekStart() * 41}px` }"
+            />
+            <div
+              v-for="(day, index) in currentDate.getDays()"
+              :key="index"
+              :class="{selected : isSelected(day)}"
+              class="datepicker_day"
+              @click="selectDate(day)"
+            >
+              <span v-if="isToday(day)" class="datepicker_day--current" />
+              <span
+                :style="{ backgroundColor: color }"
+                class="datepicker_day_effect" />
+              <span class="datepicker_day_text">{{day.format('D')}}</span>
+            </div>
+          </div>
+        </TransitionGroup>
+
+        <DatePickerYearMonth
+          v-if="shouldShowYearMonthSelector"
+          :mode="yearMonthMode"
+          :current-date="currentDate"
+          :transition-name="transitionDaysName"
+          :show-year-month-selector="showYearMonthSelector"
+          @changeYear="changeYear"
+          @selectedYearMonth="selectedYearMonth"
+        />
+      </div>
     </div>
   </transition>
 </template>
@@ -69,10 +83,11 @@ import Dates from '../utils/Dates';
 
 import DatePickerHeader from './DatePickerHeader.vue';
 import DatePickerControls from './DatePickerControls.vue';
+import DatePickerYearMonth from './DatePickerYearMonth.vue';
 
 export default {
   name: 'DatepickerAgenda',
-  components: { DatePickerHeader, DatePickerControls },
+  components: { DatePickerHeader, DatePickerControls, DatePickerYearMonth },
   props: {
     date: { type: [Date, Object], required: true },
     isVisible: { type: Boolean, default: false },
@@ -86,10 +101,15 @@ export default {
       mutableDate: this.date.clone(),
       transitionDaysName: 'slide-h-next',
       transitionLabelName: 'slide-v-next',
+      shouldShowYearMonthSelector: false,
+      yearMonthMode: undefined,
     };
   },
   computed: {
     classWeeks () {
+      // if yearMonth selector is opened, stop changing class
+      if (this.shouldShowYearMonthSelector) return;
+
       if (this.currentDate.getDays().length + this.currentDate.start.weekday() > 35) {
         return `has-6-weeks`;
       }
@@ -115,9 +135,35 @@ export default {
         year += (direction === 'prev' ? -1 : +1);
         month = (direction === 'prev' ? 11 : 0);
       }
+      this.updateTransitions(direction);
+      this.currentDate = new Dates(month, year);
+    },
+    changeYear (direction) {
+      let year = this.currentDate.year + (direction === 'prev' ? -1 : +1);
+      const month = this.currentDate.month;
+      this.updateTransitions(direction);
+      this.currentDate = new Dates(month, year);
+    },
+    updateTransitions (direction) {
       this.transitionDaysName = `slide-h-${direction}`;
       this.transitionLabelName = `slide-v-${direction}`;
-      this.currentDate = new Dates(month, year);
+    },
+    showYearMonthSelector (mode) {
+      this.yearMonthMode = mode;
+      this.shouldShowYearMonthSelector = true;
+    },
+    hideYearMonthSelector () {
+      this.yearMonthMode = undefined;
+      this.shouldShowYearMonthSelector = false;
+    },
+    selectedYearMonth (value, mode) {
+      if (mode === 'year') {
+        this.currentDate = new Dates(this.currentDate.month, value);
+        this.yearMonthMode = 'month';
+        return;
+      }
+      this.currentDate = new Dates(value, this.currentDate.year);
+      this.hideYearMonthSelector();
     },
   },
 };
@@ -135,6 +181,12 @@ export default {
     z-index: 5;
     background-color: white;
     box-shadow: 0 14px 45px rgba(0,0,0,.25), 0 10px 18px rgba(0,0,0,.22);
+  }
+
+  .datepicker__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
   }
 
   // ----------------------

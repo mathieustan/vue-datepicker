@@ -21,6 +21,9 @@ export default class PickerDate {
   getMonthFormatted () {
     return this.start.format('MMMM');
   }
+  getMonths () {
+    return Array.apply(0, Array(12)).map((_, i) => dayjs().month(i).format('MMM'));
+  }
   getYearFormatted () {
     return this.start.format('YYYY');
   }
@@ -28,4 +31,10 @@ export default class PickerDate {
     const diffBetweenDates = endDate.diff(startDate, interval);
     return [...Array(diffBetweenDates + 1).keys()].map(i => startDate.add(i, interval));
   }
+  generateYearMonthRange (currentYear, range) {
+    const start = currentYear - range;
+    const end = currentYear + range;
+    return [...Array(end - start + 1).keys()].map(i => start + i);
+  }
 }
+

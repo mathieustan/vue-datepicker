@@ -131,14 +131,104 @@ describe('DatePickerAgenda', () => {
           month: 11,
           year: 2018,
         }],
-      ])('Should update dates to next month', (direction, date, expectedResult) => {
-        const wrapper = mountComponent({ date });
-        wrapper.vm.changeMonth(direction);
+      ])(
+        'When direction is %p, date equal %p, currentDate should be %p',
+        (direction, date, expectedResult) => {
+          const wrapper = mountComponent({ date });
+          wrapper.vm.changeMonth(direction);
 
-        expect(wrapper.vm.transitionDaysName).toEqual(`slide-h-${direction}`);
-        expect(wrapper.vm.transitionLabelName).toEqual(`slide-v-${direction}`);
-        expect(wrapper.vm.currentDate).toEqual(expectedResult);
+          expect(wrapper.vm.transitionDaysName).toEqual(`slide-h-${direction}`);
+          expect(wrapper.vm.transitionLabelName).toEqual(`slide-v-${direction}`);
+          expect(wrapper.vm.currentDate).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('changeYear', () => {
+      it.each([
+        ['next', dummyDate, {
+          start: dummyDate.add(1, 'year').startOf('month'),
+          end: dummyDate.add(1, 'year').endOf('month'),
+          month: 4,
+          year: 2020,
+        }],
+        ['prev', dummyDate, {
+          start: dummyDate.subtract(1, 'year').startOf('month'),
+          end: dummyDate.subtract(1, 'year').endOf('month'),
+          month: 4,
+          year: 2018,
+        }],
+      ])(
+        'When direction is %p, date equal %p, currentDate should be %p',
+        (direction, date, expectedResult) => {
+          const wrapper = mountComponent({ date });
+          wrapper.vm.changeYear(direction);
+
+          expect(wrapper.vm.transitionDaysName).toEqual(`slide-h-${direction}`);
+          expect(wrapper.vm.transitionLabelName).toEqual(`slide-v-${direction}`);
+          expect(wrapper.vm.currentDate).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('updateTransitions', () => {
+      it.each([
+        ['next', 'slide-h-next', 'slide-v-next'],
+        ['prev', 'slide-h-prev', 'slide-v-prev'],
+      ])('Should update transition names', (direction, daysName, labelName) => {
+        const wrapper = mountComponent();
+        wrapper.vm.updateTransitions(direction);
+
+        expect(wrapper.vm.transitionDaysName).toEqual(daysName);
+        expect(wrapper.vm.transitionLabelName).toEqual(labelName);
       });
+    });
+
+    describe('showYearMonthSelector', () => {
+      it('Should set yearMonth mode & show selector', () => {
+        const wrapper = mountComponent();
+        wrapper.vm.showYearMonthSelector('year');
+
+        expect(wrapper.vm.yearMonthMode).toEqual('year');
+        expect(wrapper.vm.shouldShowYearMonthSelector).toBeTruthy();
+      });
+    });
+
+    describe('hideYearMonthSelector', () => {
+      it('Should close yearMonth selector & reset state', () => {
+        const wrapper = mountComponent();
+        wrapper.setData({ yearMonthMode: 'month', shouldShowYearMonthSelector: true });
+
+        wrapper.vm.hideYearMonthSelector();
+
+        expect(wrapper.vm.yearMonthMode).toEqual(undefined);
+        expect(wrapper.vm.shouldShowYearMonthSelector).toBeFalsy();
+      });
+    });
+
+    describe('selectedYearMonth', () => {
+      it.each([
+        [2018, 'year', {
+          start: dummyDate.set('year', 2018).startOf('month'),
+          end: dummyDate.set('year', 2018).endOf('month'),
+          month: 4,
+          year: 2018,
+        }],
+        [2, 'month', {
+          start: dummyDate.set('month', 2).startOf('month'),
+          end: dummyDate.set('month', 2).endOf('month'),
+          month: 2,
+          year: 2019,
+        }],
+      ])(
+        'When value selected is %p, mode equal %p, currentDate should equal %p',
+        (value, mode, expectedResult) => {
+          const wrapper = mountComponent();
+          wrapper.vm.selectedYearMonth(value, mode);
+
+          expect(wrapper.vm.currentDate).toEqual(expectedResult);
+        }
+      );
     });
   });
 });
