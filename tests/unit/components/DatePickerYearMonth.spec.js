@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
 import DatePickerYearMonth from '@/components/DatePickerYearMonth.vue';
 
-import Dates from '../../src/utils/Dates';
-import * as utilsFunction from '../../src/utils';
+import Dates from '@/utils/Dates';
+import * as utilsFunction from '@/utils';
 
 describe('DatePickerYearMonth', () => {
   let mountComponent;
@@ -13,6 +13,8 @@ describe('DatePickerYearMonth', () => {
     mountComponent = ({
       date = new Dates(dummyDate.month(), dummyDate.year()),
       mode = 'month',
+      minDate,
+      endDate,
     } = {}) =>
       shallowMount(DatePickerYearMonth, {
         propsData: {
@@ -22,6 +24,8 @@ describe('DatePickerYearMonth', () => {
           currentDate: date,
           isVisible: true,
           showYearMonthSelector: jest.fn(),
+          minDate,
+          endDate,
         },
       });
   });
@@ -73,6 +77,32 @@ describe('DatePickerYearMonth', () => {
     });
   });
 
+  describe('watch', () => {
+    beforeEach(() => {
+      jest.spyOn(utilsFunction, 'computeYearsScrollPosition').mockReturnValue(100);
+    });
+
+    it('should do nothing if mode change to month', async () => {
+      const wrapper = mountComponent({ mode: 'year' });
+      utilsFunction.computeYearsScrollPosition.mockClear();
+      wrapper.setProps({ mode: 'month' });
+      await wrapper.vm.$nextTick();
+
+      expect(utilsFunction.computeYearsScrollPosition).not.toHaveBeenCalled();
+    });
+
+    it('should scroll to active yeart if mode is year', async () => {
+      const wrapper = mountComponent({ mode: 'month' });
+      utilsFunction.computeYearsScrollPosition.mockClear();
+      wrapper.setProps({ mode: 'year' });
+      await wrapper.vm.$nextTick();
+
+      const containerToScroll = wrapper.element.querySelector('.datepicker_years_list');
+      expect(utilsFunction.computeYearsScrollPosition).toHaveBeenCalled();
+      expect(containerToScroll.scrollTop).toEqual(100);
+    });
+  });
+
   describe('mounted', () => {
     beforeEach(() => {
       jest.spyOn(utilsFunction, 'computeYearsScrollPosition').mockReturnValue(100);
@@ -114,6 +144,38 @@ describe('DatePickerYearMonth', () => {
         (date, month, expectedResult) => {
           const wrapper = mountComponent({ date: new Dates(date.month(), date.year()) });
           expect(wrapper.vm.isSelectedMonth(month)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('isYearDisabled', () => {
+      it.each([
+        [{ minDate: undefined, endDate: undefined }, 2019, false],
+        [{ minDate: '2018-1-1', endDate: '2020-12-31' }, 2019, false],
+        [{ minDate: '2020-1-1', endDate: '2020-12-31' }, 2019, true],
+        [{ minDate: '2018-1-1', endDate: '2018-12-31' }, 2019, true],
+      ])(
+        'when allowed dates = %p and year = %p, should return %p',
+        (allowedDates, year, expectedResult) => {
+          const { minDate, endDate } = allowedDates;
+          const wrapper = mountComponent({ minDate, endDate });
+          expect(wrapper.vm.isYearDisabled(year)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('isMonthDisabled', () => {
+      it.each([
+        [{ minDate: undefined, endDate: undefined }, 4, false],
+        [{ minDate: '2019-1-1', endDate: '2019-12-31' }, 4, false],
+        [{ minDate: '2019-5-1', endDate: '2019-12-31' }, 3, true],
+        [{ minDate: '2019-1-1', endDate: '2019-5-31' }, 5, true],
+      ])(
+        'when allowed dates = %p and month = %p, should return %p',
+        (allowedDates, month, expectedResult) => {
+          const { minDate, endDate } = allowedDates;
+          const wrapper = mountComponent({ minDate, endDate });
+          expect(wrapper.vm.isMonthDisabled(month)).toEqual(expectedResult);
         }
       );
     });

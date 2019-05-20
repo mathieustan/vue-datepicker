@@ -18,11 +18,11 @@ export default class PickerDate {
   getDays () {
     return Array.from(this.generateDateRange(this.start, this.end, 'day'));
   }
-  getMonthFormatted () {
-    return this.start.format('MMMM');
-  }
   getMonths () {
     return Array.apply(0, Array(12)).map((_, i) => dayjs().month(i).format('MMM'));
+  }
+  getMonthFormatted () {
+    return this.start.format('MMMM');
   }
   getYearFormatted () {
     return this.start.format('YYYY');
@@ -31,7 +31,7 @@ export default class PickerDate {
     const diffBetweenDates = endDate.diff(startDate, interval);
     return [...Array(diffBetweenDates + 1).keys()].map(i => startDate.add(i, interval));
   }
-  generateYearMonthRange (currentYear, range) {
+  generateYearsRange (currentYear, range) {
     const start = currentYear - range;
     const end = currentYear + range;
     return [...Array(end - start + 1).keys()].map(i => start + i);
@@ -54,4 +54,22 @@ export function isDateToday (date) {
 
 export function formatDateWithLocale (date, locale, format) {
   return date.locale(locale.lang).format(format);
+}
+
+export function initDateWithMonthAndYear (month, year) {
+  return dayjs().month(month).year(year).startOf('month');
+}
+
+export function isBeforeMinDate (date, minDate, type = 'date') {
+  if (type === 'year') {
+    return Boolean(minDate) && date < dayjs(minDate, 'YYYY-MM-DD').get('year');
+  }
+  return Boolean(minDate) && date.isBefore(dayjs(minDate, 'YYYY-MM-DD'));
+}
+
+export function isAfterEndDate (date, endDate, type) {
+  if (type === 'year') {
+    return Boolean(endDate) && date > dayjs(endDate, 'YYYY-MM-DD').get('year');
+  }
+  return Boolean(endDate) && date.isAfter(dayjs(endDate, 'YYYY-MM-DD'));
 }

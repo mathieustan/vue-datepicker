@@ -18,12 +18,16 @@ describe('DatePickerAgenda', () => {
   beforeEach(() => {
     mountComponent = ({
       date = dummyDate,
+      minDate,
+      endDate,
       locale = { days: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] },
       isVisible = true,
     } = {}) =>
       shallowMount(DatePickerAgenda, {
         propsData: {
           date,
+          minDate,
+          endDate,
           isVisible,
           locale,
           color: 'color',
@@ -114,6 +118,22 @@ describe('DatePickerAgenda', () => {
         (date, selectedDate, expectedResult) => {
           const wrapper = mountComponent({ date });
           expect(wrapper.vm.isSelected(selectedDate)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('isDisabled', () => {
+      it.each([
+        [{ minDate: undefined, endDate: undefined }, dayjs(new Date([2018, 5, 16])), false],
+        [{ minDate: '2018-5-1', endDate: '2018-5-20' }, dayjs(new Date([2018, 5, 16])), false],
+        [{ minDate: '2018-5-17', endDate: '2018-5-20' }, dayjs(new Date([2018, 5, 16])), true],
+        [{ minDate: '2018-5-1', endDate: '2018-5-15' }, dayjs(new Date([2018, 5, 16])), true],
+      ])(
+        'when currentDate equal %p, and selected date is %p, should return %p',
+        (allowedDates, selectedDate, expectedResult) => {
+          const { minDate, endDate } = allowedDates;
+          const wrapper = mountComponent({ minDate, endDate });
+          expect(wrapper.vm.isDisabled(selectedDate)).toEqual(expectedResult);
         }
       );
     });

@@ -47,10 +47,15 @@
               class="datepicker_day"
               :style="{ width: `${currentDate.getWeekStart() * 41}px` }"
             />
-            <div
+            <button
               v-for="(day, index) in currentDate.getDays()"
               :key="index"
-              :class="{selected : isSelected(day)}"
+              :class="{
+                'selected' : isSelected(day) && !isDisabled(day),
+                'disabled': isDisabled(day),
+              }"
+              :disabled="isDisabled(day)"
+              type="button"
               class="datepicker_day"
               @click="selectDate(day)"
             >
@@ -59,7 +64,7 @@
                 :style="{ backgroundColor: color }"
                 class="datepicker_day_effect" />
               <span class="datepicker_day_text">{{day.format('D')}}</span>
-            </div>
+            </button>
           </div>
         </TransitionGroup>
 
@@ -69,6 +74,8 @@
           :current-date="currentDate"
           :transition-name="transitionDaysName"
           :show-year-month-selector="showYearMonthSelector"
+          :min-date="minDate"
+          :end-date="endDate"
           @changeYear="changeYear"
           @selectedYearMonth="selectedYearMonth"
         />
@@ -78,7 +85,7 @@
 </template>
 
 <script>
-import Dates, { isDateToday } from '../utils/Dates';
+import Dates, { isDateToday, isBeforeMinDate, isAfterEndDate } from '../utils/Dates';
 
 import DatePickerHeader from './DatePickerHeader.vue';
 import DatePickerControls from './DatePickerControls.vue';
@@ -93,6 +100,8 @@ export default {
     locale: { type: Object },
     color: { type: String },
     close: { type: Function },
+    minDate: { type: [String, Date, Object] },
+    endDate: { type: [String, Date, Object] },
   },
   data: () => ({
     currentDate: undefined,
@@ -131,6 +140,9 @@ export default {
   methods: {
     isSelected (day) {
       return this.mutableDate.unix() === day.unix();
+    },
+    isDisabled (day) {
+      return isBeforeMinDate(day, this.minDate) || isAfterEndDate(day, this.endDate);
     },
     isToday (day) {
       return isDateToday(day);
@@ -239,6 +251,7 @@ export default {
     overflow: hidden;
 
     .datepicker_day {
+      @include reset-button;
       position: relative;
       width: get-size(day);
       height: get-size(day);
@@ -251,7 +264,7 @@ export default {
       cursor: pointer;
       transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);
 
-      &:hover{
+      &:hover:not(.disabled) {
         color: white;
         .datepicker_day_effect{
           transform: scale(1);
@@ -264,6 +277,10 @@ export default {
           transform: scale(1);
           opacity: 1;
         }
+      }
+      &.disabled {
+        cursor: default;
+        color: rgba(0,0,0,0.26);
       }
     }
 

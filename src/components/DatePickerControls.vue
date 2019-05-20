@@ -1,9 +1,10 @@
 <template>
   <div class="datepicker_controls">
     <button
+      :disabled="isPreviousDateDisabled"
       type="button"
       class="datepicker_controls_prev"
-      @click="changeMonth('prev')"
+      @click="changeVisibleDate('prev')"
     >
       <svg viewBox="0 0 24 24">
         <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
@@ -37,6 +38,7 @@
           :key="year"
           class="datepicker_controls_label">
           <button
+            :disabled="isYearDisabled"
             type="button"
             @click="showYearMonthSelector('year')">
               {{ yearFormatted }}
@@ -46,9 +48,10 @@
     </div>
 
     <button
+      :disabled="isNextDateDisabled"
       type="button"
       class="datepicker_controls_next"
-      @click="changeMonth('next')"
+      @click="changeVisibleDate('next')"
     >
       <svg viewBox="0 0 24 24">
         <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
@@ -58,12 +61,16 @@
 </template>
 
 <script>
+import { isBeforeMinDate, isAfterEndDate } from '@/utils/Dates';
+
 export default {
   name: 'DatePickerControls',
   props: {
     transitionName: { type: String },
     currentDate: { type: Object, required: true },
     mode: { type: String, default: 'month' },
+    minDate: { type: [String, Date, Object] },
+    endDate: { type: [String, Date, Object] },
   },
   computed: {
     monthFormatted () {
@@ -72,9 +79,21 @@ export default {
     yearFormatted () {
       return this.currentDate.getYearFormatted();
     },
+    isYearDisabled () {
+      return isBeforeMinDate(this.yearFormatted, this.minDate, 'year') ||
+        isAfterEndDate(this.yearFormatted, this.endDate, 'year');
+    },
+    isPreviousDateDisabled () {
+      if (this.mode !== 'year') return false;
+      return isBeforeMinDate(Number(this.yearFormatted) - 1, this.minDate, 'year');
+    },
+    isNextDateDisabled () {
+      if (this.mode !== 'year') return false;
+      return isAfterEndDate(Number(this.yearFormatted) + 1, this.endDate, 'year');
+    },
   },
   methods: {
-    changeMonth (direction) {
+    changeVisibleDate (direction) {
       this.$emit('changeVisibleDate', direction);
     },
     showYearMonthSelector (mode) {
@@ -134,6 +153,12 @@ export default {
           border: none;
           outline: none;
           cursor: pointer;
+
+          &:disabled,
+          &[disabled] {
+            cursor: default;
+            color: rgba(0,0,0,0.26);
+          }
         }
       }
     }
@@ -154,6 +179,13 @@ export default {
       }
       &.datepicker_controls_prev {
         flex: 0 0 40px;
+      }
+      &:disabled,
+      &[disabled] {
+        svg {
+          fill: rgba(0,0,0,0.26);
+        }
+        cursor: default;
       }
     }
 

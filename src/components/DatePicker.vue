@@ -18,6 +18,8 @@
       :locale="locale"
       :color="color"
       :close="hideDatePicker"
+      :min-date="minDate"
+      :end-date="endDate"
       @selectDate="changeDate"
     />
   </div>
@@ -51,13 +53,14 @@ export default {
     },
     // Applies specified color to the control
     color: { type: String, default: '#4f88ff' },
+    // Allowed dates
+    minDate: { type: [String, Date, Object] },
+    endDate: { type: [String, Date, Object] },
 
     // TODO : Props to add
-    // allowedDates / max & min
     // disabled
     // readonly
     // type (date, month or year picker)
-
   },
   data () {
     return {

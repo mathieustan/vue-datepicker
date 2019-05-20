@@ -8,8 +8,16 @@
           <li
             v-for="year in getYears"
             :key="year"
-            :class="{ 'active' : isSelectedYear(year) }">
-            <button type="button" @click="onSelect(year)">{{ year }}</button>
+            :class="{
+              'active' : isSelectedYear(year),
+              'disabled' : isYearDisabled(year)
+            }">
+            <button
+              :disabled="isYearDisabled(year)"
+              type="button"
+              @click="onSelect(year)">
+              {{ year }}
+            </button>
           </li>
         </ul>
       </div>
@@ -20,6 +28,8 @@
         <DatePickerControls
           :current-date="currentDate"
           :transition-name="transitionName"
+          :min-date="minDate"
+          :end-date="endDate"
           mode="year"
           @changeVisibleDate="changeYear"
           @showYearMonthSelector="showYearMonthSelector"
@@ -36,6 +46,7 @@
             <button
               v-for="(month, index) in getMonths"
               :key="index"
+              :disabled="isMonthDisabled(index)"
               type="button"
               @click="onSelect(index)"
             >
@@ -51,6 +62,7 @@
 <script>
 import DatePickerControls from './DatePickerControls.vue';
 
+import { isBeforeMinDate, isAfterEndDate, initDateWithMonthAndYear } from '@/utils/Dates';
 import { computeYearsScrollPosition } from '../utils';
 
 export default {
@@ -63,6 +75,8 @@ export default {
     currentDate: { type: Object, default: Object },
     isVisible: { type: Boolean, default: false },
     showYearMonthSelector: { type: Function },
+    minDate: { type: [String, Date, Object] },
+    endDate: { type: [String, Date, Object] },
   },
   computed: {
     yearFormatted () {
@@ -70,10 +84,21 @@ export default {
     },
     getYears () {
       const year = this.currentDate.year;
-      return this.currentDate.generateYearMonthRange(year, 10, 'year');
+      return this.currentDate.generateYearsRange(year, 10, 'year');
     },
     getMonths () {
       return this.currentDate.getMonths();
+    },
+  },
+  watch: {
+    async mode (currentMode) {
+      await this.$nextTick();
+      const activeItem = this.$el.querySelector('li.active');
+      if (!activeItem || currentMode !== 'year') return;
+
+      // should scroll to active year
+      const containerToScroll = this.$el.querySelector('.datepicker_years_list');
+      containerToScroll.scrollTop = computeYearsScrollPosition(containerToScroll, activeItem);
     },
   },
   mounted () {
@@ -90,6 +115,15 @@ export default {
     },
     isSelectedMonth (monthIndex) {
       return this.currentDate.month === monthIndex;
+    },
+    isYearDisabled (year) {
+      return isBeforeMinDate(year, this.minDate, 'year') ||
+        isAfterEndDate(year, this.endDate, 'year');
+    },
+    isMonthDisabled (monthIndex) {
+      const date = initDateWithMonthAndYear(monthIndex, this.yearFormatted);
+      return isBeforeMinDate(date, this.minDate) ||
+        isAfterEndDate(date, this.endDate);
     },
     changeYear (direction) {
       this.$emit('changeYear', direction);
@@ -140,14 +174,6 @@ export default {
         cursor: pointer;
         transition: none;
 
-        &.active {
-          button {
-            font-size: 26px;
-            font-weight: 500;
-            padding: $gutter 0;
-          }
-        }
-
         &:hover,
         &:focus {
           background-color: color(other, light-gray);
@@ -159,6 +185,21 @@ export default {
           width: 100%;
           padding: $gutter 0;
           cursor: pointer;
+        }
+
+        &.active {
+          button {
+            font-size: 26px;
+            font-weight: 500;
+            padding: $gutter 0;
+          }
+        }
+
+        &.disabled {
+          button {
+            cursor: default;
+            color: rgba(0,0,0,0.26);
+          }
         }
       }
     }
@@ -214,6 +255,12 @@ export default {
 
         &:hover {
           background-color: color(other, light-gray);
+        }
+
+        &:disabled,
+        &[disabled] {
+          cursor: default;
+          color: rgba(0,0,0,0.26);
         }
       }
     }

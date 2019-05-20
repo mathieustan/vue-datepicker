@@ -30,6 +30,7 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.{vue}',
+    'src/utils/*.js',
     // exclude node_modules
     '!**/node_modules/**',
     // exclude the root component app.vue

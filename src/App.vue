@@ -3,6 +3,8 @@
     <DatePicker
       v-model="currentDate"
       :locale="locale"
+      :min-date="minDate"
+      :end-date="endDate"
     />
   </div>
 </template>
@@ -21,6 +23,8 @@ export default {
       lang: 'fr',
       weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
     },
+    minDate: '2018-5-1',
+    endDate: '2019-5-30',
   }),
 };
 </script>
