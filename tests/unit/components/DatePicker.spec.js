@@ -9,10 +9,11 @@ describe('DatePicker', () => {
   const dummyDate = dayjs(new Date([2019, 5, 16]));
 
   beforeEach(() => {
-    mountComponent = (date = dummyDate) =>
+    mountComponent = (date = dummyDate, disabled = false) =>
       shallowMount(DatePicker, {
         propsData: {
           value: date,
+          disabled,
         },
       });
   });
@@ -55,6 +56,17 @@ describe('DatePicker', () => {
     describe('showDatepicker', () => {
       beforeEach(() => {
         jest.spyOn(document, 'addEventListener');
+      });
+
+      it('should not show datepicker if disabled', () => {
+        const wrapper = mountComponent({ disabled: true });
+        expect(wrapper.vm.isVisible).toEqual(false);
+
+        wrapper.vm.showDatepicker();
+        expect(wrapper.vm.isVisible).toEqual(true);
+
+        jest.runOnlyPendingTimers();
+
       });
 
       it('should set isVisible to true & init a clic listener', () => {

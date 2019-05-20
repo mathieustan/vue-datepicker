@@ -9,6 +9,7 @@
     <input
       :style="{ color: color }"
       :value="dateFormatted"
+      :disabled="disabled"
       type="text"
       readonly
       @click="showDatepicker">
@@ -56,10 +57,10 @@ export default {
     // Allowed dates
     minDate: { type: [String, Date, Object] },
     endDate: { type: [String, Date, Object] },
+    // Disabled all datepicker
+    disabled: { type: Boolean, default: false },
 
     // TODO : Props to add
-    // disabled
-    // readonly
     // type (date, month or year picker)
   },
   data () {
@@ -83,6 +84,8 @@ export default {
   },
   methods: {
     showDatepicker () {
+      if (this.disabled) return;
+
       this.isVisible = true;
       setTimeout(() => document.addEventListener('click', this.hideDatePicker), 0);
     },
@@ -129,6 +132,11 @@ export default {
       box-shadow: none;
       outline: 0;
       font-size: 16px;
+
+      &:disabled,
+      &[disabled] {
+        cursor: default;
+      }
     }
   }
 </style>
