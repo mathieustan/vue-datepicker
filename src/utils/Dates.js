@@ -38,3 +38,20 @@ export default class PickerDate {
   }
 }
 
+export function getDefaultLocale () {
+  const locale = (window.navigator.userLanguage || window.navigator.language || 'en').substr(0, 2);
+  return locale;
+}
+
+export function setLocaleLang ({ lang }) {
+  require(`dayjs/locale/${lang}`);
+  dayjs.locale(lang);
+}
+
+export function isDateToday (date) {
+  return dayjs(date.format('YYYY-MM-DD')).isSame(dayjs().format('YYYY-MM-DD'));
+}
+
+export function formatDateWithLocale (date, locale, format) {
+  return date.locale(locale.lang).format(format);
+}

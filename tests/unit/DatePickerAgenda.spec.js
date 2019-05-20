@@ -3,8 +3,6 @@ import mockDate from 'mockdate';
 import { shallowMount } from '@vue/test-utils';
 import DatePickerAgenda from '@/components/DatePickerAgenda.vue';
 
-jest.useFakeTimers();
-
 beforeEach(() => {
   mockDate.set(new Date([2019, 5, 16]));
 });
@@ -21,10 +19,12 @@ describe('DatePickerAgenda', () => {
     mountComponent = ({
       date = dummyDate,
       locale = { days: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] },
+      isVisible = true,
     } = {}) =>
       shallowMount(DatePickerAgenda, {
         propsData: {
           date,
+          isVisible,
           locale,
           color: 'color',
           close: jest.fn(),
@@ -40,7 +40,7 @@ describe('DatePickerAgenda', () => {
   it('Should init data', () => {
     const wrapper = mountComponent();
     expect(wrapper.isVueInstance()).toBeTruthy();
-    expect(wrapper.vm.isVisible).toEqual(false);
+    expect(wrapper.vm.isVisible).toEqual(true);
     expect(wrapper.vm.locale).toEqual({ days: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] });
     expect(wrapper.vm.color).toEqual('color');
     expect(wrapper.vm.close).toEqual(expect.any(Function));
@@ -63,6 +63,44 @@ describe('DatePickerAgenda', () => {
         const wrapper = mountComponent({ date });
         expect(wrapper.vm.classWeeks).toEqual(expectedResult);
       });
+    });
+  });
+
+  describe('watch', () => {
+    describe('isVisible', () => {
+      it('should init currentDate & mutableDate isVisible equal true', () => {
+        const wrapper = mountComponent({ isVisible: false });
+
+        expect(wrapper.vm.currentDate).toEqual(undefined);
+        expect(wrapper.vm.mutableDate).toEqual(undefined);
+
+        wrapper.setProps({ isVisible: true });
+
+        expect(wrapper.vm.currentDate).toEqual({
+          start: dummyDate.startOf('month'),
+          end: dummyDate.endOf('month'),
+          month: 4,
+          year: 2019,
+        });
+        expect(wrapper.vm.mutableDate).toEqual(dummyDate);
+      });
+
+      it('should reset if isVisible equal false', () => {
+        const wrapper = mountComponent({ isVisible: true });
+        wrapper.setData({
+          transitionDaysName: 'test',
+          transitionLabelName: 'test',
+          shouldShowYearMonthSelector: true,
+          yearMonthMode: 'month',
+        });
+
+        wrapper.setProps({ isVisible: false });
+        expect(wrapper.vm.transitionDaysName).toEqual('slide-h-next');
+        expect(wrapper.vm.transitionLabelName).toEqual('slide-v-next');
+        expect(wrapper.vm.shouldShowYearMonthSelector).toEqual(false);
+        expect(wrapper.vm.yearMonthMode).toEqual(undefined);
+      });
+
     });
   });
 

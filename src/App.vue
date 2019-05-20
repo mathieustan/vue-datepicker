@@ -2,6 +2,7 @@
   <div id="app">
     <DatePicker
       v-model="currentDate"
+      :locale="locale"
     />
   </div>
 </template>
@@ -16,6 +17,10 @@ export default {
   },
   data: () => ({
     currentDate: Date.now(),
+    locale: {
+      lang: 'fr',
+      weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
+    },
   }),
 };
 </script>

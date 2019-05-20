@@ -1,5 +1,5 @@
 <template>
-  <transition name="datepicker-slide">
+  <transition name="datepicker-slide" appear>
     <div
       v-if="isVisible"
       class="datepicker"
@@ -10,6 +10,7 @@
       <DatePickerHeader
         :mutable-date="mutableDate"
         :color="color"
+        :locale="locale"
       />
 
       <div class="datepicker__content">
@@ -25,7 +26,7 @@
         <!-- Week -->
         <div class="datepicker_week">
           <div
-            v-for="(day, index) in locale.days"
+            v-for="(day, index) in locale.weekDays"
             :key="index"
             class="datepicker_weekday">
             {{ day }}
@@ -77,9 +78,7 @@
 </template>
 
 <script>
-import dayjs from 'dayjs';
-
-import Dates from '../utils/Dates';
+import Dates, { isDateToday } from '../utils/Dates';
 
 import DatePickerHeader from './DatePickerHeader.vue';
 import DatePickerControls from './DatePickerControls.vue';
@@ -95,16 +94,14 @@ export default {
     color: { type: String },
     close: { type: Function },
   },
-  data () {
-    return {
-      currentDate: new Dates(this.date.month(), this.date.year()),
-      mutableDate: this.date.clone(),
-      transitionDaysName: 'slide-h-next',
-      transitionLabelName: 'slide-v-next',
-      shouldShowYearMonthSelector: false,
-      yearMonthMode: undefined,
-    };
-  },
+  data: () => ({
+    currentDate: undefined,
+    mutableDate: undefined,
+    transitionDaysName: 'slide-h-next',
+    transitionLabelName: 'slide-v-next',
+    shouldShowYearMonthSelector: false,
+    yearMonthMode: undefined,
+  }),
   computed: {
     classWeeks () {
       // if yearMonth selector is opened, stop changing class
@@ -116,12 +113,27 @@ export default {
       return `has-5-weeks`;
     },
   },
+  watch: {
+    isVisible: {
+      handler (bool) {
+        if (bool) {
+          // init data when datepicker is visible
+          this.currentDate = new Dates(this.date.month(), this.date.year());
+          this.mutableDate = this.date.clone();
+          return;
+        };
+        // reset data when datepicker is hidden
+        Object.assign(this.$data, this.$options.data());
+      },
+      immediate: true,
+    },
+  },
   methods: {
     isSelected (day) {
       return this.mutableDate.unix() === day.unix();
     },
     isToday (day) {
-      return dayjs(day.format('YYYY-MM-DD')).isSame(dayjs().format('YYYY-MM-DD'));
+      return isDateToday(day);
     },
     selectDate (day) {
       this.mutableDate = day.clone();

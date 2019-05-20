@@ -32,8 +32,8 @@ describe('DatePicker', () => {
   describe('computed', () => {
     describe('dateFormatted', () => {
       it.each([
-        [dayjs(new Date([2019, 5, 16])), '16 Mai 2019'],
-        [dayjs(new Date([2019, 4, 12])), '12 Avril 2019'],
+        [dayjs(new Date([2019, 5, 16])), '16 May 2019'],
+        [dayjs(new Date([2019, 4, 12])), '12 April 2019'],
       ])('When date equal %p, should return %p', (date, expectedResult) => {
         const wrapper = mountComponent(date);
         expect(wrapper.vm.dateFormatted).toEqual(expectedResult);

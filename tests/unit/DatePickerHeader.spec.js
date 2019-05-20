@@ -2,8 +2,6 @@ import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
 import DatePickerHeader from '@/components/DatePickerHeader.vue';
 
-jest.useFakeTimers();
-
 describe('DatePickerHeader', () => {
   let mountComponent;
   const dummyDate = dayjs(new Date([2019, 5, 16]));
@@ -14,6 +12,7 @@ describe('DatePickerHeader', () => {
         propsData: {
           mutableDate: date,
           color: 'color',
+          locale: { lang: 'en' },
         },
       });
   });

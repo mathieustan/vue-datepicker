@@ -26,12 +26,8 @@
 <script>
 import dayjs from 'dayjs';
 import { directive as clickOutside } from 'vue-clickaway';
-
-import 'dayjs/locale/fr';
-
 import DatepickerAgenda from './DatePickerAgenda.vue';
-
-dayjs.locale('fr');
+import { getDefaultLocale, setLocaleLang, formatDateWithLocale } from '../utils/Dates';
 
 export default {
   name: 'DatePicker',
@@ -49,7 +45,8 @@ export default {
     locale: {
       type: Object,
       default: () => ({
-        days: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
+        lang: getDefaultLocale(),
+        weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
       }),
     },
     // Applies specified color to the control
@@ -71,12 +68,15 @@ export default {
   computed: {
     // Displayed Date
     dateFormatted () {
-      return this.date.format(this.format);
+      return formatDateWithLocale(this.date, this.locale, this.format);
     },
     // Date which will be send
     dateRaw () {
-      return this.date.format('YYYY-MM-DD');
+      return formatDateWithLocale(this.date, this.locale, 'YYYY-MM-DD');
     },
+  },
+  created () {
+    setLocaleLang(this.locale);
   },
   methods: {
     showDatepicker () {

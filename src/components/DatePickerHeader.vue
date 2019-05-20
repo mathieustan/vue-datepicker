@@ -8,18 +8,21 @@
 </template>
 
 <script>
+import { formatDateWithLocale } from '../utils/Dates';
+
 export default {
   name: 'DatePickerHeader',
   props: {
     color: { type: String },
     mutableDate: { type: [String, Object] },
+    locale: { type: Object },
   },
   computed: {
     year () {
-      return this.mutableDate.format('YYYY');
+      return formatDateWithLocale(this.mutableDate, this.locale, 'YYYY');
     },
     dateFormatted () {
-      return this.mutableDate.format('dddd DD MMM');
+      return formatDateWithLocale(this.mutableDate, this.locale, 'dddd DD MMM');
     },
   },
 };
