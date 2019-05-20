@@ -102,6 +102,7 @@ describe('DatePicker', () => {
         const wrapper = mountComponent();
         wrapper.vm.changeDate(dayjs(new Date([2019, 5, 18])));
         expect(wrapper.vm.date.format('YYYY-MM-DD')).toEqual('2019-05-18');
+        expect(wrapper.emitted().input[0]).toEqual([dayjs(new Date([2019, 5, 18]))]);
       });
     });
   });

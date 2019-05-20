@@ -95,6 +95,7 @@ export default {
     },
     changeDate (date) {
       this.date = date;
+      this.$emit('input', this.date);
     },
   },
 };
