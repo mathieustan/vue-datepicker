@@ -58,10 +58,10 @@ export function setLocaleLang ({ lang }) {
 
 export function getWeekDays ({ lang, weekDays }) {
   const locale = require(`dayjs/locale/${lang}`);
-  let weekDaysShort;
+  let weekDaysShort = locale.weekdaysShort;
 
   // weekdaysShort is not present in every locale
-  if (!locale.weekdaysShort && locale.weekdays) {
+  if (!weekDaysShort && locale.weekdays) {
     weekDaysShort = locale.weekdays.map(day => day.substring(0, 3));
   }
 

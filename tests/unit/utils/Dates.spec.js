@@ -106,6 +106,7 @@ describe('Transactions: Functions', () => {
       it.each([
         [{ lang: 'fr', weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] }, ['L', 'M', 'M', 'J', 'V', 'S', 'D']],
         [{ lang: 'fr' }, ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']],
+        [{ lang: 'es' }, ['lun.', 'mar.', 'mié.', 'jue.', 'vie.', 'sáb.', 'dom.']],
       ])(
         'when lang equal %p, should return %p',
         (locale, expectedResult) => {
