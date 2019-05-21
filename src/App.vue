@@ -34,23 +34,23 @@
         <pre class="language-HTML" data-title="html">
 <code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
-  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date"<span class="token operator">></span>
+  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
 </code>
         </pre>
 
-        <h2> Exemples (props) </h2>
+        <h2> Examples (props) </h2>
 
-        <!-- EXEMPLE : Default -->
+        <!-- EXAMPLE : Default -->
         <p class="subtitle"> <span class="tile" />Default : </p>
-        <div class="exemple">
-          <div class="exemple-row"> Exemple: <DatePicker v-model="currentDate" /> </div>
-          <div class="exemple-code">
+        <div class="example">
+          <div class="example-row"> Example: <DatePicker v-model="currentDate" /> </div>
+          <div class="example-code">
             <pre class="language-HTML" data-title="html">
 <code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
-  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date"<span class="token operator">></span>
+  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
 </code>
@@ -58,15 +58,15 @@
           </div>
         </div>
 
-        <!-- EXEMPLE : Format -->
+        <!-- EXAMPLE : Format -->
         <p class="subtitle"> <span class="tile" /> Format : </p>
-        <div class="exemple">
-          <div class="exemple-row"> Exemple: <DatePicker v-model="currentDate" format="YYYY-MM-DD" /> </div>
-          <div class="exemple-code">
+        <div class="example">
+          <div class="example-row"> Example: <DatePicker v-model="currentDate" format="YYYY-MM-DD" /> </div>
+          <div class="example-code">
             <pre class="language-HTML" data-title="html">
 <code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
-  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token attr-name">format</span>="YYYY-MM-DD"<span class="token operator">></span>
+  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token attr-name">format</span>="YYYY-MM-DD" <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
 </code>
@@ -74,20 +74,20 @@
           </div>
         </div>
 
-        <!-- EXEMPLE : Visible -->
+        <!-- EXAMPLE : Visible -->
         <p class="subtitle"> <span class="tile" /> Visible: </p>
-        <div class="exemple">
-          <div class="exemple-row">
-            Exemple: <DatePicker v-model="currentDate" :visible="isVisible" />
+        <div class="example">
+          <div class="example-row">
+            Example: <DatePicker v-model="currentDate" :visible="isVisible" />
 
             <input type="checkbox" id="isVisible" name="isVisible" v-model="isVisible">
             <label for="isVisible">isVisible</label>
           </div>
-          <div class="exemple-code">
+          <div class="example-code">
             <pre class="language-HTML" data-title="html">
 <code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
-  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token attr-name">:visible</span>="true"<span class="token operator">></span>
+  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token attr-name">:visible</span>="true" <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
 </code>
@@ -95,15 +95,15 @@
           </div>
         </div>
 
-        <!-- EXEMPLE : Color -->
+        <!-- EXAMPLE : Color -->
         <p class="subtitle"> <span class="tile" /> color: </p>
-        <div class="exemple">
-          <div class="exemple-row"> Exemple: <DatePicker v-model="currentDate" color="#ff4577"  /> </div>
-          <div class="exemple-code">
+        <div class="example">
+          <div class="example-row"> Example: <DatePicker v-model="currentDate" color="#ff4577"  /> </div>
+          <div class="example-code">
             <pre class="language-HTML" data-title="html">
 <code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
-  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token attr-name">color</span>="#ff4577"<span class="token operator">></span>
+  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token attr-name">color</span>="#ff4577" <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
 </code>
@@ -111,15 +111,64 @@
           </div>
         </div>
 
-        <!-- EXEMPLE : MiDate -->
+        <!-- EXAMPLE : MiDate -->
         <p class="subtitle"> <span class="tile" /> minDate & endDate: </p>
-        <div class="exemple">
-          <div class="exemple-row"> Exemple: <DatePicker v-model="currentDate" min-date="2019-05-03" end-date="2019-08-03" /> </div>
-          <div class="exemple-code">
+        <div class="example">
+          <div class="example-row"> Example: <DatePicker v-model="currentDate" min-date="2019-05-03" end-date="2019-08-03" /> </div>
+          <div class="example-code">
             <pre class="language-HTML" data-title="html">
 <code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
-  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token attr-name">min-date</span>="2018-05-03" <span class="token attr-name">end-date</span>="2018-08-03"<span class="token operator">></span>
+  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token attr-name">min-date</span>="2019-05-03" <span class="token attr-name">end-date</span>="2019-08-03" <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+</code>
+            </pre>
+          </div>
+        </div>
+
+        <!-- EXAMPLE : Locale -->
+        <p class="subtitle"> <span class="tile" /> locale: </p>
+        <div class="example">
+          <div class="example-row">
+            Example:
+            <DatePicker
+              v-model="currentDate"
+              :locale="{
+                lang: 'fr', weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D']
+              }" />
+          </div>
+          <div class="example-code">
+            <pre class="language-HTML" data-title="html">
+<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">:locale</span>="{ lang: 'fr', weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] }"
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+</code>
+            </pre>
+          </div>
+        </div>
+
+        <div class="example">
+          <div class="example-row">
+            Example:
+            <DatePicker
+              v-model="currentDate"
+              :locale="{ lang: 'es' }"
+            />
+          </div>
+          <div class="example-code">
+            <pre class="language-HTML" data-title="html">
+<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">:locale</span>="{ lang: 'es' }"
+  <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
 </code>
@@ -141,10 +190,6 @@ export default {
   },
   data: () => ({
     currentDate: Date.now(),
-    locale: {
-      lang: 'fr',
-      weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
-    },
     minDate: '2018-5-1',
     endDate: '2019-5-30',
     disabled: false,
@@ -211,7 +256,7 @@ export default {
     }
   }
 
-  .exemple {
+  .example {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -226,7 +271,7 @@ export default {
       margin-bottom: $gutter*4;
     }
 
-    .exemple-row {
+    .example-row {
       position: relative;
       display: flex;
       justify-content: flex-start;
@@ -239,7 +284,7 @@ export default {
       line-height: 16px;
     }
 
-    .exemple-code {
+    .example-code {
       position: relative;
       display: flex;
       justify-content: flex-start;
