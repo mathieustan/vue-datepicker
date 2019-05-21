@@ -1,18 +1,16 @@
 <template>
   <div
     v-click-outside="hideDatePicker"
-    class="datepicker_container">
-    <input
-      type="hidden"
+    class="datepicker-container">
+    <DatePickerCustomInput
       :name="name"
-      :value="dateRaw">
-    <input
-      :style="{ color: color }"
-      :value="dateFormatted"
+      :date="date"
+      :format="format"
+      :locale="locale"
+      :color="color"
       :disabled="disabled"
-      type="text"
-      readonly
-      @click="showDatepicker">
+      @toggleDatepicker="toggleDatepicker"
+    />
     <DatepickerAgenda
       :isVisible="isVisible"
       :date="date"
@@ -29,13 +27,14 @@
 <script>
 import dayjs from 'dayjs';
 import { directive as clickOutside } from 'vue-clickaway';
+import DatePickerCustomInput from './DatePickerCustomInput.vue';
 import DatepickerAgenda from './DatePickerAgenda.vue';
-import { getDefaultLocale, setLocaleLang, formatDateWithLocale } from '../utils/Dates';
+import { getDefaultLocale, setLocaleLang } from '@/utils/Dates';
 
 export default {
   name: 'DatePicker',
   directives: { clickOutside },
-  components: { DatepickerAgenda },
+  components: { DatePickerCustomInput, DatepickerAgenda },
   props: {
     name: { type: String, default: 'datepicker' },
     // Current Value from v-model
@@ -63,26 +62,20 @@ export default {
     // TODO : Props to add
     // type (date, month or year picker)
   },
-  data () {
-    return {
-      date: undefined,
-      isVisible: this.visible,
-    };
-  },
-  computed: {
-    // Displayed Date
-    dateFormatted () {
-      return formatDateWithLocale(this.date, this.locale, this.format);
-    },
-    // Date which will be send
-    dateRaw () {
-      return formatDateWithLocale(this.date, this.locale, 'YYYY-MM-DD');
-    },
-  },
+  data: () => ({
+    date: undefined,
+    isVisible: undefined,
+  }),
   watch: {
     value: {
       handler (newDate) {
         this.date = dayjs(newDate);
+      },
+      immediate: true,
+    },
+    visible: {
+      handler (isVisible) {
+        this.isVisible = isVisible;
       },
       immediate: true,
     },
@@ -91,8 +84,13 @@ export default {
     setLocaleLang(this.locale);
   },
   methods: {
-    showDatepicker () {
+    toggleDatepicker () {
       if (this.disabled) return;
+
+      if (this.isVisible) {
+        this.hideDatePicker();
+        return;
+      }
 
       this.isVisible = true;
       setTimeout(() => document.addEventListener('click', this.hideDatePicker), 0);
@@ -116,36 +114,10 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-  .datepicker_container {
+  .datepicker-container {
     position: relative;
     display: flex;
-
-    input[type='hidden'] {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      height: 1px;
-      width: 1px;
-      border: 0;
-      clip: rect(0 0 0 0);
-      margin: -1px;
-      padding: 0;
-      outline: 0;
-      -webkit-appearance: none;
-      overflow: hidden;
-    }
-
-    input[type="text"] {
-      cursor: pointer;
-      border: none;
-      box-shadow: none;
-      outline: 0;
-      font-size: 16px;
-
-      &:disabled,
-      &[disabled] {
-        cursor: default;
-      }
-    }
+    align-items: center;
+    cursor: pointer;
   }
 </style>

@@ -3,6 +3,8 @@ import mockDate from 'mockdate';
 import { shallowMount } from '@vue/test-utils';
 import DatePickerAgenda from '@/components/DatePickerAgenda.vue';
 
+import * as utilsFunctions from '@/utils';
+
 beforeEach(() => {
   mockDate.set(new Date([2019, 5, 16]));
 });
@@ -16,6 +18,13 @@ describe('DatePickerAgenda', () => {
   const dummyDate = dayjs(new Date([2019, 5, 16]));
 
   beforeEach(() => {
+    jest.spyOn(utilsFunctions, 'computePositionFromParent').mockReturnValue({
+      top: 0,
+      left: 0,
+      origin: 'origin',
+    });
+    jest.spyOn(global, 'requestAnimationFrame').mockImplementation(cb => cb());
+
     mountComponent = ({
       date = dummyDate,
       minDate,
@@ -33,6 +42,7 @@ describe('DatePickerAgenda', () => {
           color: 'color',
           close: jest.fn(),
         },
+        attachToDocument: true,
       });
   });
 
@@ -72,8 +82,9 @@ describe('DatePickerAgenda', () => {
 
   describe('watch', () => {
     describe('isVisible', () => {
-      it('should init currentDate & mutableDate isVisible equal true', () => {
+      it('should init currentDate & mutableDate isVisible equal true', async () => {
         const wrapper = mountComponent({ isVisible: false });
+        jest.spyOn(wrapper.vm, 'updatePosition').mockReturnValue(true);
 
         expect(wrapper.vm.currentDate).toEqual(undefined);
         expect(wrapper.vm.mutableDate).toEqual(undefined);
@@ -87,10 +98,14 @@ describe('DatePickerAgenda', () => {
           year: 2019,
         });
         expect(wrapper.vm.mutableDate).toEqual(dummyDate);
+
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.updatePosition).toHaveBeenCalled();
       });
 
       it('should reset if isVisible equal false', () => {
         const wrapper = mountComponent({ isVisible: true });
+
         wrapper.setData({
           transitionDaysName: 'test',
           transitionLabelName: 'test',

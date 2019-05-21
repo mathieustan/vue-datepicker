@@ -2,6 +2,7 @@
   <transition name="datepicker-slide" appear>
     <div
       v-if="isVisible"
+      :style="styles"
       class="datepicker"
       name="datepicker-slide"
       @click.stop>
@@ -11,9 +12,10 @@
         :mutable-date="mutableDate"
         :color="color"
         :locale="locale"
+        :mode="yearMonthMode"
       />
 
-      <div class="datepicker__content">
+      <div class="datepicker-content">
         <!-- Controls -->
         <DatePickerControls
           :current-date="currentDate"
@@ -24,11 +26,11 @@
         />
 
         <!-- Week -->
-        <div class="datepicker_week">
+        <div class="datepicker-week">
           <div
             v-for="(day, index) in locale.weekDays"
             :key="index"
-            class="datepicker_weekday">
+            class="datepicker-weekday">
             {{ day }}
           </div>
         </div>
@@ -36,15 +38,15 @@
         <!-- Days -->
         <TransitionGroup
           tag="div"
-          class="datepicker_days__wrapper"
+          class="datepicker-days__wrapper"
           :class="classWeeks"
           :name="transitionDaysName">
           <div
             v-for="dates in [currentDate]"
             :key="dates.month"
-            class="datepicker_days">
+            class="datepicker-days">
             <div
-              class="datepicker_day"
+              class="datepicker-day"
               :style="{ width: `${currentDate.getWeekStart() * 41}px` }"
             />
             <button
@@ -56,14 +58,14 @@
               }"
               :disabled="isDisabled(day)"
               type="button"
-              class="datepicker_day"
+              class="datepicker-day"
               @click="selectDate(day)"
             >
-              <span v-if="isToday(day)" class="datepicker_day--current" />
+              <span v-if="isToday(day)" class="datepicker-day--current" />
               <span
                 :style="{ backgroundColor: color }"
-                class="datepicker_day_effect" />
-              <span class="datepicker_day_text">{{day.format('D')}}</span>
+                class="datepicker-day__effect" />
+              <span class="datepicker-day__text">{{day.format('D')}}</span>
             </button>
           </div>
         </TransitionGroup>
@@ -85,7 +87,9 @@
 </template>
 
 <script>
-import Dates, { isDateToday, isBeforeMinDate, isAfterEndDate } from '../utils/Dates';
+import Dates, { isDateToday, isBeforeMinDate, isAfterEndDate } from '@/utils/Dates';
+
+import agendaPositionMixin from '@/mixins/agendaPositionMixin';
 
 import DatePickerHeader from './DatePickerHeader.vue';
 import DatePickerControls from './DatePickerControls.vue';
@@ -93,6 +97,7 @@ import DatePickerYearMonth from './DatePickerYearMonth.vue';
 
 export default {
   name: 'DatepickerAgenda',
+  mixins: [ agendaPositionMixin ],
   components: { DatePickerHeader, DatePickerControls, DatePickerYearMonth },
   props: {
     date: { type: [Date, Object], required: true },
@@ -121,14 +126,25 @@ export default {
       }
       return `has-5-weeks`;
     },
+    styles () {
+      return {
+        left: `${this.left}px`,
+        top: `${this.top}px`,
+        transformOrigin: this.origin,
+      };
+    },
   },
   watch: {
     isVisible: {
-      handler (bool) {
+      async handler (bool) {
         if (bool) {
           // init data when datepicker is visible
           this.currentDate = new Dates(this.date.month(), this.date.year());
           this.mutableDate = this.date.clone();
+
+          await this.$nextTick();
+          // from @/mixins/agendaPositionMixin
+          this.updatePosition();
           return;
         };
         // reset data when datepicker is hidden
@@ -201,13 +217,27 @@ export default {
     display: flex;
     flex-direction: column;
     width: 315px;
+    left: 0;
     top: 100%;
+    will-change: transform;
     z-index: 5;
     background-color: white;
     box-shadow: 0 14px 45px rgba(0,0,0,.25), 0 10px 18px rgba(0,0,0,.22);
   }
 
-  .datepicker__content {
+  .datepicker-slide-enter-active,
+  .datepicker-slide-leave-active {
+    opacity: 1;
+    transition: all 300ms;
+    transition-property: transform, opacity;
+    transform: scale(1);
+  }
+  .datepicker-slide-leave-to, .datepicker-slide-enter{
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  .datepicker-content {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -216,14 +246,14 @@ export default {
   // ----------------------
   // Week
   // ----------------------
-  .datepicker_week {
+  .datepicker-week {
     font-size: 12px;
     line-height: 12px;
     font-weight: 600;
     padding: $gutter 14px;
     color: rgba(0,0,0,0.38);
 
-    .datepicker_weekday {
+    .datepicker-weekday {
       float: left;
       width: get-size(day);
       text-align: center;
@@ -233,7 +263,7 @@ export default {
   // ----------------------
   // Days
   // ----------------------
-  .datepicker_days__wrapper {
+  .datepicker-days__wrapper {
     position: relative;
     height: get-size(day) * 5;
     margin: 0 14px 14px;
@@ -245,12 +275,12 @@ export default {
     }
   }
 
-  .datepicker_days {
+  .datepicker-days {
     display: flex;
     flex-wrap: wrap;
     overflow: hidden;
 
-    .datepicker_day {
+    .datepicker-day {
       @include reset-button;
       position: relative;
       width: get-size(day);
@@ -266,14 +296,14 @@ export default {
 
       &:hover:not(.disabled) {
         color: white;
-        .datepicker_day_effect{
+        .datepicker-day__effect {
           transform: scale(1);
           opacity: .6;
         }
       }
       &.selected{
         color: white;
-        .datepicker_day_effect {
+        .datepicker-day__effect {
           transform: scale(1);
           opacity: 1;
         }
@@ -284,7 +314,7 @@ export default {
       }
     }
 
-    .datepicker_day--current {
+    .datepicker-day--current {
       position: absolute;
       top: 0;
       bottom: 0;
@@ -297,7 +327,7 @@ export default {
       border: 1px solid currentColor;
     }
 
-    .datepicker_day_effect {
+    .datepicker-day__effect {
       position: absolute;
       top: 4px;
       left: 2px;
@@ -308,22 +338,9 @@ export default {
       transition-property: transform;
       transform: scale(0);
     }
-    .datepicker_day_text {
+    .datepicker-day__text {
       position: relative;
       vertical-align: sub;
     }
-
-  }
-
-  .datepicker-slide-enter-active,
-  .datepicker-slide-leave-active{
-    opacity: 1;
-    transition: all 300ms;
-    transition-property: transform, opacity;
-    transform: translateY(0);
-  }
-  .datepicker-slide-leave-to, .datepicker-slide-enter{
-    opacity: 0;
-    transform: translateY(-15px);
   }
 </style>

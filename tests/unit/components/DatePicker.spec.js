@@ -30,39 +30,18 @@ describe('DatePicker', () => {
     expect(wrapper.vm.isVisible).toEqual(false);
   });
 
-  describe('computed', () => {
-    describe('dateFormatted', () => {
-      it.each([
-        [dayjs(new Date([2019, 5, 16])), '16 May 2019'],
-        [dayjs(new Date([2019, 4, 12])), '12 April 2019'],
-      ])('When date equal %p, should return %p', (date, expectedResult) => {
-        const wrapper = mountComponent({ date });
-        expect(wrapper.vm.dateFormatted).toEqual(expectedResult);
-      });
-    });
-
-    describe('dateRaw', () => {
-      it.each([
-        [dayjs(new Date([2019, 5, 16])), '2019-05-16'],
-        [dayjs(new Date([2019, 4, 12])), '2019-04-12'],
-      ])('When date equal %p, should return %p', (date, expectedResult) => {
-        const wrapper = mountComponent({ date });
-        expect(wrapper.vm.dateRaw).toEqual(expectedResult);
-      });
-    });
-  });
-
   describe('methods', () => {
-    describe('showDatepicker', () => {
+    describe('toggleDatepicker', () => {
       beforeEach(() => {
         jest.spyOn(document, 'addEventListener');
+        jest.spyOn(document, 'removeEventListener');
       });
 
       it('should not show datepicker if disabled', () => {
         const wrapper = mountComponent({ disabled: true });
         expect(wrapper.vm.isVisible).toEqual(false);
 
-        wrapper.vm.showDatepicker();
+        wrapper.vm.toggleDatepicker();
         expect(wrapper.vm.isVisible).toEqual(false);
 
         jest.runOnlyPendingTimers();
@@ -73,12 +52,21 @@ describe('DatePicker', () => {
         const wrapper = mountComponent();
         expect(wrapper.vm.isVisible).toEqual(false);
 
-        wrapper.vm.showDatepicker();
+        wrapper.vm.toggleDatepicker();
         expect(wrapper.vm.isVisible).toEqual(true);
 
         jest.runOnlyPendingTimers();
 
         expect(document.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
+      });
+
+      it('should set isVisible to false & remove click listener if already open', () => {
+        const wrapper = mountComponent();
+        wrapper.setData({ isVisible: true });
+
+        wrapper.vm.toggleDatepicker();
+        expect(wrapper.vm.isVisible).toEqual(false);
+        expect(document.removeEventListener).toHaveBeenCalledWith('click', expect.any(Function));
       });
     });
 

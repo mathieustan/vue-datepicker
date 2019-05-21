@@ -97,7 +97,7 @@ describe('DatePickerYearMonth', () => {
       wrapper.setProps({ mode: 'year' });
       await wrapper.vm.$nextTick();
 
-      const containerToScroll = wrapper.element.querySelector('.datepicker_years_list');
+      const containerToScroll = wrapper.element.querySelector('.datepicker-years__list');
       expect(utilsFunction.computeYearsScrollPosition).toHaveBeenCalled();
       expect(containerToScroll.scrollTop).toEqual(100);
     });
@@ -115,7 +115,7 @@ describe('DatePickerYearMonth', () => {
 
     it('should scroll to active yeart if mode is year', () => {
       const wrapper = mountComponent({ mode: 'year' });
-      const containerToScroll = wrapper.element.querySelector('.datepicker_years_list');
+      const containerToScroll = wrapper.element.querySelector('.datepicker-years__list');
       expect(utilsFunction.computeYearsScrollPosition).toHaveBeenCalled();
       expect(containerToScroll.scrollTop).toEqual(100);
     });

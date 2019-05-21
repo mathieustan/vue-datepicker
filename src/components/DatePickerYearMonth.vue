@@ -1,10 +1,10 @@
 <template>
   <transition name="yearMonth" appear>
-    <div class="datepicker_year_month">
+    <div class="datepicker-year-month">
       <div
         v-if="mode === 'year'"
-        class="datepicker_years">
-        <ul class="datepicker_years_list">
+        class="datepicker-years">
+        <ul class="datepicker-years__list">
           <li
             v-for="year in getYears"
             :key="year"
@@ -23,7 +23,7 @@
       </div>
       <div
         v-if="mode === 'month'"
-        class="datepicker_months">
+        class="datepicker-months">
 
         <DatePickerControls
           :current-date="currentDate"
@@ -37,12 +37,12 @@
 
         <TransitionGroup
           tag="div"
-          class="datepicker_months_wrapper"
+          class="datepicker-months__wrapper"
           :name="transitionName">
           <div
             v-for="year in [currentDate.year]"
             :key="year"
-            class="datepicker_months_list">
+            class="datepicker-months__list">
             <button
               v-for="(month, index) in getMonths"
               :key="index"
@@ -97,7 +97,7 @@ export default {
       if (!activeItem || currentMode !== 'year') return;
 
       // should scroll to active year
-      const containerToScroll = this.$el.querySelector('.datepicker_years_list');
+      const containerToScroll = this.$el.querySelector('.datepicker-years__list');
       containerToScroll.scrollTop = computeYearsScrollPosition(containerToScroll, activeItem);
     },
   },
@@ -106,7 +106,7 @@ export default {
     if (!activeItem || this.mode !== 'year') return;
 
     // should scroll to active year
-    const containerToScroll = this.$el.querySelector('.datepicker_years_list');
+    const containerToScroll = this.$el.querySelector('.datepicker-years__list');
     containerToScroll.scrollTop = computeYearsScrollPosition(containerToScroll, activeItem);
   },
   methods: {
@@ -138,7 +138,7 @@ export default {
 <style lang="scss" scoped>
   @import '../styles/base/_animations.scss';
 
-  .datepicker_year_month {
+  .datepicker-year-month {
     position: absolute;
     top: 0;
     left: 0;
@@ -149,7 +149,7 @@ export default {
     overflow: hidden;
   }
 
-  .datepicker_years {
+  .datepicker-years {
     height: auto;
     overflow: hidden;
     position: relative;
@@ -205,7 +205,7 @@ export default {
     }
   }
 
-  .datepicker_months {
+  .datepicker-months {
     height: auto;
     overflow: hidden;
     position: relative;
@@ -216,7 +216,7 @@ export default {
     align-items: center;
     height: 100%;
 
-    .datepicker_months_wrapper {
+    .datepicker-months__wrapper {
       position: relative;
       display: flex;
       width: 100%;
@@ -224,7 +224,7 @@ export default {
       padding: 0 $gutter $gutter;
     }
 
-    .datepicker_months_list {
+    .datepicker-months__list {
       position: absolute;
       top: 0;
       left: 0;

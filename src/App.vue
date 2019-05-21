@@ -77,7 +77,12 @@
         <!-- EXEMPLE : Visible -->
         <p class="subtitle"> <span class="tile" /> Visible: </p>
         <div class="exemple">
-          <div class="exemple-row"> Exemple: <DatePicker v-model="currentDate" :visible="true" /> </div>
+          <div class="exemple-row">
+            Exemple: <DatePicker v-model="currentDate" :visible="isVisible" />
+
+            <input type="checkbox" id="isVisible" name="isVisible" v-model="isVisible">
+            <label for="isVisible">isVisible</label>
+          </div>
           <div class="exemple-code">
             <pre class="language-HTML" data-title="html">
 <code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
@@ -98,7 +103,7 @@
             <pre class="language-HTML" data-title="html">
 <code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
-  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token attr-name">:color</span>="#ff4577"<span class="token operator">></span>
+  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token attr-name">color</span>="#ff4577"<span class="token operator">></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
 </code>
@@ -143,6 +148,7 @@ export default {
     minDate: '2018-5-1',
     endDate: '2019-5-30',
     disabled: false,
+    isVisible: false,
   }),
 };
 </script>
@@ -224,7 +230,7 @@ export default {
       position: relative;
       display: flex;
       justify-content: flex-start;
-      align-items: flex-start;
+      align-items: center;
       width: 100%;
       padding: $gutter*2;
       background-color: white;
@@ -249,8 +255,8 @@ export default {
     }
   }
 
-  .datepicker_container {
-    margin-left: $gutter*2;
+  .datepicker-container {
+    margin: 0 $gutter*2;
   }
 
   h2 {

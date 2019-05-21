@@ -1,9 +1,9 @@
 <template>
-  <div class="datepicker_controls">
+  <div class="datepicker-controls">
     <button
       :disabled="isPreviousDateDisabled"
       type="button"
-      class="datepicker_controls_prev"
+      class="datepicker-controls__prev"
       @click="changeVisibleDate('prev')"
     >
       <svg viewBox="0 0 24 24">
@@ -11,16 +11,16 @@
       </svg>
     </button>
 
-    <div class="datepicker_controls_container">
+    <div class="datepicker-controls__wrapper">
       <TransitionGroup
         v-if="mode === 'month'"
         :name="transitionName"
         tag="span"
-        class="datepicker_controls_month">
+        class="datepicker-controls__month">
         <div
           v-for="month in [currentDate.month]"
           :key="month"
-          class="datepicker_controls_label">
+          class="datepicker-controls__label">
           <button
             type="button"
             @click="showYearMonthSelector('month')">
@@ -31,12 +31,12 @@
       <TransitionGroup
         :name="transitionName"
         tag="span"
-        :class="{ 'datepicker_controls_year--center' : mode === 'year' }"
-        class="datepicker_controls_year">
+        :class="{ 'datepicker-controls__year--center' : mode === 'year' }"
+        class="datepicker-controls__year">
         <div
           v-for="year in [currentDate.year]"
           :key="year"
-          class="datepicker_controls_label">
+          class="datepicker-controls__label">
           <button
             :disabled="isYearDisabled"
             type="button"
@@ -50,7 +50,7 @@
     <button
       :disabled="isNextDateDisabled"
       type="button"
-      class="datepicker_controls_next"
+      class="datepicker-controls__next"
       @click="changeVisibleDate('next')"
     >
       <svg viewBox="0 0 24 24">
@@ -106,7 +106,7 @@ export default {
 <style lang="scss" scoped>
   @import '../styles/base/_animations.scss';
 
-  .datepicker_controls {
+  .datepicker-controls {
     position: relative;
     display: flex;
     height: get-size(controls);
@@ -114,7 +114,7 @@ export default {
     position: relative;
     width: 100%;
 
-    .datepicker_controls_container {
+    .datepicker-controls__wrapper {
       position: relative;
       overflow: hidden;
       display: flex;
@@ -122,26 +122,26 @@ export default {
       align-items: center;
       flex: 1;
 
-      .datepicker_controls_month,
-      .datepicker_controls_year {
+      .datepicker-controls__month,
+      .datepicker-controls__year {
         position: relative;
         display: flex;
         flex: 1;
         align-items: center;
       }
 
-      .datepicker_controls_month {
+      .datepicker-controls__month {
         justify-content: flex-end;
       }
-      .datepicker_controls_year {
+      .datepicker-controls__year {
         justify-content: flex-start;
 
-        &.datepicker_controls_year--center {
+        &.datepicker-controls__year--center {
           justify-content: center;
         }
       }
 
-      .datepicker_controls_label {
+      .datepicker-controls__label {
         padding: $gutter $gutter/2;
 
         button {
@@ -163,8 +163,8 @@ export default {
       }
     }
 
-    button.datepicker_controls_prev,
-    button.datepicker_controls_next {
+    button.datepicker-controls__prev,
+    button.datepicker-controls__next {
       height: get-size(controls);
       width: get-size(controls);
       position: relative;
@@ -174,10 +174,10 @@ export default {
       user-select: none;
       cursor: pointer;
 
-      &.datepicker_controls_next {
+      &.datepicker-controls__next {
         flex: 0 0 40px;
       }
-      &.datepicker_controls_prev {
+      &.datepicker-controls__prev {
         flex: 0 0 40px;
       }
       &:disabled,

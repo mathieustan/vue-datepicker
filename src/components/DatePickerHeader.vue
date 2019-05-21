@@ -1,9 +1,17 @@
 <template>
   <div
     :style="{ backgroundColor: color }"
-    class="datepicker_header">
-    <div class="datepicker_year">{{ year }}</div>
-    <div class="datepicker_date">{{ dateFormatted }}</div>
+    class="datepicker-header">
+    <div
+      :class="{ 'datepicker-header__year--active' : mode === 'year' }"
+      class="datepicker-header__year">
+      {{ year }}
+    </div>
+    <div
+      :class="{ 'datepicker-header__date--active' : mode !== 'year' }"
+      class="datepicker-header__date">
+      {{ dateFormatted }}
+    </div>
   </div>
 </template>
 
@@ -16,6 +24,7 @@ export default {
     color: { type: String },
     mutableDate: { type: [String, Object] },
     locale: { type: Object },
+    mode: { type: String },
   },
   computed: {
     year () {
@@ -29,7 +38,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .datepicker_header{
+  .datepicker-header {
     color: white;
     padding: ($gutter*2);
     display: flex;
@@ -38,15 +47,21 @@ export default {
     flex-wrap: wrap;
     line-height: 1;
 
-    .datepicker_year {
+    .datepicker-header__year {
       align-items: center;
       display: inline-flex;
       font-size: 14px;
       font-weight: 500;
       margin-bottom: 8px;
+      opacity: 0.6;
+      transition: opacity .3s;
+
+      &.datepicker-header__year--active {
+        opacity: 1;
+      }
     }
 
-    .datepicker_date {
+    .datepicker-header__date {
       font-size: 28px;
       text-align: left;
       font-weight: 500;
@@ -57,7 +72,8 @@ export default {
       opacity: 0.6;
       transition: opacity .3s;
 
-      &:hover {
+      &:hover,
+      &.datepicker-header__date--active {
         opacity: 1;
       }
     }
