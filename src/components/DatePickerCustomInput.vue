@@ -4,10 +4,8 @@
     @click="$emit('toggleDatepicker')">
     <DatePickerCalendarIcon :color="color" />
     <input
-      type="hidden"
-      :name="name"
-      :value="dateRaw">
-    <input
+      :id="id"
+      :name="id"
       :style="{ color: color }"
       :value="dateFormatted"
       :disabled="disabled"
@@ -24,6 +22,7 @@ export default {
   name: 'DatePickerCustomInput',
   components: { DatePickerCalendarIcon },
   props: {
+    id: { type: String },
     name: { type: String },
     date: { type: Object },
     format: { type: String },
@@ -35,10 +34,6 @@ export default {
     // Displayed Date
     dateFormatted () {
       return formatDateWithLocale(this.date, this.locale, this.format);
-    },
-    // Date which will be send
-    dateRaw () {
-      return formatDateWithLocale(this.date, this.locale, 'YYYY-MM-DD');
     },
   },
 };

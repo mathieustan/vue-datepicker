@@ -44,8 +44,33 @@ export function getDefaultLocale () {
 }
 
 export function setLocaleLang ({ lang }) {
-  require(`dayjs/locale/${lang}`);
-  dayjs.locale(lang);
+  try {
+    const locale = require(`dayjs/locale/${lang}`);
+    dayjs.locale(locale);
+  } catch (error) {
+    console.error(`
+      Couldn\t find any locale file for this lang: ${lang}.
+      Please look at dayjs documentation`
+    );
+    dayjs.locale('en');
+  }
+}
+
+export function getWeekDays ({ lang, weekDays }) {
+  const locale = require(`dayjs/locale/${lang}`);
+  let weekDaysShort;
+
+  // weekdaysShort is not present in every locale
+  if (!locale.weekdaysShort && locale.weekdays) {
+    weekDaysShort = locale.weekdays.map(day => day.substring(0, 3));
+  }
+
+  // If weekStart at 1, should move first index at the end
+  if (locale.weekStart === 1) {
+    weekDaysShort.push(weekDaysShort.shift());
+  }
+
+  return weekDays || weekDaysShort;
 }
 
 export function isDateToday (date) {

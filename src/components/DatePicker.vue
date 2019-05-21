@@ -3,6 +3,7 @@
     v-click-outside="hideDatePicker"
     class="datepicker-container">
     <DatePickerCustomInput
+      :id="id"
       :name="name"
       :date="date"
       :format="format"
@@ -36,9 +37,10 @@ export default {
   directives: { clickOutside },
   components: { DatePickerCustomInput, DatepickerAgenda },
   props: {
+    id: { type: String, default: 'datepicker' },
     name: { type: String, default: 'datepicker' },
     // Current Value from v-model
-    value: { type: [String, Number, Date, Object], required: true, default: Date.now() },
+    value: { type: [String, Number, Date], required: true, default: Date.now() },
     // Input selected date format
     format: { type: String, default: 'DD MMMM YYYY' },
     // Show/hide datepicker
@@ -46,16 +48,13 @@ export default {
     // Sets the locale.
     locale: {
       type: Object,
-      default: () => ({
-        lang: getDefaultLocale(),
-        weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
-      }),
+      default: () => ({ lang: getDefaultLocale() }),
     },
     // Applies specified color to the control
     color: { type: String, default: '#4f88ff' },
     // Allowed dates
-    minDate: { type: [String, Date, Object] },
-    endDate: { type: [String, Date, Object] },
+    minDate: { type: [String, Number, Date] },
+    endDate: { type: [String, Number, Date] },
     // Disabled all datepicker
     disabled: { type: Boolean, default: false },
 
@@ -101,7 +100,7 @@ export default {
     },
     changeDate (date) {
       this.date = date;
-      this.$emit('input', this.date);
+      this.$emit('input', this.date.format('YYYY-MM-DD'));
     },
   },
 };

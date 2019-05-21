@@ -69,8 +69,8 @@ export default {
     transitionName: { type: String },
     currentDate: { type: Object, required: true },
     mode: { type: String, default: 'month' },
-    minDate: { type: [String, Date, Object] },
-    endDate: { type: [String, Date, Object] },
+    minDate: { type: [String, Number, Date] },
+    endDate: { type: [String, Number, Date] },
   },
   computed: {
     monthFormatted () {

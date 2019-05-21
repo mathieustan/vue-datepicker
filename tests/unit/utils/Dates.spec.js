@@ -4,6 +4,8 @@ import 'dayjs/locale/fr';
 
 import Dates, {
   getDefaultLocale,
+  setLocaleLang,
+  getWeekDays,
   isDateToday,
   formatDateWithLocale,
   isBeforeMinDate,
@@ -82,6 +84,32 @@ describe('Transactions: Functions', () => {
         (navigator, expectedResult) => {
           Object.defineProperty(global, 'navigator', { value: navigator, writable: true });
           expect(getDefaultLocale()).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('setLocaleLang', () => {
+      it.each([
+        [{ lang: 'fr' }, expect.any(Object)],
+        [{ lang: 'toto' }, 'en'],
+      ])(
+        'when lang equal %p, should set dayjs locale with %p',
+        (locale, expectedCall) => {
+          jest.spyOn(dayjs, 'locale');
+          setLocaleLang(locale);
+          expect(dayjs.locale).toHaveBeenCalledWith(expectedCall);
+        }
+      );
+    });
+
+    describe('getWeekDays', () => {
+      it.each([
+        [{ lang: 'fr', weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] }, ['L', 'M', 'M', 'J', 'V', 'S', 'D']],
+        [{ lang: 'fr' }, ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']],
+      ])(
+        'when lang equal %p, should return %p',
+        (locale, expectedResult) => {
+          expect(getWeekDays(locale)).toEqual(expectedResult);
         }
       );
     });

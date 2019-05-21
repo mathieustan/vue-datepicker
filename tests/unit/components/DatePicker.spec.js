@@ -6,7 +6,7 @@ jest.useFakeTimers();
 
 describe('DatePicker', () => {
   let mountComponent;
-  const dummyDate = dayjs(new Date([2019, 5, 16]));
+  const dummyDate = new Date([2019, 5, 16]);
 
   beforeEach(() => {
     mountComponent = ({ date = dummyDate, disabled = false } = {}) =>
@@ -26,7 +26,7 @@ describe('DatePicker', () => {
   it('Should init data', () => {
     const wrapper = mountComponent();
     expect(wrapper.isVueInstance()).toBeTruthy();
-    expect(wrapper.vm.date).toEqual(dummyDate);
+    expect(wrapper.vm.date).toEqual(dayjs(dummyDate));
     expect(wrapper.vm.isVisible).toEqual(false);
   });
 
@@ -90,7 +90,7 @@ describe('DatePicker', () => {
         const wrapper = mountComponent();
         wrapper.vm.changeDate(dayjs(new Date([2019, 5, 18])));
         expect(wrapper.vm.date.format('YYYY-MM-DD')).toEqual('2019-05-18');
-        expect(wrapper.emitted().input[0]).toEqual([dayjs(new Date([2019, 5, 18]))]);
+        expect(wrapper.emitted().input[0]).toEqual(['2019-05-18']);
       });
     });
   });

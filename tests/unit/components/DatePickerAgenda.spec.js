@@ -29,7 +29,7 @@ describe('DatePickerAgenda', () => {
       date = dummyDate,
       minDate,
       endDate,
-      locale = { days: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] },
+      locale = { lang: 'en' },
       isVisible = true,
     } = {}) =>
       shallowMount(DatePickerAgenda, {
@@ -55,7 +55,7 @@ describe('DatePickerAgenda', () => {
     const wrapper = mountComponent();
     expect(wrapper.isVueInstance()).toBeTruthy();
     expect(wrapper.vm.isVisible).toEqual(true);
-    expect(wrapper.vm.locale).toEqual({ days: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] });
+    expect(wrapper.vm.locale).toEqual({ lang: 'en' });
     expect(wrapper.vm.color).toEqual('color');
     expect(wrapper.vm.close).toEqual(expect.any(Function));
 

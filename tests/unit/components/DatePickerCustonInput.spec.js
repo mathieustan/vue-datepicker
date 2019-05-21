@@ -48,15 +48,5 @@ describe('DatePickerCustomInput', () => {
         expect(wrapper.vm.dateFormatted).toEqual(expectedResult);
       });
     });
-
-    describe('dateRaw', () => {
-      it.each([
-        [dayjs(new Date([2019, 5, 16])), '2019-05-16'],
-        [dayjs(new Date([2019, 4, 12])), '2019-04-12'],
-      ])('When date equal %p, should return %p', (date, expectedResult) => {
-        const wrapper = mountComponent({ date });
-        expect(wrapper.vm.dateRaw).toEqual(expectedResult);
-      });
-    });
   });
 });

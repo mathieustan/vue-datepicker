@@ -28,7 +28,7 @@
         <!-- Week -->
         <div class="datepicker-week">
           <div
-            v-for="(day, index) in locale.weekDays"
+            v-for="(day, index) in weekDays"
             :key="index"
             class="datepicker-weekday">
             {{ day }}
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import Dates, { isDateToday, isBeforeMinDate, isAfterEndDate } from '@/utils/Dates';
+import Dates, { getWeekDays, isDateToday, isBeforeMinDate, isAfterEndDate } from '@/utils/Dates';
 
 import agendaPositionMixin from '@/mixins/agendaPositionMixin';
 
@@ -105,8 +105,8 @@ export default {
     locale: { type: Object },
     color: { type: String },
     close: { type: Function },
-    minDate: { type: [String, Date, Object] },
-    endDate: { type: [String, Date, Object] },
+    minDate: { type: [String, Number, Date] },
+    endDate: { type: [String, Number, Date] },
   },
   data: () => ({
     currentDate: undefined,
@@ -117,6 +117,9 @@ export default {
     yearMonthMode: undefined,
   }),
   computed: {
+    weekDays () {
+      return getWeekDays(this.locale);
+    },
     classWeeks () {
       // if yearMonth selector is opened, stop changing class
       if (this.shouldShowYearMonthSelector) return;
