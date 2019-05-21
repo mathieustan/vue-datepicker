@@ -9,7 +9,7 @@ describe('DatePicker', () => {
   const dummyDate = dayjs(new Date([2019, 5, 16]));
 
   beforeEach(() => {
-    mountComponent = (date = dummyDate, disabled = false) =>
+    mountComponent = ({ date = dummyDate, disabled = false } = {}) =>
       shallowMount(DatePicker, {
         propsData: {
           value: date,
@@ -36,7 +36,7 @@ describe('DatePicker', () => {
         [dayjs(new Date([2019, 5, 16])), '16 May 2019'],
         [dayjs(new Date([2019, 4, 12])), '12 April 2019'],
       ])('When date equal %p, should return %p', (date, expectedResult) => {
-        const wrapper = mountComponent(date);
+        const wrapper = mountComponent({ date });
         expect(wrapper.vm.dateFormatted).toEqual(expectedResult);
       });
     });
@@ -46,7 +46,7 @@ describe('DatePicker', () => {
         [dayjs(new Date([2019, 5, 16])), '2019-05-16'],
         [dayjs(new Date([2019, 4, 12])), '2019-04-12'],
       ])('When date equal %p, should return %p', (date, expectedResult) => {
-        const wrapper = mountComponent(date);
+        const wrapper = mountComponent({ date });
         expect(wrapper.vm.dateRaw).toEqual(expectedResult);
       });
     });
@@ -63,7 +63,7 @@ describe('DatePicker', () => {
         expect(wrapper.vm.isVisible).toEqual(false);
 
         wrapper.vm.showDatepicker();
-        expect(wrapper.vm.isVisible).toEqual(true);
+        expect(wrapper.vm.isVisible).toEqual(false);
 
         jest.runOnlyPendingTimers();
 

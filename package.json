@@ -8,8 +8,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "lint:fix": "vue-cli-service lint --fix",
+    "lint": "vue-cli-service lint --ext .js,.vue src tests/unit/*",
+    "lint:fix": "npm run lint --fix",
     "test:client": "vue-cli-service test:unit"
   },
   "dependencies": {

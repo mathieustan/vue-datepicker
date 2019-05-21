@@ -65,7 +65,7 @@ export default {
   },
   data () {
     return {
-      date: dayjs(this.value),
+      date: undefined,
       isVisible: this.visible,
     };
   },
@@ -77,6 +77,14 @@ export default {
     // Date which will be send
     dateRaw () {
       return formatDateWithLocale(this.date, this.locale, 'YYYY-MM-DD');
+    },
+  },
+  watch: {
+    value: {
+      handler (newDate) {
+        this.date = dayjs(newDate);
+      },
+      immediate: true,
     },
   },
   created () {

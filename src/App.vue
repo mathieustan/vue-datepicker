@@ -43,7 +43,7 @@
         <h2> Exemples (props) </h2>
 
         <!-- EXEMPLE : Default -->
-        <p class="subtitle"> Default : </p>
+        <p class="subtitle"> <span class="tile" />Default : </p>
         <div class="exemple">
           <div class="exemple-row"> Exemple: <DatePicker v-model="currentDate" /> </div>
           <div class="exemple-code">
@@ -59,7 +59,7 @@
         </div>
 
         <!-- EXEMPLE : Format -->
-        <p class="subtitle"> Format : </p>
+        <p class="subtitle"> <span class="tile" /> Format : </p>
         <div class="exemple">
           <div class="exemple-row"> Exemple: <DatePicker v-model="currentDate" format="YYYY-MM-DD" /> </div>
           <div class="exemple-code">
@@ -75,7 +75,7 @@
         </div>
 
         <!-- EXEMPLE : Visible -->
-        <p class="subtitle"> Visible: </p>
+        <p class="subtitle"> <span class="tile" /> Visible: </p>
         <div class="exemple">
           <div class="exemple-row"> Exemple: <DatePicker v-model="currentDate" :visible="true" /> </div>
           <div class="exemple-code">
@@ -91,7 +91,7 @@
         </div>
 
         <!-- EXEMPLE : Color -->
-        <p class="subtitle"> color: </p>
+        <p class="subtitle"> <span class="tile" /> color: </p>
         <div class="exemple">
           <div class="exemple-row"> Exemple: <DatePicker v-model="currentDate" color="#ff4577"  /> </div>
           <div class="exemple-code">
@@ -107,7 +107,7 @@
         </div>
 
         <!-- EXEMPLE : MiDate -->
-        <p class="subtitle"> minDate & endDate: </p>
+        <p class="subtitle"> <span class="tile" /> minDate & endDate: </p>
         <div class="exemple">
           <div class="exemple-row"> Exemple: <DatePicker v-model="currentDate" min-date="2019-05-03" end-date="2019-08-03" /> </div>
           <div class="exemple-code">
@@ -283,18 +283,16 @@ export default {
     }
 
     &.subtitle {
+      display: flex;
+      align-items: center;
       margin-bottom: $gutter*2;
 
-      &:before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: -16px;
-        transform: translateY(-50%);
+      .tile {
         background-color: color(other, dark-purple);
-        height: 10px;
-        width: 10px;
+        height: 8px;
+        width: 8px;
         border-radius: 50%;
+        margin-right: $gutter;
       }
     }
   }
