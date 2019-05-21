@@ -1,5 +1,7 @@
 # vue-datepicker
 
+[![Codecov Coverage](https://img.shields.io/codecov/c/github/mathieustan/vue-datepicker/master.svg?style=flat-square)](https://codecov.io/gh/mathieustan/vue-datepicker/)
+
 > A datepicker Vue component. Compatible with Vue 2.x
 
 - [Demo](#demo)
