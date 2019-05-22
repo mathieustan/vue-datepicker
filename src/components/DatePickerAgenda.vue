@@ -20,6 +20,7 @@
         <DatePickerControls
           :current-date="currentDate"
           :transition-name="transitionLabelName"
+          :locale="locale"
           mode="month"
           @changeVisibleDate="changeMonth"
           @showYearMonthSelector="showYearMonthSelector"
@@ -142,7 +143,7 @@ export default {
       async handler (bool) {
         if (bool) {
           // init data when datepicker is visible
-          this.currentDate = new Dates(this.date.month(), this.date.year());
+          this.currentDate = new Dates(this.date.month(), this.date.year(), this.locale);
           this.mutableDate = this.date.clone();
 
           await this.$nextTick();
@@ -179,13 +180,13 @@ export default {
         month = (direction === 'prev' ? 11 : 0);
       }
       this.updateTransitions(direction);
-      this.currentDate = new Dates(month, year);
+      this.currentDate = new Dates(month, year, this.locale);
     },
     changeYear (direction) {
       let year = this.currentDate.year + (direction === 'prev' ? -1 : +1);
       const month = this.currentDate.month;
       this.updateTransitions(direction);
-      this.currentDate = new Dates(month, year);
+      this.currentDate = new Dates(month, year, this.locale);
     },
     updateTransitions (direction) {
       this.transitionDaysName = `slide-h-${direction}`;
@@ -201,11 +202,11 @@ export default {
     },
     selectedYearMonth (value, mode) {
       if (mode === 'year') {
-        this.currentDate = new Dates(this.currentDate.month, value);
+        this.currentDate = new Dates(this.currentDate.month, value, this.locale);
         this.yearMonthMode = 'month';
         return;
       }
-      this.currentDate = new Dates(value, this.currentDate.year);
+      this.currentDate = new Dates(value, this.currentDate.year, this.locale);
       this.hideYearMonthSelector();
     },
   },

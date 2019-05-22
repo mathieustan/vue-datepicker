@@ -29,7 +29,7 @@ describe('Transactions: Functions', () => {
 
     beforeEach(() => {
       dummyDate = dayjs(new Date([2019, 5, 16]));
-      newDate = new Dates(dummyDate.month(), dummyDate.year());
+      newDate = new Dates(dummyDate.month(), dummyDate.year(), { lang: 'en' });
     });
 
     it('should init Dates class with a date', () => {

@@ -11,7 +11,7 @@ describe('DatePickerYearMonth', () => {
 
   beforeEach(() => {
     mountComponent = ({
-      date = new Dates(dummyDate.month(), dummyDate.year()),
+      date = new Dates(dummyDate.month(), dummyDate.year(), { lang: 'en' }),
       mode = 'month',
       minDate,
       endDate,
@@ -129,7 +129,9 @@ describe('DatePickerYearMonth', () => {
       ])(
         'when currentDate equal %p, and year is %p, should return %p',
         (date, year, expectedResult) => {
-          const wrapper = mountComponent({ date: new Dates(date.month(), date.year()) });
+          const wrapper = mountComponent({
+            date: new Dates(date.month(), date.year(), { lang: 'en' }),
+          });
           expect(wrapper.vm.isSelectedYear(year)).toEqual(expectedResult);
         }
       );
@@ -142,7 +144,9 @@ describe('DatePickerYearMonth', () => {
       ])(
         'when currentDate equal %p, and month is %p, should return %p',
         (date, month, expectedResult) => {
-          const wrapper = mountComponent({ date: new Dates(date.month(), date.year()) });
+          const wrapper = mountComponent({
+            date: new Dates(date.month(), date.year(), { lang: 'en' }),
+          });
           expect(wrapper.vm.isSelectedMonth(month)).toEqual(expectedResult);
         }
       );

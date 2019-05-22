@@ -12,8 +12,9 @@ describe('DatePickerControls', () => {
 
   beforeEach(() => {
     mountComponent = ({
-      date = new Dates(dummyDate.month(), dummyDate.year()),
+      date = new Dates(dummyDate.month(), dummyDate.year(), { lang: 'en' }),
       mode = 'month',
+      locale = { lang: 'en' },
       minDate,
       endDate,
     } = {}) =>
@@ -21,6 +22,7 @@ describe('DatePickerControls', () => {
         propsData: {
           currentDate: date,
           mode,
+          locale,
           minDate,
           endDate,
         },

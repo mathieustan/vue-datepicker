@@ -6,7 +6,8 @@ dayjs.extend(weekDay);
 dayjs.extend(weekOfYear);
 
 export default class PickerDate {
-  constructor (month, year) {
+  constructor (month, year, { lang = getDefaultLocale() } = {}) {
+    dayjs.locale(lang);
     this.start = dayjs().year(year).month(month).startOf('month');
     this.end = this.start.endOf('month');
     this.month = month;

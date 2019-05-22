@@ -28,6 +28,7 @@
         <DatePickerControls
           :current-date="currentDate"
           :transition-name="transitionName"
+          :locale="locale"
           :min-date="minDate"
           :end-date="endDate"
           mode="year"
@@ -70,6 +71,7 @@ export default {
   components: { DatePickerControls },
   props: {
     transitionName: { type: String, default: String },
+    locale: { type: Object, default: Object },
     color: { type: String, default: String },
     mode: { type: String, default: String },
     currentDate: { type: Object, default: Object },
