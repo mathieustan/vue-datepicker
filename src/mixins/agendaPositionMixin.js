@@ -17,6 +17,7 @@ const agendaPositionMixin = {
     },
   },
   mounted () {
+    if (this.inline) return;
     // We're using a `requestAnimationFrame()`
     // for optimal performance.
     const eventHandler = () => requestAnimationFrame(this.updatePosition);

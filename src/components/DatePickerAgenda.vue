@@ -1,8 +1,9 @@
 <template>
   <transition name="datepicker-slide" appear>
     <div
-      v-if="isVisible"
+      v-if="shouldShowAgenda"
       :style="styles"
+      :class="{ 'inline' : inline }"
       class="datepicker"
       name="datepicker-slide"
       @click.stop>
@@ -103,6 +104,7 @@ export default {
   props: {
     date: { type: [Date, Object], required: true },
     isVisible: { type: Boolean, default: false },
+    inline: { type: Boolean, default: false },
     locale: { type: Object },
     color: { type: String },
     close: { type: Function },
@@ -137,14 +139,28 @@ export default {
         transformOrigin: this.origin,
       };
     },
+    shouldShowAgenda () {
+      return this.isVisible || this.inline;
+    },
   },
   watch: {
-    isVisible: {
-      async handler (bool) {
-        if (bool) {
+    // When date change (after being visibled),
+    // should update currentDate & mutableDate
+    date (newDate) {
+      this.currentDate = new Dates(newDate.month(), newDate.year(), this.locale);
+      this.mutableDate = newDate.clone();
+    },
+    // When agenda should be visible => init currentDate & mutableDate
+    // When agenda should be hidden => reset data
+    shouldShowAgenda: {
+      async handler (show) {
+        if (show) {
           // init data when datepicker is visible
           this.currentDate = new Dates(this.date.month(), this.date.year(), this.locale);
           this.mutableDate = this.date.clone();
+
+          // If inline, we don't need to update position
+          if (this.inline) return;
 
           await this.$nextTick();
           // from @/mixins/agendaPositionMixin
@@ -227,6 +243,11 @@ export default {
     z-index: 5;
     background-color: white;
     box-shadow: 0 14px 45px rgba(0,0,0,.25), 0 10px 18px rgba(0,0,0,.22);
+
+    &.inline {
+      position: relative;
+      box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+    }
   }
 
   .datepicker-slide-enter-active,

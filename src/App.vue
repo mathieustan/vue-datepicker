@@ -175,6 +175,25 @@
             </pre>
           </div>
         </div>
+
+        <!-- EXAMPLE : Inline -->
+        <p class="subtitle"> <span class="tile" /> Inline: </p>
+        <div class="example">
+          <div class="example-row example-row__column">
+            Example:
+            <DatePicker v-model="currentDate" :inline="true" />
+          </div>
+          <div class="example-code">
+            <pre class="language-HTML" data-title="html">
+<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token attr-name">:inline</span>="true" <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+</code>
+            </pre>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -282,6 +301,15 @@ export default {
       border-radius: 8px 8px 0 0;
       font-size: 16px;
       line-height: 16px;
+
+      &.example-row__column {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .datepicker-container {
+          margin-top: ($gutter*2);
+        }
+      }
     }
 
     .example-code {

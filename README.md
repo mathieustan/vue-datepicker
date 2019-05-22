@@ -88,6 +88,7 @@ Using `v-model`
 | minDate                       | String\|Number\|Date |         | Date are available FROM this date       |
 | endDate                       | String\|Number\|Date |         | Date are disabled AFTER this date       |
 | disabled                      | Boolean        | false         | Datepicker disabled or not              |
+| inline                        | Boolean        | false         | Inline datepicker                       |
 
 ## Date Formatting
 

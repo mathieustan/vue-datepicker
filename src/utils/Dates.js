@@ -50,7 +50,7 @@ export function setLocaleLang ({ lang }) {
     dayjs.locale(locale);
   } catch (error) {
     console.error(`
-      Couldn\t find any locale file for this lang: ${lang}.
+      Couldn't find any locale file for this lang: ${lang}.
       Please look at dayjs documentation`
     );
     dayjs.locale('en');

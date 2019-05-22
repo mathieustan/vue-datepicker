@@ -41,6 +41,15 @@ describe('Transactions: Functions', () => {
       });
     });
 
+    it('should init Dates class with a date', () => {
+      expect(newDate).toEqual({
+        start: dummyDate.startOf('month'),
+        end: dummyDate.endOf('month'),
+        month: 4,
+        year: 2019,
+      });
+    });
+
     it('should return a number when week start', () => {
       expect(newDate.getWeekStart()).toEqual(3);
     });

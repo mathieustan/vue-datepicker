@@ -3,6 +3,7 @@
     v-click-outside="hideDatePicker"
     class="datepicker-container">
     <DatePickerCustomInput
+      v-if="!inline"
       :id="id"
       :name="name"
       :date="date"
@@ -14,6 +15,7 @@
     />
     <DatepickerAgenda
       :isVisible="isVisible"
+      :inline="inline"
       :date="date"
       :locale="locale"
       :color="color"
@@ -57,7 +59,8 @@ export default {
     endDate: { type: [String, Number, Date] },
     // Disabled all datepicker
     disabled: { type: Boolean, default: false },
-
+    // Inline
+    inline: { type: Boolean, default: false },
     // TODO : Props to add
     // type (date, month or year picker)
   },
@@ -116,6 +119,7 @@ export default {
   .datepicker-container {
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
     cursor: pointer;
   }

@@ -31,6 +31,7 @@ describe('DatePickerAgenda', () => {
       endDate,
       locale = { lang: 'en' },
       isVisible = true,
+      inline = false,
     } = {}) =>
       shallowMount(DatePickerAgenda, {
         propsData: {
@@ -38,6 +39,7 @@ describe('DatePickerAgenda', () => {
           minDate,
           endDate,
           isVisible,
+          inline,
           locale,
           color: 'color',
           close: jest.fn(),
@@ -78,11 +80,47 @@ describe('DatePickerAgenda', () => {
         expect(wrapper.vm.classWeeks).toEqual(expectedResult);
       });
     });
+
+    describe('shouldShowAgenda', () => {
+      it.each([
+        [{ isVisible: true, inline: false }, true],
+        [{ isVisible: false, inline: true }, true],
+        [{ isVisible: false, inline: false }, false],
+      ])('when props equal %p, should return %p', (props, expectedResult) => {
+        const wrapper = mountComponent(props);
+        expect(wrapper.vm.shouldShowAgenda).toEqual(expectedResult);
+      });
+    });
   });
 
   describe('watch', () => {
-    describe('isVisible', () => {
-      it('should init currentDate & mutableDate isVisible equal true', async () => {
+    describe('date', () => {
+      it('should update currentDate & mutableDate when date change', () => {
+        const wrapper = mountComponent({ isVisible: false, inline: true });
+        const newDate = dummyDate.add(1, 'day');
+
+        expect(wrapper.vm.currentDate).toEqual({
+          start: dummyDate.startOf('month'),
+          end: dummyDate.endOf('month'),
+          month: 4,
+          year: 2019,
+        });
+        expect(wrapper.vm.mutableDate).toEqual(dummyDate);
+
+        wrapper.setProps({ date: newDate });
+
+        expect(wrapper.vm.currentDate).toEqual({
+          start: newDate.startOf('month'),
+          end: newDate.endOf('month'),
+          month: 4,
+          year: 2019,
+        });
+        expect(wrapper.vm.mutableDate).toEqual(newDate);
+      });
+    });
+
+    describe('shouldShowAgenda', () => {
+      it('should init currentDate & mutableDate if isVisible equal true', async () => {
         const wrapper = mountComponent({ isVisible: false });
         jest.spyOn(wrapper.vm, 'updatePosition').mockReturnValue(true);
 
@@ -101,6 +139,27 @@ describe('DatePickerAgenda', () => {
 
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.updatePosition).toHaveBeenCalled();
+      });
+
+      it('should not update position if inline equal true', async () => {
+        const wrapper = mountComponent({ isVisible: false, inline: false });
+        jest.spyOn(wrapper.vm, 'updatePosition').mockReturnValue(true);
+
+        expect(wrapper.vm.currentDate).toEqual(undefined);
+        expect(wrapper.vm.mutableDate).toEqual(undefined);
+
+        wrapper.setProps({ inline: true });
+
+        expect(wrapper.vm.currentDate).toEqual({
+          start: dummyDate.startOf('month'),
+          end: dummyDate.endOf('month'),
+          month: 4,
+          year: 2019,
+        });
+        expect(wrapper.vm.mutableDate).toEqual(dummyDate);
+
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.updatePosition).not.toHaveBeenCalled();
       });
 
       it('should reset if isVisible equal false', () => {
