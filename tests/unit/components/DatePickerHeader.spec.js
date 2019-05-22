@@ -7,12 +7,14 @@ describe('DatePickerHeader', () => {
   const dummyDate = dayjs(new Date([2019, 5, 16]));
 
   beforeEach(() => {
-    mountComponent = ({ date = dummyDate } = {}) =>
+    mountComponent = ({ date = dummyDate, formatHeader = 'dddd DD MMM' } = {}) =>
       shallowMount(DatePickerHeader, {
         propsData: {
           mutableDate: date,
           color: 'color',
           locale: { lang: 'en' },
+          formatHeader,
+          mode: undefined,
         },
       });
   });
@@ -27,6 +29,9 @@ describe('DatePickerHeader', () => {
     expect(wrapper.isVueInstance()).toBeTruthy();
     expect(wrapper.vm.color).toEqual('color');
     expect(wrapper.vm.mutableDate).toEqual(dummyDate);
+    expect(wrapper.vm.locale).toEqual({ lang: 'en' });
+    expect(wrapper.vm.formatHeader).toEqual('dddd DD MMM');
+    expect(wrapper.vm.mode).toEqual(undefined);
   });
 
   describe('computed', () => {

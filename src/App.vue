@@ -74,6 +74,25 @@
           </div>
         </div>
 
+        <!-- EXAMPLE : Format Header  -->
+        <p class="subtitle"> <span class="tile" /> FormatHeader: </p>
+        <div class="example">
+          <div class="example-row example-row__column">
+            Example:
+            <DatePicker v-model="currentDate" format-header="DD MMMM" />
+          </div>
+          <div class="example-code">
+            <pre class="language-HTML" data-title="html">
+<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token attr-name">format-header</span>="DD MMMM" <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+</code>
+            </pre>
+          </div>
+        </div>
+
         <!-- EXAMPLE : Visible -->
         <p class="subtitle"> <span class="tile" /> Visible: </p>
         <div class="example">
@@ -194,6 +213,7 @@
             </pre>
           </div>
         </div>
+
       </div>
     </div>
   </div>

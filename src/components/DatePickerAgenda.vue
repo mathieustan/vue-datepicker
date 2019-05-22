@@ -13,6 +13,7 @@
         :mutable-date="mutableDate"
         :color="color"
         :locale="locale"
+        :format-header="formatHeader"
         :mode="yearMonthMode"
       />
 
@@ -107,6 +108,7 @@ export default {
     inline: { type: Boolean, default: false },
     locale: { type: Object },
     color: { type: String },
+    formatHeader: { type: String },
     close: { type: Function },
     minDate: { type: [String, Number, Date] },
     endDate: { type: [String, Number, Date] },

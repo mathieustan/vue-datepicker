@@ -18,6 +18,7 @@
       :inline="inline"
       :date="date"
       :locale="locale"
+      :format-header="formatHeader"
       :color="color"
       :close="hideDatePicker"
       :min-date="minDate"
@@ -45,6 +46,7 @@ export default {
     value: { type: [String, Number, Date], required: true, default: Date.now() },
     // Input selected date format
     format: { type: String, default: 'DD MMMM YYYY' },
+    formatHeader: { type: String, default: 'dddd DD MMM' },
     // Show/hide datepicker
     visible: { type: Boolean, default: false },
     // Sets the locale.

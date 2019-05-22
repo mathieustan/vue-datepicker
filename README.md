@@ -81,7 +81,8 @@ Using `v-model`
 | value                         | Date\|String\|Number |             | Date value of the datepicker        |
 | name                          | String          | 'datepicker'| Input name property                      |
 | id                            | String          | 'datepicker'| Input id                                 |
-| format                        | String          | DD MMMM YYYY| Date formatting string or function       |
+| format                        | String          | DD MMMM YYYY| Date formatting for input                |
+| formatHeader                  | String          | dddd DD MMM | Date formatting for datepicker header    |
 | locale                        | Object          |{lang: 'en'} | More informations here [Translations](#translations)        |
 | visible                       | Boolean         | false        | See below for configuration              |
 | color                         | String          | #4f88ff      | Default color for datepicker            |

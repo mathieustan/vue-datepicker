@@ -24,6 +24,7 @@ export default {
     color: { type: String },
     mutableDate: { type: [String, Object] },
     locale: { type: Object },
+    formatHeader: { type: String },
     mode: { type: String },
   },
   computed: {
@@ -31,7 +32,7 @@ export default {
       return formatDateWithLocale(this.mutableDate, this.locale, 'YYYY');
     },
     dateFormatted () {
-      return formatDateWithLocale(this.mutableDate, this.locale, 'dddd DD MMM');
+      return formatDateWithLocale(this.mutableDate, this.locale, this.formatHeader);
     },
   },
 };
