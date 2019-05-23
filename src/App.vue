@@ -301,6 +301,10 @@ export default {
 
   .datepicker-container {
     margin: 0 $gutter*2;
+
+    .example-inline & {
+      margin: $gutter*2 0;
+    }
   }
 
   h2 {

@@ -81,6 +81,19 @@ describe('DatePickerAgenda', () => {
       });
     });
 
+    describe('spaceBeforeFirstDay', () => {
+      it.each([
+        [dayjs(new Date([2018, 5, 16])), [0, 1]],
+        [dayjs(new Date([2018, 9, 16])), [0, 1, 2, 3, 4, 5]],
+      ])(
+        'when date equal %p, should return %p (amount of days before month start)',
+        (date, expectedResult) => {
+          const wrapper = mountComponent({ date });
+          expect(wrapper.vm.spaceBeforeFirstDay).toEqual(expectedResult);
+        }
+      );
+    });
+
     describe('shouldShowAgenda', () => {
       it.each([
         [{ isVisible: true, inline: false }, true],

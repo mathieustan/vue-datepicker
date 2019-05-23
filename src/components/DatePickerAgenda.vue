@@ -49,8 +49,9 @@
             :key="dates.month"
             class="datepicker-days">
             <div
+              v-for="day in spaceBeforeFirstDay"
+              :key="`space-${day}`"
               class="datepicker-day"
-              :style="{ width: `${currentDate.getWeekStart() * 41}px` }"
             />
             <button
               v-for="(day, index) in currentDate.getDays()"
@@ -124,6 +125,9 @@ export default {
   computed: {
     weekDays () {
       return getWeekDays(this.locale);
+    },
+    spaceBeforeFirstDay () {
+      return [...Array(this.currentDate.getWeekStart()).keys()];
     },
     classWeeks () {
       // if yearMonth selector is opened, stop changing class
@@ -238,17 +242,23 @@ export default {
     position: absolute;
     display: flex;
     flex-direction: column;
-    width: 315px;
+    width: get-size(mobile, width);
     left: 0;
     top: 100%;
     will-change: transform;
     z-index: 5;
     background-color: white;
     box-shadow: 0 14px 45px rgba(0,0,0,.25), 0 10px 18px rgba(0,0,0,.22);
+    z-index: 2;
+
+    @include mq(tablet) {
+      width: get-size(desktop, width);
+    }
 
     &.inline {
       position: relative;
       box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+      z-index: 1;
     }
   }
 
@@ -277,13 +287,21 @@ export default {
     font-size: 12px;
     line-height: 12px;
     font-weight: 600;
-    padding: $gutter 14px;
+    padding: $gutter 12px;
     color: rgba(0,0,0,0.38);
+
+    @include mq(tablet) {
+      padding: $gutter 14px;
+    }
 
     .datepicker-weekday {
       float: left;
-      width: get-size(day);
+      width: get-size(mobile, day-width);
       text-align: center;
+
+      @include mq(tablet) {
+        width: get-size(desktop, day-width);
+      }
     }
   }
 
@@ -292,13 +310,22 @@ export default {
   // ----------------------
   .datepicker-days__wrapper {
     position: relative;
-    height: get-size(day) * 5;
-    margin: 0 14px 14px;
+    height: get-size(mobile, day-height) * 5;
+    margin: 0 12px 12px;
     overflow: hidden;
     transition: height .3s cubic-bezier(0.23, 1, 0.32, 1);
 
+    @include mq(tablet) {
+      margin: 0 14px 14px;
+      height: get-size(desktop, day-height) * 5;
+    }
+
     &.has-6-weeks {
-      height: get-size(day) * 6;
+      height: get-size(mobile, day-height) * 6;
+
+      @include mq(tablet) {
+        height: get-size(desktop, day-height) * 6;
+      }
     }
   }
 
@@ -310,10 +337,10 @@ export default {
     .datepicker-day {
       @include reset-button;
       position: relative;
-      width: get-size(day);
-      height: get-size(day);
+      width: get-size(mobile, day-width);
+      height: get-size(mobile, day-height);
+      line-height: 1;
       font-size: 12px;
-      line-height: get-size(day);
       float: left;
       text-align: center;
       color: rgba(0,0,0,0.87);
@@ -321,8 +348,15 @@ export default {
       cursor: pointer;
       transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);
 
+      @include mq(tablet) {
+        width: get-size(desktop, day-width);
+        height: get-size(desktop, day-height);
+        line-height: get-size(desktop, day-height);
+      }
+
       &:hover:not(.disabled) {
         color: white;
+
         .datepicker-day__effect {
           transform: scale(1);
           opacity: .6;
@@ -348,22 +382,34 @@ export default {
       left: 0;
       right: 0;
       margin: auto;
-      width: 36px;
-      height: 36px;
+      width: #{get-size(mobile, day-height) - 2};
+      height: #{get-size(mobile, day-height) - 2};
       border-radius: 50%;
       border: 1px solid currentColor;
+
+      @include mq(tablet) {
+        width: 36px;
+        height: 36px;
+      }
     }
 
     .datepicker-day__effect {
       position: absolute;
-      top: 4px;
+      top: 1px;
       left: 2px;
-      width: 36px;
-      height: 36px;
+      width: #{get-size(mobile, day-height) - 2};
+      height: #{get-size(mobile, day-height) - 2};
       border-radius: 50%;
       transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);
       transition-property: transform;
       transform: scale(0);
+
+      @include mq(tablet) {
+        top: 4px;
+        left: 2px;
+        width: 36px;
+        height: 36px;
+      }
     }
     .datepicker-day__text {
       position: relative;

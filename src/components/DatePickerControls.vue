@@ -110,10 +110,14 @@ export default {
   .datepicker-controls {
     position: relative;
     display: flex;
-    height: get-size(controls);
+    height: get-size(mobile, controls);
     text-align: center;
     position: relative;
     width: 100%;
+
+    @include mq(tablet) {
+      height: get-size(desktop, controls);
+    }
 
     .datepicker-controls__wrapper {
       position: relative;
@@ -166,14 +170,19 @@ export default {
 
     button.datepicker-controls__prev,
     button.datepicker-controls__next {
-      height: get-size(controls);
-      width: get-size(controls);
+      height: get-size(mobile, controls);
+      width: get-size(mobile, controls);
       position: relative;
       border: none;
       outline: none;
       background-color: transparent;
       user-select: none;
       cursor: pointer;
+
+      @include mq(tablet) {
+        height: get-size(desktop, controls);
+        width: get-size(desktop, controls);
+      }
 
       &.datepicker-controls__next {
         flex: 0 0 40px;

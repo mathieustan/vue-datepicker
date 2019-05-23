@@ -1,14 +1,32 @@
 {
   "name": "vue-datepicker",
+  "description": "A clean datepicker made with VueJs",
   "version": "0.0.1",
   "private": true,
-  "description": "A clean datepicker made with VueJs",
-  "author": "Stanowski Mathieu",
-  "license": "MIT",
-  "main": "./dist/vue-datepicker.common.js",
-  "files": [
-    "dist/"
+  "author": {
+    "name": "Mathieu Stanowski",
+    "email": "mathieu.stan@gmail.com"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "javascript",
+    "vue-component",
+    "date",
+    "picker",
+    "datepicker"
   ],
+  "license": "MIT",
+  "main": "dist/vue-datepicker.common.js",
+  "unpkg": "dist/vue-datepicker.min.js",
+  "files": [ "dist/" ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mathieustan/vue-datepicker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mathieustan/vue-datepicker/issues"
+  },
   "homepage": "https://vue-datepicker.netlify.com/",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -42,13 +60,5 @@
     "sass": "^1.18.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.5.21"
-  },
-  "keywords": [
-    "vue",
-    "javascript",
-    "vue-component",
-    "date",
-    "picker",
-    "datepicker"
-  ]
+  }
 }

@@ -56,7 +56,7 @@ describe('DatePickerAgenda', () => {
     });
 
     it('should init listeners', () => {
-      const wrapper = mountComponent({ isVisible: false });
+      const wrapper = mountComponent();
       jest.spyOn(wrapper.vm, 'updatePosition').mockReturnValue(true);
 
       expect(window.addEventListener).toHaveBeenCalledWith('resize', expect.any(Function));
@@ -70,5 +70,13 @@ describe('DatePickerAgenda', () => {
   });
 
   describe('methods', () => {
+    describe('updatePosition', () => {
+      it('should call computePositionFromParent & update windowWidth', () => {
+        const wrapper = mountComponent();
+
+        wrapper.vm.updatePosition();
+        expect(utilsFunctions.computePositionFromParent).toHaveBeenCalled();
+      });
+    });
   });
 });
