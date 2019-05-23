@@ -2,12 +2,18 @@
   "name": "vue-datepicker",
   "version": "0.0.1",
   "private": true,
-  "description": "The perfect VueJs datepicker you'll love",
+  "description": "A clean datepicker made with VueJs",
   "author": "Stanowski Mathieu",
   "license": "MIT",
+  "main": "./dist/vue-datepicker.common.js",
+  "files": [
+    "dist/"
+  ],
+  "homepage": "https://vue-datepicker.netlify.com/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:bundle": "vue-cli-service build --target lib --name vue-datepicker ./src/components/index.js",
     "lint": "vue-cli-service lint --ext .js,.vue src tests/unit/*",
     "lint:fix": "npm run lint --fix",
     "test:client": "vue-cli-service test:unit"
@@ -35,5 +41,13 @@
     "sass": "^1.18.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.5.21"
-  }
+  },
+  "keywords": [
+    "vue",
+    "javascript",
+    "vue-component",
+    "date",
+    "picker",
+    "datepicker"
+  ]
 }
