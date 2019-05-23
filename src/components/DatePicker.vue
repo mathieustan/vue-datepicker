@@ -83,9 +83,12 @@ export default {
       },
       immediate: true,
     },
-  },
-  created () {
-    setLocaleLang(this.locale);
+    locale: {
+      handler (newLocale) {
+        setLocaleLang(newLocale);
+      },
+      immediate: true,
+    },
   },
   methods: {
     toggleDatepicker () {

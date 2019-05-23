@@ -36,6 +36,8 @@ module.exports = {
     '!**/node_modules/**',
     // exclude the root component app.vue
     '!src/App.vue',
+    // exclude the examples component
+    '!src/examples/**',
   ],
   coverageDirectory: '<rootDir>/tests/coverage/',
   coverageThreshold: {
