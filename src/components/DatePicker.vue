@@ -12,6 +12,7 @@
       :color="color"
       :disabled="disabled"
       @toggleDatepicker="toggleDatepicker"
+      @focus="showDatePicker"
     />
     <DatepickerAgenda
       :isVisible="isVisible"
@@ -90,25 +91,31 @@ export default {
       immediate: true,
     },
   },
+  beforeDestroy () {
+    this.$emit('onDestroy');
+  },
   methods: {
     toggleDatepicker () {
-      if (this.disabled) return;
-
       if (this.isVisible) {
         this.hideDatePicker();
         return;
       }
-
+      this.showDatePicker();
+    },
+    showDatePicker () {
+      if (this.disabled) return;
       this.isVisible = true;
-      setTimeout(() => document.addEventListener('click', this.hideDatePicker), 0);
+      this.$emit('onOpen');
     },
     hideDatePicker () {
+      if (!this.isVisible) return;
       this.isVisible = false;
-      document.removeEventListener('click', this.hideDatePicker);
+      this.$emit('onClose');
     },
     changeDate (date) {
       this.date = date;
       this.$emit('input', this.date.format('YYYY-MM-DD'));
+      this.$emit('onChange');
     },
   },
 };

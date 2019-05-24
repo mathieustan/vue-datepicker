@@ -8,8 +8,8 @@
 - [Install](#install)
 - [Usage](#usage)
 - [Props](#available-props)
-- [Date Formatting](#date-formatting)
 - [Events](#events)
+- [Date Formatting](#date-formatting)
 - [Translations](#translations)
 
 ## Demo
@@ -91,6 +91,15 @@ Using `v-model`
 | disabled                      | Boolean        | false         | Datepicker disabled or not              |
 | inline                        | Boolean        | false         | Inline datepicker                       |
 
+## Events
+
+| Event                         | Output          | Description                                            |
+|-------------------------------|-----------------|--------------------------------------------------------|
+| onOpen                        |                 | datepicker opened                                      |
+| onClose                       |                 | datepicker closed                                      |
+| onChange                      |                 | datepicker changed                                     |
+| onDestroy                     |                 | datepicker destroyed                                   |
+
 ## Date Formatting
 
 You can use this with `format` props.
@@ -126,10 +135,6 @@ Example :
 | `A`    | AM PM            | Post or ante meridiem, upper-case |
 | `a`    | am pm            | Post or ante meridiem, lower-case |
 | `Do`   | 1st... 31st      | Day of Month with ordinal         |
-
-## Events
-
-Coming soon
 
 ## Translations
 

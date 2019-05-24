@@ -1,8 +1,10 @@
 <template>
   <div
     class="datepicker-input"
-    @click="$emit('toggleDatepicker')">
-    <DatePickerCalendarIcon :color="color" />
+    @mousedown="$emit('toggleDatepicker')">
+    <DatePickerCalendarIcon
+      :id="id"
+      :color="color" />
     <input
       :id="id"
       :name="id"
@@ -10,7 +12,9 @@
       :value="dateFormatted"
       :disabled="disabled"
       type="text"
-      readonly>
+      readonly
+      @focus="$emit('focus')"
+    >
   </div>
 </template>
 

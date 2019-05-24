@@ -150,9 +150,11 @@ export default {
         padding: $gutter $gutter/2;
 
         button {
+          @include reset-button;
           position: relative;
           display: flex;
           font-size: 15px;
+          font-weight: 500;
           line-height: 15px;
           padding: 0;
           border: none;

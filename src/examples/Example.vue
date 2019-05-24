@@ -1,14 +1,22 @@
 <template>
   <div class="example-wrapper">
     <!-- EXAMPLE : Default -->
-    <p class="subtitle"> <span class="tile" />{{ title }} : </p>
-    <div class="example">
+    <div class="example-title">
+      <p class="title">{{ title }} : </p>
+      <div class="inputs">
+        <slot name="inputs" />
+      </div>
+    </div>
+    <div class="example-content">
       <div class="example-row">
         <p>Example:</p>
         <slot name="datepicker" />
       </div>
       <div class="example-code">
         <slot name="code" />
+      </div>
+      <div class="example-result">
+        <p>v-model="{{ currentDate }}"</p>
       </div>
     </div>
   </div>
@@ -19,6 +27,7 @@ export default {
   name: 'Example',
   props: {
     title: { type: String, default: String },
+    currentDate: { type: [String, Object, Date] },
   },
 };
 </script>
@@ -29,6 +38,11 @@ export default {
     display: flex;
     flex-direction: column;
     margin-bottom: ($gutter*4);
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),
+        0px 2px 2px 0px rgba(0,0,0,0.14),
+        0px 1px 5px 0px rgba(0,0,0,0.12);
 
     @include mq(tablet) {
       margin-bottom: ($gutter*6);
@@ -42,29 +56,31 @@ export default {
     }
   }
 
-  p.subtitle {
-      display: flex;
-      align-items: center;
-      margin-bottom: $gutter*2;
+  .example-title {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    padding: $gutter*2;
+    margin: 0;
+    border-radius: 8px 8px 0 0;
 
-      .tile {
-        background-color: color(other, dark-purple);
-        height: 8px;
-        width: 8px;
-        border-radius: 50%;
-        margin-right: $gutter;
-      }
+    .title {
+      font-weight: 500;
+      margin: 0;
     }
+  }
 
-  .example {
+  .example-content {
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
-    border: 1px solid color(other, light-gray);
-    border-radius: 8px;
+    border-top: 1px solid color(other, light-gray);
+    font-size: 16px;
+    line-height: 16px;
 
     .example-row {
       position: relative;
@@ -74,9 +90,6 @@ export default {
       width: 100%;
       padding: $gutter*2;
       background-color: white;
-      border-radius: 8px 8px 0 0;
-      font-size: 16px;
-      line-height: 16px;
     }
 
     .example-code {
@@ -85,13 +98,26 @@ export default {
       justify-content: flex-start;
       align-items: flex-start;
       width: 100%;
-      border-radius: 0 0 8px 8px;
 
       pre {
         width: 100%;
         margin: 0;
         border-radius: 0;
+
+        &:after {
+          border-radius: 0;
+        }
       }
+    }
+
+    .example-result {
+      position: relative;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: 100%;
+      padding: $gutter*2;
+      border-radius: 0 0 8px 8px;
     }
   }
 </style>
