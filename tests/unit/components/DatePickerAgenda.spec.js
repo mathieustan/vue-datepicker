@@ -32,6 +32,7 @@ describe('DatePickerAgenda', () => {
       locale = { lang: 'en' },
       isVisible = true,
       inline = false,
+      type = 'date',
     } = {}) =>
       shallowMount(DatePickerAgenda, {
         propsData: {
@@ -43,6 +44,7 @@ describe('DatePickerAgenda', () => {
           locale,
           color: 'color',
           close: jest.fn(),
+          type,
         },
         attachToDocument: true,
       });
@@ -188,10 +190,32 @@ describe('DatePickerAgenda', () => {
         wrapper.setProps({ isVisible: false });
         expect(wrapper.vm.transitionDaysName).toEqual('slide-h-next');
         expect(wrapper.vm.transitionLabelName).toEqual('slide-v-next');
-        expect(wrapper.vm.shouldShowYearMonthSelector).toEqual(false);
+        expect(wrapper.vm.shouldShowYearMonthSelector).toEqual(undefined);
         expect(wrapper.vm.yearMonthMode).toEqual(undefined);
       });
 
+    });
+
+    describe('type', () => {
+      it('should init shouldShowYearMonthSelector && yearMonthMode from type', () => {
+        const wrapper = mountComponent({ type: 'month' });
+        expect(wrapper.vm.shouldShowYearMonthSelector).toEqual(true);
+        expect(wrapper.vm.yearMonthMode).toEqual('month');
+
+        wrapper.setProps({ type: 'date' });
+        expect(wrapper.vm.shouldShowYearMonthSelector).toEqual(false);
+        expect(wrapper.vm.yearMonthMode).toEqual('date');
+      });
+
+      it('should init shouldShowYearMonthSelector && yearMonthMode from type', () => {
+        const wrapper = mountComponent({ type: 'date' });
+        expect(wrapper.vm.shouldShowYearMonthSelector).toEqual(false);
+        expect(wrapper.vm.yearMonthMode).toEqual('date');
+
+        wrapper.setProps({ type: 'month' });
+        expect(wrapper.vm.shouldShowYearMonthSelector).toEqual(true);
+        expect(wrapper.vm.yearMonthMode).toEqual('month');
+      });
     });
   });
 
@@ -239,11 +263,25 @@ describe('DatePickerAgenda', () => {
     });
 
     describe('selectDate', () => {
-      it('Should send an event with selected date', () => {
+      it('Should send an event with selected date & update transition with next', () => {
         const wrapper = mountComponent();
+        jest.spyOn(wrapper.vm, 'updateTransitions');
         const newDate = dayjs(new Date([2019, 9, 16]));
         wrapper.vm.selectDate(newDate);
 
+        expect(wrapper.vm.updateTransitions).toHaveBeenCalledWith('next');
+        expect(wrapper.vm.mutableDate).toEqual(newDate);
+        expect(wrapper.emitted().selectDate).toBeTruthy();
+        expect(wrapper.vm.close).toHaveBeenCalled();
+      });
+
+      it('Should send an event with selected date & update transaction with prev', () => {
+        const wrapper = mountComponent();
+        jest.spyOn(wrapper.vm, 'updateTransitions');
+        const newDate = dayjs(new Date([2019, 4, 16]));
+        wrapper.vm.selectDate(newDate);
+
+        expect(wrapper.vm.updateTransitions).toHaveBeenCalledWith('prev');
         expect(wrapper.vm.mutableDate).toEqual(newDate);
         expect(wrapper.emitted().selectDate).toBeTruthy();
         expect(wrapper.vm.close).toHaveBeenCalled();
@@ -369,11 +407,31 @@ describe('DatePickerAgenda', () => {
         'When value selected is %p, mode equal %p, currentDate should equal %p',
         (value, mode, expectedResult) => {
           const wrapper = mountComponent();
+          jest.spyOn(wrapper.vm, 'hideYearMonthSelector');
           wrapper.vm.selectedYearMonth(value, mode);
 
           expect(wrapper.vm.currentDate).toEqual(expectedResult);
+
+          if (mode === 'month') {
+            expect(wrapper.vm.hideYearMonthSelector).toHaveBeenCalled();
+          }
         }
       );
+
+      it('should update selected date when type is month', () => {
+        const wrapper = mountComponent({ type: 'month' });
+        jest.spyOn(wrapper.vm, 'hideYearMonthSelector');
+
+        wrapper.vm.selectedYearMonth(2, 'month');
+        expect(wrapper.vm.currentDate).toEqual({
+          start: dummyDate.set('month', 2).startOf('month'),
+          end: dummyDate.set('month', 2).endOf('month'),
+          month: 2,
+          year: 2019,
+        });
+        expect(wrapper.emitted().selectDate[0]).toEqual([dayjs().year(2019).month(2)]);
+        expect(wrapper.vm.hideYearMonthSelector).not.toHaveBeenCalled();
+      });
     });
   });
 });

@@ -11,6 +11,7 @@
       <!-- Header -->
       <DatePickerHeader
         :mutable-date="mutableDate"
+        :transition-name="transitionLabelName"
         :color="color"
         :locale="locale"
         :format-header="formatHeader"
@@ -80,6 +81,7 @@
           :current-date="currentDate"
           :transition-name="transitionDaysName"
           :show-year-month-selector="showYearMonthSelector"
+          :color="color"
           :min-date="minDate"
           :end-date="endDate"
           @changeYear="changeYear"
@@ -91,7 +93,14 @@
 </template>
 
 <script>
-import Dates, { getWeekDays, isDateToday, isBeforeMinDate, isAfterEndDate } from '@/utils/Dates';
+import Dates, {
+  getWeekDays,
+  isDateToday,
+  isBeforeMinDate,
+  isAfterEndDate,
+  formatDateForMonthPicker,
+  isDateAfter,
+} from '@/utils/Dates';
 
 import agendaPositionMixin from '@/mixins/agendaPositionMixin';
 
@@ -113,13 +122,14 @@ export default {
     close: { type: Function },
     minDate: { type: [String, Number, Date] },
     endDate: { type: [String, Number, Date] },
+    type: { type: String },
   },
   data: () => ({
     currentDate: undefined,
     mutableDate: undefined,
     transitionDaysName: 'slide-h-next',
     transitionLabelName: 'slide-v-next',
-    shouldShowYearMonthSelector: false,
+    shouldShowYearMonthSelector: undefined,
     yearMonthMode: undefined,
   }),
   computed: {
@@ -156,6 +166,12 @@ export default {
       this.currentDate = new Dates(newDate.month(), newDate.year(), this.locale);
       this.mutableDate = newDate.clone();
     },
+    // When type change (after being visibled),
+    // should update shouldShowYearMonthSelector
+    type (newType) {
+      this.shouldShowYearMonthSelector = newType === 'month';
+      this.yearMonthMode = newType;
+    },
     // When agenda should be visible => init currentDate & mutableDate
     // When agenda should be hidden => reset data
     shouldShowAgenda: {
@@ -164,6 +180,8 @@ export default {
           // init data when datepicker is visible
           this.currentDate = new Dates(this.date.month(), this.date.year(), this.locale);
           this.mutableDate = this.date.clone();
+          this.shouldShowYearMonthSelector = this.type === 'month';
+          this.yearMonthMode = this.type;
 
           // If inline, we don't need to update position
           if (this.inline) return;
@@ -190,6 +208,9 @@ export default {
       return isDateToday(day);
     },
     selectDate (day) {
+      const direction = isDateAfter(day, this.mutableDate) ? 'next' : 'prev';
+      this.updateTransitions(direction);
+
       this.mutableDate = day.clone();
       this.$emit('selectDate', this.mutableDate);
       this.close();
@@ -229,6 +250,13 @@ export default {
         return;
       }
       this.currentDate = new Dates(value, this.currentDate.year, this.locale);
+
+      if (this.type === 'month') {
+        const newDate = formatDateForMonthPicker(this.currentDate.year, this.currentDate.month);
+        this.selectDate(newDate);
+        return;
+      }
+
       this.hideYearMonthSelector();
     },
   },

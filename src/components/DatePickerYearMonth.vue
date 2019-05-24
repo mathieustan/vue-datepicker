@@ -28,7 +28,6 @@
         <DatePickerControls
           :current-date="currentDate"
           :transition-name="transitionName"
-          :locale="locale"
           :min-date="minDate"
           :end-date="endDate"
           mode="year"
@@ -48,6 +47,10 @@
               v-for="(month, index) in getMonths"
               :key="index"
               :disabled="isMonthDisabled(index)"
+              :style="{
+                color: isSelectedMonth(index) ? '#fff' : '',
+                backgroundColor: isSelectedMonth(index) ? color : '',
+              }"
               type="button"
               @click="onSelect(index)"
             >
@@ -70,13 +73,11 @@ export default {
   name: 'DatePickerYearMonth',
   components: { DatePickerControls },
   props: {
-    transitionName: { type: String, default: String },
-    locale: { type: Object, default: Object },
-    color: { type: String, default: String },
     mode: { type: String, default: String },
     currentDate: { type: Object, default: Object },
-    isVisible: { type: Boolean, default: false },
+    transitionName: { type: String, default: String },
     showYearMonthSelector: { type: Function },
+    color: { type: String, default: String },
     minDate: { type: [String, Date, Object] },
     endDate: { type: [String, Date, Object] },
   },
@@ -263,6 +264,18 @@ export default {
         &[disabled] {
           cursor: default;
           color: rgba(0,0,0,0.26);
+        }
+
+        .datepicker-month--current {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: auto;
+          width: 100%;
+          height: 30px;
+          background-color: currentColor;
         }
       }
     }

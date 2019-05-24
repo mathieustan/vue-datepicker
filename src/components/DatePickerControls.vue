@@ -69,7 +69,6 @@ export default {
     transitionName: { type: String },
     currentDate: { type: Object, required: true },
     mode: { type: String, default: 'month' },
-    locale: { type: Object },
     minDate: { type: [String, Number, Date] },
     endDate: { type: [String, Number, Date] },
   },

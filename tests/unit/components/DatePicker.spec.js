@@ -2,16 +2,25 @@ import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
 import DatePicker from '@/components/DatePicker.vue';
 
+import { DEFAULT_INPUT_DATE_FORMAT, DEFAULT_HEADER_DATE_FORMAT } from '@/constants';
+
 describe('DatePicker', () => {
   let mountComponent;
   const dummyDate = new Date([2019, 5, 16]);
 
   beforeEach(() => {
-    mountComponent = ({ date = dummyDate, disabled = false } = {}) =>
+    mountComponent = ({
+      date = dummyDate,
+      disabled = false,
+      format,
+      type = 'date',
+    } = {}) =>
       shallowMount(DatePicker, {
         propsData: {
           value: date,
           disabled,
+          format,
+          type,
         },
       });
   });
@@ -26,6 +35,28 @@ describe('DatePicker', () => {
     expect(wrapper.isVueInstance()).toBeTruthy();
     expect(wrapper.vm.date).toEqual(dayjs(dummyDate));
     expect(wrapper.vm.isVisible).toEqual(false);
+  });
+
+  describe('computed', () => {
+    describe('inputFormat', () => {
+      it.each([
+        [undefined, DEFAULT_INPUT_DATE_FORMAT.date],
+        ['YYYY-MM-DD', 'YYYY-MM-DD'],
+      ])('when format equal %p, should return %p', (format, expectedResult) => {
+        const wrapper = mountComponent({ format });
+        expect(wrapper.vm.inputFormat).toEqual(expectedResult);
+      });
+    });
+
+    describe('headerFormat', () => {
+      it.each([
+        [undefined, DEFAULT_HEADER_DATE_FORMAT.date],
+        ['MMMM MM', 'MMMM MM'],
+      ])('when format equal %p, should return %p', (format, expectedResult) => {
+        const wrapper = mountComponent({ format });
+        expect(wrapper.vm.headerFormat).toEqual(expectedResult);
+      });
+    });
   });
 
   describe('beforeDestroy', () => {

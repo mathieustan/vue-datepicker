@@ -89,7 +89,7 @@
         <!-- EXAMPLE : Format Header  -->
         <Example title="FormatHeader" :current-date="currentDate">
           <template v-slot:datepicker>
-            <DatePicker v-model="currentDate" format-header="DD MMMM" />
+            <DatePicker v-model="currentDate" format-header="dddd DD MMMM" />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -97,7 +97,7 @@
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">format-header</span>="DD MMMM"
+    <span class="token attr-name">format-header</span>="dddd DD MMMM"
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
@@ -238,6 +238,27 @@
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">:inline</span>="true"
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+</code>
+</pre>
+          </template>
+        </Example>
+
+        <!-- EXAMPLE : Type -->
+        <Example title="Month picker (type: 'month')" :current-date="currentDate" class="example-inline">
+          <template v-slot:datepicker>
+            <DatePicker v-model="currentDate" type="month" :inline="true" />
+          </template>
+          <template v-slot:code>
+<pre class="language-HTML" data-title="html">
+<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">type</span>="month"
     <span class="token attr-name">:inline</span>="true"
   <span class="token operator">/></span>
   ...

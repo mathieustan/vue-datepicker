@@ -30,6 +30,7 @@ export default {
     name: { type: String },
     date: { type: Object },
     format: { type: String },
+    type: { type: String },
     locale: { type: Object },
     color: { type: String },
     disabled: { type: Boolean },

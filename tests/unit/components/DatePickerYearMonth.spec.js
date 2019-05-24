@@ -46,7 +46,6 @@ describe('DatePickerYearMonth', () => {
       month: 4,
       year: 2019,
     });
-    expect(wrapper.vm.isVisible).toEqual(true);
     expect(wrapper.vm.showYearMonthSelector).toEqual(expect.any(Function));
   });
 

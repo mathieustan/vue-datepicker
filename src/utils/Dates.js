@@ -2,6 +2,8 @@ import dayjs from 'dayjs';
 import weekDay from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 
+import { DEFAULT_INPUT_DATE_FORMAT, DEFAULT_HEADER_DATE_FORMAT } from '@/constants';
+
 dayjs.extend(weekDay);
 dayjs.extend(weekOfYear);
 
@@ -57,6 +59,14 @@ export function setLocaleLang ({ lang }) {
   }
 }
 
+export function getDefaultInputFormat (type = 'date') {
+  return DEFAULT_INPUT_DATE_FORMAT[type];
+}
+
+export function getDefaultHeaderFormat (type = 'date') {
+  return DEFAULT_HEADER_DATE_FORMAT[type];
+}
+
 export function getWeekDays ({ lang, weekDays }) {
   const locale = require(`dayjs/locale/${lang}`);
   let weekDaysShort = locale.weekdaysShort;
@@ -98,4 +108,12 @@ export function isAfterEndDate (date, endDate, type) {
     return Boolean(endDate) && date > dayjs(endDate, 'YYYY-MM-DD').get('year');
   }
   return Boolean(endDate) && date.isAfter(dayjs(endDate, 'YYYY-MM-DD'));
+}
+
+export function formatDateForMonthPicker (year, month) {
+  return dayjs().year(year).month(month);
+}
+
+export function isDateAfter (newDate, oldDate) {
+  return dayjs(newDate).isAfter(dayjs(oldDate));
 }

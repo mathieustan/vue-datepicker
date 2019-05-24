@@ -7,7 +7,8 @@
       :id="id"
       :name="name"
       :date="date"
-      :format="format"
+      :format="inputFormat"
+      :type="type"
       :locale="locale"
       :color="color"
       :disabled="disabled"
@@ -19,11 +20,12 @@
       :inline="inline"
       :date="date"
       :locale="locale"
-      :format-header="formatHeader"
+      :format-header="headerFormat"
       :color="color"
       :close="hideDatePicker"
       :min-date="minDate"
       :end-date="endDate"
+      :type="type"
       @selectDate="changeDate"
     />
   </div>
@@ -34,7 +36,12 @@ import dayjs from 'dayjs';
 import { directive as clickOutside } from 'vue-clickaway';
 import DatePickerCustomInput from './DatePickerCustomInput.vue';
 import DatepickerAgenda from './DatePickerAgenda.vue';
-import { getDefaultLocale, setLocaleLang } from '@/utils/Dates';
+import {
+  getDefaultLocale,
+  setLocaleLang,
+  getDefaultInputFormat,
+  getDefaultHeaderFormat,
+} from '@/utils/Dates';
 
 export default {
   name: 'DatePicker',
@@ -43,11 +50,13 @@ export default {
   props: {
     id: { type: String, default: 'datepicker' },
     name: { type: String, default: 'datepicker' },
+    // type (date, month or year picker)
+    type: { type: String, default: 'date' },
     // Current Value from v-model
     value: { type: [String, Number, Date], required: true, default: Date.now() },
-    // Input selected date format
-    format: { type: String, default: 'DD MMMM YYYY' },
-    formatHeader: { type: String, default: 'dddd DD MMM' },
+    // Format
+    format: { type: String, default: undefined },
+    formatHeader: { type: String, default: undefined },
     // Show/hide datepicker
     visible: { type: Boolean, default: false },
     // Sets the locale.
@@ -64,13 +73,22 @@ export default {
     disabled: { type: Boolean, default: false },
     // Inline
     inline: { type: Boolean, default: false },
-    // TODO : Props to add
-    // type (date, month or year picker)
   },
   data: () => ({
     date: undefined,
     isVisible: undefined,
   }),
+  computed: {
+    // If format isnt specificed, select default format from type
+    inputFormat () {
+      if (!this.format) return getDefaultInputFormat(this.type);
+      return this.format;
+    },
+    headerFormat () {
+      if (!this.format) return getDefaultHeaderFormat(this.type);
+      return this.format;
+    },
+  },
   watch: {
     value: {
       handler (newDate) {

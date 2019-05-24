@@ -2,14 +2,19 @@ import dayjs from 'dayjs';
 import mockDate from 'mockdate';
 import 'dayjs/locale/fr';
 
+import { DEFAULT_INPUT_DATE_FORMAT, DEFAULT_HEADER_DATE_FORMAT } from '@/constants';
+
 import Dates, {
   getDefaultLocale,
   setLocaleLang,
+  getDefaultInputFormat,
+  getDefaultHeaderFormat,
   getWeekDays,
   isDateToday,
   formatDateWithLocale,
   isBeforeMinDate,
   isAfterEndDate,
+  formatDateForMonthPicker,
 } from '@/utils/Dates';
 
 describe('Transactions: Functions', () => {
@@ -111,6 +116,32 @@ describe('Transactions: Functions', () => {
       );
     });
 
+    describe('getDefaultInputFormat', () => {
+      it.each([
+        [undefined, DEFAULT_INPUT_DATE_FORMAT.date],
+        ['date', DEFAULT_INPUT_DATE_FORMAT.date],
+        ['month', DEFAULT_INPUT_DATE_FORMAT.month],
+      ])(
+        'When type is %p, should return %p',
+        (type, expectedResult) => {
+          expect(getDefaultInputFormat(type)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('getDefaultHeaderFormat', () => {
+      it.each([
+        [undefined, DEFAULT_HEADER_DATE_FORMAT.date],
+        ['date', DEFAULT_HEADER_DATE_FORMAT.date],
+        ['month', DEFAULT_HEADER_DATE_FORMAT.month],
+      ])(
+        'When type is %p, should return %p',
+        (type, expectedResult) => {
+          expect(getDefaultHeaderFormat(type)).toEqual(expectedResult);
+        }
+      );
+    });
+
     describe('getWeekDays', () => {
       it.each([
         [{ lang: 'fr', weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] }, ['L', 'M', 'M', 'J', 'V', 'S', 'D']],
@@ -174,6 +205,18 @@ describe('Transactions: Functions', () => {
         'when date = %p, endDate = %p and type = %p, should return %p',
         (date, endDate, type, expectedResult) => {
           expect(isAfterEndDate(date, endDate, type)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('formatDateForMonthPicker', () => {
+      it.each([
+        [2018, 2, '2018-03'],
+        [2019, 3, '2019-04'],
+      ])(
+        'when year = %p, month = %p should return %p when formatted with YYYY-MM',
+        (year, month, expectedResult) => {
+          expect(formatDateForMonthPicker(year, month).format('YYYY-MM')).toEqual(expectedResult);
         }
       );
     });

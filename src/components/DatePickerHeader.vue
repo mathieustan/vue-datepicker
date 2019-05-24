@@ -7,10 +7,17 @@
       class="datepicker-header__year">
       {{ year }}
     </div>
-    <div
-      :class="{ 'datepicker-header__date--active' : mode !== 'year' }"
-      class="datepicker-header__date">
-      {{ dateFormatted }}
+    <div class="datepicker-header__wrap">
+      <TransitionGroup
+        :name="transitionName"
+        :class="{ 'datepicker-header__date--active' : mode !== 'year' }"
+        class="datepicker-header__date">
+        <span
+          v-for="dateFormatted in [dateFormatted]"
+          :key="dateFormatted">
+          {{ dateFormatted }}
+        </span>
+      </TransitionGroup>
     </div>
   </div>
 </template>
@@ -21,8 +28,9 @@ import { formatDateWithLocale } from '../utils/Dates';
 export default {
   name: 'DatePickerHeader',
   props: {
-    color: { type: String },
     mutableDate: { type: [String, Object] },
+    transitionName: { type: String },
+    color: { type: String },
     locale: { type: Object },
     formatHeader: { type: String },
     mode: { type: String },
@@ -39,6 +47,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '../styles/base/_animations.scss';
+
   .datepicker-header {
     color: white;
     padding: ($gutter*2);
@@ -62,11 +72,20 @@ export default {
       }
     }
 
+    .datepicker-header__wrap {
+      position: relative;
+      display: flex;
+      width: 100%;
+    }
+
     .datepicker-header__date {
+      position: relative;
+      display: flex;
+      width: 100%;
       font-size: 28px;
+      height: calc(28px + #{$gutter});
       text-align: left;
       font-weight: 500;
-      position: relative;
       overflow: hidden;
       padding-bottom: $gutter;
       margin-bottom: -#{$gutter};
