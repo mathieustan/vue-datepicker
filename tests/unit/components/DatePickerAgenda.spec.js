@@ -429,6 +429,12 @@ describe('DatePickerAgenda', () => {
 
     describe('selectedYearMonth', () => {
       it.each([
+        ['date', 2018, 'year', {
+          start: dummyDate.set('year', 2018).startOf('month'),
+          end: dummyDate.set('year', 2018).endOf('month'),
+          month: 4,
+          year: 2018,
+        }],
         ['month', 2018, 'year', {
           start: dummyDate.set('year', 2018).startOf('month'),
           end: dummyDate.set('year', 2018).endOf('month'),
@@ -449,7 +455,7 @@ describe('DatePickerAgenda', () => {
           wrapper.vm.selectedYearMonth(value, mode);
 
           expect(wrapper.vm.currentDate).toEqual(expectedResult);
-          expect(wrapper.vm.yearMonthMode).toEqual(type);
+          expect(wrapper.vm.yearMonthMode).toEqual(type === 'date' ? 'month' : type);
 
           if (mode === 'month') {
             expect(wrapper.vm.hideYearMonthSelector).toHaveBeenCalled();

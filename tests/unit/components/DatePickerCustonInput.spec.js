@@ -9,7 +9,7 @@ describe('DatePickerCustomInput', () => {
   const dummyDate = dayjs(new Date([2019, 5, 16]));
 
   beforeEach(() => {
-    mountComponent = ({ date = dummyDate } = {}) =>
+    mountComponent = ({ date } = {}) =>
       shallowMount(DatePickerCustomInput, {
         propsData: {
           name: 'datepicker',
@@ -28,7 +28,7 @@ describe('DatePickerCustomInput', () => {
   });
 
   it('Should init data', () => {
-    const wrapper = mountComponent();
+    const wrapper = mountComponent({ date: dummyDate });
     expect(wrapper.isVueInstance()).toBeTruthy();
     expect(wrapper.vm.name).toEqual('datepicker');
     expect(wrapper.vm.date).toEqual(dummyDate);
@@ -41,6 +41,7 @@ describe('DatePickerCustomInput', () => {
   describe('computed', () => {
     describe('dateFormatted', () => {
       it.each([
+        [undefined, undefined],
         [dayjs(new Date([2019, 5, 16])), '16 May 2019'],
         [dayjs(new Date([2019, 4, 12])), '12 April 2019'],
       ])('When date equal %p, should return %p', (date, expectedResult) => {

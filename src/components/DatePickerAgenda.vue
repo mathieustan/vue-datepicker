@@ -255,7 +255,7 @@ export default {
       this.currentDate = new Dates(month, year, this.locale);
 
       if (mode === 'year') {
-        this.yearMonthMode = this.type;
+        this.yearMonthMode = this.type === 'date' ? 'month' : this.type;
         return;
       }
 
@@ -415,17 +415,16 @@ export default {
 
     .datepicker-day--current {
       position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
+      top: 1px;
+      left: 2px;
       width: #{get-size(mobile, day-height) - 2};
       height: #{get-size(mobile, day-height) - 2};
       border-radius: 50%;
       border: 1px solid currentColor;
 
       @include mq(tablet) {
+        top: 4px;
+        left: 2px;
         width: 36px;
         height: 36px;
       }

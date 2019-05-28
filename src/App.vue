@@ -150,6 +150,26 @@
           </template>
         </Example>
 
+        <!-- EXAMPLE : PLaceholder  -->
+        <Example title="PLaceholder" :current-date="examples.placeholder.currentDate">
+          <template v-slot:datepicker>
+            <DatePicker v-model="examples.placeholder.currentDate" placeholder="DD/MM/YYYY" />
+          </template>
+          <template v-slot:code>
+<pre class="language-HTML" data-title="html">
+<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">placeholder</span>="DD/MM/YYYY"
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+</code>
+</pre>
+          </template>
+        </Example>
+
         <!-- EXAMPLE : MiDate -->
         <Example title="minDate & endDate" :current-date="currentDate">
           <template v-slot:datepicker>
@@ -303,6 +323,55 @@
           </template>
         </Example>
 
+        <!-- EXAMPLE : Range Picker -->
+        <Example
+          title="Ranger picker example"
+          class="example-range">
+          <template v-slot:datepicker>
+            <span class="datepicker-label">Du</span>
+            <DatePicker
+              v-model="examples.range.startDate"
+              :min-date="examples.range.min"
+              :end-date="examples.range.end"
+              @onChange="examples.range.showEndDate = true"
+            />
+            <span class="datepicker-label">Au</span>
+            <DatePicker
+              v-model="examples.range.endDate"
+              :min-date="examples.range.startDate"
+              :end-date="examples.range.end"
+              :visible="examples.range.showEndDate"
+              @onClose="examples.range.showEndDate = false"
+            />
+          </template>
+          <template v-slot:code>
+<pre class="language-HTML" data-title="html">
+<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="startDate"
+    <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
+    <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
+    <span class="token attr-name">@onChange</span>="showEndDate = true"
+  <span class="token operator">/></span>
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="endDate"
+    <span class="token attr-name">:min-date</span>="startDate"
+    <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
+    <span class="token attr-name">:visible</span>="showEnDate"
+    <span class="token attr-name">@onClose</span>="showEndDate = false"
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+</code>
+</pre>
+          </template>
+          <template v-slot:result>
+            <p>startDate="{{ examples.range.startDate }}"</p>
+            <p>endDate="{{ examples.range.endDate }}"</p>
+          </template>
+        </Example>
+
         <div class="title">
           <h2> Events </h2>
         </div>
@@ -390,6 +459,9 @@ export default {
       visible: {
         isVisible: false,
       },
+      placeholder: {
+        currentDate: undefined,
+      },
       allowedDates: {
         min: '2019-5-3',
         max: '2019-8-12',
@@ -407,6 +479,13 @@ export default {
         currentDate: '2019-2',
         min: '2018-2',
         end: '2019-3',
+      },
+      range: {
+        startDate: undefined,
+        endDate: undefined,
+        showEnDate: false,
+        min: '2018-08-12',
+        end: '2019-08-12',
       },
       onOpen: {
         message: '',
@@ -494,11 +573,19 @@ export default {
     }
   }
 
+  .datepicker-label {
+    margin-left: $gutter*2;
+  }
+
   .datepicker-container {
     margin: 0 $gutter*2;
 
     .example-inline & {
       margin: $gutter*2 0;
+    }
+
+    .example-range & {
+      margin: 0 0 0$gutter*2;
     }
   }
 

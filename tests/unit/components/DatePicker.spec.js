@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import mockDate from 'mockdate';
 import { shallowMount } from '@vue/test-utils';
 import DatePicker from '@/components/DatePicker.vue';
 
@@ -8,13 +9,21 @@ import {
   DEFAULT_OUTPUT_DATE_FORMAT,
 } from '@/constants';
 
+beforeEach(() => {
+  mockDate.set(new Date([2019, 5, 16]));
+});
+
+afterEach(() => {
+  mockDate.reset();
+});
+
 describe('DatePicker', () => {
   let mountComponent;
   const dummyDate = new Date([2019, 5, 16]);
 
   beforeEach(() => {
     mountComponent = ({
-      date = dummyDate,
+      date,
       disabled = false,
       format,
       formatHeader,
@@ -73,6 +82,18 @@ describe('DatePicker', () => {
       ])('when format equal %p, should return %p', (formatOutput, expectedResult) => {
         const wrapper = mountComponent({ formatOutput });
         expect(wrapper.vm.outputFormat).toEqual(expectedResult);
+      });
+    });
+  });
+
+  describe('watch', () => {
+    describe('value', () => {
+      it.each([
+        [dummyDate, dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
+        [undefined, dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
+      ])('when value equal %p, date should be equal to %p', (date, expectedResult) => {
+        const wrapper = mountComponent({ date });
+        expect(wrapper.vm.date).toEqual(expectedResult);
       });
     });
   });

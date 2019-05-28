@@ -4,13 +4,14 @@
     @mousedown="$emit('toggleDatepicker')">
     <DatePickerCalendarIcon
       :id="id"
-      :color="color" />
+      :color="date ? color : ``" />
     <input
       :id="id"
       :name="id"
       :style="{ color: color }"
       :value="dateFormatted"
       :disabled="disabled"
+      :placeholder="placeholder"
       type="text"
       readonly
       @focus="$emit('focus')"
@@ -32,12 +33,14 @@ export default {
     format: { type: String },
     type: { type: String },
     locale: { type: Object },
+    placeholder: { type: String },
     color: { type: String },
     disabled: { type: Boolean },
   },
   computed: {
     // Displayed Date
     dateFormatted () {
+      if (!this.date) return;
       return formatDateWithLocale(this.date, this.locale, this.format);
     },
   },
@@ -80,6 +83,10 @@ export default {
     &:disabled,
     &[disabled] {
       cursor: default;
+    }
+
+    @include input-placeholder {
+      color: transparentize(black, .6)
     }
   }
 </style>

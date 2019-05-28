@@ -86,6 +86,7 @@ Using `v-model`
 | formatOutput                  | String          | YYYY-MM-DD  | Allows you to customize the format of date when selected    |
 | locale                        | Object          |{lang: 'en'} | More informations here [Translations](#translations)        |
 | visible                       | Boolean         | false        | See below for configuration              |
+| placeholder                   | String          | 'YYYY-MM-DD' | Allows you to change input placeholder  |
 | color                         | String          | #4f88ff      | Applies specified color                  |
 | minDate                       | String\|Number\|Date |         | Date are available FROM this date       |
 | endDate                       | String\|Number\|Date |         | Date are disabled AFTER this date       |

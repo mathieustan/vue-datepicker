@@ -15,8 +15,11 @@
       <div class="example-code">
         <slot name="code" />
       </div>
-      <div class="example-result">
+      <div v-if="currentDate" class="example-result">
         <p>v-model="{{ currentDate }}"</p>
+      </div>
+      <div v-else class="example-result">
+        <slot name="result" />
       </div>
     </div>
   </div>
@@ -27,7 +30,7 @@ export default {
   name: 'Example',
   props: {
     title: { type: String, default: String },
-    currentDate: { type: [String, Object, Date] },
+    currentDate: { type: [String, Object, Date, Array] },
   },
 };
 </script>
@@ -115,9 +118,14 @@ export default {
       display: flex;
       justify-content: flex-start;
       align-items: flex-start;
+      flex-direction: column;
       width: 100%;
       padding: $gutter*2;
       border-radius: 0 0 8px 8px;
+
+      p {
+        margin: $gutter*2 0;
+      }
     }
   }
 </style>

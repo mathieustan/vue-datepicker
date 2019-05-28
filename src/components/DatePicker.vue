@@ -6,10 +6,11 @@
       v-if="!inline"
       :id="id"
       :name="name"
-      :date="date"
+      :date="value ? date : value"
       :format="inputFormat"
       :type="type"
       :locale="locale"
+      :placeholder="placeholder"
       :color="color"
       :disabled="disabled"
       @toggleDatepicker="toggleDatepicker"
@@ -54,7 +55,7 @@ export default {
     // type (date, month, quarter or year picker)
     type: { type: String, default: 'date' },
     // Current Value from v-model
-    value: { type: [String, Number, Date], required: true, default: Date.now() },
+    value: { type: [String, Number, Date] },
     // Format
     format: { type: String, default: undefined },
     formatHeader: { type: String, default: undefined },
@@ -66,6 +67,7 @@ export default {
       type: Object,
       default: () => ({ lang: getDefaultLocale() }),
     },
+    placeholder: { type: String, default: 'YYYY-MM-DD' },
     // Applies specified color to the control
     color: { type: String, default: '#4f88ff' },
     // Allowed dates
@@ -97,7 +99,7 @@ export default {
   },
   watch: {
     value: {
-      handler (newDate) {
+      handler (newDate = Date.now()) {
         this.date = dayjs(newDate, this.outputFormat);
       },
       immediate: true,
