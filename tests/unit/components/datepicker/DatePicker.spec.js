@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import mockDate from 'mockdate';
 import { shallowMount } from '@vue/test-utils';
-import DatePicker from '@/components/DatePicker.vue';
+import DatePicker from '@/components/datepicker/DatePicker.vue';
 
 import {
   DEFAULT_INPUT_DATE_FORMAT,

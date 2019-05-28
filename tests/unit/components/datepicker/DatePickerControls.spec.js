@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
-import DatePickerControls from '@/components/DatePickerControls.vue';
+import DatePickerControls from '@/components/datepicker/DatePickerControls.vue';
 
 import Dates from '@/utils/Dates';
 

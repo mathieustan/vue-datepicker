@@ -101,7 +101,7 @@ import {
   areSameDates,
 } from '@/utils/Dates';
 
-import { computeYearsScrollPosition } from '../utils';
+import { computeYearsScrollPosition } from '@/utils';
 
 export default {
   name: 'DatePickerYearMonth',
@@ -182,7 +182,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '../styles/base/_animations.scss';
+  @import '@/styles/base/_animations.scss';
 
   .datepicker-year-month {
     position: absolute;

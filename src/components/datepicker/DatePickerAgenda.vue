@@ -106,7 +106,7 @@ import Dates, {
 } from '@/utils/Dates';
 import { yearMonthSelectorTypes } from '@/constants';
 
-import agendaPositionMixin from '@/mixins/agendaPositionMixin';
+import dynamicPosition from '@/mixins/dynamicPosition';
 
 import DatePickerHeader from './DatePickerHeader.vue';
 import DatePickerControls from './DatePickerControls.vue';
@@ -114,7 +114,7 @@ import DatePickerYearMonth from './DatePickerYearMonth.vue';
 
 export default {
   name: 'DatepickerAgenda',
-  mixins: [ agendaPositionMixin ],
+  mixins: [ dynamicPosition ],
   components: { DatePickerHeader, DatePickerControls, DatePickerYearMonth },
   props: {
     date: { type: [Date, Object], required: true },
@@ -272,7 +272,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '../styles/base/_animations.scss';
+  @import '@/styles/base/_animations.scss';
 
   .datepicker {
     position: absolute;

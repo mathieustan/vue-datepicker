@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
-import DatePickerCustomInput from '@/components/DatePickerCustomInput.vue';
+import DatePickerCustomInput from '@/components/datepicker/DatePickerCustomInput.vue';
 
 jest.useFakeTimers();
 

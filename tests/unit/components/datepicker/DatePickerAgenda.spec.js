@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import mockDate from 'mockdate';
 import { shallowMount } from '@vue/test-utils';
-import DatePickerAgenda from '@/components/DatePickerAgenda.vue';
+import DatePickerAgenda from '@/components/datepicker/DatePickerAgenda.vue';
 
 import * as utilsFunctions from '@/utils';
 

@@ -445,7 +445,7 @@
 
 <script>
 import Example from './examples/Example.vue';
-import DatePicker from './components/DatePicker.vue';
+import DatePicker from '@/components/datepicker/DatePicker.vue';
 
 export default {
   name: 'App',

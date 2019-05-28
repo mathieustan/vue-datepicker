@@ -1,13 +1,13 @@
 import Vue from 'vue';
 import { shallowMount } from '@vue/test-utils';
-import agendaPositionMixin from '@/mixins/agendaPositionMixin';
+import dynamicPosition from '@/mixins/dynamicPosition';
 
 import * as utilsFunctions from '@/utils';
 
 describe('DatePickerAgenda', () => {
   let mountComponent;
   const EmptyComponent = Vue.component('empty-component', {
-    mixins: [agendaPositionMixin],
+    mixins: [dynamicPosition],
     template: '<div></div>',
   });
 

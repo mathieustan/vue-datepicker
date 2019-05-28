@@ -104,7 +104,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '../styles/base/_animations.scss';
+  @import '@/styles/base/_animations.scss';
 
   .datepicker-controls {
     position: relative;

@@ -1,6 +1,6 @@
 import { computePositionFromParent } from '@/utils';
 
-const agendaPositionMixin = {
+const dynamicPosition = {
   data: () => ({
     offset: 28,
     left: 0,
@@ -43,4 +43,4 @@ const agendaPositionMixin = {
   },
 };
 
-export default agendaPositionMixin;
+export default dynamicPosition;
