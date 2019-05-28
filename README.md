@@ -83,6 +83,7 @@ Using `v-model`
 | id                            | String          | 'datepicker'| Input id                                 |
 | format                        | String          | DD MMMM YYYY| Date formatting for input                |
 | formatHeader                  | String          | dddd DD MMM | Allows you to customize the format of the month string that appears in the header of the calendar.    |
+| formatOutput                  | String          | YYYY-MM-DD  | Allows you to customize the format of date when selected    |
 | locale                        | Object          |{lang: 'en'} | More informations here [Translations](#translations)        |
 | visible                       | Boolean         | false        | See below for configuration              |
 | color                         | String          | #4f88ff      | Applies specified color                  |
@@ -90,7 +91,7 @@ Using `v-model`
 | endDate                       | String\|Number\|Date |         | Date are disabled AFTER this date       |
 | disabled                      | Boolean        | false         | Datepicker disabled or not              |
 | inline                        | Boolean        | false         | Inline datepicker                       |
-| type                          | String         | 'date'        | Determines the type of the picker - date for date picker, month for month picker                 |
+| type                          | String         | 'date'        | Determines the type of the picker - date/month/quarter                 |
 
 ## Events
 

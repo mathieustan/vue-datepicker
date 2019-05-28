@@ -288,6 +288,44 @@ describe('DatePickerAgenda', () => {
       });
     });
 
+    describe('updateDate', () => {
+      it('Should update currentDate & mutableDate for MONTH mode', () => {
+        const newDate = dayjs('2019-04', 'YYYY-MM');
+        const wrapper = mountComponent({
+          isVisible: false,
+          inline: true,
+          type: 'month',
+        });
+
+        wrapper.vm.updateDate(newDate);
+        expect(wrapper.vm.currentDate).toEqual({
+          start: newDate.startOf('month'),
+          end: newDate.endOf('month'),
+          month: 3,
+          year: 2019,
+        });
+        expect(wrapper.vm.mutableDate).toEqual(newDate);
+      });
+
+      it('Should update currentDate & mutableDate for QUARTER mode', () => {
+        const newDate = dayjs('2019-2', 'YYYY-Q');
+        const wrapper = mountComponent({
+          isVisible: false,
+          inline: true,
+          type: 'quarter',
+        });
+
+        wrapper.vm.updateDate(newDate);
+        expect(wrapper.vm.currentDate).toEqual({
+          start: newDate.month(3).startOf('month'),
+          end: newDate.month(3).endOf('month'),
+          month: 3,
+          year: 2019,
+        });
+        expect(wrapper.vm.mutableDate).toEqual(newDate.month(3));
+      });
+    });
+
     describe('changeMonth', () => {
       it.each([
         ['next', dummyDate, {
@@ -391,13 +429,13 @@ describe('DatePickerAgenda', () => {
 
     describe('selectedYearMonth', () => {
       it.each([
-        [2018, 'year', {
+        ['month', 2018, 'year', {
           start: dummyDate.set('year', 2018).startOf('month'),
           end: dummyDate.set('year', 2018).endOf('month'),
           month: 4,
           year: 2018,
         }],
-        [2, 'month', {
+        [undefined, 2, 'month', {
           start: dummyDate.set('month', 2).startOf('month'),
           end: dummyDate.set('month', 2).endOf('month'),
           month: 2,
@@ -405,12 +443,13 @@ describe('DatePickerAgenda', () => {
         }],
       ])(
         'When value selected is %p, mode equal %p, currentDate should equal %p',
-        (value, mode, expectedResult) => {
-          const wrapper = mountComponent();
+        (type, value, mode, expectedResult) => {
+          const wrapper = mountComponent({ type });
           jest.spyOn(wrapper.vm, 'hideYearMonthSelector');
           wrapper.vm.selectedYearMonth(value, mode);
 
           expect(wrapper.vm.currentDate).toEqual(expectedResult);
+          expect(wrapper.vm.yearMonthMode).toEqual(type);
 
           if (mode === 'month') {
             expect(wrapper.vm.hideYearMonthSelector).toHaveBeenCalled();
@@ -429,7 +468,7 @@ describe('DatePickerAgenda', () => {
           month: 2,
           year: 2019,
         });
-        expect(wrapper.emitted().selectDate[0]).toEqual([dayjs().year(2019).month(2)]);
+        expect(wrapper.emitted().selectDate[0]).toEqual([dayjs().year(2019).month(2).startOf('month')]);
         expect(wrapper.vm.hideYearMonthSelector).not.toHaveBeenCalled();
       });
     });

@@ -79,6 +79,7 @@
           v-if="shouldShowYearMonthSelector"
           :mode="yearMonthMode"
           :current-date="currentDate"
+          :mutable-date="mutableDate"
           :transition-name="transitionDaysName"
           :show-year-month-selector="showYearMonthSelector"
           :color="color"
@@ -95,12 +96,15 @@
 <script>
 import Dates, {
   getWeekDays,
+  formatDateWithYearAndMonth,
   isDateToday,
   isBeforeMinDate,
   isAfterEndDate,
-  formatDateForMonthPicker,
   isDateAfter,
+  generateMonthAndYear,
+  convertMonthToQuarter,
 } from '@/utils/Dates';
+import { yearMonthSelectorTypes } from '@/constants';
 
 import agendaPositionMixin from '@/mixins/agendaPositionMixin';
 
@@ -162,14 +166,13 @@ export default {
   watch: {
     // When date change (after being visibled),
     // should update currentDate & mutableDate
-    date (newDate) {
-      this.currentDate = new Dates(newDate.month(), newDate.year(), this.locale);
-      this.mutableDate = newDate.clone();
+    date: {
+      handler: 'updateDate',
     },
     // When type change (after being visibled),
     // should update shouldShowYearMonthSelector
     type (newType) {
-      this.shouldShowYearMonthSelector = newType === 'month';
+      this.shouldShowYearMonthSelector = yearMonthSelectorTypes.includes(newType);
       this.yearMonthMode = newType;
     },
     // When agenda should be visible => init currentDate & mutableDate
@@ -178,9 +181,8 @@ export default {
       async handler (show) {
         if (show) {
           // init data when datepicker is visible
-          this.currentDate = new Dates(this.date.month(), this.date.year(), this.locale);
-          this.mutableDate = this.date.clone();
-          this.shouldShowYearMonthSelector = this.type === 'month';
+          this.updateDate(this.date);
+          this.shouldShowYearMonthSelector = yearMonthSelectorTypes.includes(this.type);
           this.yearMonthMode = this.type;
 
           // If inline, we don't need to update position
@@ -215,6 +217,11 @@ export default {
       this.$emit('selectDate', this.mutableDate);
       this.close();
     },
+    updateDate (date) {
+      const month = this.type === 'quarter' ? convertMonthToQuarter(date.month()) : date.month();
+      this.currentDate = new Dates(month, date.year(), this.locale);
+      this.mutableDate = date.month(month).clone();
+    },
     changeMonth (direction) {
       let month = this.currentDate.month + (direction === 'prev' ? -1 : +1);
       let year = this.currentDate.year;
@@ -244,15 +251,16 @@ export default {
       this.shouldShowYearMonthSelector = false;
     },
     selectedYearMonth (value, mode) {
+      const { year, month } = generateMonthAndYear(value, this.currentDate, mode);
+      this.currentDate = new Dates(month, year, this.locale);
+
       if (mode === 'year') {
-        this.currentDate = new Dates(this.currentDate.month, value, this.locale);
-        this.yearMonthMode = 'month';
+        this.yearMonthMode = this.type;
         return;
       }
-      this.currentDate = new Dates(value, this.currentDate.year, this.locale);
 
-      if (this.type === 'month') {
-        const newDate = formatDateForMonthPicker(this.currentDate.year, this.currentDate.month);
+      if (this.type === 'month' || this.type === 'quarter') {
+        const newDate = formatDateWithYearAndMonth(this.currentDate.year, this.currentDate.month);
         this.selectDate(newDate);
         return;
       }

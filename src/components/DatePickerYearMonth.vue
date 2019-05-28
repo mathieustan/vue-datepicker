@@ -22,7 +22,7 @@
         </ul>
       </div>
       <div
-        v-if="mode === 'month'"
+        v-if="mode === 'month' || mode === 'quarter'"
         class="datepicker-months">
 
         <DatePickerControls
@@ -35,29 +35,57 @@
           @showYearMonthSelector="showYearMonthSelector"
         />
 
-        <TransitionGroup
-          tag="div"
-          class="datepicker-months__wrapper"
-          :name="transitionName">
-          <div
-            v-for="year in [currentDate.year]"
-            :key="year"
-            class="datepicker-months__list">
-            <button
-              v-for="(month, index) in getMonths"
-              :key="index"
-              :disabled="isMonthDisabled(index)"
-              :style="{
-                color: isSelectedMonth(index) ? '#fff' : '',
-                backgroundColor: isSelectedMonth(index) ? color : '',
-              }"
-              type="button"
-              @click="onSelect(index)"
-            >
-            {{ month }}
-            </button>
-          </div>
-        </TransitionGroup>
+        <template v-if="mode === 'month'">
+          <TransitionGroup
+            tag="div"
+            class="datepicker-months__wrapper"
+            :name="transitionName">
+            <div
+              v-for="year in [currentDate.year]"
+              :key="year"
+              class="datepicker-months__list">
+              <button
+                v-for="(month, index) in getMonths"
+                :key="index"
+                :disabled="isMonthOrQuarterDisabled(index)"
+                :style="{
+                  color: isSelectedMonthOrQuarter(index) ? '#fff' : '',
+                  backgroundColor: isSelectedMonthOrQuarter(index) ? color : '',
+                }"
+                type="button"
+                @click="onSelect(index)"
+              >
+              {{ month }}
+              </button>
+            </div>
+          </TransitionGroup>
+        </template>
+
+        <template v-if="mode === 'quarter'">
+          <TransitionGroup
+            tag="div"
+            class="datepicker-months__wrapper"
+            :name="transitionName">
+            <div
+              v-for="year in [currentDate.year]"
+              :key="year"
+              class="datepicker-quarters__list">
+              <button
+                v-for="(quarter, index) in getQuarters"
+                :key="index"
+                :disabled="isMonthOrQuarterDisabled(index)"
+                :style="{
+                  color: isSelectedMonthOrQuarter(index * 3) ? '#fff' : '',
+                  backgroundColor: isSelectedMonthOrQuarter(index * 3) ? color : '',
+                }"
+                type="button"
+                @click="onSelect(index)"
+              >
+              {{ quarter }}
+              </button>
+            </div>
+          </TransitionGroup>
+        </template>
       </div>
     </div>
   </transition>
@@ -66,7 +94,13 @@
 <script>
 import DatePickerControls from './DatePickerControls.vue';
 
-import { isBeforeMinDate, isAfterEndDate, initDateWithMonthAndYear } from '@/utils/Dates';
+import {
+  formatDateWithYearAndMonth,
+  isBeforeMinDate,
+  isAfterEndDate,
+  areSameDates,
+} from '@/utils/Dates';
+
 import { computeYearsScrollPosition } from '../utils';
 
 export default {
@@ -75,6 +109,7 @@ export default {
   props: {
     mode: { type: String, default: String },
     currentDate: { type: Object, default: Object },
+    mutableDate: { type: Object, default: Object },
     transitionName: { type: String, default: String },
     showYearMonthSelector: { type: Function },
     color: { type: String, default: String },
@@ -91,6 +126,9 @@ export default {
     },
     getMonths () {
       return this.currentDate.getMonths();
+    },
+    getQuarters () {
+      return this.currentDate.getQuarters();
     },
   },
   watch: {
@@ -116,17 +154,22 @@ export default {
     isSelectedYear (year) {
       return this.currentDate.year === year;
     },
-    isSelectedMonth (monthIndex) {
-      return this.currentDate.month === monthIndex;
+    isSelectedMonthOrQuarter (monthIndex) {
+      const selectedDate = formatDateWithYearAndMonth(this.currentDate.year, monthIndex);
+      return areSameDates(
+        this.mutableDate.format('YYYY-MM'),
+        selectedDate.format('YYYY-MM'),
+        this.mode
+      );
     },
     isYearDisabled (year) {
-      return isBeforeMinDate(year, this.minDate, 'year') ||
-        isAfterEndDate(year, this.endDate, 'year');
+      return isBeforeMinDate(year, this.minDate, this.mode) ||
+        isAfterEndDate(year, this.endDate, this.mode);
     },
-    isMonthDisabled (monthIndex) {
-      const date = initDateWithMonthAndYear(monthIndex, this.yearFormatted);
-      return isBeforeMinDate(date, this.minDate) ||
-        isAfterEndDate(date, this.endDate);
+    isMonthOrQuarterDisabled (monthIndex) {
+      const date = formatDateWithYearAndMonth(this.yearFormatted, monthIndex);
+      return isBeforeMinDate(date, this.minDate, this.mode) ||
+        isAfterEndDate(date, this.endDate, this.mode);
     },
     changeYear (direction) {
       this.$emit('changeYear', direction);
@@ -227,7 +270,8 @@ export default {
       padding: 0 $gutter $gutter;
     }
 
-    .datepicker-months__list {
+    .datepicker-months__list,
+    .datepicker-quarters__list {
       position: absolute;
       top: 0;
       left: 0;
@@ -246,6 +290,8 @@ export default {
         position: relative;
         @include reset-button;
         display: flex;
+        justify-content: center;
+        align-items: center;
         font-size: 12px;
         padding: 0 20px;
         height: 30px;
@@ -277,6 +323,16 @@ export default {
           height: 30px;
           background-color: currentColor;
         }
+      }
+    }
+
+    .datepicker-quarters__list {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(4, 1fr);
+
+      button {
+        height: 100%;
+        width: 100%;
       }
     }
   }

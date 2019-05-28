@@ -41,6 +41,7 @@ import {
   setLocaleLang,
   getDefaultInputFormat,
   getDefaultHeaderFormat,
+  getDefaultOutputFormat,
 } from '@/utils/Dates';
 
 export default {
@@ -50,13 +51,14 @@ export default {
   props: {
     id: { type: String, default: 'datepicker' },
     name: { type: String, default: 'datepicker' },
-    // type (date, month or year picker)
+    // type (date, month, quarter or year picker)
     type: { type: String, default: 'date' },
     // Current Value from v-model
     value: { type: [String, Number, Date], required: true, default: Date.now() },
     // Format
     format: { type: String, default: undefined },
     formatHeader: { type: String, default: undefined },
+    formatOutput: { type: String, default: undefined },
     // Show/hide datepicker
     visible: { type: Boolean, default: false },
     // Sets the locale.
@@ -85,14 +87,18 @@ export default {
       return this.format;
     },
     headerFormat () {
-      if (!this.format) return getDefaultHeaderFormat(this.type);
-      return this.format;
+      if (!this.formatHeader) return getDefaultHeaderFormat(this.type);
+      return this.formatHeader;
+    },
+    outputFormat () {
+      if (!this.formatOutput) return getDefaultOutputFormat(this.type);
+      return this.formatOutput;
     },
   },
   watch: {
     value: {
       handler (newDate) {
-        this.date = dayjs(newDate);
+        this.date = dayjs(newDate, this.outputFormat);
       },
       immediate: true,
     },
@@ -132,7 +138,7 @@ export default {
     },
     changeDate (date) {
       this.date = date;
-      this.$emit('input', this.date.format('YYYY-MM-DD'));
+      this.$emit('input', this.date.format(this.outputFormat));
       this.$emit('onChange');
     },
   },

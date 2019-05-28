@@ -12,6 +12,7 @@ describe('DatePickerYearMonth', () => {
   beforeEach(() => {
     mountComponent = ({
       date = new Dates(dummyDate.month(), dummyDate.year(), { lang: 'en' }),
+      mutableDate = dummyDate,
       mode = 'month',
       minDate,
       endDate,
@@ -22,6 +23,7 @@ describe('DatePickerYearMonth', () => {
           color: 'color',
           mode,
           currentDate: date,
+          mutableDate,
           isVisible: true,
           showYearMonthSelector: jest.fn(),
           minDate,
@@ -72,6 +74,19 @@ describe('DatePickerYearMonth', () => {
         const wrapper = mountComponent();
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         expect(wrapper.vm.getMonths).toEqual(months);
+      });
+    });
+
+    describe('getQuarters', () => {
+      it('should return a range of quarters', () => {
+        const wrapper = mountComponent();
+        const expectedQuarters = [
+          'January - March',
+          'April - June',
+          'July - September',
+          'October - December',
+        ];
+        expect(wrapper.vm.getQuarters).toEqual(expectedQuarters);
       });
     });
   });
@@ -136,17 +151,16 @@ describe('DatePickerYearMonth', () => {
       );
     });
 
-    describe('isSelectedMonth', () => {
+    describe('isSelectedMonthOrQuarter', () => {
       it.each([
-        [dayjs(new Date([2018, 5, 16])), 4, true],
-        [dayjs(new Date([2018, 5, 16])), 12, false],
+        [dayjs(new Date([2019, 5, 16])), 4, true],
+        [dayjs(new Date([2018, 5, 16])), 4, false],
+        [dayjs(new Date([2019, 5, 16])), 12, false],
       ])(
-        'when currentDate equal %p, and month is %p, should return %p',
-        (date, month, expectedResult) => {
-          const wrapper = mountComponent({
-            date: new Dates(date.month(), date.year(), { lang: 'en' }),
-          });
-          expect(wrapper.vm.isSelectedMonth(month)).toEqual(expectedResult);
+        'when mutableDate = %p, and month is %p, should return %p',
+        (mutableDate, monthIndex, expectedResult) => {
+          const wrapper = mountComponent({ mutableDate });
+          expect(wrapper.vm.isSelectedMonthOrQuarter(monthIndex)).toEqual(expectedResult);
         }
       );
     });
@@ -161,24 +175,27 @@ describe('DatePickerYearMonth', () => {
         'when allowed dates = %p and year = %p, should return %p',
         (allowedDates, year, expectedResult) => {
           const { minDate, endDate } = allowedDates;
-          const wrapper = mountComponent({ minDate, endDate });
+          const wrapper = mountComponent({ minDate, endDate, mode: 'year' });
           expect(wrapper.vm.isYearDisabled(year)).toEqual(expectedResult);
         }
       );
     });
 
-    describe('isMonthDisabled', () => {
+    describe('isMonthOrQuarterDisabled', () => {
       it.each([
-        [{ minDate: undefined, endDate: undefined }, 4, false],
-        [{ minDate: '2019-1-1', endDate: '2019-12-31' }, 4, false],
-        [{ minDate: '2019-5-1', endDate: '2019-12-31' }, 3, true],
-        [{ minDate: '2019-1-1', endDate: '2019-5-31' }, 5, true],
+        [{ minDate: undefined, endDate: undefined }, 'month', 4, false],
+        [{ minDate: '2019-1', endDate: '2019-12' }, 'month', 4, false],
+        [{ minDate: '2019-5', endDate: '2019-12' }, 'month', 3, true],
+        [{ minDate: '2019-1', endDate: '2019-5' }, 'month', 5, true],
+        [{ minDate: '2019-2', endDate: '2019-3' }, 'quarter', 1, false],
+        [{ minDate: '2019-2', endDate: '2019-3' }, 'quarter', 0, true],
+        [{ minDate: '2019-2', endDate: '2019-3' }, 'quarter', 3, true],
       ])(
-        'when allowed dates = %p and month = %p, should return %p',
-        (allowedDates, month, expectedResult) => {
+        'when allowed dates = %p and month = %p and mode = %p, should return %p',
+        (allowedDates, mode, month, expectedResult) => {
           const { minDate, endDate } = allowedDates;
-          const wrapper = mountComponent({ minDate, endDate });
-          expect(wrapper.vm.isMonthDisabled(month)).toEqual(expectedResult);
+          const wrapper = mountComponent({ minDate, endDate, mode });
+          expect(wrapper.vm.isMonthOrQuarterDisabled(month)).toEqual(expectedResult);
         }
       );
     });

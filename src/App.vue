@@ -247,10 +247,15 @@
           </template>
         </Example>
 
-        <!-- EXAMPLE : Type -->
-        <Example title="Month picker (type: 'month')" :current-date="currentDate" class="example-inline">
+        <!-- EXAMPLE : Type: Month -->
+        <Example title="Month picker (type: 'month')" :current-date="examples.month.currentDate" class="example-inline">
           <template v-slot:datepicker>
-            <DatePicker v-model="currentDate" type="month" :inline="true" />
+            <DatePicker
+              v-model="examples.month.currentDate"
+              type="month"
+              :min-date="examples.month.min"
+              :end-date="examples.month.end"
+              :inline="true" />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -258,7 +263,37 @@
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">:min-date</span>="{{ examples.month.min }}"
+    <span class="token attr-name">:end-date</span>="{{ examples.month.end }}"
     <span class="token attr-name">type</span>="month"
+    <span class="token attr-name">:inline</span>="true"
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+</code>
+</pre>
+          </template>
+        </Example>
+
+        <!-- EXAMPLE : Type: Quarter -->
+        <Example title="Quarter picker (type: 'quarter')" :current-date="examples.quarter.currentDate" class="example-inline">
+          <template v-slot:datepicker>
+            <DatePicker
+              v-model="examples.quarter.currentDate"
+              type="quarter"
+              :min-date="examples.quarter.min"
+              :end-date="examples.quarter.end"
+              :inline="true" />
+          </template>
+          <template v-slot:code>
+<pre class="language-HTML" data-title="html">
+<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">:min-date</span>="{{ examples.quarter.min }}"
+    <span class="token attr-name">:end-date</span>="{{ examples.quarter.end }}"
+    <span class="token attr-name">type</span>="quarter"
     <span class="token attr-name">:inline</span>="true"
   <span class="token operator">/></span>
   ...
@@ -362,6 +397,16 @@ export default {
       locale: {
         selectedLang: 'es',
         langs: ['es', 'ja', 'ru', 'th'],
+      },
+      month: {
+        currentDate: new Date().toISOString().substr(0, 7),
+        min: '2018-11',
+        end: '2019-07',
+      },
+      quarter: {
+        currentDate: '2019-2',
+        min: '2018-2',
+        end: '2019-3',
       },
       onOpen: {
         message: '',
