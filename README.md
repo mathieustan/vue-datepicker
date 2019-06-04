@@ -95,6 +95,7 @@ Using `v-model`
 | disabled                      | Boolean        | false         | Datepicker disabled or not              |
 | inline                        | Boolean        | false         | Inline datepicker                       |
 | fullscreenMobile              | Boolean        | false         | Datepicker will appear in a bottom sheet in mobile view     |
+| tabindex                      | String\|Number | '0'           | Specify input tabindex                  |
 
 ## Events
 

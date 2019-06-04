@@ -14,8 +14,8 @@
       :value="dateFormatted"
       :disabled="disabled"
       :placeholder="placeholder"
+      :tabindex="tabindex"
       type="text"
-      tabindex="1"
       readonly
       @focus="$emit('focus')"
     >
@@ -39,6 +39,7 @@ export default {
     placeholder: { type: String },
     color: { type: String },
     disabled: { type: Boolean },
+    tabindex: { type: [String, Number] },
   },
   computed: {
     // Displayed Date

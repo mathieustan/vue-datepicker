@@ -13,6 +13,7 @@
       :placeholder="placeholder"
       :color="color"
       :disabled="disabled"
+      :tabindex="tabindex"
       @toggleDatepicker="toggleDatepicker"
       @focus="showDatePicker"
     />
@@ -89,6 +90,8 @@ export default {
     inline: { type: Boolean, default: false },
     // Responsive bottom sheet
     fullscreenMobile: { type: Boolean, default: false },
+    // tabindex
+    tabindex: { type: [String, Number], default: '0' },
   },
   data: () => ({
     date: undefined,
