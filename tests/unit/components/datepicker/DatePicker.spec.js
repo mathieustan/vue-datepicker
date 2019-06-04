@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import * as bodyScrollLockFunctions from 'body-scroll-lock';
 import mockDate from 'mockdate';
 import { shallowMount } from '@vue/test-utils';
 import DatePicker from '@/components/datepicker/DatePicker.vue';
@@ -8,6 +9,10 @@ import {
   DEFAULT_HEADER_DATE_FORMAT,
   DEFAULT_OUTPUT_DATE_FORMAT,
 } from '@/constants';
+
+jest.mock('body-scroll-lock', () => ({
+  clearAllBodyScrollLocks: jest.fn(),
+}));
 
 beforeEach(() => {
   mockDate.set(new Date([2019, 5, 16]));
@@ -52,6 +57,13 @@ describe('DatePicker', () => {
     expect(wrapper.isVueInstance()).toBeTruthy();
     expect(wrapper.vm.date).toEqual(dayjs(dummyDate));
     expect(wrapper.vm.isVisible).toEqual(false);
+    expect(wrapper.vm.placeholder).toEqual('YYYY-MM-DD');
+    expect(wrapper.vm.color).toEqual('#4f88ff');
+    expect(wrapper.vm.minDate).toEqual(undefined);
+    expect(wrapper.vm.endDate).toEqual(undefined);
+    expect(wrapper.vm.disabled).toEqual(false);
+    expect(wrapper.vm.inline).toEqual(false);
+    expect(wrapper.vm.fullscreenMobile).toEqual(false);
   });
 
   describe('computed', () => {
@@ -160,6 +172,7 @@ describe('DatePicker', () => {
 
         wrapper.vm.hideDatePicker();
         expect(wrapper.vm.isVisible).toEqual(false);
+        expect(bodyScrollLockFunctions.clearAllBodyScrollLocks).toHaveBeenCalled();
         expect(wrapper.emitted().onClose).toBeTruthy();
       });
 
@@ -169,6 +182,7 @@ describe('DatePicker', () => {
 
         wrapper.vm.hideDatePicker();
         expect(wrapper.vm.isVisible).toEqual(false);
+        expect(bodyScrollLockFunctions.clearAllBodyScrollLocks).not.toHaveBeenCalled();
         expect(wrapper.emitted().onClose).toBeFalsy();
       });
     });

@@ -51,7 +51,8 @@ export default {
       margin-bottom: ($gutter*6);
     }
 
-    &.example-inline {
+    &.example-inline,
+    &.example-range {
       .example-row {
         flex-direction: column;
         align-items: flex-start;
@@ -61,16 +62,26 @@ export default {
 
   .example-title {
     display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
     padding: $gutter*2;
     margin: 0;
     border-radius: 8px 8px 0 0;
 
+    @include mq(tablet) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     .title {
       font-weight: 500;
       margin: 0;
+    }
+
+    .inputs {
+      margin-top: $gutter;
     }
   }
 

@@ -1,13 +1,21 @@
 import Vue from 'vue';
+import * as bodyScrollLockFunctions from 'body-scroll-lock';
 import { shallowMount } from '@vue/test-utils';
 import dynamicPosition from '@/mixins/dynamicPosition';
 
 import * as utilsFunctions from '@/utils';
 
+jest.mock('body-scroll-lock', () => ({
+  disableBodyScroll: jest.fn(),
+  enableBodyScroll: jest.fn(),
+  clearAllBodyScrollLocks: jest.fn(),
+}));
+
 describe('DatePickerAgenda', () => {
   let mountComponent;
   const EmptyComponent = Vue.component('empty-component', {
     mixins: [dynamicPosition],
+    props: ['fullscreenMobile', 'isVisible'],
     template: '<div></div>',
   });
 
@@ -18,7 +26,15 @@ describe('DatePickerAgenda', () => {
       origin: 'origin',
     });
     jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => cb());
-    mountComponent = () => shallowMount(EmptyComponent);
+    mountComponent = ({
+      fullscreenMobile = false,
+      isVisible = false,
+    } = {}) => shallowMount(EmptyComponent, {
+      propsData: {
+        fullscreenMobile,
+        isVisible,
+      },
+    });
   });
 
   afterEach(() => {
@@ -65,7 +81,6 @@ describe('DatePickerAgenda', () => {
 
       wrapper.destroy();
       expect(window.removeEventListener).toHaveBeenCalledWith('resize', expect.any(Function));
-
     });
   });
 
@@ -76,6 +91,19 @@ describe('DatePickerAgenda', () => {
 
         wrapper.vm.updatePosition();
         expect(utilsFunctions.computePositionFromParent).toHaveBeenCalled();
+      });
+
+      it('should lock body scroll if fullscreenMobile equal true & innerWidth < 768', () => {
+        const wrapper = mountComponent({ fullscreenMobile: true, isVisible: true });
+        global.innerWidth = 479;
+        wrapper.vm.updatePosition();
+
+        expect(bodyScrollLockFunctions.disableBodyScroll).toHaveBeenCalledWith(wrapper.element);
+
+        global.innerWidth = 1000;
+        wrapper.vm.updatePosition();
+
+        expect(bodyScrollLockFunctions.enableBodyScroll).toHaveBeenCalledWith(wrapper.element);
       });
     });
   });

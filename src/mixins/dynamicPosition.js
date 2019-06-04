@@ -1,3 +1,4 @@
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { computePositionFromParent } from '@/utils';
 
 const dynamicPosition = {
@@ -23,14 +24,19 @@ const dynamicPosition = {
     const eventHandler = () => requestAnimationFrame(this.updatePosition);
     window.addEventListener('resize', eventHandler);
 
-    // Remove the scroll hanlder when the
-    // component is destroyed.
     this.$on('hook:destroyed', () => {
       window.removeEventListener('resize', eventHandler);
+      clearAllBodyScrollLocks();
     });
   },
   methods: {
     updatePosition () {
+      if (window.innerWidth < 480 && this.fullscreenMobile && this.isVisible) {
+        disableBodyScroll(this.$el);
+      } else {
+        enableBodyScroll(this.$el);
+      }
+
       const { top, left, origin } = computePositionFromParent(
         this.$el,
         this.$el.parentElement,

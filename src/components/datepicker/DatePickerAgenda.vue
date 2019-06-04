@@ -3,10 +3,33 @@
     <div
       v-if="shouldShowAgenda"
       :style="styles"
-      :class="{ 'inline' : inline }"
+      :class="{
+        'inline' : inline,
+        'bottom-sheet': fullscreenMobile,
+      }"
       class="datepicker"
       name="datepicker-slide"
       @click.stop>
+
+      <!-- Title (Only for fullscreenMobile) -->
+      <div
+        v-if="fullscreenMobile"
+        class="datepicker-title">
+        <p>{{ name }}</p>
+        <button type="button" @click="$emit('close')">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fal"
+            data-icon="times"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 320 512"
+          >
+            <path fill="currentColor" d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z" />
+          </svg>
+        </button>
+      </div>
 
       <!-- Header -->
       <DatePickerHeader
@@ -117,9 +140,11 @@ export default {
   mixins: [ dynamicPosition ],
   components: { DatePickerHeader, DatePickerControls, DatePickerYearMonth },
   props: {
+    name: { type: String },
     date: { type: [Date, Object], required: true },
     isVisible: { type: Boolean, default: false },
     inline: { type: Boolean, default: false },
+    fullscreenMobile: { type: Boolean, default: false },
     locale: { type: Object },
     color: { type: String },
     formatHeader: { type: String },
@@ -291,6 +316,18 @@ export default {
       width: get-size(desktop, width);
     }
 
+    &.datepicker-slide-enter-active,
+    &.datepicker-slide-leave-active {
+      opacity: 1;
+      transition: all 300ms;
+      transition-property: transform, opacity;
+      transform: scale(1);
+    }
+    &.datepicker-slide-leave-to, &.datepicker-slide-enter{
+      opacity: 0;
+      transform: scale(0);
+    }
+
     &.inline {
       position: relative;
       box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),
@@ -298,18 +335,77 @@ export default {
         0px 1px 5px 0px rgba(0,0,0,0.12);
       z-index: 1;
     }
+
+    &.bottom-sheet {
+      $height: get-size(mobile, title) +
+        get-size(mobile, header) +
+        get-size(mobile, controls) +
+        (get-size(mobile, day-height) * 6) +
+        30px;
+      @include mq($to: phone) {
+        position: fixed;
+        top: auto !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: $height;
+        width: 100%;
+        border-radius: 12px 12px 0 0;
+
+        &.datepicker-slide-enter-active,
+        &.datepicker-slide-leave-active {
+          opacity: 1;
+          transition: all 300ms;
+          transition-property: transform, opacity;
+          transform: translateY(0);
+        }
+        &.datepicker-slide-leave-to, &.datepicker-slide-enter{
+          opacity: 0;
+          transform: translateY(100%);
+        }
+
+        // CF https://medium.com/@draganeror/iphone-x-layout-features-with-css-environment-variables-d57423433dec
+        // Browsers which partially support CSS Environment variables (iOS 11.0-11.2).
+        @supports (padding-bottom: constant(safe-area-inset-bottom)) {
+          --safe-area-inset-bottom: constant(safe-area-inset-bottom);
+          height: calc(#{$height} + var(--safe-area-inset-bottom));
+        }
+
+        // Browsers which fully support CSS Environment variables (iOS 11.2+).
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+          --safe-area-inset-bottom: env(safe-area-inset-bottom);
+          height: calc(#{$height} + var(--safe-area-inset-bottom));
+        }
+      }
+    }
   }
 
-  .datepicker-slide-enter-active,
-  .datepicker-slide-leave-active {
-    opacity: 1;
-    transition: all 300ms;
-    transition-property: transform, opacity;
-    transform: scale(1);
-  }
-  .datepicker-slide-leave-to, .datepicker-slide-enter{
-    opacity: 0;
-    transform: scale(0);
+  // ----------------------
+  // Title
+  // ----------------------
+  .datepicker-title {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: get-size(mobile, title);
+    padding: 0 $gutter*2;
+    border-radius: 12px 12px 0 0;
+
+    @include mq(phone) {
+      display: none;
+    }
+
+    button {
+      @include reset-button;
+      width: 24px;
+      height: 24px;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
 
   .datepicker-content {
@@ -334,7 +430,7 @@ export default {
 
     .datepicker-weekday {
       float: left;
-      width: get-size(mobile, day-width);
+      width: calc(100% / 7);
       text-align: center;
 
       @include mq(tablet) {
@@ -375,7 +471,7 @@ export default {
     .datepicker-day {
       @include reset-button;
       position: relative;
-      width: get-size(mobile, day-width);
+      width: calc(100% / 7);
       height: get-size(mobile, day-height);
       line-height: 1;
       font-size: 12px;
@@ -387,7 +483,7 @@ export default {
       transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);
 
       @include mq(tablet) {
-        width: get-size(desktop, day-width);
+        width: calc(100% / 7);
         height: get-size(desktop, day-height);
         line-height: get-size(desktop, day-height);
       }
@@ -396,14 +492,14 @@ export default {
         color: white;
 
         .datepicker-day__effect {
-          transform: scale(1);
+          transform: translateX(-50%) scale(1);
           opacity: .6;
         }
       }
       &.selected{
         color: white;
         .datepicker-day__effect {
-          transform: scale(1);
+          transform: translateX(-50%) scale(1);
           opacity: 1;
         }
       }
@@ -416,7 +512,8 @@ export default {
     .datepicker-day--current {
       position: absolute;
       top: 1px;
-      left: 2px;
+      left: 50%;
+      transform: translateX(-50%);
       width: #{get-size(mobile, day-height) - 2};
       height: #{get-size(mobile, day-height) - 2};
       border-radius: 50%;
@@ -424,7 +521,6 @@ export default {
 
       @include mq(tablet) {
         top: 4px;
-        left: 2px;
         width: 36px;
         height: 36px;
       }
@@ -433,17 +529,16 @@ export default {
     .datepicker-day__effect {
       position: absolute;
       top: 1px;
-      left: 2px;
+      left: 50%;
       width: #{get-size(mobile, day-height) - 2};
       height: #{get-size(mobile, day-height) - 2};
       border-radius: 50%;
       transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);
       transition-property: transform;
-      transform: scale(0);
+      transform: translateX(-50%) scale(0);
 
       @include mq(tablet) {
         top: 4px;
-        left: 2px;
         width: 36px;
         height: 36px;
       }

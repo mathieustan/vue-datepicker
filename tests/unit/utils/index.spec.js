@@ -49,23 +49,30 @@ describe('Utils: Functions', () => {
       // Should place below
       [
         { width: 300, height: 800 },
-        { top: 100, left: 0, bottom: 100, width: 300 },
+        { top: 100, left: 0, bottom: 100, width: 300, height: 100 },
         { width: 100, height: 100 },
         { top: 0, left: 100, origin: 'top center' },
       ],
       // Should place on left
       [
         { width: 800, height: 500 },
-        { top: 250, left: 500, bottom: 250, width: 300 },
+        { top: 250, left: 500, bottom: 250, width: 300, height: 100 },
         { width: 400, height: 400 },
         { top: -250, left: -400, origin: 'top right' },
       ],
       // Should place on right
       [
-        { width: 800, height: 500 },
-        { top: 250, left: 100, bottom: 250, width: 300 },
+        { width: 800, height: 400 },
+        { top: 200, left: 50, bottom: 200, width: 300, height: 100 },
+        { width: 300, height: 300 },
+        { top: -200, left: 300, origin: 'bottom left' },
+      ],
+      // Should place middle
+      [
         { width: 400, height: 400 },
-        { top: -250, left: 300, origin: 'bottom left' },
+        { top: 200, left: 150, bottom: 200, width: 300, height: 100 },
+        { width: 300, height: 300 },
+        { top: -100, left: 0, origin: 'center center' },
       ],
     ])(
       'should compute position to an element from parent and window',

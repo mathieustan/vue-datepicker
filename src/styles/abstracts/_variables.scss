@@ -15,13 +15,16 @@ $gutter: 8px;
 $sizes: (
   desktop: (
     width: 315px,
-    header: 100px,
+    title: 48px,
+    header: 85px,
     day-width: 41px,
     day-height: 41px,
     controls: 56px,
   ),
   mobile: (
     width: 290px,
+    title: 48px,
+    header: 85px,
     day-width: 38px,
     day-height: 36px,
     controls: 48px,

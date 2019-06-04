@@ -19,7 +19,9 @@
   "license": "MIT",
   "main": "dist/vue-datepicker.common.js",
   "unpkg": "dist/vue-datepicker.min.js",
-  "files": [ "dist/" ],
+  "files": [
+    "dist/"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mathieustan/vue-datepicker.git"
@@ -38,6 +40,7 @@
     "test:client": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "body-scroll-lock": "^2.6.1",
     "core-js": "^2.6.5",
     "dayjs": "^1.8.14",
     "vue": "^2.6.10",

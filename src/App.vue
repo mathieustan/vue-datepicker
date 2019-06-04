@@ -150,8 +150,8 @@
           </template>
         </Example>
 
-        <!-- EXAMPLE : PLaceholder  -->
-        <Example title="PLaceholder" :current-date="examples.placeholder.currentDate">
+        <!-- EXAMPLE : Placeholder  -->
+        <Example title="Placeholder" :current-date="examples.placeholder.currentDate">
           <template v-slot:datepicker>
             <DatePicker v-model="examples.placeholder.currentDate" placeholder="DD/MM/YYYY" />
           </template>
@@ -170,7 +170,7 @@
           </template>
         </Example>
 
-        <!-- EXAMPLE : MiDate -->
+        <!-- EXAMPLE : MinDate -->
         <Example title="minDate & endDate" :current-date="currentDate">
           <template v-slot:datepicker>
             <DatePicker v-model="currentDate" :min-date="examples.allowedDates.min" :end-date="examples.allowedDates.max" />
@@ -218,7 +218,8 @@
         <Example title="Locale (only with lang)" :current-date="currentDate">
           <template v-slot:inputs>
             <div class="select-box">
-              <select v-model="examples.locale.selectedLang">
+              <label for="lang-select"> Choose a lang: </label>
+              <select id="lang-select" v-model="examples.locale.selectedLang">
                 <option
                   v-for="(lang, index) in examples.locale.langs"
                   :key="index">
@@ -296,7 +297,10 @@
         </Example>
 
         <!-- EXAMPLE : Type: Quarter -->
-        <Example title="Quarter picker (type: 'quarter')" :current-date="examples.quarter.currentDate" class="example-inline">
+        <Example
+          title="Quarter picker (type: 'quarter')"
+          :current-date="examples.quarter.currentDate"
+          class="example-inline">
           <template v-slot:datepicker>
             <DatePicker
               v-model="examples.quarter.currentDate"
@@ -328,21 +332,31 @@
           title="Ranger picker example"
           class="example-range">
           <template v-slot:datepicker>
-            <span class="datepicker-label">Du</span>
-            <DatePicker
-              v-model="examples.range.startDate"
-              :min-date="examples.range.min"
-              :end-date="examples.range.end"
-              @onChange="examples.range.showEndDate = true"
-            />
-            <span class="datepicker-label">Au</span>
-            <DatePicker
-              v-model="examples.range.endDate"
-              :min-date="examples.range.startDate"
-              :end-date="examples.range.end"
-              :visible="examples.range.showEndDate"
-              @onClose="examples.range.showEndDate = false"
-            />
+            <div class="datepicker-range">
+              <div class="datepicker-range__row">
+                <span class="datepicker-label">Du</span>
+                <DatePicker
+                  v-model="examples.range.startDate"
+                  :name="`Starting Date`"
+                  :min-date="examples.range.min"
+                  :end-date="examples.range.end"
+                  :fullscreen-mobile="examples.range.fullscreenMobile"
+                  @onChange="examples.range.showEndDate = true"
+                />
+              </div>
+              <div class="datepicker-range__row">
+                <span class="datepicker-label">Au</span>
+                <DatePicker
+                  v-model="examples.range.endDate"
+                  :name="`Ending Date`"
+                  :min-date="examples.range.startDate"
+                  :end-date="examples.range.end"
+                  :visible="examples.range.showEndDate"
+                  :fullscreen-mobile="examples.range.fullscreenMobile"
+                  @onClose="examples.range.showEndDate = false"
+                />
+              </div>
+            </div>
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -350,14 +364,18 @@
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="startDate"
+    <span class="token attr-name">:name</span>="`Starting Date`"
     <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
     <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
+    <span class="token attr-name">:fullscreen-mobile</span>="{{ examples.range.fullscreenMobile }}"
     <span class="token attr-name">@onChange</span>="showEndDate = true"
   <span class="token operator">/></span>
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="endDate"
+    <span class="token attr-name">:name</span>="`Ending Date`"
     <span class="token attr-name">:min-date</span>="startDate"
     <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
+    <span class="token attr-name">:fullscreen-mobile</span>="{{ examples.range.fullscreenMobile }}"
     <span class="token attr-name">:visible</span>="showEnDate"
     <span class="token attr-name">@onClose</span>="showEndDate = false"
   <span class="token operator">/></span>
@@ -486,6 +504,7 @@ export default {
         showEnDate: false,
         min: '2018-08-12',
         end: '2019-08-12',
+        fullscreenMobile: true,
       },
       onOpen: {
         message: '',
@@ -527,7 +546,6 @@ export default {
     background-color: #fff;
     font-size: 16px;
     min-width: 300px;
-    overflow-x: hidden;
     text-rendering: optimizeLegibility;
     text-size-adjust: 100%;
     margin: 0;
@@ -575,6 +593,26 @@ export default {
 
   .datepicker-label {
     margin-left: $gutter*2;
+
+    .datepicker-range & {
+      margin-left: 0;
+    }
+  }
+
+  .datepicker-range {
+    display: flex;
+    flex-direction: column;
+
+    @include mq(tablet) {
+      flex-direction: row;
+    }
+
+    .datepicker-range__row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: $gutter 0;
+    }
   }
 
   .datepicker-container {
@@ -755,7 +793,7 @@ export default {
 
     select {
       background-color: white;
-      padding: 12px;
+      padding: 4px;
       width: 100px;
       border: none;
       font-size: 20px;

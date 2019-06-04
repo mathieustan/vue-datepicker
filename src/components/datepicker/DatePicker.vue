@@ -16,9 +16,15 @@
       @toggleDatepicker="toggleDatepicker"
       @focus="showDatePicker"
     />
+    <DatePickerOverlay
+      v-if="fullscreenMobile && isVisible"
+      @close="hideDatePicker"
+    />
     <DatepickerAgenda
+      :name="name"
       :isVisible="isVisible"
       :inline="inline"
+      :fullscreen-mobile="fullscreenMobile"
       :date="date"
       :locale="locale"
       :format-header="headerFormat"
@@ -28,14 +34,17 @@
       :end-date="endDate"
       :type="type"
       @selectDate="changeDate"
+      @close="hideDatePicker"
     />
   </div>
 </template>
 
 <script>
 import dayjs from 'dayjs';
+import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { directive as clickOutside } from 'vue-clickaway';
 import DatePickerCustomInput from './DatePickerCustomInput.vue';
+import DatePickerOverlay from './DatePickerOverlay.vue';
 import DatepickerAgenda from './DatePickerAgenda.vue';
 import {
   getDefaultLocale,
@@ -48,7 +57,7 @@ import {
 export default {
   name: 'DatePicker',
   directives: { clickOutside },
-  components: { DatePickerCustomInput, DatepickerAgenda },
+  components: { DatePickerCustomInput, DatePickerOverlay, DatepickerAgenda },
   props: {
     id: { type: String, default: 'datepicker' },
     name: { type: String, default: 'datepicker' },
@@ -77,6 +86,8 @@ export default {
     disabled: { type: Boolean, default: false },
     // Inline
     inline: { type: Boolean, default: false },
+    // Responsive bottom sheet
+    fullscreenMobile: { type: Boolean, default: false },
   },
   data: () => ({
     date: undefined,
@@ -136,6 +147,7 @@ export default {
     hideDatePicker () {
       if (!this.isVisible) return;
       this.isVisible = false;
+      clearAllBodyScrollLocks();
       this.$emit('onClose');
     },
     changeDate (date) {

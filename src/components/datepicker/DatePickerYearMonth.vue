@@ -211,7 +211,8 @@ export default {
       font-size: 16px;
       font-weight: 400;
       list-style-type: none;
-      overflow: auto;
+      overflow-y: scroll; /* has to be scroll, not auto */
+      -webkit-overflow-scrolling: touch;
       padding: 0;
       margin: 0;
       text-align: center;

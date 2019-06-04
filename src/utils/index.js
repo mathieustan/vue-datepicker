@@ -12,6 +12,7 @@ function getOffsets (parentRect) {
     offsetBottom: window.innerHeight - parentRect.bottom,
     offsetTop: parentRect.top,
     offsetLeft: parentRect.left,
+    offsetRight: window.innerWidth - parentRect.left - parentRect.width,
   };
 }
 
@@ -24,7 +25,7 @@ function computePositionFromParent (element, parent, offset) {
   // -------------------------------
   // Compute offsets
   // -------------------------------
-  const { offsetBottom, offsetTop, offsetLeft } = getOffsets(parentRect);
+  const { offsetBottom, offsetTop, offsetLeft, offsetRight } = getOffsets(parentRect);
 
   // -------------------------------
   // Detect space around tvaPicker button
@@ -33,7 +34,22 @@ function computePositionFromParent (element, parent, offset) {
   const elementWidth = element.offsetWidth;
   const isThereEnoughSpaceBelow = offsetBottom - elementHeight > 0;
   const isThereEnoughtSpaceLeft = offsetLeft - elementWidth > 0;
+  const isThereEnoughtSpaceRight = offsetRight - elementWidth > 0;
   const isThereEnoughSpaceAbove = offsetTop - elementHeight > 0;
+  // -------------------------------
+  // If there is not enought space above, below, left & right
+  // placement => MIDDLE
+  // -------------------------------
+  if (!isThereEnoughSpaceBelow &&
+    !isThereEnoughtSpaceLeft &&
+    !isThereEnoughSpaceAbove &&
+    !isThereEnoughtSpaceRight) {
+    return {
+      left: (parentRect.width - elementWidth) / 2,
+      top: (parentRect.height - elementHeight) / 2,
+      origin: 'center center', // for animation only
+    };
+  }
   // -------------------------------
   // If there is not enought space above & below & enought space on left : placement => LEFT
   // Else placement => RIGHT

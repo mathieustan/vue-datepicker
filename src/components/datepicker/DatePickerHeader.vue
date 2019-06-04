@@ -57,6 +57,13 @@ export default {
     flex-direction: column;
     flex-wrap: wrap;
     line-height: 1;
+    min-height: get-size(mobile, header);
+    max-height: get-size(mobile, header);
+
+    @include mq(tablet) {
+      min-height: get-size(desktop, header);
+      max-height: get-size(desktop, header);
+    }
 
     .datepicker-header__year {
       align-items: center;
