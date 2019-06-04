@@ -42,7 +42,7 @@
 <script>
 import dayjs from 'dayjs';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
-import { directive as clickOutside } from 'vue-clickaway';
+import { directive as clickOutside } from 'v-click-outside';
 import DatePickerCustomInput from './DatePickerCustomInput.vue';
 import DatePickerOverlay from './DatePickerOverlay.vue';
 import DatepickerAgenda from './DatePickerAgenda.vue';

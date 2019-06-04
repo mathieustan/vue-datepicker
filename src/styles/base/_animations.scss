@@ -35,9 +35,6 @@
   transition: opacity .3s;
 }
 
-.yearMonth-enter {
-  opacity: 0;
-}
-.yearMonth-leave-to {
+.yearMonth-enter, .yearMonth-leave-to {
   opacity: 0;
 }
