@@ -209,7 +209,7 @@ export default {
     ul {
       width: 100%;
       font-size: 16px;
-      font-weight: 400;
+      font-weight: get-font-weight(normal);
       list-style-type: none;
       overflow-y: scroll; /* has to be scroll, not auto */
       -webkit-overflow-scrolling: touch;
@@ -237,7 +237,7 @@ export default {
         &.active {
           button {
             font-size: 26px;
-            font-weight: 500;
+            font-weight: get-font-weight(medium);
             padding: $gutter 0;
           }
         }
@@ -297,7 +297,7 @@ export default {
         padding: 0 20px;
         height: 30px;
         font-size: 15px;
-        font-weight: 500;
+        font-weight: get-font-weight(medium);
         border-radius: 2px;
         outline: none;
         cursor: pointer;

@@ -1,7 +1,12 @@
 export {
+  generateRandomId,
   computeYearsScrollPosition,
   computePositionFromParent,
 };
+
+function generateRandomId () {
+  return `_${Math.random().toString(36).substr(2, 9)}`;
+}
 
 function computeYearsScrollPosition (container, elementToShow) {
   return elementToShow.offsetTop - (container.offsetHeight / 2) + (elementToShow.offsetHeight / 2);
@@ -57,7 +62,7 @@ function computePositionFromParent (element, parent, offset) {
   if (!isThereEnoughSpaceBelow && !isThereEnoughSpaceAbove) {
     const missingSpaceToShowAbove = Math.abs(offsetTop - elementHeight);
     return {
-      top: (missingSpaceToShowAbove + offset) - elementHeight,
+      top: (missingSpaceToShowAbove + parentRect.height) - elementHeight,
       left: isThereEnoughtSpaceLeft ? -elementWidth - offset : parentRect.width,
       origin: isThereEnoughtSpaceLeft ? 'top right' : 'bottom left',
     };
@@ -68,7 +73,7 @@ function computePositionFromParent (element, parent, offset) {
   // -------------------------------
   return {
     left: (parentRect.width - elementWidth) / 2,
-    top: isThereEnoughSpaceBelow ? offset : -elementHeight,
+    top: isThereEnoughSpaceBelow ? parentRect.height : -elementHeight,
     origin: isThereEnoughSpaceBelow ? 'top center' : 'bottom center', // for animation only
   };
 }

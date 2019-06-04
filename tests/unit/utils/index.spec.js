@@ -1,4 +1,5 @@
 import {
+  generateRandomId,
   computeYearsScrollPosition,
   computePositionFromParent,
 } from '@/utils';
@@ -27,6 +28,14 @@ describe('Utils: Functions', () => {
     jest.clearAllMocks();
   });
 
+  describe('generateRandomId', () => {
+    it('should generate a random string', () => {
+      const randomId = generateRandomId();
+      expect(randomId).toEqual(expect.any(String));
+      expect(randomId.length).toEqual(10);
+    });
+  });
+
   describe('computeYearsScrollPosition', () => {
     it('should return currentYear position from element position', () => {
       const container = { offsetHeight: 200 };
@@ -42,37 +51,37 @@ describe('Utils: Functions', () => {
       // Should place above
       [
         { width: 300, height: 800 },
-        { top: 700, left: 0, bottom: 700, width: 300 },
+        { top: 700, left: 0, bottom: 700, width: 300, height: 50 },
         { width: 100, height: 400 },
         { top: -400, left: 100, origin: 'bottom center' },
       ],
       // Should place below
       [
         { width: 300, height: 800 },
-        { top: 100, left: 0, bottom: 100, width: 300, height: 100 },
+        { top: 100, left: 0, bottom: 100, width: 300, height: 50 },
         { width: 100, height: 100 },
-        { top: 0, left: 100, origin: 'top center' },
+        { top: 50, left: 100, origin: 'top center' },
       ],
       // Should place on left
       [
         { width: 800, height: 500 },
-        { top: 250, left: 500, bottom: 250, width: 300, height: 100 },
+        { top: 250, left: 500, bottom: 250, width: 300, height: 50 },
         { width: 400, height: 400 },
-        { top: -250, left: -400, origin: 'top right' },
+        { top: -200, left: -400, origin: 'top right' },
       ],
       // Should place on right
       [
         { width: 800, height: 400 },
-        { top: 200, left: 50, bottom: 200, width: 300, height: 100 },
+        { top: 200, left: 50, bottom: 200, width: 300, height: 50 },
         { width: 300, height: 300 },
-        { top: -200, left: 300, origin: 'bottom left' },
+        { top: -150, left: 300, origin: 'bottom left' },
       ],
       // Should place middle
       [
         { width: 400, height: 400 },
-        { top: 200, left: 150, bottom: 200, width: 300, height: 100 },
+        { top: 200, left: 150, bottom: 200, width: 300, height: 50 },
         { width: 300, height: 300 },
-        { top: -100, left: 0, origin: 'center center' },
+        { top: -125, left: 0, origin: 'center center' },
       ],
     ])(
       'should compute position to an element from parent and window',

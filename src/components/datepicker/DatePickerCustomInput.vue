@@ -1,18 +1,21 @@
 <template>
   <div
+    :class="{ 'disabled' : disabled }"
     class="datepicker-input"
     @mousedown="$emit('toggleDatepicker')">
     <DatePickerCalendarIcon
       :id="id"
-      :color="date ? color : ``" />
+      :color="date && !disabled ? color : 'rgba(0,0,0,0.6)'"
+      :disabled="disabled" />
     <input
       :id="id"
       :name="id"
-      :style="{ color: color }"
+      :style="{ color: !disabled ? color : 'rgba(0,0,0,0.6)' }"
       :value="dateFormatted"
       :disabled="disabled"
       :placeholder="placeholder"
       type="text"
+      tabindex="1"
       readonly
       @focus="$emit('focus')"
     >
@@ -54,6 +57,10 @@ export default {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+
+    &.disabled {
+      cursor: not-allowed;
+    }
   }
 
   input[type='hidden'] {
@@ -80,9 +87,15 @@ export default {
     line-height: 19px;
     margin-left: $gutter;
 
+    &:focus,
+    &:active {
+      outline: 0;
+      box-shadow: none;
+    }
+
     &:disabled,
     &[disabled] {
-      cursor: default;
+      cursor: not-allowed;
     }
 
     @include input-placeholder {

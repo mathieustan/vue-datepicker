@@ -1,6 +1,8 @@
 <template>
   <!-- eslint-disable max-len -->
-  <label :for="id">
+  <label
+    :class="{ 'disabled' : disabled }"
+    :for="id">
     <svg
       aria-hidden="true"
       focusable="false"

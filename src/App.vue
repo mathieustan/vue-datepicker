@@ -130,6 +130,26 @@
           </template>
         </Example>
 
+        <!-- EXAMPLE : Disabled -->
+        <Example title="Disabled" :current-date="currentDate">
+          <template v-slot:datepicker>
+            <DatePicker v-model="currentDate" :disabled="true" />
+          </template>
+          <template v-slot:code>
+<pre class="language-HTML" data-title="html">
+<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">:disabled</span>="true"
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+</code>
+</pre>
+          </template>
+        </Example>
+
         <!-- EXAMPLE : Color -->
         <Example title="Color" :current-date="currentDate">
           <template v-slot:datepicker>

@@ -4,7 +4,7 @@
     class="datepicker-container">
     <DatePickerCustomInput
       v-if="!inline"
-      :id="id"
+      :id="componentId"
       :name="name"
       :date="value ? date : value"
       :format="inputFormat"
@@ -46,6 +46,7 @@ import { directive as clickOutside } from 'v-click-outside';
 import DatePickerCustomInput from './DatePickerCustomInput.vue';
 import DatePickerOverlay from './DatePickerOverlay.vue';
 import DatepickerAgenda from './DatePickerAgenda.vue';
+import { generateRandomId } from '@/utils';
 import {
   getDefaultLocale,
   setLocaleLang,
@@ -94,6 +95,10 @@ export default {
     isVisible: undefined,
   }),
   computed: {
+    // use a computed to have a dynamicId for each instance
+    componentId () {
+      return `${this.id}${generateRandomId()}`;
+    },
     // If format isnt specificed, select default format from type
     inputFormat () {
       if (!this.format) return getDefaultInputFormat(this.type);
@@ -172,5 +177,10 @@ export default {
     flex-direction: column;
     align-items: center;
     cursor: pointer;
+
+    &:focus,
+    &:active {
+      outline: 0;
+    }
   }
 </style>

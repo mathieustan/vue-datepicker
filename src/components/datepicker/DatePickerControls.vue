@@ -153,7 +153,7 @@ export default {
           position: relative;
           display: flex;
           font-size: 15px;
-          font-weight: 500;
+          font-weight: get-font-weight(medium);
           line-height: 15px;
           padding: 0;
           border: none;

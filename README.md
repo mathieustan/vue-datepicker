@@ -27,7 +27,8 @@ yarn add vuejs-datepicker
 ```
 
 ``` javascript
-import VueDatePicker from 'vue-datepicker';
+import { VueDatePicker } from 'vue-datepicker';
+import 'vue-datepicker/dist/vue-datepicker.css';
 
 export default {
   // ...

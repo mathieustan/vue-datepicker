@@ -69,7 +69,7 @@ export default {
       align-items: center;
       display: inline-flex;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: get-font-weight(medium);
       margin-bottom: 8px;
       opacity: 0.6;
       transition: opacity .3s;
@@ -89,10 +89,10 @@ export default {
       position: relative;
       display: flex;
       width: 100%;
-      font-size: 28px;
-      height: calc(28px + #{$gutter});
+      font-size: 22px;
+      height: calc(22px + #{$gutter});
       text-align: left;
-      font-weight: 500;
+      font-weight: get-font-weight(medium);
       overflow: hidden;
       padding-bottom: $gutter;
       margin-bottom: -#{$gutter};
@@ -102,6 +102,11 @@ export default {
       &:hover,
       &.datepicker-header__date--active {
         opacity: 1;
+      }
+
+      @include mq(tablet) {
+        font-size: 28px;
+        height: calc(28px + #{$gutter});
       }
     }
   }

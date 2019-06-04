@@ -76,7 +76,7 @@ export default {
     }
 
     .title {
-      font-weight: 500;
+      font-weight: get-font-weight(medium);
       margin: 0;
     }
 

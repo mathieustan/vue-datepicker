@@ -312,6 +312,11 @@ export default {
     box-shadow: 0 14px 45px rgba(0,0,0,.25), 0 10px 18px rgba(0,0,0,.22);
     z-index: 2;
 
+    &:focus,
+    &:active {
+      outline: 0;
+    }
+
     @include mq(tablet) {
       width: get-size(desktop, width);
     }
@@ -420,7 +425,7 @@ export default {
   .datepicker-week {
     font-size: 12px;
     line-height: 12px;
-    font-weight: 600;
+    font-weight: get-font-weight(medium);
     padding: $gutter 12px;
     color: rgba(0,0,0,0.38);
 
@@ -478,14 +483,13 @@ export default {
       float: left;
       text-align: center;
       color: rgba(0,0,0,0.87);
-      font-weight: bold;
+      font-weight: get-font-weight(medium);
       cursor: pointer;
       transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);
 
       @include mq(tablet) {
         width: calc(100% / 7);
         height: get-size(desktop, day-height);
-        line-height: get-size(desktop, day-height);
       }
 
       &:hover:not(.disabled) {
