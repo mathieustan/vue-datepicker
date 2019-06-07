@@ -2,7 +2,6 @@
   "name": "@mathieustan/vue-datepicker",
   "description": "A clean datepicker made with VueJs",
   "version": "0.1.0",
-  "private": true,
   "author": "Mathieu Stanowski <mathieu.stan@gmail.com>",
   "keywords": [
     "vue",
