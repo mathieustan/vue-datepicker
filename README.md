@@ -19,11 +19,11 @@ To view a demo online: comming soon
 ## Install
 
 ``` bash
-npm install vuejs-datepicker --save
+npm install @mathieustan/vue-datepicker --save
 ```
 or
 ``` bash
-yarn add vuejs-datepicker
+yarn add @mathieustan/vue-datepicker
 ```
 
 ``` javascript
