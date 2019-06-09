@@ -1,5 +1,5 @@
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
-import { computePositionFromParent } from '@/utils';
+import { getDynamicPosition } from '@/utils/positions';
 
 const dynamicPosition = {
   data: () => ({
@@ -21,25 +21,29 @@ const dynamicPosition = {
     if (this.inline) return;
     // We're using a `requestAnimationFrame()`
     // for optimal performance.
-    const eventHandler = () => requestAnimationFrame(this.updatePosition);
-    window.addEventListener('resize', eventHandler);
+    this.eventHandler = () => requestAnimationFrame(this.updatePosition);
 
     this.$on('hook:destroyed', () => {
-      window.removeEventListener('resize', eventHandler);
       clearAllBodyScrollLocks();
     });
   },
   methods: {
+    initResizeListener () {
+      window.addEventListener('resize', this.eventHandler);
+    },
+    removeResizeListener () {
+      window.removeEventListener('resize', this.eventHandler);
+    },
     updatePosition () {
       if (window.innerWidth < 480 && this.fullscreenMobile && this.isVisible) {
-        disableBodyScroll(this.$el);
+        disableBodyScroll(this.$refs.content);
       } else {
-        enableBodyScroll(this.$el);
+        enableBodyScroll(this.$refs.content);
       }
 
-      const { top, left, origin } = computePositionFromParent(
-        this.$el,
-        this.$el.parentElement,
+      const { top, left, origin } = getDynamicPosition(
+        this.$refs.content,
+        document.querySelector('.datepicker-container--active'),
         this.offset
       );
       this.top = top;

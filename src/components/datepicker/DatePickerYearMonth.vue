@@ -101,7 +101,7 @@ import {
   areSameDates,
 } from '@/utils/Dates';
 
-import { computeYearsScrollPosition } from '@/utils';
+import { computeYearsScrollPosition } from '@/utils/positions';
 
 export default {
   name: 'DatePickerYearMonth',

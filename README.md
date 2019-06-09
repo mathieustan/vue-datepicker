@@ -14,7 +14,7 @@
 
 ## Demo
 
-To view a demo online: comming soon
+To view a demo online: https://vue-datepicker.netlify.com/
 
 ## Install
 
@@ -27,8 +27,8 @@ yarn add @mathieustan/vue-datepicker
 ```
 
 ``` javascript
-import { VueDatePicker } from 'vue-datepicker';
-import 'vue-datepicker/dist/vue-datepicker.css';
+import { VueDatePicker } from '@mathieustan/vue-datepicker';
+import '@mathieustan/vue-datepicker/dist/vue-datepicker.css';
 
 export default {
   // ...
@@ -96,6 +96,7 @@ Using `v-model`
 | inline                        | Boolean        | false         | Inline datepicker                       |
 | fullscreenMobile              | Boolean        | false         | Datepicker will appear in a bottom sheet in mobile view     |
 | tabindex                      | String\|Number | '0'           | Specify input tabindex                  |
+| attachTo                      | String         | '#app'        | It will mount datepicker popup into this element as a child |
 
 ## Events
 

@@ -1,8 +1,7 @@
 import {
-  generateRandomId,
   computeYearsScrollPosition,
-  computePositionFromParent,
-} from '@/utils';
+  getDynamicPosition,
+} from '@/utils/positions';
 
 describe('Utils: Functions', () => {
   const createDivParentWithChildren = ({
@@ -28,14 +27,6 @@ describe('Utils: Functions', () => {
     jest.clearAllMocks();
   });
 
-  describe('generateRandomId', () => {
-    it('should generate a random string', () => {
-      const randomId = generateRandomId();
-      expect(randomId).toEqual(expect.any(String));
-      expect(randomId.length).toEqual(10);
-    });
-  });
-
   describe('computeYearsScrollPosition', () => {
     it('should return currentYear position from element position', () => {
       const container = { offsetHeight: 200 };
@@ -44,7 +35,7 @@ describe('Utils: Functions', () => {
     });
   });
 
-  describe('computePositionFromParent', () => {
+  describe('getDynamicPosition', () => {
     const offset = 0;
 
     it.each([
@@ -53,35 +44,35 @@ describe('Utils: Functions', () => {
         { width: 300, height: 800 },
         { top: 700, left: 0, bottom: 700, width: 300, height: 50 },
         { width: 100, height: 400 },
-        { top: -400, left: 100, origin: 'bottom center' },
+        { top: 300, left: 100, origin: 'bottom center' },
       ],
       // Should place below
       [
         { width: 300, height: 800 },
         { top: 100, left: 0, bottom: 100, width: 300, height: 50 },
         { width: 100, height: 100 },
-        { top: 50, left: 100, origin: 'top center' },
+        { top: 150, left: 100, origin: 'top center' },
       ],
       // Should place on left
       [
         { width: 800, height: 500 },
         { top: 250, left: 500, bottom: 250, width: 300, height: 50 },
         { width: 400, height: 400 },
-        { top: -200, left: -400, origin: 'top right' },
+        { top: 50, left: 100, origin: 'top right' },
       ],
       // Should place on right
       [
         { width: 800, height: 400 },
         { top: 200, left: 50, bottom: 200, width: 300, height: 50 },
         { width: 300, height: 300 },
-        { top: -150, left: 300, origin: 'bottom left' },
+        { top: 50, left: 350, origin: 'bottom left' },
       ],
       // Should place middle
       [
         { width: 400, height: 400 },
         { top: 200, left: 150, bottom: 200, width: 300, height: 50 },
         { width: 300, height: 300 },
-        { top: -125, left: 0, origin: 'center center' },
+        { top: 50, left: 50, origin: 'center center' },
       ],
     ])(
       'should compute position to an element from parent and window',
@@ -91,12 +82,14 @@ describe('Utils: Functions', () => {
           offsetWidth: { get: () => elementSize.width },
         }, { writable: true });
 
+        global.pageXOffset = 0;
+        global.pageXOffset = 0;
         global.innerWidth = windowSize.width;
         global.innerHeight = windowSize.height;
 
         const { parent, element } = createDivParentWithChildren();
         jest.spyOn(parent, 'getBoundingClientRect').mockReturnValue(parentRect);
-        expect(computePositionFromParent(element, parent, offset)).toEqual(expectedResult);
+        expect(getDynamicPosition(element, parent, offset)).toEqual(expectedResult);
       },
     );
   });

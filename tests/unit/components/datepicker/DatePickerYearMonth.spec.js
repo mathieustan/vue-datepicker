@@ -3,7 +3,7 @@ import { shallowMount } from '@vue/test-utils';
 import DatePickerYearMonth from '@/components/datepicker/DatePickerYearMonth.vue';
 
 import Dates from '@/utils/Dates';
-import * as utilsFunction from '@/utils';
+import * as utilsFunction from '@/utils/positions';
 
 describe('DatePickerYearMonth', () => {
   let mountComponent;

@@ -3,7 +3,7 @@ import * as bodyScrollLockFunctions from 'body-scroll-lock';
 import { shallowMount } from '@vue/test-utils';
 import dynamicPosition from '@/mixins/dynamicPosition';
 
-import * as utilsFunctions from '@/utils';
+import * as utilsFunctions from '@/utils/positions';
 
 jest.mock('body-scroll-lock', () => ({
   disableBodyScroll: jest.fn(),
@@ -11,7 +11,7 @@ jest.mock('body-scroll-lock', () => ({
   clearAllBodyScrollLocks: jest.fn(),
 }));
 
-describe('DatePickerAgenda', () => {
+describe('dynamicPosition', () => {
   let mountComponent;
   const EmptyComponent = Vue.component('empty-component', {
     mixins: [dynamicPosition],
@@ -20,7 +20,7 @@ describe('DatePickerAgenda', () => {
   });
 
   beforeEach(() => {
-    jest.spyOn(utilsFunctions, 'computePositionFromParent').mockReturnValue({
+    jest.spyOn(utilsFunctions, 'getDynamicPosition').mockReturnValue({
       top: 0,
       left: 0,
       origin: 'origin',
@@ -66,35 +66,50 @@ describe('DatePickerAgenda', () => {
   });
 
   describe('mounted', () => {
-    beforeEach(() => {
-      jest.spyOn(window, 'addEventListener').mockImplementation((type, cb) => cb());
-      jest.spyOn(window, 'removeEventListener');
-    });
-
     it('should init listeners', () => {
-      const wrapper = mountComponent();
-      jest.spyOn(wrapper.vm, 'updatePosition').mockReturnValue(true);
-
-      expect(window.addEventListener).toHaveBeenCalledWith('resize', expect.any(Function));
-      global.innerWidth = 1000;
-      // expect(wrapper.vm.updatePosition).toHaveBeenCalled();
-
+      const wrapper = mountComponent({ isVisible: true });
       wrapper.destroy();
-      expect(window.removeEventListener).toHaveBeenCalledWith('resize', expect.any(Function));
+      expect(bodyScrollLockFunctions.clearAllBodyScrollLocks).toHaveBeenCalledWith();
     });
   });
 
   describe('methods', () => {
+    describe('initResizeListener', () => {
+      it('should init resize listener', () => {
+        jest.spyOn(window, 'addEventListener').mockImplementation((type, cb) => cb());
+
+        const wrapper = mountComponent({ isVisible: true });
+        wrapper.vm.initResizeListener();
+        jest.spyOn(wrapper.vm, 'updatePosition').mockReturnValue(true);
+
+        expect(window.addEventListener).toHaveBeenCalledWith('resize', expect.any(Function));
+      });
+    });
+
+    describe('removeResizeListener', () => {
+      it('should init resize listener', () => {
+        jest.spyOn(window, 'removeEventListener').mockReturnValue(true);
+
+        const wrapper = mountComponent({ isVisible: true });
+        wrapper.vm.removeResizeListener();
+
+        jest.spyOn(wrapper.vm, 'updatePosition').mockReturnValue(true);
+
+        expect(window.removeEventListener).toHaveBeenCalledWith('resize', expect.any(Function));
+      });
+    });
+
     describe('updatePosition', () => {
-      it('should call computePositionFromParent & update windowWidth', () => {
+      it('should call getDynamicPosition & update windowWidth', () => {
         const wrapper = mountComponent();
 
         wrapper.vm.updatePosition();
-        expect(utilsFunctions.computePositionFromParent).toHaveBeenCalled();
+        expect(utilsFunctions.getDynamicPosition).toHaveBeenCalled();
       });
 
       it('should lock body scroll if fullscreenMobile equal true & innerWidth < 768', () => {
         const wrapper = mountComponent({ fullscreenMobile: true, isVisible: true });
+        wrapper.vm.$refs = { content: wrapper.element };
         global.innerWidth = 479;
         wrapper.vm.updatePosition();
 

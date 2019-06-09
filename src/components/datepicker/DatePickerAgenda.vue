@@ -1,7 +1,9 @@
 <template>
-  <transition name="datepicker-slide" appear>
+  <transition name="datepicker-slide" appear @after-enter="setActive">
     <div
+      v-click-outside="{ handler : () => $emit('hide'), isActive: !inline && isActive }"
       v-if="shouldShowAgenda"
+      ref="content"
       :style="styles"
       :class="{
         'inline' : inline,
@@ -129,7 +131,10 @@ import Dates, {
 } from '@/utils/Dates';
 import { yearMonthSelectorTypes } from '@/constants';
 
+import { directive as clickOutside } from 'v-click-outside';
+
 import dynamicPosition from '@/mixins/dynamicPosition';
+import detachable from '@/mixins/detachable';
 
 import DatePickerHeader from './DatePickerHeader.vue';
 import DatePickerControls from './DatePickerControls.vue';
@@ -137,7 +142,8 @@ import DatePickerYearMonth from './DatePickerYearMonth.vue';
 
 export default {
   name: 'DatepickerAgenda',
-  mixins: [ dynamicPosition ],
+  mixins: [ detachable, dynamicPosition ],
+  directives: { clickOutside },
   components: { DatePickerHeader, DatePickerControls, DatePickerYearMonth },
   props: {
     name: { type: String },
@@ -154,6 +160,7 @@ export default {
     type: { type: String },
   },
   data: () => ({
+    isActive: false,
     currentDate: undefined,
     mutableDate: undefined,
     transitionDaysName: 'slide-h-next',
@@ -176,13 +183,6 @@ export default {
         return `has-6-weeks`;
       }
       return `has-5-weeks`;
-    },
-    styles () {
-      return {
-        left: `${this.left}px`,
-        top: `${this.top}px`,
-        transformOrigin: this.origin,
-      };
     },
     shouldShowAgenda () {
       return this.isVisible || this.inline;
@@ -214,17 +214,23 @@ export default {
           if (this.inline) return;
 
           await this.$nextTick();
-          // from @/mixins/agendaPositionMixin
-          this.updatePosition();
+
+          this.initDetach(); // from @/mixins/detachable
+          this.initResizeListener(); // from @/mixins/dynamicPosition
+          this.updatePosition(); // from @/mixins/dynamicPosition
           return;
         };
         // reset data when datepicker is hidden
+        this.removeResizeListener();
         Object.assign(this.$data, this.$options.data());
       },
       immediate: true,
     },
   },
   methods: {
+    setActive () {
+      this.isActive = true;
+    },
     isSelected (day) {
       return this.mutableDate.unix() === day.unix();
     },
@@ -356,6 +362,7 @@ export default {
         height: $height;
         width: 100%;
         border-radius: 12px 12px 0 0;
+        z-index: 4;
 
         &.datepicker-slide-enter-active,
         &.datepicker-slide-leave-active {
@@ -399,6 +406,10 @@ export default {
 
     @include mq(phone) {
       display: none;
+    }
+
+    p {
+      margin: 0;
     }
 
     button {

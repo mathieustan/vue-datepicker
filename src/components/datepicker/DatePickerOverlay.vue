@@ -1,12 +1,39 @@
 <template>
   <transition name="overlay" appear>
-      <div class="datepicker-overlay" @click="$emit('close')" />
+      <div
+        ref="content"
+        v-if="shouldShowOverlay"
+        class="datepicker-overlay"
+        @click="$emit('close')"
+      />
   </transition>
 </template>
 
 <script>
+import detachable from '@/mixins/detachable';
+
 export default {
   name: 'DatePickerOverlay',
+  mixins: [detachable],
+  props: {
+    isVisible: { type: Boolean, default: false },
+    fullscreenMobile: { type: Boolean, default: false },
+  },
+  computed: {
+    shouldShowOverlay () {
+      return this.isVisible && this.fullscreenMobile;
+    },
+  },
+  watch: {
+    shouldShowOverlay: {
+      async handler (shouldShow) {
+        if (!shouldShow) return;
+        await this.$nextTick();
+        this.initDetach(); // from @/mixins/detachable
+      },
+      immediate: true,
+    },
+  },
 };
 </script>
 
@@ -18,7 +45,7 @@ export default {
     right: 0;
     bottom: 0;
     background-color: transparentize(black, .5);
-    z-index: 1;
+    z-index: 3;
 
     @include mq(phone) {
       display: none;

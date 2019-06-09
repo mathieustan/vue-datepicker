@@ -20,12 +20,13 @@
         </div>
         <p> 1. Install component with npm </p>
         <pre class="language-bash" data-title="bash">
-<code class="language-bash"><span class="token function">npm install </span>vue-datepicker --save</code>
+<code class="language-bash"><span class="token function">npm install </span>@mathieustan/vue-datepicker --save</code>
         </pre>
 
         <p> 2. Load component in your project </p>
         <pre class="language-javascript" data-title="javascript">
-<code class="language-javascript"><span class="token keyword">import</span> VueDatePicker <span class="token keyword">from</span><span class="token string"> 'vue-datepicker'</span>;
+<code class="language-javascript"><span class="token keyword">import</span> { VueDatePicker } <span class="token keyword">from</span><span class="token string"> '@mathieustan/vue-datepicker'</span>;
+<span class="token keyword">import</span> <span class="token string">'@mathieustan/vue-datepicker/dist/vue-datepicker.css'</span>;
 
 <span class="token keyword">export default </span> {
   <span class="token function">components</span> : {
@@ -152,8 +153,20 @@
 
         <!-- EXAMPLE : Color -->
         <Example title="Color" :current-date="currentDate">
+          <template v-slot:inputs>
+            <div class="select-box">
+              <label for="lang-select"> Choose a color: </label>
+              <select id="lang-select" v-model="examples.color.selected">
+                <option
+                  v-for="(color, index) in examples.color.list"
+                  :key="index">
+                  {{ color.name }}
+                </option>
+              </select>
+            </div>
+          </template>
           <template v-slot:datepicker>
-            <DatePicker v-model="currentDate" color="#ff4577" />
+            <DatePicker v-model="currentDate" :color="examples.color.selected" />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -161,7 +174,7 @@
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">color</span>="#ff4577"
+    <span class="token attr-name">color</span>="{{ examples.color.selected }}"
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
@@ -496,6 +509,10 @@ export default {
     examples: {
       visible: {
         isVisible: false,
+      },
+      color: {
+        selected: '#ff4577',
+        list: ['#f8a623', '#ff4577', '#9f4fff', '#4f88ff', '#23edad'],
       },
       placeholder: {
         currentDate: undefined,

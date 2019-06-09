@@ -1,6 +1,6 @@
 <template>
   <div
-    v-click-outside="hideDatePicker"
+    :class="{ 'datepicker-container--active' : isVisible }"
     class="datepicker-container">
     <DatePickerCustomInput
       v-if="!inline"
@@ -18,7 +18,9 @@
       @focus="showDatePicker"
     />
     <DatePickerOverlay
-      v-if="fullscreenMobile && isVisible"
+      :isVisible="isVisible"
+      :fullscreen-mobile="fullscreenMobile"
+      :attach-to="attachTo"
       @close="hideDatePicker"
     />
     <DatepickerAgenda
@@ -34,8 +36,10 @@
       :min-date="minDate"
       :end-date="endDate"
       :type="type"
+      :attach-to="attachTo"
       @selectDate="changeDate"
       @close="hideDatePicker"
+      @hide="hideDatePicker"
     />
   </div>
 </template>
@@ -43,11 +47,10 @@
 <script>
 import dayjs from 'dayjs';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
-import { directive as clickOutside } from 'v-click-outside';
 import DatePickerCustomInput from './DatePickerCustomInput.vue';
 import DatePickerOverlay from './DatePickerOverlay.vue';
 import DatepickerAgenda from './DatePickerAgenda.vue';
-import { generateRandomId } from '@/utils';
+import { generateRandomId } from '@/utils/helpers';
 import {
   getDefaultLocale,
   setLocaleLang,
@@ -58,7 +61,6 @@ import {
 
 export default {
   name: 'DatePicker',
-  directives: { clickOutside },
   components: { DatePickerCustomInput, DatePickerOverlay, DatepickerAgenda },
   props: {
     id: { type: String, default: 'datepicker' },
@@ -92,6 +94,8 @@ export default {
     fullscreenMobile: { type: Boolean, default: false },
     // tabindex
     tabindex: { type: [String, Number], default: '0' },
+    // attachTo
+    attachTo: { type: String, default: '#app' },
   },
   data: () => ({
     date: undefined,
