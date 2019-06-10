@@ -1,7 +1,7 @@
 {
   "name": "@mathieustan/vue-datepicker",
   "description": "A clean datepicker made with VueJs",
-  "version": "0.1.0-rc.1",
+  "version": "0.1.0-rc.2",
   "author": "Mathieu Stanowski <mathieu.stan@gmail.com>",
   "keywords": [
     "vue",
@@ -33,13 +33,14 @@
   "homepage": "https://vue-datepicker.netlify.com/",
   "scripts": {
     "build": "npm run build:browser && npm run build:es && npm run build:umd",
+    "build:doc": "cd doc-src && npm run build",
     "build:browser": "rollup --config build/rollup.config.browser.js",
     "build:es": "rollup --config build/rollup.config.es.js",
     "build:umd": "rollup --config build/rollup.config.umd.js",
     "lint": "vue-cli-service lint --ext .js,.vue src tests/unit/* build/*",
     "lint:fix": "npm run lint --fix",
     "test:client": "vue-cli-service test:unit",
-    "prepublishOnly": "npm run lint:fix && npm run test:client && npm run build"
+    "prepublishOnly": "npm run lint:fix && npm run test:client && npm run build:doc && npm run build"
   },
   "dependencies": {
     "body-scroll-lock": "^2.6.1",

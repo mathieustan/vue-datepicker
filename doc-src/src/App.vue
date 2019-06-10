@@ -26,8 +26,16 @@
 
         <p> 2. Load component in your project </p>
         <pre class="language-javascript" data-title="javascript">
+<code class="language-javascript"><span class="token keyword">import</span> VueDatePicker <span class="token keyword">from</span><span class="token string"> '@mathieustan/vue-datepicker'</span>;
+
+<span class="token keyword">Vue</span><span class="token function">.use(</span>VueDatePicker<span class="token function">)</span>;
+</code>
+        </pre>
+
+        Or
+
+        <pre class="language-javascript" data-title="javascript">
 <code class="language-javascript"><span class="token keyword">import</span> { VueDatePicker } <span class="token keyword">from</span><span class="token string"> '@mathieustan/vue-datepicker'</span>;
-<span class="token keyword">import</span> <span class="token string">'@mathieustan/vue-datepicker/dist/vue-datepicker.css'</span>;
 
 <span class="token keyword">export default </span> {
   <span class="token function">components</span> : {

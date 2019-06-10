@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import App from './App.vue';
-import VueDatePicker from '../../';
+import VueDatePicker from '../../dist/vue-datepicker.esm';
 
 Vue.use(VueDatePicker);
 
