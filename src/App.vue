@@ -159,7 +159,8 @@
               <select id="lang-select" v-model="examples.color.selected">
                 <option
                   v-for="(color, index) in examples.color.list"
-                  :key="index">
+                  :key="index"
+                  :value="color.hex">
                   {{ color.name }}
                 </option>
               </select>
@@ -374,7 +375,7 @@
                   :min-date="examples.range.min"
                   :end-date="examples.range.end"
                   :fullscreen-mobile="examples.range.fullscreenMobile"
-                  @onChange="examples.range.showEndDate = true"
+                  @onChange="onStartDateChange"
                 />
               </div>
               <div class="datepicker-range__row">
@@ -512,7 +513,13 @@ export default {
       },
       color: {
         selected: '#ff4577',
-        list: ['#f8a623', '#ff4577', '#9f4fff', '#4f88ff', '#23edad'],
+        list: [
+          { name: 'orange', hex: '#f8a623' },
+          { name: 'red', hex: '#ff4577' },
+          { name: 'purple', hex: '#9f4fff' },
+          { name: 'blue', hex: '#4f88ff' },
+          { name: 'green', hex: '#23edad' },
+        ],
       },
       placeholder: {
         currentDate: undefined,
@@ -565,6 +572,10 @@ export default {
       this.examples[key].timeoutId = setTimeout(() => {
         this.examples[key].message = '';
       }, timeout);
+    },
+    onStartDateChange () {
+      this.examples.range.showEndDate = true;
+      this.examples.range.endDate = this.examples.range.startDate;
     },
   },
 };

@@ -3,6 +3,7 @@
       <div
         ref="content"
         v-if="shouldShowOverlay"
+        :style="styles"
         class="datepicker-overlay"
         @click="$emit('close')"
       />
@@ -18,8 +19,14 @@ export default {
   props: {
     isVisible: { type: Boolean, default: false },
     fullscreenMobile: { type: Boolean, default: false },
+    zIndex: { type: Number },
   },
   computed: {
+    styles () {
+      return {
+        zIndex: this.zIndex,
+      };
+    },
     shouldShowOverlay () {
       return this.isVisible && this.fullscreenMobile;
     },
@@ -45,7 +52,6 @@ export default {
     right: 0;
     bottom: 0;
     background-color: transparentize(black, .5);
-    z-index: 3;
 
     @include mq(phone) {
       display: none;

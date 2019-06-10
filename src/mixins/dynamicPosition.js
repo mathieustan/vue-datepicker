@@ -1,4 +1,3 @@
-import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { getDynamicPosition } from '@/utils/positions';
 
 const dynamicPosition = {
@@ -7,25 +6,12 @@ const dynamicPosition = {
     left: 0,
     top: 0,
     origin: 'top center',
+    innerWidth: window.innerWidth,
   }),
-  computed: {
-    styles () {
-      return {
-        left: `${this.left}px`,
-        top: `${this.top}px`,
-        transformOrigin: this.origin,
-      };
-    },
-  },
   mounted () {
     if (this.inline) return;
-    // We're using a `requestAnimationFrame()`
-    // for optimal performance.
+    // We're using a `requestAnimationFrame()` for optimal performance.
     this.eventHandler = () => requestAnimationFrame(this.updatePosition);
-
-    this.$on('hook:destroyed', () => {
-      clearAllBodyScrollLocks();
-    });
   },
   methods: {
     initResizeListener () {
@@ -35,11 +21,7 @@ const dynamicPosition = {
       window.removeEventListener('resize', this.eventHandler);
     },
     updatePosition () {
-      if (window.innerWidth < 480 && this.fullscreenMobile && this.isVisible) {
-        disableBodyScroll(this.$refs.content);
-      } else {
-        enableBodyScroll(this.$refs.content);
-      }
+      this.innerWidth = window.innerWidth;
 
       const { top, left, origin } = getDynamicPosition(
         this.$refs.content,

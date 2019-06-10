@@ -119,6 +119,9 @@
 </template>
 
 <script>
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
+import { directive as clickOutside } from 'v-click-outside';
+
 import Dates, {
   getWeekDays,
   formatDateWithYearAndMonth,
@@ -130,9 +133,6 @@ import Dates, {
   convertMonthToQuarter,
 } from '@/utils/Dates';
 import { yearMonthSelectorTypes } from '@/constants';
-
-import { directive as clickOutside } from 'v-click-outside';
-
 import dynamicPosition from '@/mixins/dynamicPosition';
 import detachable from '@/mixins/detachable';
 
@@ -158,6 +158,7 @@ export default {
     minDate: { type: [String, Number, Date] },
     endDate: { type: [String, Number, Date] },
     type: { type: String },
+    zIndex: { type: Number },
   },
   data: () => ({
     isActive: false,
@@ -169,6 +170,15 @@ export default {
     yearMonthMode: undefined,
   }),
   computed: {
+    styles () {
+      return {
+        // left, top, orign from @/mixins/dynamicPosition
+        left: `${this.left}px`,
+        top: `${this.top}px`,
+        transformOrigin: this.origin,
+        zIndex: this.inline ? null : this.zIndex,
+      };
+    },
     weekDays () {
       return getWeekDays(this.locale);
     },
@@ -187,6 +197,12 @@ export default {
     shouldShowAgenda () {
       return this.isVisible || this.inline;
     },
+    shouldShowBottomSheet () {
+      return this.innerWidth < 480 && this.fullscreenMobile && this.isVisible;
+    },
+  },
+  destroyed () {
+    clearAllBodyScrollLocks();
   },
   watch: {
     // When date change (after being visibled),
@@ -225,6 +241,28 @@ export default {
         Object.assign(this.$data, this.$options.data());
       },
       immediate: true,
+    },
+    // When bottomSheet is visibled => lock body scroll
+    // When bottomSheet is hidden => unlock body scroll
+    shouldShowBottomSheet: {
+      async handler (show) {
+        await this.$nextTick();
+
+        if (show) {
+          disableBodyScroll(this.$el.querySelector('.datepicker-content'));
+          return;
+        }
+        enableBodyScroll();
+      },
+      immediate: true,
+    },
+    // When bottomSheet is visibled and visibled mode is 'year'
+    // => should keep scroll disabled, but should allow scroll into years list
+    yearMonthMode (mode) {
+      if (mode === 'year' && this.shouldShowBottomSheet) {
+        enableBodyScroll(this.$el.querySelector('.datepicker-content'));
+        disableBodyScroll(this.$el.querySelector('.datepicker-year-month'));
+      }
     },
   },
   methods: {
@@ -313,10 +351,8 @@ export default {
     left: 0;
     top: 100%;
     will-change: transform;
-    z-index: 5;
     background-color: white;
     box-shadow: 0 14px 45px rgba(0,0,0,.25), 0 10px 18px rgba(0,0,0,.22);
-    z-index: 2;
 
     &:focus,
     &:active {
@@ -344,7 +380,6 @@ export default {
       box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),
         0px 2px 2px 0px rgba(0,0,0,0.14),
         0px 1px 5px 0px rgba(0,0,0,0.12);
-      z-index: 1;
     }
 
     &.bottom-sheet {
@@ -362,7 +397,6 @@ export default {
         height: $height;
         width: 100%;
         border-radius: 12px 12px 0 0;
-        z-index: 4;
 
         &.datepicker-slide-enter-active,
         &.datepicker-slide-leave-active {
@@ -428,6 +462,7 @@ export default {
     position: relative;
     display: flex;
     flex-direction: column;
+    height: 100%;
   }
 
   // ----------------------
@@ -483,6 +518,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     overflow: hidden;
+    width: 100%;
 
     .datepicker-day {
       @include reset-button;

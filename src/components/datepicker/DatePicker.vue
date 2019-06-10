@@ -21,6 +21,7 @@
       :isVisible="isVisible"
       :fullscreen-mobile="fullscreenMobile"
       :attach-to="attachTo"
+      :z-index="zIndex"
       @close="hideDatePicker"
     />
     <DatepickerAgenda
@@ -37,6 +38,7 @@
       :end-date="endDate"
       :type="type"
       :attach-to="attachTo"
+      :z-index="zIndex + 1"
       @selectDate="changeDate"
       @close="hideDatePicker"
       @hide="hideDatePicker"
@@ -94,6 +96,8 @@ export default {
     fullscreenMobile: { type: Boolean, default: false },
     // tabindex
     tabindex: { type: [String, Number], default: '0' },
+    // Specificy a z-index for agenda & overlay
+    zIndex: { type: Number, default: 1 },
     // attachTo
     attachTo: { type: String, default: '#app' },
   },

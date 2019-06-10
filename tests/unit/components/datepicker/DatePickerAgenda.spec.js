@@ -1,10 +1,16 @@
 import dayjs from 'dayjs';
 import mockDate from 'mockdate';
+import * as bodyScrollLockFunctions from 'body-scroll-lock';
 import { shallowMount } from '@vue/test-utils';
 import DatePickerAgenda from '@/components/datepicker/DatePickerAgenda.vue';
 
 import * as utilsFunctions from '@/utils/positions';
 
+jest.mock('body-scroll-lock', () => ({
+  disableBodyScroll: jest.fn(),
+  enableBodyScroll: jest.fn(),
+  clearAllBodyScrollLocks: jest.fn(),
+}));
 console.error = jest.fn();
 
 beforeEach(() => {
@@ -35,6 +41,7 @@ describe('DatePickerAgenda', () => {
       isVisible = true,
       inline = false,
       type = 'date',
+      fullscreenMobile = false,
     } = {}) =>
       shallowMount(DatePickerAgenda, {
         propsData: {
@@ -47,6 +54,8 @@ describe('DatePickerAgenda', () => {
           color: 'color',
           close: jest.fn(),
           type,
+          fullscreenMobile,
+          zIndex: 1,
         },
         attachToDocument: true,
       });
@@ -75,6 +84,18 @@ describe('DatePickerAgenda', () => {
   });
 
   describe('computed', () => {
+    describe('styles', () => {
+      it('should return styles from data', () => {
+        const wrapper = mountComponent();
+        expect(wrapper.vm.styles).toEqual({
+          top: '0px',
+          left: '0px',
+          transformOrigin: 'top center',
+          zIndex: 1,
+        });
+      });
+    });
+
     describe('classWeeks', () => {
       it.each([
         [dayjs(new Date([2018, 5, 16])), 'has-5-weeks'],
@@ -107,6 +128,27 @@ describe('DatePickerAgenda', () => {
         const wrapper = mountComponent(props);
         expect(wrapper.vm.shouldShowAgenda).toEqual(expectedResult);
       });
+    });
+
+    describe('shouldShowBottomSheet', () => {
+      it.each([
+        [{ isVisible: true, fullscreenMobile: false }, 400, false],
+        [{ isVisible: false, fullscreenMobile: true }, 400, false],
+        [{ isVisible: true, fullscreenMobile: true }, 400, true],
+        [{ isVisible: true, fullscreenMobile: true }, 800, false],
+      ])('when props equal %p, should return %p', (props, innerWidth, expectedResult) => {
+        const wrapper = mountComponent(props);
+        wrapper.setData({ innerWidth });
+        expect(wrapper.vm.shouldShowBottomSheet).toEqual(expectedResult);
+      });
+    });
+  });
+
+  describe('destroyed', () => {
+    it('should remove all body scroll locks', () => {
+      const wrapper = mountComponent();
+      wrapper.destroy();
+      expect(bodyScrollLockFunctions.clearAllBodyScrollLocks).toHaveBeenCalledWith();
     });
   });
 
@@ -206,6 +248,46 @@ describe('DatePickerAgenda', () => {
         expect(wrapper.vm.yearMonthMode).toEqual(undefined);
       });
 
+    });
+
+    describe('shouldShowBottomSheet', () => {
+      it('should disable body scroll when visible', async () => {
+        const wrapper = mountComponent({ isVisible: true, fullscreenMobile: true });
+        wrapper.setData({ innerWidth: 400 });
+        await wrapper.vm.$nextTick();
+        const datepickerContent = document.querySelector('.datepicker-content');
+        expect(bodyScrollLockFunctions.disableBodyScroll).toHaveBeenCalledWith(datepickerContent);
+      });
+
+      it('should enable body scroll when hidden', async () => {
+        const wrapper = mountComponent({ isVisible: true, fullscreenMobile: false });
+        wrapper.setData({ innerWidth: 500 });
+        await wrapper.vm.$nextTick();
+        expect(bodyScrollLockFunctions.enableBodyScroll).toHaveBeenCalled();
+      });
+    });
+
+    describe('yearMonthMode', () => {
+      let wrapper, datepickerContent, datepickerYearMonth;
+      beforeEach(() => {
+        wrapper = mountComponent({ isVisible: true, fullscreenMobile: true });
+        datepickerContent = document.querySelector('.datepicker-content');
+        datepickerYearMonth = document.querySelector('.datepicker-year-month');
+      });
+
+      it('should do nothing if active mode isnt year && should\'nt show bottom sheet', () => {
+        wrapper.setData({ innerWidth: 400, yearMonthMode: 'month' });
+
+        expect(bodyScrollLockFunctions.enableBodyScroll).not.toHaveBeenCalledWith(datepickerContent);
+        expect(bodyScrollLockFunctions.disableBodyScroll).not.toHaveBeenCalledWith(datepickerYearMonth);
+      });
+
+      it('should do nothing if active mode isnt year && should\'nt show bottom sheet', () => {
+        wrapper.setData({ innerWidth: 400, yearMonthMode: 'year' });
+
+        expect(bodyScrollLockFunctions.enableBodyScroll).toHaveBeenCalledWith(datepickerContent);
+        expect(bodyScrollLockFunctions.disableBodyScroll).toHaveBeenCalledWith(datepickerYearMonth);
+      });
     });
 
     describe('type', () => {

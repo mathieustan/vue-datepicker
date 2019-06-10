@@ -1,15 +1,8 @@
 import Vue from 'vue';
-import * as bodyScrollLockFunctions from 'body-scroll-lock';
 import { shallowMount } from '@vue/test-utils';
 import dynamicPosition from '@/mixins/dynamicPosition';
 
 import * as utilsFunctions from '@/utils/positions';
-
-jest.mock('body-scroll-lock', () => ({
-  disableBodyScroll: jest.fn(),
-  enableBodyScroll: jest.fn(),
-  clearAllBodyScrollLocks: jest.fn(),
-}));
 
 describe('dynamicPosition', () => {
   let mountComponent;
@@ -52,27 +45,6 @@ describe('dynamicPosition', () => {
     expect(wrapper.vm.origin).toEqual('top center');
   });
 
-  describe('computed', () => {
-    describe('styles', () => {
-      it('should return styles from data', () => {
-        const wrapper = mountComponent();
-        expect(wrapper.vm.styles).toEqual({
-          top: '0px',
-          left: '0px',
-          transformOrigin: 'top center',
-        });
-      });
-    });
-  });
-
-  describe('mounted', () => {
-    it('should init listeners', () => {
-      const wrapper = mountComponent({ isVisible: true });
-      wrapper.destroy();
-      expect(bodyScrollLockFunctions.clearAllBodyScrollLocks).toHaveBeenCalledWith();
-    });
-  });
-
   describe('methods', () => {
     describe('initResizeListener', () => {
       it('should init resize listener', () => {
@@ -102,23 +74,11 @@ describe('dynamicPosition', () => {
     describe('updatePosition', () => {
       it('should call getDynamicPosition & update windowWidth', () => {
         const wrapper = mountComponent();
-
-        wrapper.vm.updatePosition();
-        expect(utilsFunctions.getDynamicPosition).toHaveBeenCalled();
-      });
-
-      it('should lock body scroll if fullscreenMobile equal true & innerWidth < 768', () => {
-        const wrapper = mountComponent({ fullscreenMobile: true, isVisible: true });
-        wrapper.vm.$refs = { content: wrapper.element };
         global.innerWidth = 479;
+
         wrapper.vm.updatePosition();
-
-        expect(bodyScrollLockFunctions.disableBodyScroll).toHaveBeenCalledWith(wrapper.element);
-
-        global.innerWidth = 1000;
-        wrapper.vm.updatePosition();
-
-        expect(bodyScrollLockFunctions.enableBodyScroll).toHaveBeenCalledWith(wrapper.element);
+        expect(wrapper.vm.innerWidth).toEqual(479);
+        expect(utilsFunctions.getDynamicPosition).toHaveBeenCalled();
       });
     });
   });

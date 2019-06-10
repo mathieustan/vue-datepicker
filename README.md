@@ -96,6 +96,7 @@ Using `v-model`
 | inline                        | Boolean        | false         | Inline datepicker                       |
 | fullscreenMobile              | Boolean        | false         | Datepicker will appear in a bottom sheet in mobile view     |
 | tabindex                      | String\|Number | '0'           | Specify input tabindex                  |
+| zIndex                        | Number         |               | Specify a z-index to agenda & overlay   |
 | attachTo                      | String         | '#app'        | It will mount datepicker popup into this element as a child |
 
 ## Events

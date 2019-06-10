@@ -117,24 +117,6 @@ describe('DatePickerYearMonth', () => {
     });
   });
 
-  describe('mounted', () => {
-    beforeEach(() => {
-      jest.spyOn(utilsFunction, 'computeYearsScrollPosition').mockReturnValue(100);
-    });
-
-    it('should do nothing if mode is month', () => {
-      mountComponent();
-      expect(utilsFunction.computeYearsScrollPosition).not.toHaveBeenCalled();
-    });
-
-    it('should scroll to active yeart if mode is year', () => {
-      const wrapper = mountComponent({ mode: 'year' });
-      const containerToScroll = wrapper.element.querySelector('.datepicker-years__list');
-      expect(utilsFunction.computeYearsScrollPosition).toHaveBeenCalled();
-      expect(containerToScroll.scrollTop).toEqual(100);
-    });
-  });
-
   describe('methods', () => {
     describe('isSelectedYear', () => {
       it.each([

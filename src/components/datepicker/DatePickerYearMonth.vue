@@ -132,23 +132,18 @@ export default {
     },
   },
   watch: {
-    async mode (currentMode) {
-      await this.$nextTick();
-      const activeItem = this.$el.querySelector('li.active');
-      if (!activeItem || currentMode !== 'year') return;
+    mode: {
+      async handler (currentMode) {
+        await this.$nextTick();
+        const activeItem = this.$el.querySelector('li.active');
+        if (!activeItem || currentMode !== 'year') return;
 
-      // should scroll to active year
-      const containerToScroll = this.$el.querySelector('.datepicker-years__list');
-      containerToScroll.scrollTop = computeYearsScrollPosition(containerToScroll, activeItem);
+        // should scroll to active year
+        const containerToScroll = this.$el.querySelector('.datepicker-years__list');
+        containerToScroll.scrollTop = computeYearsScrollPosition(containerToScroll, activeItem);
+      },
+      immediate: true,
     },
-  },
-  mounted () {
-    const activeItem = this.$el.querySelector('li.active');
-    if (!activeItem || this.mode !== 'year') return;
-
-    // should scroll to active year
-    const containerToScroll = this.$el.querySelector('.datepicker-years__list');
-    containerToScroll.scrollTop = computeYearsScrollPosition(containerToScroll, activeItem);
   },
   methods: {
     isSelectedYear (year) {
@@ -190,14 +185,24 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    height: 100%;
     background: white;
-    overflow: hidden;
+
+    // CF https://medium.com/@draganeror/iphone-x-layout-features-with-css-environment-variables-d57423433dec
+    // Browsers which partially support CSS Environment variables (iOS 11.0-11.2).
+    @supports (padding-bottom: constant(safe-area-inset-bottom)) {
+      --safe-area-inset-bottom: constant(safe-area-inset-bottom);
+      padding-bottom: var(--safe-area-inset-bottom);
+    }
+
+    // Browsers which fully support CSS Environment variables (iOS 11.2+).
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+      --safe-area-inset-bottom: env(safe-area-inset-bottom);
+      padding-bottom: var(--safe-area-inset-bottom);
+    }
   }
 
   .datepicker-years {
     height: auto;
-    overflow: hidden;
     position: relative;
     z-index: 0;
     flex: 1 0 auto;

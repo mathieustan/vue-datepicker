@@ -14,6 +14,7 @@ describe('DatePickerOverlay', () => {
       propsData: {
         isVisible,
         fullscreenMobile,
+        zIndex: 1,
       },
     });
   });
@@ -29,6 +30,15 @@ describe('DatePickerOverlay', () => {
   });
 
   describe('computed', () => {
+    describe('styles', () => {
+      it('should return styles from data', () => {
+        const wrapper = mountComponent();
+        expect(wrapper.vm.styles).toEqual({
+          zIndex: 1,
+        });
+      });
+    });
+
     describe('shouldShowOverlay', () => {
       it.each([
         [{ isVisible: false, fullscreenMobile: false }, false],
