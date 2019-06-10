@@ -26,7 +26,7 @@ module.exports = {
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: ['**/*.test.js', '**/*.spec.js'],
+        devDependencies: true,
       },
     ],
     'import/prefer-default-export': 0,

@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import App from './App.vue';
+import VueDatePicker from '../../';
+
+Vue.use(VueDatePicker);
 
 Vue.config.productionTip = false;
 

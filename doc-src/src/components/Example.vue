@@ -36,6 +36,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import   '../../../src/styles/abstracts/functions',
+            '../../../src/styles/abstracts/variables',
+            '../../../src/styles/abstracts/mixins';
+
   .example-wrapper {
     position: relative;
     display: flex;

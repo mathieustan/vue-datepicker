@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { isBeforeMinDate, isAfterEndDate } from '@/utils/Dates';
+import { isBeforeMinDate, isAfterEndDate } from '../../utils/Dates';
 
 export default {
   name: 'DatePickerControls',
@@ -104,7 +104,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/styles/base/_animations.scss';
+  @import   '../../styles/abstracts/functions',
+            '../../styles/abstracts/variables',
+            '../../styles/abstracts/mixins',
+            '../../styles/base/_animations.scss';
 
   .datepicker-controls {
     position: relative;

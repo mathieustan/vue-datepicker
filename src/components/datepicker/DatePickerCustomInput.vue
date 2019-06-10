@@ -24,7 +24,7 @@
 
 <script>
 import DatePickerCalendarIcon from './DatePickerCalendarIcon.vue';
-import { formatDateWithLocale } from '@/utils/Dates';
+import { formatDateWithLocale } from '../../utils/Dates';
 
 export default {
   name: 'DatePickerCustomInput',
@@ -52,6 +52,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import   '../../styles/abstracts/variables',
+            '../../styles/abstracts/mixins';
+
   .datepicker-input {
     position: relative;
     display: flex;

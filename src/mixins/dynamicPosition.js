@@ -1,4 +1,4 @@
-import { getDynamicPosition } from '@/utils/positions';
+import { getDynamicPosition } from '../utils/positions';
 
 const dynamicPosition = {
   data: () => ({

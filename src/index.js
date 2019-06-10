@@ -1,13 +1,10 @@
-import VueDatePicker from '@/components/datepicker/DatePicker.vue';
+import VueDatePicker from './components/datepicker/DatePicker.vue';
 
-const components = [
-  VueDatePicker,
-];
+export { VueDatePicker };
 
 const install = (Vue) => {
-  components.forEach(component => {
-    Vue.component(component.name, component);
-  });
+  Vue.component('VueDatePicker', VueDatePicker);
+  Vue.component('vue-datepicker', VueDatePicker);
 };
 
 // Plugin
@@ -15,7 +12,6 @@ const plugin = {
   // eslint-disable-next-line no-undef
   version: VERSION,
   install,
-  VueDatePicker,
 };
 
 export default plugin;

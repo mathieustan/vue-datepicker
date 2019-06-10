@@ -52,14 +52,14 @@ import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import DatePickerCustomInput from './DatePickerCustomInput.vue';
 import DatePickerOverlay from './DatePickerOverlay.vue';
 import DatepickerAgenda from './DatePickerAgenda.vue';
-import { generateRandomId } from '@/utils/helpers';
+import { generateRandomId } from '../../utils/helpers';
 import {
   getDefaultLocale,
   setLocaleLang,
   getDefaultInputFormat,
   getDefaultHeaderFormat,
   getDefaultOutputFormat,
-} from '@/utils/Dates';
+} from '../../utils/Dates';
 
 export default {
   name: 'DatePicker',

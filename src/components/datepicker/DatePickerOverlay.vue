@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import detachable from '@/mixins/detachable';
+import detachable from '../../mixins/detachable';
 
 export default {
   name: 'DatePickerOverlay',
@@ -45,6 +45,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import   '../../styles/abstracts/variables',
+            '../../styles/abstracts/mixins';
+
   .datepicker-overlay {
     position: fixed;
     top: 0;

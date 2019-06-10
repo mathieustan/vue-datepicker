@@ -28,7 +28,9 @@
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 320 512"
           >
+            <!-- eslint-disable max-len -->
             <path fill="currentColor" d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z" />
+            <!-- eslint-enable max-len -->
           </svg>
         </button>
       </div>
@@ -131,10 +133,10 @@ import Dates, {
   isDateAfter,
   generateMonthAndYear,
   convertMonthToQuarter,
-} from '@/utils/Dates';
-import { yearMonthSelectorTypes } from '@/constants';
-import dynamicPosition from '@/mixins/dynamicPosition';
-import detachable from '@/mixins/detachable';
+} from '../../utils/Dates';
+import { yearMonthSelectorTypes } from '../../constants';
+import dynamicPosition from '../../mixins/dynamicPosition';
+import detachable from '../../mixins/detachable';
 
 import DatePickerHeader from './DatePickerHeader.vue';
 import DatePickerControls from './DatePickerControls.vue';
@@ -341,7 +343,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/styles/base/_animations.scss';
+  @import   '../../styles/abstracts/functions',
+            '../../styles/abstracts/variables',
+            '../../styles/abstracts/mixins',
+            '../../styles/base/_animations.scss';
 
   .datepicker {
     position: absolute;
@@ -410,7 +415,6 @@ export default {
           transform: translateY(100%);
         }
 
-        // CF https://medium.com/@draganeror/iphone-x-layout-features-with-css-environment-variables-d57423433dec
         // Browsers which partially support CSS Environment variables (iOS 11.0-11.2).
         @supports (padding-bottom: constant(safe-area-inset-bottom)) {
           --safe-area-inset-bottom: constant(safe-area-inset-bottom);

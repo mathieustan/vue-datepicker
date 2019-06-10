@@ -1,5 +1,6 @@
 <template>
   <!-- eslint-disable max-len -->
+  <!-- eslint-disable vue/valid-v-for -->
   <div id="app">
     <div class="header">
       <h1>Vue DatePicker</h1>
@@ -53,7 +54,7 @@
         <!-- EXAMPLE : Default -->
         <Example title="Default" :current-date="currentDate">
           <template v-slot:datepicker>
-            <DatePicker v-model="currentDate" />
+            <VueDatePicker v-model="currentDate" />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -70,7 +71,7 @@
         <!-- EXAMPLE : Format -->
         <Example title="Format" :current-date="currentDate">
           <template v-slot:datepicker>
-            <DatePicker v-model="currentDate" format="YYYY-MM-DD" />
+            <VueDatePicker v-model="currentDate" format="YYYY-MM-DD" />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -90,7 +91,7 @@
         <!-- EXAMPLE : Format Header  -->
         <Example title="FormatHeader" :current-date="currentDate">
           <template v-slot:datepicker>
-            <DatePicker v-model="currentDate" format-header="dddd DD MMMM" />
+            <VueDatePicker v-model="currentDate" format-header="dddd DD MMMM" />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -114,7 +115,7 @@
             <label for="isVisible"> isVisible </label>
           </template>
           <template v-slot:datepicker>
-            <DatePicker v-model="currentDate" :visible="examples.visible.isVisible" />
+            <VueDatePicker v-model="currentDate" :visible="examples.visible.isVisible" />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -134,7 +135,7 @@
         <!-- EXAMPLE : Disabled -->
         <Example title="Disabled" :current-date="currentDate">
           <template v-slot:datepicker>
-            <DatePicker v-model="currentDate" :disabled="true" />
+            <VueDatePicker v-model="currentDate" :disabled="true" />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -167,7 +168,7 @@
             </div>
           </template>
           <template v-slot:datepicker>
-            <DatePicker v-model="currentDate" :color="examples.color.selected" />
+            <VueDatePicker v-model="currentDate" :color="examples.color.selected" />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -187,7 +188,7 @@
         <!-- EXAMPLE : Placeholder  -->
         <Example title="Placeholder" :current-date="examples.placeholder.currentDate">
           <template v-slot:datepicker>
-            <DatePicker v-model="examples.placeholder.currentDate" placeholder="DD/MM/YYYY" />
+            <VueDatePicker v-model="examples.placeholder.currentDate" placeholder="DD/MM/YYYY" />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -207,7 +208,7 @@
         <!-- EXAMPLE : MinDate -->
         <Example title="minDate & endDate" :current-date="currentDate">
           <template v-slot:datepicker>
-            <DatePicker v-model="currentDate" :min-date="examples.allowedDates.min" :end-date="examples.allowedDates.max" />
+            <VueDatePicker v-model="currentDate" :min-date="examples.allowedDates.min" :end-date="examples.allowedDates.max" />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -228,7 +229,7 @@
         <!-- EXAMPLE : Locale -->
         <Example title="Locale (lang & weekDays)" :current-date="currentDate">
           <template v-slot:datepicker>
-            <DatePicker
+            <VueDatePicker
               v-model="currentDate"
               :locale="{
                 lang: 'fr', weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D']
@@ -263,7 +264,7 @@
             </div>
           </template>
           <template v-slot:datepicker>
-            <DatePicker
+            <VueDatePicker
               v-model="currentDate"
               :locale="{ lang: examples.locale.selectedLang }" />
           </template>
@@ -285,7 +286,7 @@
         <!-- EXAMPLE : Inline -->
         <Example title="Inline" class="example-inline" :current-date="currentDate">
           <template v-slot:datepicker>
-            <DatePicker v-model="currentDate" :inline="true" />
+            <VueDatePicker v-model="currentDate" :inline="true" />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -305,7 +306,7 @@
         <!-- EXAMPLE : Type: Month -->
         <Example title="Month picker (type: 'month')" :current-date="examples.month.currentDate" class="example-inline">
           <template v-slot:datepicker>
-            <DatePicker
+            <VueDatePicker
               v-model="examples.month.currentDate"
               type="month"
               :min-date="examples.month.min"
@@ -336,7 +337,7 @@
           :current-date="examples.quarter.currentDate"
           class="example-inline">
           <template v-slot:datepicker>
-            <DatePicker
+            <VueDatePicker
               v-model="examples.quarter.currentDate"
               type="quarter"
               :min-date="examples.quarter.min"
@@ -369,7 +370,7 @@
             <div class="datepicker-range">
               <div class="datepicker-range__row">
                 <span class="datepicker-label">Du</span>
-                <DatePicker
+                <VueDatePicker
                   v-model="examples.range.startDate"
                   :name="`Starting Date`"
                   :min-date="examples.range.min"
@@ -380,7 +381,7 @@
               </div>
               <div class="datepicker-range__row">
                 <span class="datepicker-label">Au</span>
-                <DatePicker
+                <VueDatePicker
                   v-model="examples.range.endDate"
                   :name="`Ending Date`"
                   :min-date="examples.range.startDate"
@@ -431,7 +432,7 @@
         <!-- EXAMPLE : onOpen -->
         <Example title="onOpen" :current-date="currentDate">
           <template v-slot:datepicker>
-            <DatePicker v-model="currentDate" @onOpen="showTimeoutMessage('datepicker opened', 'onOpen')"/>
+            <VueDatePicker v-model="currentDate" @onOpen="showTimeoutMessage('datepicker opened', 'onOpen')"/>
             {{ examples.onOpen.message }}
           </template>
           <template v-slot:code>
@@ -452,7 +453,7 @@
         <!-- EXAMPLE : onClose -->
         <Example title="onClose" :current-date="currentDate">
           <template v-slot:datepicker>
-            <DatePicker v-model="currentDate" @onClose="showTimeoutMessage('datepicker closed', 'onClose')" />
+            <VueDatePicker v-model="currentDate" @onClose="showTimeoutMessage('datepicker closed', 'onClose')" />
             {{ examples.onClose.message }}
           </template>
           <template v-slot:code>
@@ -473,7 +474,7 @@
         <!-- EXAMPLE : onChange -->
         <Example title="onChange" :current-date="currentDate">
           <template v-slot:datepicker>
-            <DatePicker v-model="currentDate" @onChange="showTimeoutMessage('date changed', 'onChange')" />
+            <VueDatePicker v-model="currentDate" @onChange="showTimeoutMessage('date changed', 'onChange')" />
             {{ examples.onChange.message }}
           </template>
           <template v-slot:code>
@@ -496,14 +497,12 @@
 </template>
 
 <script>
-import Example from './examples/Example.vue';
-import DatePicker from '@/components/datepicker/DatePicker.vue';
+import Example from './components/Example.vue';
 
 export default {
   name: 'App',
   components: {
     Example,
-    DatePicker,
   },
   data: () => ({
     currentDate: new Date(),
@@ -602,6 +601,10 @@ export default {
 </style>
 
 <style lang="scss" scoped>
+  @import   '../../src/styles/abstracts/functions',
+            '../../src/styles/abstracts/variables',
+            '../../src/styles/abstracts/mixins';
+
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;

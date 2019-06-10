@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { formatDateWithLocale } from '@/utils/Dates';
+import { formatDateWithLocale } from '../../utils/Dates';
 
 export default {
   name: 'DatePickerHeader',
@@ -47,7 +47,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/styles/base/_animations.scss';
+  @import   '../../styles/abstracts/functions',
+            '../../styles/abstracts/variables',
+            '../../styles/abstracts/mixins',
+            '../../styles/base/_animations.scss';
 
   .datepicker-header {
     color: white;

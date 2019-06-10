@@ -99,9 +99,9 @@ import {
   isBeforeMinDate,
   isAfterEndDate,
   areSameDates,
-} from '@/utils/Dates';
+} from '../../utils/Dates';
 
-import { computeYearsScrollPosition } from '@/utils/positions';
+import { computeYearsScrollPosition } from '../../utils/positions';
 
 export default {
   name: 'DatePickerYearMonth',
@@ -177,7 +177,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/styles/base/_animations.scss';
+  @import   '../../styles/abstracts/functions',
+            '../../styles/abstracts/variables',
+            '../../styles/abstracts/mixins',
+            '../../styles/base/_animations.scss';
 
   .datepicker-year-month {
     position: absolute;
@@ -187,7 +190,6 @@ export default {
     bottom: 0;
     background: white;
 
-    // CF https://medium.com/@draganeror/iphone-x-layout-features-with-css-environment-variables-d57423433dec
     // Browsers which partially support CSS Environment variables (iOS 11.0-11.2).
     @supports (padding-bottom: constant(safe-area-inset-bottom)) {
       --safe-area-inset-bottom: constant(safe-area-inset-bottom);

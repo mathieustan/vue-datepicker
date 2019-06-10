@@ -8,7 +8,7 @@ import {
   DEFAULT_INPUT_DATE_FORMAT,
   DEFAULT_HEADER_DATE_FORMAT,
   DEFAULT_OUTPUT_DATE_FORMAT,
-} from '@/constants';
+} from '../constants';
 
 dayjs.extend(weekDay);
 dayjs.extend(weekOfYear);
