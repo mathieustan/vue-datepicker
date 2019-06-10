@@ -20,9 +20,6 @@
   "main": "dist/vue-datepicker.umd.js",
   "module": "dist/vue-datepicker.esm.js",
   "unpkg": "dist/vue-datepicker.min.js",
-  "files": [
-    "dist/"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mathieustan/vue-datepicker.git"
@@ -40,11 +37,10 @@
     "lint": "vue-cli-service lint --ext .js,.vue src tests/unit/* build/*",
     "lint:fix": "npm run lint --fix",
     "test:client": "vue-cli-service test:unit",
-    "prepublishOnly": "npm run lint:fix && npm run test:client && npm run build:doc && npm run build"
+    "prepublishOnly": "npm run lint:fix && npm run test:client && npm run build"
   },
   "dependencies": {
     "body-scroll-lock": "^2.6.1",
-    "clean-css": "^4.2.1",
     "dayjs": "^1.8.14",
     "v-click-outside": "^2.1.3"
   },

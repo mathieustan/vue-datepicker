@@ -8,7 +8,6 @@ const config = Object.assign({}, base, {
     name: 'VueDatePicker',
     format: 'iife',
   },
-  name: 'VueDatePicker',
 });
 
 config.plugins.push(terser());

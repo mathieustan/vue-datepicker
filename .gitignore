@@ -2,6 +2,7 @@
 node_modules
 
 tests/coverage
+docs/
 
 # local env files
 .env.local

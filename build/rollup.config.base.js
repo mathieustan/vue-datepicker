@@ -4,13 +4,12 @@ import vue from 'rollup-plugin-vue';
 import cjs from 'rollup-plugin-commonjs';
 import replace from 'rollup-plugin-replace';
 import eslint from 'rollup-plugin-eslint';
-import fs from 'fs';
-import CleanCSS from 'clean-css';
 
 const config = require('../package.json');
 
 export default {
   input: 'src/index.js',
+  name: 'VueDatePicker',
   plugins: [
     resolve({
       jsnext: true,
@@ -25,11 +24,7 @@ export default {
       },
     }),
     eslint(),
-    vue({
-      css (style) {
-        fs.writeFileSync('dist/vue-datepicker.css', new CleanCSS().minify(style).styles);
-      },
-    }),
+    vue(),
     babel({
       exclude: 'node_modules/**',
       runtimeHelpers: true,
