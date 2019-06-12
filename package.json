@@ -17,6 +17,13 @@
     "quarterpicker"
   ],
   "license": "MIT",
+  "files": [
+    "dist/*.js",
+    "src/*",
+    "node_modules/dayjs",
+    "*.json",
+    "*.js"
+  ],
   "main": "dist/vue-datepicker.umd.js",
   "module": "dist/vue-datepicker.esm.js",
   "unpkg": "dist/vue-datepicker.min.js",
@@ -60,6 +67,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
+    "babel-plugin-dynamic-import-node-babel-7": "^2.0.7",
     "codecov": "^3.5.0",
     "core-js": "^2.6.5",
     "eslint": "^5.16.0",

@@ -63,35 +63,39 @@ export default class PickerDate {
 // - getWeekDays : Return week days from lang
 // -----------------------------------------
 
+export function getLocaleFile (lang) {
+  try {
+    return require(`dayjs/locale/${lang}.js`);
+  } catch (error) {
+    console.error(
+      `Couldn't find any locale file for this lang: ${lang}. \
+      Please look at dayjs documentation`
+    );
+    // this locale en file is complete
+    return require('dayjs/locale/en-gb.js');
+  }
+}
+
 export function getDefaultLocale () {
-  const locale = (window.navigator.userLanguage || window.navigator.language || 'en').substr(0, 2);
-  return locale;
+  return (window.navigator.userLanguage || window.navigator.language || 'en').substr(0, 2);
 }
 
 export function setLocaleLang ({ lang }) {
-  try {
-    const locale = require(`dayjs/locale/${lang}`);
-    dayjs.locale(locale);
-  } catch (error) {
-    console.error(`
-      Couldn't find any locale file for this lang: ${lang}.
-      Please look at dayjs documentation`
-    );
-    dayjs.locale('en');
-  }
+  const locale = getLocaleFile(lang);
+  dayjs.locale(locale);
 }
 
 export function getWeekDays ({ lang, weekDays }) {
-  const locale = require(`dayjs/locale/${lang}`);
-  let weekDaysShort = locale.weekdaysShort;
+  const localeFile = getLocaleFile(lang);
+  let weekDaysShort = localeFile.weekdaysShort;
 
   // weekdaysShort is not present in every locale
-  if (!weekDaysShort && locale.weekdays) {
-    weekDaysShort = locale.weekdays.map(day => day.substring(0, 3));
+  if (!weekDaysShort && localeFile.weekdays) {
+    weekDaysShort = localeFile.weekdays.map(day => day.substring(0, 3));
   }
 
   // If weekStart at 1, should move first index at the end
-  if (locale.weekStart === 1) {
+  if (localeFile.weekStart && localeFile.weekStart === 1) {
     weekDaysShort.push(weekDaysShort.shift());
   }
 

@@ -589,6 +589,10 @@ export default {
 </script>
 
 <style>
+  *, ::before, ::after {
+    box-sizing: border-box;
+  }
+
   body {
     margin: 0;
     color: #4a4a4a;
