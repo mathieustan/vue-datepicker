@@ -537,7 +537,7 @@ export default {
       },
       locale: {
         selectedLang: 'es',
-        langs: ['es', 'ja', 'ru', 'th'],
+        langs: ['es', 'en', 'fr'],
       },
       month: {
         currentDate: new Date().toISOString().substr(0, 7),

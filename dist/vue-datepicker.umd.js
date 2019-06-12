@@ -283,6 +283,79 @@
   !function(e,t){module.exports=t();}(commonjsGlobal,function(){return function(e,t,r){var n=t.prototype,o=n.format;r.en.ordinal=function(e){var t=["th","st","nd","rd"],r=e%100;return "["+e+(t[(r-20)%10]||t[r]||t[0])+"]"},n.format=function(e){var t=this,r=this.$locale(),n=this.$utils(),i=(e||"YYYY-MM-DDTHH:mm:ssZ").replace(/\[([^\]]+)]|Q|wo|gggg|Do|X|x|k{1,2}|S/g,function(e){switch(e){case"Q":return Math.ceil((t.$M+1)/3);case"Do":return r.ordinal(t.$D);case"gggg":return t.weekYear();case"wo":return r.ordinal(t.week(),"W");case"k":case"kk":return n.s(String(0===t.$H?24:t.$H),"k"===e?1:2,"0");case"X":return Math.floor(t.$d.getTime()/1e3);case"x":return t.$d.getTime();default:return e}});return o.bind(this)(i)};}});
   });
 
+  var localeObject = {
+    name: 'en',
+    weekdays: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
+    weekdaysShort: 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_'),
+    weekdaysMin: 'Su_Mo_Tu_We_Th_Fr_Sa'.split('_'),
+    months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
+    monthsShort: 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'),
+    weekStart: 0,
+    formats: {
+      LT: 'HH:mm',
+      LTS: 'HH:mm:ss',
+      L: 'DD/MM/YYYY',
+      LL: 'D MMMM YYYY',
+      LLL: 'D MMMM YYYY HH:mm',
+      LLLL: 'dddd, D MMMM YYYY HH:mm'
+    },
+    ordinal: function ordinal(n) {
+      var s = ['th', 'st', 'nd', 'rd'];
+      var v = n % 100;
+      return "[".concat(n).concat(s[(v - 20) % 10] || s[v] || s[0], "]");
+    }
+  };
+
+  var localeObject$1 = {
+    name: 'fr',
+    weekdays: 'Dimanche_Lundi_Mardi_Mercredi_Jeudi_Vendredi_Samedi'.split('_'),
+    months: 'Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre'.split('_'),
+    weekStart: 1,
+    weekdaysShort: 'Dim_Lun_Mar_Mer_Jeu_Ven_Sam'.split('_'),
+    monthsShort: 'Janv_Févr_Mars_Avr_Mai_Juin_Juil_Août_Sept_Oct_Nov_Déc'.split('_'),
+    weekdaysMin: 'Di_Lu_Ma_Me_Je_Ve_Sa'.split('_'),
+    ordinal: function ordinal(n) {
+      return n;
+    },
+    formats: {
+      LT: 'HH:mm',
+      LTS: 'HH:mm:ss',
+      L: 'DD.MM.YYYY',
+      LL: 'D MMMM YYYY',
+      LLL: 'D MMMM YYYY HH:mm',
+      LLLL: 'dddd D MMMM YYYY HH:mm'
+    }
+  };
+
+  var localeObject$2 = {
+    name: 'es',
+    monthsShort: 'ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic'.split('_'),
+    weekdays: 'domingo_lunes_martes_miércoles_jueves_viernes_sábado'.split('_'),
+    weekdaysShort: 'dom._lun._mar._mié._jue._vie._sáb.'.split('_'),
+    weekdaysMin: 'do_lu_ma_mi_ju_vi_sá'.split('_'),
+    months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
+    weekStart: 1,
+    formats: {
+      LT: 'H:mm',
+      LTS: 'H:mm:ss',
+      L: 'DD/MM/YYYY',
+      LL: 'D [de] MMMM [de] YYYY',
+      LLL: 'D [de] MMMM [de] YYYY H:mm',
+      LLLL: 'dddd, D [de] MMMM [de] YYYY H:mm'
+    },
+    ordinal: function ordinal(n) {
+      return "".concat(n, "\xBA");
+    }
+  };
+
+
+
+  var locales = /*#__PURE__*/Object.freeze({
+    fr: localeObject$1,
+    en: localeObject,
+    es: localeObject$2
+  });
+
   var DEFAULT_INPUT_DATE_FORMAT = {
     date: 'DD MMMM YYYY',
     month: 'MMMM YYYY',
@@ -315,7 +388,8 @@
 
       classCallCheck(this, PickerDate);
 
-      dayjs.locale(lang);
+      var locale = locales[lang] || localeObject;
+      dayjs.locale(locale, null, true);
       this.start = dayjs().year(year).month(month).startOf('month');
       this.end = this.start.endOf('month');
       this.month = month;
@@ -379,37 +453,23 @@
 
     return PickerDate;
   }(); // -----------------------------------------
-  function getLocaleFile(lang) {
-    try {
-      return require("dayjs/locale/".concat(lang, ".js"));
-    } catch (error) {
-      console.error("Couldn't find any locale file for this lang: ".concat(lang, ".       Please look at dayjs documentation")); // this locale en file is complete
-
-      return require('dayjs/locale/en-gb.js');
-    }
-  }
   function getDefaultLocale() {
     return (window.navigator.userLanguage || window.navigator.language || 'en').substr(0, 2);
   }
   function setLocaleLang(_ref2) {
     var lang = _ref2.lang;
-    var locale = getLocaleFile(lang);
-    dayjs.locale(locale);
+    var locale = locales[lang] || localeObject;
+    dayjs.locale(locale, null, true);
   }
   function getWeekDays(_ref3) {
     var lang = _ref3.lang,
         weekDays = _ref3.weekDays;
-    var localeFile = getLocaleFile(lang);
-    var weekDaysShort = localeFile.weekdaysShort; // weekdaysShort is not present in every locale
+    var locale = locales[lang] || localeObject;
 
-    if (!weekDaysShort && localeFile.weekdays) {
-      weekDaysShort = localeFile.weekdays.map(function (day) {
-        return day.substring(0, 3);
-      });
-    } // If weekStart at 1, should move first index at the end
+    var weekDaysShort = toConsumableArray(locale.weekdaysShort); // If weekStart at 1, should move first index at the end
 
 
-    if (localeFile.weekStart && localeFile.weekStart === 1) {
+    if (locale.weekStart && locale.weekStart === 1) {
       weekDaysShort.push(weekDaysShort.shift());
     }
 
@@ -434,8 +494,10 @@
     var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'date';
     return DEFAULT_OUTPUT_DATE_FORMAT[type];
   }
-  function formatDateWithLocale(date, locale, format) {
-    return date.locale(locale.lang).format(format);
+  function formatDateWithLocale(date, _ref4, format) {
+    var lang = _ref4.lang;
+    var locale = locales[lang] || localeObject;
+    return date.locale(locale, null, true).format(format);
   }
   function formatDateWithYearAndMonth(year, month) {
     return dayjs().year(year).month(month).startOf('month');
@@ -3909,7 +3971,7 @@
 
   var plugin = {
     // eslint-disable-next-line no-undef
-    version: "0.1.0-rc.4",
+    version: "0.1.0-rc.5",
     install: install
   };
 

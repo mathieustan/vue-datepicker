@@ -4,6 +4,7 @@ import weekOfYear from 'dayjs/plugin/weekOfYear';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import AdvancedFormat from 'dayjs/plugin/advancedFormat';
 
+import * as locales from '../locale';
 import {
   DEFAULT_INPUT_DATE_FORMAT,
   DEFAULT_HEADER_DATE_FORMAT,
@@ -17,7 +18,8 @@ dayjs.extend(AdvancedFormat);
 
 export default class PickerDate {
   constructor (month, year, { lang = getDefaultLocale() } = {}) {
-    dayjs.locale(lang);
+    const locale = locales[lang] || locales.en;
+    dayjs.locale(locale, null, true);
     this.start = dayjs().year(year).month(month).startOf('month');
     this.end = this.start.endOf('month');
     this.month = month;
@@ -62,40 +64,21 @@ export default class PickerDate {
 // - setLocaleLang : Init lang from arg
 // - getWeekDays : Return week days from lang
 // -----------------------------------------
-
-export function getLocaleFile (lang) {
-  try {
-    return require(`dayjs/locale/${lang}.js`);
-  } catch (error) {
-    console.error(
-      `Couldn't find any locale file for this lang: ${lang}. \
-      Please look at dayjs documentation`
-    );
-    // this locale en file is complete
-    return require('dayjs/locale/en-gb.js');
-  }
-}
-
 export function getDefaultLocale () {
   return (window.navigator.userLanguage || window.navigator.language || 'en').substr(0, 2);
 }
 
 export function setLocaleLang ({ lang }) {
-  const locale = getLocaleFile(lang);
-  dayjs.locale(locale);
+  const locale = locales[lang] || locales.en;
+  dayjs.locale(locale, null, true);
 }
 
 export function getWeekDays ({ lang, weekDays }) {
-  const localeFile = getLocaleFile(lang);
-  let weekDaysShort = localeFile.weekdaysShort;
-
-  // weekdaysShort is not present in every locale
-  if (!weekDaysShort && localeFile.weekdays) {
-    weekDaysShort = localeFile.weekdays.map(day => day.substring(0, 3));
-  }
+  const locale = locales[lang] || locales.en;
+  let weekDaysShort = [...locale.weekdaysShort];
 
   // If weekStart at 1, should move first index at the end
-  if (localeFile.weekStart && localeFile.weekStart === 1) {
+  if (locale.weekStart && locale.weekStart === 1) {
     weekDaysShort.push(weekDaysShort.shift());
   }
 
@@ -122,8 +105,9 @@ export function getDefaultOutputFormat (type = 'date') {
   return DEFAULT_OUTPUT_DATE_FORMAT[type];
 }
 
-export function formatDateWithLocale (date, locale, format) {
-  return date.locale(locale.lang).format(format);
+export function formatDateWithLocale (date, { lang }, format) {
+  const locale = locales[lang] || locales.en;
+  return date.locale(locale, null, true).format(format);
 }
 
 export function formatDateWithYearAndMonth (year, month) {

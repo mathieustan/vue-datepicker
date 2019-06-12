@@ -155,7 +155,7 @@ Example :
 
 By default, locale will be set from your navigator language.
 But it's possible to set it from `locale` props.
-Here is a list of supported language from dayjs. (https://github.com/iamkun/dayjs/tree/dev/src/locale)
+Supported language : 'en', 'fr', 'es' in src/locale/translations
 
 exemple:
 ``` html
