@@ -385,7 +385,7 @@ function () {
     classCallCheck(this, PickerDate);
 
     var locale = locales[lang] || localeObject;
-    dayjs.locale(locale, null, true);
+    dayjs.locale(locale);
     this.start = dayjs().year(year).month(month).startOf('month');
     this.end = this.start.endOf('month');
     this.month = month;
@@ -455,7 +455,7 @@ function getDefaultLocale() {
 function setLocaleLang(_ref2) {
   var lang = _ref2.lang;
   var locale = locales[lang] || localeObject;
-  dayjs.locale(locale, null, true);
+  dayjs.locale(locale);
 }
 function getWeekDays(_ref3) {
   var lang = _ref3.lang,
@@ -493,7 +493,7 @@ function getDefaultOutputFormat() {
 function formatDateWithLocale(date, _ref4, format) {
   var lang = _ref4.lang;
   var locale = locales[lang] || localeObject;
-  return date.locale(locale, null, true).format(format);
+  return date.locale(locale).format(format);
 }
 function formatDateWithYearAndMonth(year, month) {
   return dayjs().year(year).month(month).startOf('month');
@@ -3967,7 +3967,7 @@ var install = function install(Vue) {
 
 var plugin = {
   // eslint-disable-next-line no-undef
-  version: "0.1.0-rc.5",
+  version: "0.1.0-rc.6",
   install: install
 };
 

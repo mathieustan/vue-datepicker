@@ -19,7 +19,7 @@ dayjs.extend(AdvancedFormat);
 export default class PickerDate {
   constructor (month, year, { lang = getDefaultLocale() } = {}) {
     const locale = locales[lang] || locales.en;
-    dayjs.locale(locale, null, true);
+    dayjs.locale(locale);
     this.start = dayjs().year(year).month(month).startOf('month');
     this.end = this.start.endOf('month');
     this.month = month;
@@ -70,7 +70,7 @@ export function getDefaultLocale () {
 
 export function setLocaleLang ({ lang }) {
   const locale = locales[lang] || locales.en;
-  dayjs.locale(locale, null, true);
+  dayjs.locale(locale);
 }
 
 export function getWeekDays ({ lang, weekDays }) {
@@ -107,7 +107,7 @@ export function getDefaultOutputFormat (type = 'date') {
 
 export function formatDateWithLocale (date, { lang }, format) {
   const locale = locales[lang] || locales.en;
-  return date.locale(locale, null, true).format(format);
+  return date.locale(locale).format(format);
 }
 
 export function formatDateWithYearAndMonth (year, month) {

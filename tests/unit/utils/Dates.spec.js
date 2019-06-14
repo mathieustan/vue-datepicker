@@ -61,7 +61,7 @@ describe('Transactions: Functions', () => {
       jest.spyOn(dayjs, 'locale');
       Object.defineProperty(global, 'navigator', { value: { userLanguage: 'toto' }, writable: true });
       const dateWithDefaultLocale = new Dates(dummyDate.month(), dummyDate.year());
-      expect(dayjs.locale).toHaveBeenCalledWith(en, null, true);
+      expect(dayjs.locale).toHaveBeenCalledWith(en);
       expect(dateWithDefaultLocale).toEqual({
         start: dummyDate.startOf('month'),
         end: dummyDate.endOf('month'),
@@ -158,7 +158,7 @@ describe('Transactions: Functions', () => {
         (locale, expectedLang) => {
           jest.spyOn(dayjs, 'locale');
           setLocaleLang(locale);
-          expect(dayjs.locale).toHaveBeenCalledWith(expectedLang, null, true);
+          expect(dayjs.locale).toHaveBeenCalledWith(expectedLang);
         }
       );
     });
