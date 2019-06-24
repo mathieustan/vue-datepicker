@@ -145,6 +145,7 @@ export default {
     },
   },
   beforeDestroy () {
+    this.hideDatePicker();
     this.$emit('onDestroy');
   },
   methods: {
@@ -185,8 +186,9 @@ export default {
   .datepicker-container {
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    width: auto;
     cursor: pointer;
 
     &:focus,

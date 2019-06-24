@@ -111,9 +111,12 @@ describe('DatePicker', () => {
   });
 
   describe('beforeDestroy', () => {
-    it('should emit destroy event', () => {
+    it('should emit destroy event && hide datepicker', () => {
       const wrapper = mountComponent();
+      wrapper.setData({ isVisible: true });
+
       wrapper.destroy();
+      expect(wrapper.vm.isVisible).toEqual(false);
       expect(wrapper.emitted().onDestroy).toBeTruthy();
     });
   });

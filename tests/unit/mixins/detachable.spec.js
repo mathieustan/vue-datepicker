@@ -27,6 +27,27 @@ describe('detachable', () => {
     expect(wrapper.vm.hasDetached).toEqual(false);
   });
 
+  describe('beforeDestroy', () => {
+    it('should do nothing if $refs.content isn\'t defined', () => {
+      const wrapper = mountComponent();
+      wrapper.destroy();
+
+      expect(wrapper.vm.$refs.content).toEqual(undefined);
+    });
+
+    it('should remove element from Dom ONLY OF $refs.content is defined', () => {
+      const wrapper = mountComponent();
+      wrapper.vm.$refs = {
+        content: {
+          parentNode: { removeChild: jest.fn(() => true) },
+        },
+      };
+
+      wrapper.destroy();
+      expect(wrapper.vm.$refs.content.parentNode.removeChild).toHaveBeenCalled();
+    });
+  });
+
   describe('methods', () => {
     describe('initDetach', () => {
       it('should not detach if $refs.content not defined', () => {

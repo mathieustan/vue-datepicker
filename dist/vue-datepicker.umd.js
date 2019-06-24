@@ -1572,6 +1572,11 @@
         hasDetached: false
       };
     },
+    beforeDestroy: function beforeDestroy() {
+      if (this.$refs.content) {
+        this.$refs.content.parentNode.removeChild(this.$refs.content);
+      }
+    },
     methods: {
       initDetach: function initDetach() {
         if (!this.$refs.content || this.hasDetached) return;
@@ -1816,64 +1821,30 @@
     return elementToShow.offsetTop - container.offsetHeight / 2 + elementToShow.offsetHeight / 2;
   }
 
-  function getDynamicPosition(element, parent, offset) {
+  function getDynamicPosition(element, parent) {
     // -------------------------------
     // Select parent (datepicker container) to get position
     // -------------------------------
-    var parentRect = parent.getBoundingClientRect(); // -------------------------------
-    // Compute offsets
-    // -------------------------------
-
-    var _getParentOffset = getParentOffset(parentRect),
-        parentOffsetTop = _getParentOffset.parentOffsetTop,
-        parentOffsetLeft = _getParentOffset.parentOffsetLeft;
-
-    var _getSpacesAroundParen = getSpacesAroundParent(parentRect),
-        spaceBelow = _getSpacesAroundParen.spaceBelow,
-        spaceAbove = _getSpacesAroundParen.spaceAbove,
-        spaceLeft = _getSpacesAroundParen.spaceLeft,
-        spaceRight = _getSpacesAroundParen.spaceRight; // -------------------------------
+    var parentRect = parent.getBoundingClientRect();
+    var parentOffsets = getParentOffset(parentRect);
+    var spacesAroundParent = getSpacesAroundParent(parentRect); // -------------------------------
     // Detect space around element
     // -------------------------------
 
-
-    var elementHeight = element.offsetHeight;
-    var elementWidth = element.offsetWidth;
-    var isThereEnoughSpaceBelow = spaceBelow - elementHeight > 0;
-    var isThereEnoughtSpaceLeft = spaceLeft - elementWidth > 0;
-    var isThereEnoughtSpaceRight = spaceRight - elementWidth > 0;
-    var isThereEnoughSpaceAbove = spaceAbove - elementHeight > 0; // -------------------------------
+    var placesAvailable = detectPlacesAvailable(element, spacesAroundParent);
+    var isThereEnoughSpaceBelow = placesAvailable.isThereEnoughSpaceBelow,
+        isThereEnoughtSpaceLeft = placesAvailable.isThereEnoughtSpaceLeft,
+        isThereEnoughtSpaceRight = placesAvailable.isThereEnoughtSpaceRight,
+        isThereEnoughSpaceAbove = placesAvailable.isThereEnoughSpaceAbove; // -------------------------------
     // If there is not enought space above, below, left & right
     // placement => MIDDLE
     // -------------------------------
 
     if (!isThereEnoughSpaceBelow && !isThereEnoughtSpaceLeft && !isThereEnoughSpaceAbove && !isThereEnoughtSpaceRight) {
-      return getElementCenteredPosition(elementHeight, elementWidth);
-    } // -------------------------------
-    // If there is not enought space above & below & enought space on left : placement => LEFT
-    // Else placement => RIGHT
-    // -------------------------------
+      return getElementCenteredPosition(element);
+    }
 
-
-    if (!isThereEnoughSpaceBelow && !isThereEnoughSpaceAbove) {
-      var missingSpaceToShowAbove = Math.abs(spaceAbove - elementHeight);
-      return {
-        top: parentOffsetTop + (missingSpaceToShowAbove + parentRect.height) - elementHeight,
-        left: parentOffsetLeft + (isThereEnoughtSpaceLeft ? -elementWidth - offset : parentRect.width),
-        origin: isThereEnoughtSpaceLeft ? 'top right' : 'bottom left'
-      };
-    } // -------------------------------
-    // If there is not enought space below : placement => TOP
-    // If there is not enought space above : placement => BOTTOM
-    // -------------------------------
-
-
-    return {
-      top: parentOffsetTop + (isThereEnoughSpaceBelow ? parentRect.height : -elementHeight),
-      left: parentOffsetLeft + (parentRect.width - elementWidth) / 2,
-      origin: isThereEnoughSpaceBelow ? 'top center' : 'bottom center' // for animation only
-
-    };
+    return getElementPosition(element, parentRect, parentOffsets, spacesAroundParent, placesAvailable);
   } // -------------------------------
   // HELPERS
   // -------------------------------
@@ -1897,12 +1868,71 @@
     };
   }
 
-  function getElementCenteredPosition(elementHeight, elementWidth) {
+  function detectPlacesAvailable(element, _ref) {
+    var spaceBelow = _ref.spaceBelow,
+        spaceAbove = _ref.spaceAbove,
+        spaceLeft = _ref.spaceLeft,
+        spaceRight = _ref.spaceRight;
     return {
-      top: window.pageYOffset + (window.innerHeight - elementHeight) / 2,
-      left: window.pageXOffset + (window.innerWidth - elementWidth) / 2,
+      isThereEnoughSpaceBelow: spaceBelow - element.offsetHeight > 0,
+      isThereEnoughtSpaceLeft: spaceLeft - element.offsetWidth > 0,
+      isThereEnoughtSpaceRight: spaceRight - element.offsetWidth > 0,
+      isThereEnoughSpaceAbove: spaceAbove - element.offsetHeight > 0
+    };
+  }
+
+  function getElementCenteredPosition(_ref2) {
+    var offsetHeight = _ref2.offsetHeight,
+        offsetWidth = _ref2.offsetWidth;
+    return {
+      top: window.pageYOffset + (window.innerHeight - offsetHeight) / 2,
+      left: window.pageXOffset + (window.innerWidth - offsetWidth) / 2,
       origin: 'center center' // for animation only
 
+    };
+  }
+
+  function getElementPosition(element, parentRect, parentOffsets, spacesAroundParent, placesAvailable) {
+    var elementHeight = element.offsetHeight;
+    var elementWidth = element.offsetWidth;
+    var parentOffsetTop = parentOffsets.parentOffsetTop,
+        parentOffsetLeft = parentOffsets.parentOffsetLeft;
+    var spaceAbove = spacesAroundParent.spaceAbove;
+    var isThereEnoughSpaceBelow = placesAvailable.isThereEnoughSpaceBelow,
+        isThereEnoughtSpaceLeft = placesAvailable.isThereEnoughtSpaceLeft,
+        isThereEnoughtSpaceRight = placesAvailable.isThereEnoughtSpaceRight,
+        isThereEnoughSpaceAbove = placesAvailable.isThereEnoughSpaceAbove;
+    var missingSpaceToShowAbove = Math.abs(spaceAbove - elementHeight);
+    var couldBeShowBelowOrAbove = isThereEnoughSpaceBelow || isThereEnoughSpaceAbove;
+
+    if (!couldBeShowBelowOrAbove && isThereEnoughtSpaceRight) {
+      return {
+        top: parentOffsetTop + (missingSpaceToShowAbove + parentRect.height) - elementHeight,
+        left: parentOffsetLeft + parentRect.width,
+        origin: 'left center'
+      };
+    }
+
+    if (!couldBeShowBelowOrAbove && isThereEnoughtSpaceLeft) {
+      return {
+        top: parentOffsetTop + (missingSpaceToShowAbove + parentRect.height) - elementHeight,
+        left: parentOffsetLeft - elementWidth,
+        origin: 'right center'
+      };
+    }
+
+    if (couldBeShowBelowOrAbove && isThereEnoughtSpaceLeft && !isThereEnoughtSpaceRight) {
+      return {
+        top: parentOffsetTop + (isThereEnoughSpaceBelow ? parentRect.height : -elementHeight),
+        left: parentOffsetLeft + parentRect.width - elementWidth,
+        origin: isThereEnoughSpaceBelow ? 'top right' : 'bottom right'
+      };
+    }
+
+    return {
+      top: parentOffsetTop + (isThereEnoughSpaceBelow ? parentRect.height : -elementHeight),
+      left: parentOffsetLeft,
+      origin: isThereEnoughSpaceBelow ? 'top left' : 'bottom left'
     };
   }
 
@@ -3727,6 +3757,7 @@
       }
     },
     beforeDestroy: function beforeDestroy() {
+      this.hideDatePicker();
       this.$emit('onDestroy');
     },
     methods: {
@@ -3836,12 +3867,12 @@
     /* style */
     const __vue_inject_styles__$7 = function (inject) {
       if (!inject) return
-      inject("data-v-cdd83120_0", { source: "\n*, ::before, ::after {\n  box-sizing: border-box;\n}\n", map: {"version":3,"sources":["/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePicker.vue"],"names":[],"mappings":";AAkLA;EACA,sBAAA;AACA","file":"DatePicker.vue","sourcesContent":["<template>\n  <div\n    :class=\"{ 'datepicker-container--active' : isVisible }\"\n    class=\"datepicker-container\">\n    <DatePickerCustomInput\n      v-if=\"!inline\"\n      :id=\"componentId\"\n      :name=\"name\"\n      :date=\"value ? date : value\"\n      :format=\"inputFormat\"\n      :type=\"type\"\n      :locale=\"locale\"\n      :placeholder=\"placeholder\"\n      :color=\"color\"\n      :disabled=\"disabled\"\n      :tabindex=\"tabindex\"\n      @toggleDatepicker=\"toggleDatepicker\"\n      @focus=\"showDatePicker\"\n    />\n    <DatePickerOverlay\n      :isVisible=\"isVisible\"\n      :fullscreen-mobile=\"fullscreenMobile\"\n      :attach-to=\"attachTo\"\n      :z-index=\"zIndex\"\n      @close=\"hideDatePicker\"\n    />\n    <DatepickerAgenda\n      :name=\"name\"\n      :isVisible=\"isVisible\"\n      :inline=\"inline\"\n      :fullscreen-mobile=\"fullscreenMobile\"\n      :date=\"date\"\n      :locale=\"locale\"\n      :format-header=\"headerFormat\"\n      :color=\"color\"\n      :close=\"hideDatePicker\"\n      :min-date=\"minDate\"\n      :end-date=\"endDate\"\n      :type=\"type\"\n      :attach-to=\"attachTo\"\n      :z-index=\"zIndex + 1\"\n      @selectDate=\"changeDate\"\n      @close=\"hideDatePicker\"\n      @hide=\"hideDatePicker\"\n    />\n  </div>\n</template>\n\n<script>\nimport dayjs from 'dayjs';\nimport { clearAllBodyScrollLocks } from 'body-scroll-lock';\nimport DatePickerCustomInput from './DatePickerCustomInput.vue';\nimport DatePickerOverlay from './DatePickerOverlay.vue';\nimport DatepickerAgenda from './DatePickerAgenda.vue';\nimport { generateRandomId } from '../../utils/helpers';\nimport {\n  getDefaultLocale,\n  setLocaleLang,\n  getDefaultInputFormat,\n  getDefaultHeaderFormat,\n  getDefaultOutputFormat,\n} from '../../utils/Dates';\n\nexport default {\n  name: 'DatePicker',\n  components: { DatePickerCustomInput, DatePickerOverlay, DatepickerAgenda },\n  props: {\n    id: { type: String, default: 'datepicker' },\n    name: { type: String, default: 'datepicker' },\n    // type (date, month, quarter or year picker)\n    type: { type: String, default: 'date' },\n    // Current Value from v-model\n    value: { type: [String, Number, Date] },\n    // Format\n    format: { type: String, default: undefined },\n    formatHeader: { type: String, default: undefined },\n    formatOutput: { type: String, default: undefined },\n    // Show/hide datepicker\n    visible: { type: Boolean, default: false },\n    // Sets the locale.\n    locale: {\n      type: Object,\n      default: () => ({ lang: getDefaultLocale() }),\n    },\n    placeholder: { type: String, default: 'YYYY-MM-DD' },\n    // Applies specified color to the control\n    color: { type: String, default: '#4f88ff' },\n    // Allowed dates\n    minDate: { type: [String, Number, Date] },\n    endDate: { type: [String, Number, Date] },\n    // Disabled all datepicker\n    disabled: { type: Boolean, default: false },\n    // Inline\n    inline: { type: Boolean, default: false },\n    // Responsive bottom sheet\n    fullscreenMobile: { type: Boolean, default: false },\n    // tabindex\n    tabindex: { type: [String, Number], default: '0' },\n    // Specificy a z-index for agenda & overlay\n    zIndex: { type: Number, default: 1 },\n    // attachTo\n    attachTo: { type: String, default: '#app' },\n  },\n  data: () => ({\n    date: undefined,\n    isVisible: undefined,\n  }),\n  computed: {\n    // use a computed to have a dynamicId for each instance\n    componentId () {\n      return `${this.id}${generateRandomId()}`;\n    },\n    // If format isnt specificed, select default format from type\n    inputFormat () {\n      if (!this.format) return getDefaultInputFormat(this.type);\n      return this.format;\n    },\n    headerFormat () {\n      if (!this.formatHeader) return getDefaultHeaderFormat(this.type);\n      return this.formatHeader;\n    },\n    outputFormat () {\n      if (!this.formatOutput) return getDefaultOutputFormat(this.type);\n      return this.formatOutput;\n    },\n  },\n  watch: {\n    value: {\n      handler (newDate = Date.now()) {\n        this.date = dayjs(newDate, this.outputFormat);\n      },\n      immediate: true,\n    },\n    visible: {\n      handler (isVisible) {\n        this.isVisible = isVisible;\n      },\n      immediate: true,\n    },\n    locale: {\n      handler (newLocale) {\n        setLocaleLang(newLocale);\n      },\n      immediate: true,\n    },\n  },\n  beforeDestroy () {\n    this.$emit('onDestroy');\n  },\n  methods: {\n    toggleDatepicker () {\n      if (this.isVisible) {\n        this.hideDatePicker();\n        return;\n      }\n      this.showDatePicker();\n    },\n    showDatePicker () {\n      if (this.disabled) return;\n      this.isVisible = true;\n      this.$emit('onOpen');\n    },\n    hideDatePicker () {\n      if (!this.isVisible) return;\n      this.isVisible = false;\n      clearAllBodyScrollLocks();\n      this.$emit('onClose');\n    },\n    changeDate (date) {\n      this.date = date;\n      this.$emit('input', this.date.format(this.outputFormat));\n      this.$emit('onChange');\n    },\n  },\n};\n</script>\n\n<style>\n  *, ::before, ::after {\n    box-sizing: border-box;\n  }\n</style>\n\n<style lang=\"scss\" scoped>\n  .datepicker-container {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    cursor: pointer;\n\n    &:focus,\n    &:active {\n      outline: 0;\n    }\n  }\n</style>\n"]}, media: undefined })
-  ,inject("data-v-cdd83120_1", { source: ".datepicker-container[data-v-cdd83120] {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  cursor: pointer;\n}\n.datepicker-container[data-v-cdd83120]:focus, .datepicker-container[data-v-cdd83120]:active {\n    outline: 0;\n}\n\n/*# sourceMappingURL=DatePicker.vue.map */", map: {"version":3,"sources":["/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePicker.vue","DatePicker.vue"],"names":[],"mappings":"AAwLA;EACA,kBAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,eAAA;AAAA;AALA;IASA,UAAA;AAAA;;ACxLA,yCAAyC","file":"DatePicker.vue","sourcesContent":[null,".datepicker-container {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  cursor: pointer; }\n  .datepicker-container:focus, .datepicker-container:active {\n    outline: 0; }\n\n/*# sourceMappingURL=DatePicker.vue.map */"]}, media: undefined });
+      inject("data-v-64300d5e_0", { source: "\n*, ::before, ::after {\n  box-sizing: border-box;\n}\n", map: {"version":3,"sources":["/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePicker.vue"],"names":[],"mappings":";AAmLA;EACA,sBAAA;AACA","file":"DatePicker.vue","sourcesContent":["<template>\n  <div\n    :class=\"{ 'datepicker-container--active' : isVisible }\"\n    class=\"datepicker-container\">\n    <DatePickerCustomInput\n      v-if=\"!inline\"\n      :id=\"componentId\"\n      :name=\"name\"\n      :date=\"value ? date : value\"\n      :format=\"inputFormat\"\n      :type=\"type\"\n      :locale=\"locale\"\n      :placeholder=\"placeholder\"\n      :color=\"color\"\n      :disabled=\"disabled\"\n      :tabindex=\"tabindex\"\n      @toggleDatepicker=\"toggleDatepicker\"\n      @focus=\"showDatePicker\"\n    />\n    <DatePickerOverlay\n      :isVisible=\"isVisible\"\n      :fullscreen-mobile=\"fullscreenMobile\"\n      :attach-to=\"attachTo\"\n      :z-index=\"zIndex\"\n      @close=\"hideDatePicker\"\n    />\n    <DatepickerAgenda\n      :name=\"name\"\n      :isVisible=\"isVisible\"\n      :inline=\"inline\"\n      :fullscreen-mobile=\"fullscreenMobile\"\n      :date=\"date\"\n      :locale=\"locale\"\n      :format-header=\"headerFormat\"\n      :color=\"color\"\n      :close=\"hideDatePicker\"\n      :min-date=\"minDate\"\n      :end-date=\"endDate\"\n      :type=\"type\"\n      :attach-to=\"attachTo\"\n      :z-index=\"zIndex + 1\"\n      @selectDate=\"changeDate\"\n      @close=\"hideDatePicker\"\n      @hide=\"hideDatePicker\"\n    />\n  </div>\n</template>\n\n<script>\nimport dayjs from 'dayjs';\nimport { clearAllBodyScrollLocks } from 'body-scroll-lock';\nimport DatePickerCustomInput from './DatePickerCustomInput.vue';\nimport DatePickerOverlay from './DatePickerOverlay.vue';\nimport DatepickerAgenda from './DatePickerAgenda.vue';\nimport { generateRandomId } from '../../utils/helpers';\nimport {\n  getDefaultLocale,\n  setLocaleLang,\n  getDefaultInputFormat,\n  getDefaultHeaderFormat,\n  getDefaultOutputFormat,\n} from '../../utils/Dates';\n\nexport default {\n  name: 'DatePicker',\n  components: { DatePickerCustomInput, DatePickerOverlay, DatepickerAgenda },\n  props: {\n    id: { type: String, default: 'datepicker' },\n    name: { type: String, default: 'datepicker' },\n    // type (date, month, quarter or year picker)\n    type: { type: String, default: 'date' },\n    // Current Value from v-model\n    value: { type: [String, Number, Date] },\n    // Format\n    format: { type: String, default: undefined },\n    formatHeader: { type: String, default: undefined },\n    formatOutput: { type: String, default: undefined },\n    // Show/hide datepicker\n    visible: { type: Boolean, default: false },\n    // Sets the locale.\n    locale: {\n      type: Object,\n      default: () => ({ lang: getDefaultLocale() }),\n    },\n    placeholder: { type: String, default: 'YYYY-MM-DD' },\n    // Applies specified color to the control\n    color: { type: String, default: '#4f88ff' },\n    // Allowed dates\n    minDate: { type: [String, Number, Date] },\n    endDate: { type: [String, Number, Date] },\n    // Disabled all datepicker\n    disabled: { type: Boolean, default: false },\n    // Inline\n    inline: { type: Boolean, default: false },\n    // Responsive bottom sheet\n    fullscreenMobile: { type: Boolean, default: false },\n    // tabindex\n    tabindex: { type: [String, Number], default: '0' },\n    // Specificy a z-index for agenda & overlay\n    zIndex: { type: Number, default: 1 },\n    // attachTo\n    attachTo: { type: String, default: '#app' },\n  },\n  data: () => ({\n    date: undefined,\n    isVisible: undefined,\n  }),\n  computed: {\n    // use a computed to have a dynamicId for each instance\n    componentId () {\n      return `${this.id}${generateRandomId()}`;\n    },\n    // If format isnt specificed, select default format from type\n    inputFormat () {\n      if (!this.format) return getDefaultInputFormat(this.type);\n      return this.format;\n    },\n    headerFormat () {\n      if (!this.formatHeader) return getDefaultHeaderFormat(this.type);\n      return this.formatHeader;\n    },\n    outputFormat () {\n      if (!this.formatOutput) return getDefaultOutputFormat(this.type);\n      return this.formatOutput;\n    },\n  },\n  watch: {\n    value: {\n      handler (newDate = Date.now()) {\n        this.date = dayjs(newDate, this.outputFormat);\n      },\n      immediate: true,\n    },\n    visible: {\n      handler (isVisible) {\n        this.isVisible = isVisible;\n      },\n      immediate: true,\n    },\n    locale: {\n      handler (newLocale) {\n        setLocaleLang(newLocale);\n      },\n      immediate: true,\n    },\n  },\n  beforeDestroy () {\n    this.hideDatePicker();\n    this.$emit('onDestroy');\n  },\n  methods: {\n    toggleDatepicker () {\n      if (this.isVisible) {\n        this.hideDatePicker();\n        return;\n      }\n      this.showDatePicker();\n    },\n    showDatePicker () {\n      if (this.disabled) return;\n      this.isVisible = true;\n      this.$emit('onOpen');\n    },\n    hideDatePicker () {\n      if (!this.isVisible) return;\n      this.isVisible = false;\n      clearAllBodyScrollLocks();\n      this.$emit('onClose');\n    },\n    changeDate (date) {\n      this.date = date;\n      this.$emit('input', this.date.format(this.outputFormat));\n      this.$emit('onChange');\n    },\n  },\n};\n</script>\n\n<style>\n  *, ::before, ::after {\n    box-sizing: border-box;\n  }\n</style>\n\n<style lang=\"scss\" scoped>\n  .datepicker-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    width: auto;\n    cursor: pointer;\n\n    &:focus,\n    &:active {\n      outline: 0;\n    }\n  }\n</style>\n"]}, media: undefined })
+  ,inject("data-v-64300d5e_1", { source: ".datepicker-container[data-v-64300d5e] {\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  width: auto;\n  cursor: pointer;\n}\n.datepicker-container[data-v-64300d5e]:focus, .datepicker-container[data-v-64300d5e]:active {\n    outline: 0;\n}\n\n/*# sourceMappingURL=DatePicker.vue.map */", map: {"version":3,"sources":["/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePicker.vue","DatePicker.vue"],"names":[],"mappings":"AAyLA;EACA,kBAAA;EACA,aAAA;EACA,mBAAA;EACA,mBAAA;EACA,WAAA;EACA,eAAA;AAAA;AANA;IAUA,UAAA;AAAA;;ACzLA,yCAAyC","file":"DatePicker.vue","sourcesContent":[null,".datepicker-container {\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  width: auto;\n  cursor: pointer; }\n  .datepicker-container:focus, .datepicker-container:active {\n    outline: 0; }\n\n/*# sourceMappingURL=DatePicker.vue.map */"]}, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$7 = "data-v-cdd83120";
+    const __vue_scope_id__$7 = "data-v-64300d5e";
     /* module identifier */
     const __vue_module_identifier__$7 = undefined;
     /* functional template */
@@ -3971,7 +4002,7 @@
 
   var plugin = {
     // eslint-disable-next-line no-undef
-    version: "0.1.0-rc.6",
+    version: "0.1.0-rc.7",
     install: install
   };
 

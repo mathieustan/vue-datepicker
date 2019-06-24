@@ -147,6 +147,12 @@ describe('DatePickerAgenda', () => {
   describe('destroyed', () => {
     it('should remove all body scroll locks', () => {
       const wrapper = mountComponent();
+      wrapper.vm.$refs = {
+        content: {
+          parentNode: { removeChild: jest.fn(() => true) },
+        },
+      };
+
       wrapper.destroy();
       expect(bodyScrollLockFunctions.clearAllBodyScrollLocks).toHaveBeenCalledWith();
     });

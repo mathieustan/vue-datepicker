@@ -5,6 +5,11 @@ const detachable = {
   data: () => ({
     hasDetached: false,
   }),
+  beforeDestroy () {
+    if (this.$refs.content) {
+      this.$refs.content.parentNode.removeChild(this.$refs.content);
+    }
+  },
   methods: {
     initDetach () {
       if (!this.$refs.content || this.hasDetached) return;
