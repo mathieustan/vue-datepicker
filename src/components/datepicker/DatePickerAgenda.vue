@@ -278,7 +278,7 @@ export default {
       this.isActive = true;
     },
     isSelected (day) {
-      return this.mutableDate.unix() === day.unix();
+      return this.mutableDate.startOf('day').unix() === day.unix();
     },
     isDisabled (day) {
       return isBeforeMinDate(day, this.minDate) || isAfterEndDate(day, this.endDate);
