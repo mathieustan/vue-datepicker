@@ -5,12 +5,12 @@
     @mousedown="$emit('toggleDatepicker')">
     <DatePickerCalendarIcon
       :id="id"
-      :color="date && !disabled ? color : 'rgba(0,0,0,0.6)'"
+      :color="date && !disabled ? color : 'rgba(93, 106, 137, 0.5)'"
       :disabled="disabled" />
     <input
       :id="id"
       :name="id"
-      :style="{ color: !disabled ? color : 'rgba(0,0,0,0.6)' }"
+      :style="{ color: !disabled ? color : 'rgba(93, 106, 137, 0.5)' }"
       :value="dateFormatted"
       :disabled="disabled"
       :placeholder="placeholder"

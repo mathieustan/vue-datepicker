@@ -87,24 +87,25 @@ Using `v-model`
 | Prop                          | Type            | Default     | Description                              |
 |-------------------------------|-----------------|-------------|------------------------------------------|
 | id                            | String          | 'datepicker'| Input id                                 |
-| value                         | Date\|String\|Number |             | Date value of the datepicker        |
+| value                         | Date\|String\|Number |        | Date value of the datepicker             |
 | name                          | String          | 'datepicker'| Input name property                      |
-| type                          | String          | 'date'        | Determines the type of the picker - date/month/quarter                 |
 | format                        | String          | DD MMMM YYYY| Date formatting for input                |
 | formatHeader                  | String          | dddd DD MMM | Allows you to customize the format of the month string that appears in the header of the calendar.    |
 | formatOutput                  | String          | YYYY-MM-DD  | Allows you to customize the format of date when selected    |
+| placeholder                   | String          | 'YYYY-MM-DD'| Allow you to change input placeholder   |
+| visible                       | Boolean         | false       | Allow you to trigger datepicker         |
+| disabled                      | Boolean         | false       | Datepicker disabled or not              |
+| color                         | String          | #4f88ff     | Applies specified color                  |
+| noHeader                      | Boolean         |             | Applies specified color                  |
+| fullscreenMobile              | Boolean         | false       | Datepicker will appear in a bottom sheet in mobile view     |
+| minDate                       | String\|Number\|Date |        | Date are available FROM this date       |
+| endDate                       | String\|Number\|Date |        | Date are disabled AFTER this date       |
 | locale                        | Object          |{lang: 'en'} | More informations here [Translations](#translations)        |
-| visible                       | Boolean         | false        | Allow you to trigger datepicker         |
-| placeholder                   | String          | 'YYYY-MM-DD' | Allow you to change input placeholder   |
-| color                         | String          | #4f88ff      | Applies specified color                  |
-| minDate                       | String\|Number\|Date |         | Date are available FROM this date       |
-| endDate                       | String\|Number\|Date |         | Date are disabled AFTER this date       |
-| disabled                      | Boolean        | false         | Datepicker disabled or not              |
-| inline                        | Boolean        | false         | Inline datepicker                       |
-| fullscreenMobile              | Boolean        | false         | Datepicker will appear in a bottom sheet in mobile view     |
-| tabindex                      | String\|Number | '0'           | Specify input tabindex                  |
-| zIndex                        | Number         |               | Specify a z-index to datepicker & overlay |
-| attachTo                      | String         | '#app'        | It will mount datepicker popup into this element as a child |
+| inline                        | Boolean        | false        | Inline datepicker                       |
+| type                          | String          | 'date'      | Determines the type of the picker - date/month/quarter                 |
+| tabindex                      | String\|Number | '0'          | Specify input tabindex                  |
+| zIndex                        | Number         |              | Specify a z-index to datepicker & overlay |
+| attachTo                      | String         | '#app'       | It will mount datepicker popup into this element as a child |
 
 ## Events
 
@@ -155,7 +156,7 @@ Example :
 
 By default, locale will be set from your navigator language.
 But it's possible to set it from `locale` props.
-Supported language : 'en', 'fr', 'es' in src/locale/translations
+Supported language : 'en', 'fr', 'es' in src/locale/translations (more will be added)
 
 exemple:
 ``` html

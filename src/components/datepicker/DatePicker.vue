@@ -28,6 +28,7 @@
       :name="name"
       :isVisible="isVisible"
       :inline="inline"
+      :no-header="noHeader"
       :fullscreen-mobile="fullscreenMobile"
       :date="date"
       :locale="locale"
@@ -92,6 +93,8 @@ export default {
     disabled: { type: Boolean, default: false },
     // Inline
     inline: { type: Boolean, default: false },
+    // Set if header in agenda should be visible
+    noHeader: { type: Boolean, default: false },
     // Responsive bottom sheet
     fullscreenMobile: { type: Boolean, default: false },
     // tabindex

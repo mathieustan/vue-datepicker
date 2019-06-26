@@ -116,6 +116,46 @@
           </template>
         </Example>
 
+        <!-- EXAMPLE : Format Output  -->
+        <Example title="FormatOutput" :current-date="currentDate">
+          <template v-slot:datepicker>
+            <VueDatePicker v-model="currentDate" format-output="YYYY/MM/DD" />
+          </template>
+          <template v-slot:code>
+<pre class="language-HTML" data-title="html">
+<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">format-output</span>="YYYY/MM/DD"
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+</code>
+</pre>
+          </template>
+        </Example>
+
+        <!-- EXAMPLE : Placeholder  -->
+        <Example title="Placeholder" :current-date="examples.placeholder.currentDate">
+          <template v-slot:datepicker>
+            <VueDatePicker v-model="examples.placeholder.currentDate" placeholder="DD/MM/YYYY" />
+          </template>
+          <template v-slot:code>
+<pre class="language-HTML" data-title="html">
+<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">placeholder</span>="DD/MM/YYYY"
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+</code>
+</pre>
+          </template>
+        </Example>
+
         <!-- EXAMPLE : Visible -->
         <Example title="Visible" :current-date="currentDate">
           <template v-slot:inputs>
@@ -193,10 +233,10 @@
           </template>
         </Example>
 
-        <!-- EXAMPLE : Placeholder  -->
-        <Example title="Placeholder" :current-date="examples.placeholder.currentDate">
+        <!-- EXAMPLE : NoHeader -->
+        <Example title="NoHeader" :current-date="currentDate">
           <template v-slot:datepicker>
-            <VueDatePicker v-model="examples.placeholder.currentDate" placeholder="DD/MM/YYYY" />
+            <VueDatePicker v-model="currentDate" no-header />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -204,7 +244,27 @@
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">placeholder</span>="DD/MM/YYYY"
+    <span class="token attr-name">no-header</span>
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+</code>
+</pre>
+          </template>
+        </Example>
+
+        <!-- EXAMPLE : FullscreenMobile -->
+        <Example title="FullscreenMobile" :current-date="currentDate">
+          <template v-slot:datepicker>
+            <VueDatePicker v-model="currentDate" fullscreen-mobile />
+          </template>
+          <template v-slot:code>
+<pre class="language-HTML" data-title="html">
+<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">fullscreen-mobile</span>
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>

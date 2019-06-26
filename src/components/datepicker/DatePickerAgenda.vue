@@ -37,6 +37,7 @@
 
       <!-- Header -->
       <DatePickerHeader
+        v-if="!noHeader"
         :mutable-date="mutableDate"
         :transition-name="transitionLabelName"
         :color="color"
@@ -152,6 +153,7 @@ export default {
     date: { type: [Date, Object], required: true },
     isVisible: { type: Boolean, default: false },
     inline: { type: Boolean, default: false },
+    noHeader: { type: Boolean, default: false },
     fullscreenMobile: { type: Boolean, default: false },
     locale: { type: Object },
     color: { type: String },
