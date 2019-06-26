@@ -256,7 +256,7 @@
         <!-- EXAMPLE : FullscreenMobile -->
         <Example title="FullscreenMobile" :current-date="currentDate">
           <template v-slot:datepicker>
-            <VueDatePicker v-model="currentDate" fullscreen-mobile />
+            <VueDatePicker v-model="currentDate" fullscreen-mobile no-header />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -265,6 +265,7 @@
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
     <span class="token attr-name">fullscreen-mobile</span>
+    <span class="token attr-name">no-header</span>
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
@@ -443,7 +444,7 @@
                   :name="`Starting Date`"
                   :min-date="examples.range.min"
                   :end-date="examples.range.end"
-                  :fullscreen-mobile="examples.range.fullscreenMobile"
+                  fullscreen-mobile
                   @onChange="onStartDateChange"
                 />
               </div>
@@ -455,7 +456,7 @@
                   :min-date="examples.range.startDate"
                   :end-date="examples.range.end"
                   :visible="examples.range.showEndDate"
-                  :fullscreen-mobile="examples.range.fullscreenMobile"
+                  fullscreen-mobile
                   @onClose="examples.range.showEndDate = false"
                 />
               </div>
@@ -470,7 +471,7 @@
     <span class="token attr-name">:name</span>="`Starting Date`"
     <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
     <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
-    <span class="token attr-name">:fullscreen-mobile</span>="{{ examples.range.fullscreenMobile }}"
+    <span class="token attr-name">fullscreen-mobile</span>
     <span class="token attr-name">@onChange</span>="showEndDate = true"
   <span class="token operator">/></span>
   <span class="token operator">&lt;</span>VueDatePicker
@@ -478,8 +479,8 @@
     <span class="token attr-name">:name</span>="`Ending Date`"
     <span class="token attr-name">:min-date</span>="startDate"
     <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
-    <span class="token attr-name">:fullscreen-mobile</span>="{{ examples.range.fullscreenMobile }}"
     <span class="token attr-name">:visible</span>="showEnDate"
+    <span class="token attr-name">fullscreen-mobile</span>
     <span class="token attr-name">@onClose</span>="showEndDate = false"
   <span class="token operator">/></span>
   ...
@@ -615,7 +616,6 @@ export default {
         showEnDate: false,
         min: '2018-08-12',
         end: '2019-08-12',
-        fullscreenMobile: true,
       },
       onOpen: {
         message: '',

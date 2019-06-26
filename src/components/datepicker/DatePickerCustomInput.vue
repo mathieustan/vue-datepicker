@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="{ 'disabled' : disabled }"
+    :class="classes"
     class="datepicker-input"
     @mousedown="$emit('toggleDatepicker')">
     <DatePickerCalendarIcon
@@ -47,6 +47,11 @@ export default {
       if (!this.date) return;
       return formatDateWithLocale(this.date, this.locale, this.format);
     },
+    classes () {
+      return {
+        'datepicker-input--disabled': this.disabled,
+      };
+    },
   },
 };
 </script>
@@ -62,7 +67,7 @@ export default {
     justify-content: flex-start;
     align-items: center;
 
-    &.disabled {
+    &--disabled {
       cursor: not-allowed;
     }
   }

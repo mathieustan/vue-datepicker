@@ -121,53 +121,54 @@ export default {
       height: get-size(desktop, controls);
     }
 
-    .datepicker-controls__wrapper {
+    &__wrapper {
       position: relative;
       overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
       flex: 1;
+    }
 
-      .datepicker-controls__month,
-      .datepicker-controls__year {
+    &__month,
+    &__year {
+      position: relative;
+      display: flex;
+      flex: 1;
+      align-items: center;
+    }
+
+    &__month {
+      justify-content: flex-end;
+    }
+
+    &__year {
+      justify-content: flex-start;
+
+      &.datepicker-controls__year--center {
+        justify-content: center;
+      }
+    }
+
+    &__label {
+      padding: $gutter $gutter/2;
+
+      button {
+        @include reset-button;
         position: relative;
         display: flex;
-        flex: 1;
-        align-items: center;
-      }
+        font-size: 15px;
+        font-weight: get-font-weight(medium);
+        line-height: 15px;
+        padding: 0;
+        border: none;
+        outline: none;
+        cursor: pointer;
 
-      .datepicker-controls__month {
-        justify-content: flex-end;
-      }
-      .datepicker-controls__year {
-        justify-content: flex-start;
-
-        &.datepicker-controls__year--center {
-          justify-content: center;
-        }
-      }
-
-      .datepicker-controls__label {
-        padding: $gutter $gutter/2;
-
-        button {
-          @include reset-button;
-          position: relative;
-          display: flex;
-          font-size: 15px;
-          font-weight: get-font-weight(medium);
-          line-height: 15px;
-          padding: 0;
-          border: none;
-          outline: none;
-          cursor: pointer;
-
-          &:disabled,
-          &[disabled] {
-            cursor: default;
-            color: rgba(0,0,0,0.26);
-          }
+        &:disabled,
+        &[disabled] {
+          cursor: default;
+          color: rgba(0,0,0,0.26);
         }
       }
     }

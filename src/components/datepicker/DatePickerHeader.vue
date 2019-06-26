@@ -62,13 +62,14 @@ export default {
     line-height: 1;
     min-height: get-size(mobile, header);
     max-height: get-size(mobile, header);
+    border-radius: get-border-radius(2) get-border-radius(2) 0 0;
 
     @include mq(tablet) {
       min-height: get-size(desktop, header);
       max-height: get-size(desktop, header);
     }
 
-    .datepicker-header__year {
+    &__year {
       align-items: center;
       display: inline-flex;
       font-size: 14px;
@@ -82,13 +83,13 @@ export default {
       }
     }
 
-    .datepicker-header__wrap {
+    &__wrap {
       position: relative;
       display: flex;
       width: 100%;
     }
 
-    .datepicker-header__date {
+    &__date {
       position: relative;
       display: flex;
       width: 100%;

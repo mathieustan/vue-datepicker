@@ -1,12 +1,12 @@
 <template>
-  <transition name="overlay" appear>
-      <div
-        ref="content"
-        v-if="shouldShowOverlay"
-        :style="styles"
-        class="datepicker-overlay"
-        @click="$emit('close')"
-      />
+  <transition name="overlay-transition" appear>
+    <div
+      ref="content"
+      v-if="shouldShowOverlay"
+      :style="styles"
+      class="datepicker-overlay"
+      @click="$emit('close')"
+    />
   </transition>
 </template>
 
@@ -59,13 +59,16 @@ export default {
     @include mq(phone) {
       display: none;
     }
+  }
 
-    &.overlay-enter-active,
-    &.overlay-leave-active {
+  .overlay-transition {
+    &-enter-active,
+    &-leave-active {
       opacity: 1;
       transition: opacity 300ms;
     }
-    &.overlay-leave-to, &.overlay-enter{
+    &-leave-to,
+    &-enter{
       opacity: 0;
     }
   }

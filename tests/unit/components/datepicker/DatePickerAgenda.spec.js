@@ -39,9 +39,10 @@ describe('DatePickerAgenda', () => {
       endDate,
       locale = { lang: 'en' },
       isVisible = true,
+      fullscreenMobile = false,
+      noHeader = false,
       inline = false,
       type = 'date',
-      fullscreenMobile = false,
     } = {}) =>
       shallowMount(DatePickerAgenda, {
         propsData: {
@@ -55,6 +56,7 @@ describe('DatePickerAgenda', () => {
           close: jest.fn(),
           type,
           fullscreenMobile,
+          noHeader,
           zIndex: 1,
         },
         attachToDocument: true,
@@ -93,6 +95,30 @@ describe('DatePickerAgenda', () => {
           transformOrigin: 'top center',
           zIndex: 1,
         });
+      });
+    });
+
+    describe('classes', () => {
+      it.each([
+        [
+          { fullscreenMobile: true, inline: false, noHeader: true },
+          {
+            'datepicker--fullscreen-mobile': true,
+            'datepicker--inline': false,
+            'datepicker--no-header': true,
+          },
+        ],
+        [
+          { fullscreenMobile: false, inline: true, noHeader: false },
+          {
+            'datepicker--fullscreen-mobile': false,
+            'datepicker--inline': true,
+            'datepicker--no-header': false,
+          },
+        ],
+      ])('when props = %p, should return %p', (props, expectedResult) => {
+        const wrapper = mountComponent(props);
+        expect(wrapper.vm.classes).toEqual(expectedResult);
       });
     });
 
