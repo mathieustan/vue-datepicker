@@ -1939,6 +1939,14 @@
       };
     }
 
+    if (couldBeShowBelowOrAbove && !isThereEnoughtSpaceLeft && !isThereEnoughtSpaceRight) {
+      return {
+        top: parentOffsetTop + (isThereEnoughSpaceBelow ? parentRect.height : -elementHeight),
+        left: window.pageXOffset + (window.innerWidth - element.offsetWidth) / 2,
+        origin: isThereEnoughSpaceBelow ? 'top center' : 'bottom center'
+      };
+    }
+
     return {
       top: parentOffsetTop + (isThereEnoughSpaceBelow ? parentRect.height : -elementHeight),
       left: parentOffsetLeft,

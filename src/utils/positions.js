@@ -68,10 +68,10 @@ function getSpacesAroundParent (parentRect) {
 
 function detectPlacesAvailable (element, { spaceBelow, spaceAbove, spaceLeft, spaceRight }) {
   return {
-    isThereEnoughSpaceBelow: spaceBelow - element.offsetHeight > 0,
-    isThereEnoughtSpaceLeft: spaceLeft - element.offsetWidth > 0,
-    isThereEnoughtSpaceRight: spaceRight - element.offsetWidth > 0,
-    isThereEnoughSpaceAbove: spaceAbove - element.offsetHeight > 0,
+    isThereEnoughSpaceBelow: (spaceBelow - element.offsetHeight) > 0,
+    isThereEnoughtSpaceLeft: (spaceLeft - element.offsetWidth) > 0,
+    isThereEnoughtSpaceRight: (spaceRight - element.offsetWidth) > 0,
+    isThereEnoughSpaceAbove: (spaceAbove - element.offsetHeight) > 0,
   };
 }
 
@@ -119,6 +119,14 @@ function getElementPosition (element, parentRect, parentOffsets, spacesAroundPar
       top: parentOffsetTop + (isThereEnoughSpaceBelow ? parentRect.height : -elementHeight),
       left: parentOffsetLeft + parentRect.width - elementWidth,
       origin: isThereEnoughSpaceBelow ? 'top right' : 'bottom right',
+    };
+  }
+
+  if (couldBeShowBelowOrAbove && !isThereEnoughtSpaceLeft && !isThereEnoughtSpaceRight) {
+    return {
+      top: parentOffsetTop + (isThereEnoughSpaceBelow ? parentRect.height : -elementHeight),
+      left: window.pageXOffset + (window.innerWidth - element.offsetWidth) / 2,
+      origin: isThereEnoughSpaceBelow ? 'top center' : 'bottom center',
     };
   }
 

@@ -39,49 +39,63 @@ describe('Utils: Functions', () => {
     const offset = 0;
 
     it.each([
-      // Should place above
+      // Should place ABOVE
       [
-        { width: 300, height: 800 },
+        { width: 800, height: 800 },
         { top: 700, left: 0, bottom: 700, width: 300, height: 50 },
         { width: 100, height: 400 },
         { top: 300, left: 0, origin: 'bottom left' },
       ],
-      // Should place below
+      // Should place BELOW
       [
-        { width: 300, height: 800 },
+        { width: 800, height: 800 },
         { top: 100, left: 0, bottom: 100, width: 300, height: 50 },
         { width: 100, height: 100 },
         { top: 150, left: 0, origin: 'top left' },
       ],
-      // Should place below and left if there is not enought place on right
+      // Should place BELOW and LEFT if there is not enought place on right
       [
         { width: 800, height: 800 },
         { top: 100, left: 500, bottom: 100, width: 300, height: 50 },
         { width: 100, height: 100 },
         { top: 150, left: 700, origin: 'top right' },
       ],
-      // Should place above and left if there is not enought place on right
+      // Should place ABOVE and LEFT if there is not enought place on right
       [
         { width: 800, height: 800 },
         { top: 700, left: 500, bottom: 700, width: 300, height: 50 },
         { width: 100, height: 100 },
         { top: 600, left: 700, origin: 'bottom right' },
       ],
-      // Should place on left
+      // Should place BELOW and CENTER if there is not enought place on right and on left
+      [
+        { width: 800, height: 800 },
+        { top: 100, left: 300, bottom: 100, width: 300, height: 50 },
+        { width: 300, height: 100 },
+        { top: 150, left: 250, origin: 'top center' },
+      ],
+      // Should place ABOVE and CENTER if there is not enought place on right and on left
+      [
+        { width: 800, height: 800 },
+        { top: 700, left: 300, bottom: 700, width: 300, height: 50 },
+        { width: 300, height: 100 },
+        { top: 600, left: 250, origin: 'bottom center' },
+      ],
+      // Should place on LEFT
       [
         { width: 800, height: 500 },
         { top: 250, left: 500, bottom: 250, width: 300, height: 50 },
         { width: 400, height: 400 },
         { top: 50, left: 100, origin: 'right center' },
       ],
-      // Should place on right
+      // Should place on RIGHT
       [
         { width: 800, height: 400 },
         { top: 200, left: 50, bottom: 200, width: 300, height: 50 },
         { width: 300, height: 300 },
         { top: 50, left: 350, origin: 'left center' },
       ],
-      // Should place middle
+      // Should place MIDDLE
       [
         { width: 400, height: 400 },
         { top: 200, left: 150, bottom: 200, width: 300, height: 50 },
