@@ -622,8 +622,10 @@ export default {
       transition-property: transform, opacity;
       transform: scale(1);
 
-      &.datepicker--fullscreen-mobile {
-        transform: translateY(0);
+      @include mq($to: phone) {
+        &.datepicker--fullscreen-mobile {
+          transform: translateY(0);
+        }
       }
     }
 
@@ -632,8 +634,10 @@ export default {
       opacity: 0;
       transform: scale(0);
 
-      &.datepicker--fullscreen-mobile {
-        transform: translateY(100%);
+      @include mq($to: phone) {
+        &.datepicker--fullscreen-mobile {
+          transform: translateY(100%);
+        }
       }
     }
 
