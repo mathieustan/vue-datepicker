@@ -175,9 +175,11 @@ export default {
 
     button.datepicker-controls__prev,
     button.datepicker-controls__next {
+      position: relative;
+      flex: 0 0 40px;
       height: get-size(mobile, controls);
       width: get-size(mobile, controls);
-      position: relative;
+      padding: 0 $gutter 0 $gutter*2;
       border: none;
       outline: none;
       background-color: transparent;
@@ -189,12 +191,6 @@ export default {
         width: get-size(desktop, controls);
       }
 
-      &.datepicker-controls__next {
-        flex: 0 0 40px;
-      }
-      &.datepicker-controls__prev {
-        flex: 0 0 40px;
-      }
       &:disabled,
       &[disabled] {
         svg {
@@ -204,7 +200,11 @@ export default {
       }
     }
 
-    svg{
+    button.datepicker-controls__next {
+      padding: 0 $gutter*2 0 $gutter;
+    }
+
+    svg {
       width: 24px;
       height: 24px;
       fill: rgba(0, 0, 0, 0.87);

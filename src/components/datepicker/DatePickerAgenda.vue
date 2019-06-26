@@ -432,7 +432,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       min-height: get-size(mobile, title);
-      padding: 0 $gutter*2;
+      padding: 0 0 0 $gutter*2;
       border-radius: get-border-radius(4) get-border-radius(4) 0 0;
 
       @include mq(phone) {
@@ -444,13 +444,25 @@ export default {
       }
 
       button {
-        @include reset-button;
-        width: 24px;
-        height: 24px;
+        position: relative;
+        flex: 0 0 40px;
+        height: get-size(mobile, controls);
+        width: get-size(mobile, controls);
+        padding: 0 $gutter*2 0 $gutter;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        user-select: none;
+        cursor: pointer;
+
+        @include mq(tablet) {
+          height: get-size(desktop, controls);
+          width: get-size(desktop, controls);
+        }
 
         svg {
-          width: 100%;
-          height: 100%;
+          width: 24px;
+          height: 24px;
         }
       }
     }
@@ -471,7 +483,7 @@ export default {
       line-height: 12px;
       font-weight: get-font-weight(medium);
       padding: $gutter 12px;
-      color: rgba(0,0,0,0.38);
+      color: transparentize(black, .62);
 
       @include mq(tablet) {
         padding: $gutter 14px;
@@ -526,7 +538,7 @@ export default {
         font-size: 12px;
         float: left;
         text-align: center;
-        color: rgba(0,0,0,0.87);
+        color: transparentize(black, .13);
         font-weight: get-font-weight(medium);
         cursor: pointer;
         transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);
