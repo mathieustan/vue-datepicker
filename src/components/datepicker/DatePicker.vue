@@ -7,8 +7,9 @@
       :id="componentId"
       :name="name"
       :date="value ? date : value"
-      :format="inputFormat"
       :type="type"
+      :range="range"
+      :format="inputFormat"
       :locale="locale"
       :placeholder="placeholder"
       :color="color"
@@ -27,17 +28,18 @@
     <DatepickerAgenda
       :name="name"
       :isVisible="isVisible"
-      :inline="inline"
-      :no-header="noHeader"
-      :fullscreen-mobile="fullscreenMobile"
       :date="date"
-      :locale="locale"
+      :type="type"
+      :range="range"
       :format-header="headerFormat"
+      :locale="locale"
+      :no-header="noHeader"
+      :inline="inline"
+      :fullscreen-mobile="fullscreenMobile"
       :color="color"
       :close="hideDatePicker"
       :min-date="minDate"
       :end-date="endDate"
-      :type="type"
       :attach-to="attachTo"
       :z-index="zIndex + 1"
       @selectDate="changeDate"
@@ -60,6 +62,7 @@ import {
   getDefaultInputFormat,
   getDefaultHeaderFormat,
   getDefaultOutputFormat,
+  formatDateToSend,
 } from '../../utils/Dates';
 
 export default {
@@ -68,10 +71,11 @@ export default {
   props: {
     id: { type: String, default: 'datepicker' },
     name: { type: String, default: 'datepicker' },
-    // type (date, month, quarter or year picker)
+    // type (date, month, quarter, year picker)
     type: { type: String, default: 'date' },
+    range: { type: Boolean, default: false },
     // Current Value from v-model
-    value: { type: [String, Number, Date] },
+    value: { type: [String, Object, Number, Date] },
     // Format
     format: { type: String, default: undefined },
     formatHeader: { type: String, default: undefined },
@@ -115,21 +119,28 @@ export default {
     },
     // If format isnt specificed, select default format from type
     inputFormat () {
-      if (!this.format) return getDefaultInputFormat(this.type);
+      if (!this.format) return getDefaultInputFormat(this.range ? 'range' : this.type);
       return this.format;
     },
     headerFormat () {
-      if (!this.formatHeader) return getDefaultHeaderFormat(this.type);
+      if (!this.formatHeader) return getDefaultHeaderFormat(this.range ? 'range' : this.type);
       return this.formatHeader;
     },
     outputFormat () {
-      if (!this.formatOutput) return getDefaultOutputFormat(this.type);
+      if (!this.formatOutput) return getDefaultOutputFormat(this.range ? 'range' : this.type);
       return this.formatOutput;
     },
   },
   watch: {
     value: {
       handler (newDate = Date.now()) {
+        if (this.range) {
+          this.date = {
+            start: dayjs(newDate.start, this.outputFormat),
+            end: newDate.end && dayjs(newDate.end, this.outputFormat),
+          };
+          return;
+        }
         this.date = dayjs(newDate, this.outputFormat);
       },
       immediate: true,
@@ -172,7 +183,7 @@ export default {
     },
     changeDate (date) {
       this.date = date;
-      this.$emit('input', this.date.format(this.outputFormat));
+      this.$emit('input', formatDateToSend(date, this.outputFormat, this.range));
       this.$emit('onChange');
     },
   },

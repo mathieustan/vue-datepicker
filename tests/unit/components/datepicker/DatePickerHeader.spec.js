@@ -7,14 +7,19 @@ describe('DatePickerHeader', () => {
   const dummyDate = dayjs(new Date([2019, 5, 16]));
 
   beforeEach(() => {
-    mountComponent = ({ date = dummyDate, formatHeader = 'dddd DD MMM' } = {}) =>
+    mountComponent = ({
+      date = dummyDate,
+      formatHeader = 'dddd DD MMM',
+      range,
+    } = {}) =>
       shallowMount(DatePickerHeader, {
         propsData: {
-          mutableDate: date,
+          mutableDate: range && !date.start ? { start: date, end: undefined } : date,
           color: 'color',
           locale: { lang: 'en' },
           formatHeader,
           mode: undefined,
+          range,
         },
       });
   });
@@ -35,17 +40,51 @@ describe('DatePickerHeader', () => {
   });
 
   describe('computed', () => {
+    describe('classes', () => {
+      it.each([
+        [
+          { range: true },
+          {
+            'datepicker-header--range': true,
+          },
+        ],
+        [
+          { range: false },
+          {
+            'datepicker-header--range': false,
+          },
+        ],
+      ])('when props = %p, should return %p', (props, expectedResult) => {
+        const wrapper = mountComponent(props);
+        expect(wrapper.vm.classes).toEqual(expectedResult);
+      });
+    });
+
     describe('year', () => {
-      it('should return date formatted', () => {
-        const wrapper = mountComponent({ date: dayjs(new Date([2018, 5, 16])) });
-        expect(wrapper.vm.year).toEqual('2018');
+      it.each([
+        [{ date: dayjs(new Date([2018, 5, 16])) }, '2018'],
+        [{ range: true, date: { start: dayjs(new Date([2018, 5, 16])), end: undefined } }, '2018'],
+        [{ range: true, date: { start: dayjs(new Date([2018, 5, 16])), end: dayjs(new Date([2019, 5, 16])) } }, '2019'],
+      ])('When props = %p, should return %p', (props, expectedResult) => {
+        const wrapper = mountComponent(props);
+        expect(wrapper.vm.year).toEqual(expectedResult);
       });
     });
 
     describe('dateFormatted', () => {
-      it('should return dateFormatted for header', () => {
-        const wrapper = mountComponent({ date: dayjs(new Date([2018, 5, 16])) });
-        expect(wrapper.vm.dateFormatted).toEqual('Wednesday 16 May');
+      it.each([
+        [{ date: dayjs(new Date([2018, 5, 16])) }, 'Wednesday 16 May'],
+        [
+          { range: true, date: { start: dayjs(new Date([2018, 5, 16])), end: undefined }, formatHeader: 'YYYY-MM-DD' },
+          '2018-05-16 - ...',
+        ],
+        [
+          { range: true, date: { start: dayjs(new Date([2018, 5, 16])), end: dayjs(new Date([2019, 5, 16])) }, formatHeader: 'YYYY-MM-DD' },
+          '2018-05-16 - 2019-05-16',
+        ],
+      ])('When props = %p, should return %p', (props, expectedResult) => {
+        const wrapper = mountComponent(props);
+        expect(wrapper.vm.dateFormatted).toEqual(expectedResult);
       });
     });
   });

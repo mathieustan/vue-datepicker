@@ -1,6 +1,7 @@
 <template>
   <div
     :style="{ backgroundColor: color }"
+    :class="classes"
     class="datepicker-header">
     <div
       :class="{ 'datepicker-header__year--active' : mode === 'year' }"
@@ -23,7 +24,7 @@
 </template>
 
 <script>
-import { formatDateWithLocale } from '../../utils/Dates';
+import { formatDateWithLocale, getRangeDatesFormatted } from '../../utils/Dates';
 
 export default {
   name: 'DatePickerHeader',
@@ -34,12 +35,25 @@ export default {
     locale: { type: Object },
     formatHeader: { type: String },
     mode: { type: String },
+    range: { type: Boolean },
   },
   computed: {
+    classes () {
+      return {
+        'datepicker-header--range': this.range,
+      };
+    },
     year () {
+      if (this.range && this.mutableDate) {
+        const yearToShow = this.mutableDate.end || this.mutableDate.start;
+        return formatDateWithLocale(yearToShow, this.locale, 'YYYY');
+      }
       return formatDateWithLocale(this.mutableDate, this.locale, 'YYYY');
     },
     dateFormatted () {
+      if (this.range) {
+        return getRangeDatesFormatted(this.mutableDate, this.locale, this.formatHeader);
+      }
       return formatDateWithLocale(this.mutableDate, this.locale, this.formatHeader);
     },
   },
@@ -67,6 +81,13 @@ export default {
     @include mq(tablet) {
       min-height: get-size(desktop, header);
       max-height: get-size(desktop, header);
+    }
+
+    &--range {
+      .datepicker-header__date {
+        font-size: 16px;
+        height: calc(16px + #{$gutter});
+      }
     }
 
     &__year {

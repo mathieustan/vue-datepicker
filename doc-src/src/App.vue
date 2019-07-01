@@ -436,52 +436,27 @@
           title="Ranger picker example"
           class="example-range">
           <template v-slot:datepicker>
-            <div class="datepicker-range">
-              <div class="datepicker-range__row">
-                <span class="datepicker-label">Du</span>
-                <VueDatePicker
-                  v-model="examples.range.startDate"
-                  :name="`Starting Date`"
-                  :min-date="examples.range.min"
-                  :end-date="examples.range.end"
-                  fullscreen-mobile
-                  @onChange="onStartDateChange"
-                />
-              </div>
-              <div class="datepicker-range__row">
-                <span class="datepicker-label">Au</span>
-                <VueDatePicker
-                  v-model="examples.range.endDate"
-                  :name="`Ending Date`"
-                  :min-date="examples.range.startDate"
-                  :end-date="examples.range.end"
-                  :visible="examples.range.showEndDate"
-                  fullscreen-mobile
-                  @onClose="examples.range.showEndDate = false"
-                />
-              </div>
-            </div>
+            <VueDatePicker
+              v-model="examples.range.dates"
+              :name="`Choix de la date`"
+              :min-date="examples.range.min"
+              :end-date="examples.range.end"
+              placeholder="YYYY-MM-DD - YYYY-MM-DD"
+              range
+              fullscreen-mobile
+            />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
 <code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="startDate"
-    <span class="token attr-name">:name</span>="`Starting Date`"
+    <span class="token attr-name">v-model</span>="rangeDates"
+    <span class="token attr-name">:name</span>="`Choix de la date`"
     <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
     <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
+    <span class="token attr-name">range</span>
     <span class="token attr-name">fullscreen-mobile</span>
-    <span class="token attr-name">@onChange</span>="showEndDate = true"
-  <span class="token operator">/></span>
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="endDate"
-    <span class="token attr-name">:name</span>="`Ending Date`"
-    <span class="token attr-name">:min-date</span>="startDate"
-    <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
-    <span class="token attr-name">:visible</span>="showEnDate"
-    <span class="token attr-name">fullscreen-mobile</span>
-    <span class="token attr-name">@onClose</span>="showEndDate = false"
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
@@ -489,8 +464,8 @@
 </pre>
           </template>
           <template v-slot:result>
-            <p>startDate="{{ examples.range.startDate }}"</p>
-            <p>endDate="{{ examples.range.endDate }}"</p>
+            <p>startDate="{{ examples.range.dates && examples.range.dates.start }}"</p>
+            <p>endDate="{{ examples.range.dates && examples.range.dates.end }}"</p>
           </template>
         </Example>
 
@@ -611,9 +586,7 @@ export default {
         end: '2019-3',
       },
       range: {
-        startDate: undefined,
-        endDate: undefined,
-        showEnDate: false,
+        dates: undefined,
         min: '2018-08-12',
         end: '2019-08-12',
       },

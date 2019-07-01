@@ -108,6 +108,7 @@ export default {
   components: { DatePickerControls },
   props: {
     mode: { type: String, default: String },
+    range: { type: Boolean, default: false },
     currentDate: { type: Object, default: Object },
     mutableDate: { type: Object, default: Object },
     transitionName: { type: String, default: String },
@@ -150,6 +151,7 @@ export default {
       return this.currentDate.year === year;
     },
     isSelectedMonthOrQuarter (monthIndex) {
+      if (this.range) return;
       const selectedDate = formatDateWithYearAndMonth(this.currentDate.year, monthIndex);
       return areSameDates(
         this.mutableDate.format('YYYY-MM'),

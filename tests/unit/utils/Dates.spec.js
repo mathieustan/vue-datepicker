@@ -19,11 +19,15 @@ import Dates, {
   getDefaultOutputFormat,
   formatDateWithLocale,
   formatDateWithYearAndMonth,
+  getRangeDatesFormatted,
+  formatDateToSend,
   isDateToday,
   areSameDates,
   isBeforeMinDate,
   isAfterEndDate,
+  isBetweenDates,
   isDateAfter,
+  generateDateRange,
   generateMonthAndYear,
 
 } from '@/utils/Dates';
@@ -185,6 +189,7 @@ describe('Transactions: Functions', () => {
         [undefined, DEFAULT_INPUT_DATE_FORMAT.date],
         ['date', DEFAULT_INPUT_DATE_FORMAT.date],
         ['month', DEFAULT_INPUT_DATE_FORMAT.month],
+        ['range', DEFAULT_INPUT_DATE_FORMAT.range],
       ])(
         'When type is %p, should return %p',
         (type, expectedResult) => {
@@ -198,6 +203,7 @@ describe('Transactions: Functions', () => {
         [undefined, DEFAULT_HEADER_DATE_FORMAT.date],
         ['date', DEFAULT_HEADER_DATE_FORMAT.date],
         ['month', DEFAULT_HEADER_DATE_FORMAT.month],
+        ['range', DEFAULT_HEADER_DATE_FORMAT.range],
       ])(
         'When type is %p, should return %p',
         (type, expectedResult) => {
@@ -212,6 +218,7 @@ describe('Transactions: Functions', () => {
         ['date', DEFAULT_OUTPUT_DATE_FORMAT.date],
         ['month', DEFAULT_OUTPUT_DATE_FORMAT.month],
         ['year', DEFAULT_OUTPUT_DATE_FORMAT.year],
+        ['range', DEFAULT_OUTPUT_DATE_FORMAT.range],
       ])(
         'When type is %p, should return %p',
         (type, expectedResult) => {
@@ -241,6 +248,37 @@ describe('Transactions: Functions', () => {
         'when year = %p, month = %p should return %p when formatted with YYYY-MM',
         (year, month, expectedResult) => {
           expect(formatDateWithYearAndMonth(year, month).format('YYYY-MM')).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('getRangeDatesFormatted', () => {
+      it.each([
+        [undefined, {}, 'YYYY-MM-DD', '... - ...'],
+        [{ start: '2019-5-15', end: undefined }, {}, 'YYYY-MM-DD', '2019-05-15 - ...'],
+        [{ start: '2019-5-15', end: undefined }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 - ...'],
+        [{ start: '2019-5-15', end: '2019-5-17' }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 - 2019-05-17'],
+      ])(
+        'when year = %p, month = %p should return %p when formatted with YYYY-MM',
+        (dates, locale, format, expectedResult) => {
+          expect(getRangeDatesFormatted(dates, locale, format)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('formatDateToSend', () => {
+      it.each([
+        [dayjs('2019-5-15'), 'YYYY-MM-DD', false, '2019-05-15'],
+        [
+          { start: dayjs('2019-5-15'), end: dayjs('2019-5-17') },
+          'YYYY-MM-DD',
+          true,
+          { start: '2019-05-15', end: '2019-05-17' },
+        ],
+      ])(
+        'when date = %p, format = %p and range = %p, should return %p',
+        (date, format, range, expectedResult) => {
+          expect(formatDateToSend(date, format, range)).toEqual(expectedResult);
         }
       );
     });
@@ -276,6 +314,7 @@ describe('Transactions: Functions', () => {
 
     describe('isBeforeMinDate', () => {
       it.each([
+        ['2018-5-17', '2018-5-18', undefined, true],
         [dayjs(new Date([2018, 5, 16])), undefined, undefined, false],
         [dayjs(new Date([2018, 5, 16])), '2018-5-1', 'date', false],
         [dayjs(new Date([2018, 5, 16])), '2018-5-17', 'date', true],
@@ -291,6 +330,7 @@ describe('Transactions: Functions', () => {
 
     describe('isAfterEndDate', () => {
       it.each([
+        ['2018-5-17', '2018-5-15', 'date', true],
         [dayjs(new Date([2018, 5, 16])), undefined, undefined, false],
         [dayjs(new Date([2018, 5, 16])), '2018-5-17', 'date', false],
         [dayjs(new Date([2018, 5, 16])), '2018-5-15', 'date', true],
@@ -304,6 +344,19 @@ describe('Transactions: Functions', () => {
       );
     });
 
+    describe('isBetweenDates', () => {
+      it.each([
+        ['2018-5-15', '2018-5-15', '2018-5-17', false],
+        ['2018-5-17', '2018-5-15', '2018-5-17', false],
+        ['2018-5-16', '2018-5-15', '2018-5-17', true],
+      ])(
+        'when date = %p, startDate = %p and enDate = %p, should return %p',
+        (date, startDate, enDate, expectedResult) => {
+          expect(isBetweenDates(date, startDate, enDate)).toEqual(expectedResult);
+        }
+      );
+    });
+
     describe('isDateAfter', () => {
       it.each([
         ['2018-01-02', undefined, false],
@@ -313,6 +366,18 @@ describe('Transactions: Functions', () => {
         'when date = %p, endDate = %p and type = %p, should return %p',
         (date, anotherDate, expectedResult) => {
           expect(isDateAfter(date, anotherDate)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('generateDateRange', () => {
+      it.each([
+        ['2019-5-10', '2019-5-14', [...Array(5).keys()].map(day => dayjs(`2019-5-1${day}`))],
+        [dayjs('2019-5-10'), dayjs('2019-5-14'), [...Array(5).keys()].map(day => dayjs(`2019-5-1${day}`))],
+      ])(
+        'when startDate = %p, endDate = %p, should return %p',
+        (startDate, endDate, expectedResult) => {
+          expect(generateDateRange(startDate, endDate)).toEqual(expectedResult);
         }
       );
     });

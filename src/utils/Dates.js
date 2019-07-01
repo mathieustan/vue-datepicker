@@ -29,7 +29,7 @@ export default class PickerDate {
     return this.start.weekday();
   }
   getDays () {
-    return Array.from(this.generateDateRange(this.start, this.end, 'day'));
+    return Array.from(generateDateRange(this.start, this.end));
   }
   getMonths () {
     return Array.apply(0, Array(12)).map((_, i) => dayjs().month(i).format('MMM'));
@@ -46,10 +46,6 @@ export default class PickerDate {
   }
   getYearFormatted () {
     return this.start.format('YYYY');
-  }
-  generateDateRange (startDate, endDate, interval) {
-    const diffBetweenDates = endDate.diff(startDate, interval);
-    return [...Array(diffBetweenDates + 1).keys()].map(i => startDate.add(i, interval));
   }
   generateYearsRange (currentYear, range) {
     const start = currentYear - range;
@@ -91,6 +87,7 @@ export function getWeekDays ({ lang, weekDays }) {
 // - getDefaultHeaderFormat : Return format string for header (in agenda)
 // - getDefaultOutputFormat : Return format string when date selected
 // - formatDateWithLocale : Return date formatted with lang
+// - getRangeDatesFormatted : Return dates formatted for range
 // -----------------------------------------
 
 export function getDefaultInputFormat (type = 'date') {
@@ -112,6 +109,36 @@ export function formatDateWithLocale (date, { lang }, format) {
 
 export function formatDateWithYearAndMonth (year, month) {
   return dayjs().year(year).month(month).startOf('month');
+}
+
+export function getRangeDatesFormatted ({ start, end } = {}, { lang }, format) {
+  const locale = locales[lang] || locales.en;
+
+  if (!start) {
+    return '... - ...';
+  }
+
+  if (start && !end) {
+    return `\
+${dayjs(start).locale(locale).startOf('day').format(format)} \
+- \
+...`;
+  }
+  return `\
+${dayjs(start).locale(locale).startOf('day').format(format)} \
+- \
+${dayjs(end).locale(locale).startOf('day').format(format)}`;
+}
+
+export function formatDateToSend (date, format, range) {
+  if (range) {
+    return {
+      start: date.start.format(format),
+      end: date.end && date.end.format(format),
+    };
+  }
+
+  return date.format(format);
 }
 
 // -----------------------------------------
@@ -136,14 +163,20 @@ export function isBeforeMinDate (date, minDate, type = 'date') {
   if (type === 'year') {
     return Boolean(minDate) && date < dayjs(minDate, 'YYYY-MM-DD').get('year');
   }
-  return Boolean(minDate) && date.isBefore(dayjs(minDate, DEFAULT_OUTPUT_DATE_FORMAT[type]));
+  const selectedDate = dayjs.isDayjs(date) ? date : dayjs(date);
+  return Boolean(minDate) && selectedDate.isBefore(dayjs(minDate, DEFAULT_OUTPUT_DATE_FORMAT[type]));
 }
 
 export function isAfterEndDate (date, endDate, type) {
   if (type === 'year') {
     return Boolean(endDate) && date > dayjs(endDate, 'YYYY-MM-DD').get('year');
   }
-  return Boolean(endDate) && date.isAfter(dayjs(endDate, DEFAULT_OUTPUT_DATE_FORMAT[type]));
+  const selectedDate = dayjs.isDayjs(date) ? date : dayjs(date);
+  return Boolean(endDate) && selectedDate.isAfter(dayjs(endDate, DEFAULT_OUTPUT_DATE_FORMAT[type]));
+}
+
+export function isBetweenDates (date, startDate, endDate) {
+  return isBeforeMinDate(date, endDate) && isAfterEndDate(date, startDate);
 }
 
 export function isDateAfter (newDate, oldDate) {
@@ -151,8 +184,18 @@ export function isDateAfter (newDate, oldDate) {
 }
 
 // -----------------------------------------
-// Generate Month and Year from current mode
+// Generate Dates
+// - generateDateRange : Return an array of dates
+// - generateMonthAndYear : Return month & year for modes (date, month, quarter)
+// - convertMonthToQuarter : Return a number for quarter
 // -----------------------------------------
+
+export function generateDateRange (startDate, endDate, interval = 'day') {
+  const start = dayjs.isDayjs(startDate) ? startDate : dayjs(startDate);
+  const end = dayjs.isDayjs(endDate) ? endDate : dayjs(endDate);
+  const diffBetweenDates = end.diff(start, interval);
+  return [...Array(diffBetweenDates + 1).keys()].map(i => start.add(i, interval));
+}
 
 export function generateMonthAndYear (value, currentDate, mode) {
   if (mode === 'year') {

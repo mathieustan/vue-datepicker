@@ -24,7 +24,7 @@
 
 <script>
 import DatePickerCalendarIcon from './DatePickerCalendarIcon.vue';
-import { formatDateWithLocale } from '../../utils/Dates';
+import { formatDateWithLocale, getRangeDatesFormatted } from '../../utils/Dates';
 
 export default {
   name: 'DatePickerCustomInput',
@@ -35,6 +35,7 @@ export default {
     date: { type: Object },
     format: { type: String },
     type: { type: String },
+    range: { type: Boolean },
     locale: { type: Object },
     placeholder: { type: String },
     color: { type: String },
@@ -42,15 +43,19 @@ export default {
     tabindex: { type: [String, Number] },
   },
   computed: {
-    // Displayed Date
-    dateFormatted () {
-      if (!this.date) return;
-      return formatDateWithLocale(this.date, this.locale, this.format);
-    },
     classes () {
       return {
         'datepicker-input--disabled': this.disabled,
+        'datepicker-input--range': this.range,
       };
+    },
+    // Displayed Date
+    dateFormatted () {
+      if (!this.date) return;
+      if (this.range) {
+        return getRangeDatesFormatted(this.date, this.locale, this.format);
+      }
+      return formatDateWithLocale(this.date, this.locale, this.format);
     },
   },
 };
@@ -109,6 +114,10 @@ export default {
 
     @include input-placeholder {
       color: transparentize(black, .6)
+    }
+
+    .datepicker-input--range & {
+      min-width: 280px;
     }
   }
 </style>

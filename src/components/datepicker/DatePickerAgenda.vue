@@ -8,6 +8,7 @@
       :class="classes"
       class="datepicker"
       name="datepicker-slide"
+      @mousemove="handleMouseMove"
       @click.stop>
 
       <!-- Title (Only for fullscreenMobile) -->
@@ -41,6 +42,7 @@
         :locale="locale"
         :format-header="formatHeader"
         :mode="yearMonthMode"
+        :range="range"
       />
 
       <div class="datepicker-content">
@@ -84,9 +86,14 @@
               :key="index"
               :class="{
                 'selected' : isSelected(day) && !isDisabled(day),
+                'between': isBetween(day) && range,
+                'in-range': isInRange(day) && range,
+                'first': firstInRange(day) && range,
+                'last': lastInRange(day) && Boolean(date.end) && range,
                 'disabled': isDisabled(day),
               }"
               :disabled="isDisabled(day)"
+              :data-date="day.format('YYYY-MM-DD')"
               type="button"
               class="datepicker-day"
               @click="selectDate(day)"
@@ -103,6 +110,7 @@
         <DatePickerYearMonth
           v-if="shouldShowYearMonthSelector"
           :mode="yearMonthMode"
+          :range="range"
           :current-date="currentDate"
           :mutable-date="mutableDate"
           :transition-name="transitionDaysName"
@@ -130,6 +138,7 @@ import Dates, {
   isAfterEndDate,
   isDateAfter,
   generateMonthAndYear,
+  isBetweenDates,
   convertMonthToQuarter,
 } from '../../utils/Dates';
 import { yearMonthSelectorTypes } from '../../constants';
@@ -147,18 +156,19 @@ export default {
   components: { DatePickerHeader, DatePickerControls, DatePickerYearMonth },
   props: {
     name: { type: String },
-    date: { type: [Date, Object], required: true },
     isVisible: { type: Boolean, default: false },
-    inline: { type: Boolean, default: false },
-    noHeader: { type: Boolean, default: false },
-    fullscreenMobile: { type: Boolean, default: false },
-    locale: { type: Object },
-    color: { type: String },
+    date: { type: [Date, Object], required: true },
+    type: { type: String, default: 'date' },
+    range: { type: Boolean, default: false },
     formatHeader: { type: String },
+    locale: { type: Object },
+    noHeader: { type: Boolean, default: false },
+    inline: { type: Boolean, default: false },
+    fullscreenMobile: { type: Boolean, default: false },
+    color: { type: String },
     close: { type: Function },
     minDate: { type: [String, Number, Date] },
     endDate: { type: [String, Number, Date] },
-    type: { type: String },
     zIndex: { type: Number },
   },
   data: () => ({
@@ -169,6 +179,7 @@ export default {
     transitionLabelName: 'slide-v-next',
     shouldShowYearMonthSelector: undefined,
     yearMonthMode: undefined,
+    rangeCurrentHoveredDay: undefined,
   }),
   computed: {
     styles () {
@@ -185,6 +196,7 @@ export default {
         'datepicker--inline': this.inline,
         'datepicker--fullscreen-mobile': this.fullscreenMobile,
         'datepicker--no-header': this.noHeader,
+        'datepicker--range': this.range,
       };
     },
     weekDays () {
@@ -278,7 +290,28 @@ export default {
       this.isActive = true;
     },
     isSelected (day) {
+      if (this.range) {
+        const date = [
+          ...(this.mutableDate.start ? [this.mutableDate.start.startOf('day').unix()] : []),
+          ...(this.mutableDate.end ? [this.mutableDate.end.startOf('day').unix()] : []),
+        ];
+        return date.includes(day.unix());
+      }
       return this.mutableDate.startOf('day').unix() === day.unix();
+    },
+    isBetween (day) {
+      if (!this.mutableDate.start && !this.mutableDate.end) return;
+      return isBetweenDates(day, this.mutableDate.start, this.mutableDate.end);
+    },
+    isInRange (day) {
+      if (!this.rangeCurrentHoveredDay) return;
+      return isBetweenDates(day, this.mutableDate.start, this.rangeCurrentHoveredDay);
+    },
+    firstInRange (day) {
+      return this.mutableDate.start && this.mutableDate.start.startOf('day').unix() === day.unix();
+    },
+    lastInRange (day) {
+      return this.mutableDate.end && this.mutableDate.end.startOf('day').unix() === day.unix();
     },
     isDisabled (day) {
       return isBeforeMinDate(day, this.minDate) || isAfterEndDate(day, this.endDate);
@@ -287,6 +320,18 @@ export default {
       return isDateToday(day);
     },
     selectDate (day) {
+      if (this.range) {
+        if (!this.mutableDate.start || this.mutableDate.end || isBeforeMinDate(day, this.mutableDate.start)) {
+          this.mutableDate = { start: day.clone(), end: undefined };
+        } else {
+          this.mutableDate = { ...this.mutableDate, end: day.clone() };
+          this.$emit('selectDate', this.mutableDate);
+          this.rangeCurrentHoveredDay = undefined;
+          this.close();
+        }
+        return;
+      }
+
       const direction = isDateAfter(day, this.mutableDate) ? 'next' : 'prev';
       this.updateTransitions(direction);
 
@@ -295,6 +340,13 @@ export default {
       this.close();
     },
     updateDate (date) {
+      if (this.range) {
+        const newDate = date.end || date.start;
+        this.currentDate = new Dates(newDate.month(), newDate.year(), this.locale);
+        this.mutableDate = date;
+        return;
+      }
+
       const month = this.type === 'quarter' ? convertMonthToQuarter(date.month()) : date.month();
       this.currentDate = new Dates(month, date.year(), this.locale);
       this.mutableDate = date.month(month).clone();
@@ -343,6 +395,30 @@ export default {
       }
 
       this.hideYearMonthSelector();
+    },
+    handleMouseMove (event) {
+      // Should handle mouse move if :
+      // -> not a range mode
+      // -> start day not selected
+      // -> end day already selected
+      if (!this.range || !this.mutableDate.start || this.mutableDate.end) return;
+      let target = event.target;
+
+      // Should handle mouse move only on those classes
+      const CLASSES = ['datepicker-day', 'datepicker-day__effect'];
+      if (!CLASSES.includes(target.className)) return;
+
+      // If tagName is SPAN, it means we should select parent
+      if (target.tagName === 'SPAN') {
+        target = event.target.parentNode;
+      }
+
+      // Don't do anything if we are on the same day
+      const isADate = target.dataset.date;
+      const isDateHoveredBeforeStart = isBeforeMinDate(target.dataset.date, this.mutableDate.start);
+      const isCurrentHoveredDay = target.dataset.date === this.rangeCurrentHoveredDay;
+      if (!isADate || isDateHoveredBeforeStart || isCurrentHoveredDay) return;
+      this.rangeCurrentHoveredDay = target.dataset.date;
     },
   },
 };
@@ -556,11 +632,34 @@ export default {
             opacity: .6;
           }
         }
-        &.selected{
+        &.between,
+        &.in-range {
           color: white;
+
           .datepicker-day__effect {
             transform: translateX(-50%) scale(1);
             opacity: 1;
+            width: 100%;
+            border-radius: 0;
+            opacity: .5;
+          }
+        }
+        &.selected {
+          color: white;
+
+          .datepicker-day__effect {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+          }
+        }
+        &.first {
+          .datepicker-day__effect {
+            border-radius: get-border-radius(4) 0 0 get-border-radius(4);
+          }
+        }
+        &.last {
+          .datepicker-day__effect {
+            border-radius: 0 get-border-radius(4) get-border-radius(4) 0;
           }
         }
         &.disabled {
@@ -601,6 +700,11 @@ export default {
           top: 4px;
           width: 36px;
           height: 36px;
+        }
+
+        .datepicker--range & {
+          width: 100%;
+          border-radius: 0;
         }
       }
 

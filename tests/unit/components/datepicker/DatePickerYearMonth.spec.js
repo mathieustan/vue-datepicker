@@ -16,6 +16,7 @@ describe('DatePickerYearMonth', () => {
       mode = 'month',
       minDate,
       endDate,
+      range,
     } = {}) =>
       shallowMount(DatePickerYearMonth, {
         propsData: {
@@ -28,6 +29,7 @@ describe('DatePickerYearMonth', () => {
           showYearMonthSelector: jest.fn(),
           minDate,
           endDate,
+          range,
         },
       });
   });
@@ -135,13 +137,15 @@ describe('DatePickerYearMonth', () => {
 
     describe('isSelectedMonthOrQuarter', () => {
       it.each([
-        [dayjs(new Date([2019, 5, 16])), 4, true],
-        [dayjs(new Date([2018, 5, 16])), 4, false],
-        [dayjs(new Date([2019, 5, 16])), 12, false],
+        [{ mutableDate: dayjs(new Date([2019, 5, 16])) }, 4, true],
+        [{ mutableDate: dayjs(new Date([2018, 5, 16])) }, 4, false],
+        [{ mutableDate: dayjs(new Date([2019, 5, 16])) }, 12, false],
+        [{ mutableDate: dayjs(new Date([2019, 5, 16])), range: true }, 4, undefined],
+        [{ mutableDate: dayjs(new Date([2019, 5, 16])), range: true }, 12, undefined],
       ])(
-        'when mutableDate = %p, and month is %p, should return %p',
-        (mutableDate, monthIndex, expectedResult) => {
-          const wrapper = mountComponent({ mutableDate });
+        'when props = %p, and month is %p, should return %p',
+        (props, monthIndex, expectedResult) => {
+          const wrapper = mountComponent(props);
           expect(wrapper.vm.isSelectedMonthOrQuarter(monthIndex)).toEqual(expectedResult);
         }
       );

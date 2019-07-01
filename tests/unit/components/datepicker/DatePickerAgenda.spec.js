@@ -14,7 +14,7 @@ jest.mock('body-scroll-lock', () => ({
 console.error = jest.fn();
 
 beforeEach(() => {
-  mockDate.set(new Date([2019, 5, 16]));
+  mockDate.set('2019-5-16');
 });
 
 afterEach(() => {
@@ -23,7 +23,7 @@ afterEach(() => {
 
 describe('DatePickerAgenda', () => {
   let mountComponent;
-  const dummyDate = dayjs(new Date([2019, 5, 16]));
+  const dummyDate = dayjs('2019-5-16');
 
   beforeEach(() => {
     jest.spyOn(utilsFunctions, 'getDynamicPosition').mockReturnValue({
@@ -43,10 +43,11 @@ describe('DatePickerAgenda', () => {
       noHeader = false,
       inline = false,
       type = 'date',
+      range,
     } = {}) =>
       shallowMount(DatePickerAgenda, {
         propsData: {
-          date,
+          date: range && !date.start ? { start: date, end: undefined } : date,
           minDate,
           endDate,
           isVisible,
@@ -55,6 +56,7 @@ describe('DatePickerAgenda', () => {
           color: 'color',
           close: jest.fn(),
           type,
+          range,
           fullscreenMobile,
           noHeader,
           zIndex: 1,
@@ -106,14 +108,16 @@ describe('DatePickerAgenda', () => {
             'datepicker--fullscreen-mobile': true,
             'datepicker--inline': false,
             'datepicker--no-header': true,
+            'datepicker--range': false,
           },
         ],
         [
-          { fullscreenMobile: false, inline: true, noHeader: false },
+          { fullscreenMobile: false, inline: true, noHeader: false, range: true },
           {
             'datepicker--fullscreen-mobile': false,
             'datepicker--inline': true,
             'datepicker--no-header': false,
+            'datepicker--range': true,
           },
         ],
       ])('when props = %p, should return %p', (props, expectedResult) => {
@@ -124,8 +128,8 @@ describe('DatePickerAgenda', () => {
 
     describe('classWeeks', () => {
       it.each([
-        [dayjs(new Date([2018, 5, 16])), 'has-5-weeks'],
-        [dayjs(new Date([2018, 9, 16])), 'has-6-weeks'],
+        [dayjs('2018-5-16'), 'has-5-weeks'],
+        [dayjs('2018-9-16'), 'has-6-weeks'],
       ])('when date equal %p, should return %p', (date, expectedResult) => {
         const wrapper = mountComponent({ date });
         expect(wrapper.vm.classWeeks).toEqual(expectedResult);
@@ -134,8 +138,8 @@ describe('DatePickerAgenda', () => {
 
     describe('spaceBeforeFirstDay', () => {
       it.each([
-        [dayjs(new Date([2018, 5, 16])), [0, 1]],
-        [dayjs(new Date([2018, 9, 16])), [0, 1, 2, 3, 4, 5]],
+        [dayjs('2018-5-16'), [0, 1]],
+        [dayjs('2018-9-16'), [0, 1, 2, 3, 4, 5]],
       ])(
         'when date equal %p, should return %p (amount of days before month start)',
         (date, expectedResult) => {
@@ -356,23 +360,136 @@ describe('DatePickerAgenda', () => {
 
     describe('isSelected', () => {
       it.each([
-        [dayjs(new Date([2018, 5, 16])), dayjs(new Date([2018, 5, 16])), true],
-        [dayjs(new Date([2018, 9, 16])), dayjs(new Date([2018, 5, 17])), false],
+        [{ date: dayjs('2018-5-16') }, dayjs('2018-5-16'), true],
+        [{ date: dayjs('2018-9-16') }, dayjs('2018-5-17'), false],
+        [
+          { date: { start: dayjs('2018-5-16'), end: undefined }, range: true },
+          dayjs('2018-5-16'),
+          true,
+        ],
+        [
+          { date: { start: dayjs('2018-5-16'), end: undefined }, range: true },
+          dayjs('2018-5-17'),
+          false,
+        ],
+        [
+          { date: { start: dayjs('2018-5-16'), end: dayjs('2018-5-17') }, range: true },
+          dayjs('2018-5-17'),
+          true,
+        ],
       ])(
-        'when currentDate equal %p, and selected date is %p, should return %p',
-        (date, selectedDate, expectedResult) => {
-          const wrapper = mountComponent({ date });
+        'when props = %p, and selected date = %p, should return %p',
+        (props, selectedDate, expectedResult) => {
+          const wrapper = mountComponent(props);
           expect(wrapper.vm.isSelected(selectedDate)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('isBetween', () => {
+      it.each([
+        [
+          { date: undefined, range: true },
+          dayjs('2018-5-16'),
+          false,
+        ],
+        [
+          { date: { start: dayjs('2018-5-16'), end: dayjs('2018-5-17') }, range: true },
+          dayjs('2018-5-18'),
+          false,
+        ],
+        [
+          { date: { start: dayjs('2018-5-16'), end: dayjs('2018-5-20') }, range: true },
+          dayjs('2018-5-18'),
+          true,
+        ],
+      ])(
+        'when props = %p, and selected date = %p, should return %p',
+        (props, selectedDate, expectedResult) => {
+          const wrapper = mountComponent(props);
+          expect(wrapper.vm.isBetween(selectedDate)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('isInRange', () => {
+      it.each([
+        [
+          { date: undefined, range: true },
+          undefined,
+          dayjs('2018-5-16'),
+          undefined,
+        ],
+        [
+          { date: { start: dayjs('2018-5-16'), end: undefined }, range: true },
+          dayjs('2018-5-17'),
+          dayjs('2018-5-18'),
+          false,
+        ],
+        [
+          { date: { start: dayjs('2018-5-16'), end: undefined }, range: true },
+          dayjs('2018-5-18'),
+          dayjs('2018-5-17'),
+          true,
+        ],
+      ])(
+        'when props = %p, rangeCurrentHoveredDay = %p, and selected date = %p, should return %p',
+        (props, rangeCurrentHoveredDay, selectedDate, expectedResult) => {
+          const wrapper = mountComponent(props);
+          wrapper.setData({ rangeCurrentHoveredDay });
+          expect(wrapper.vm.isInRange(selectedDate)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('firstInRange', () => {
+      it.each([
+        [
+          { date: { start: dayjs('2018-5-16'), end: undefined }, range: true },
+          dayjs('2018-5-16'),
+          true,
+        ],
+        [
+          { date: { start: dayjs('2018-5-16'), end: dayjs('2018-5-17') }, range: true },
+          dayjs('2018-5-18'),
+          false,
+        ],
+      ])(
+        'when props = %p, and selected date = %p, should return %p',
+        (props, selectedDate, expectedResult) => {
+          const wrapper = mountComponent(props);
+          expect(wrapper.vm.firstInRange(selectedDate)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('lastInRange', () => {
+      it.each([
+        [
+          { date: { start: dayjs('2018-5-16'), end: dayjs('2018-5-19') }, range: true },
+          dayjs('2018-5-18'),
+          false,
+        ],
+        [
+          { date: { start: dayjs('2018-5-16'), end: dayjs('2018-5-18') }, range: true },
+          dayjs('2018-5-18'),
+          true,
+        ],
+      ])(
+        'when props = %p, and selected date = %p, should return %p',
+        (props, selectedDate, expectedResult) => {
+          const wrapper = mountComponent(props);
+          expect(wrapper.vm.lastInRange(selectedDate)).toEqual(expectedResult);
         }
       );
     });
 
     describe('isDisabled', () => {
       it.each([
-        [{ minDate: undefined, endDate: undefined }, dayjs(new Date([2018, 5, 16])), false],
-        [{ minDate: '2018-5-1', endDate: '2018-5-20' }, dayjs(new Date([2018, 5, 16])), false],
-        [{ minDate: '2018-5-17', endDate: '2018-5-20' }, dayjs(new Date([2018, 5, 16])), true],
-        [{ minDate: '2018-5-1', endDate: '2018-5-15' }, dayjs(new Date([2018, 5, 16])), true],
+        [{ minDate: undefined, endDate: undefined }, dayjs('2018-5-16'), false],
+        [{ minDate: '2018-5-1', endDate: '2018-5-20' }, dayjs('2018-5-16'), false],
+        [{ minDate: '2018-5-17', endDate: '2018-5-20' }, dayjs('2018-5-16'), true],
+        [{ minDate: '2018-5-1', endDate: '2018-5-15' }, dayjs('2018-5-16'), true],
       ])(
         'when currentDate equal %p, and selected date is %p, should return %p',
         (allowedDates, selectedDate, expectedResult) => {
@@ -385,8 +502,8 @@ describe('DatePickerAgenda', () => {
 
     describe('isToday', () => {
       it.each([
-        [dayjs(new Date([2019, 5, 16])), true],
-        [dayjs(new Date([2019, 9, 16])), false],
+        [dayjs('2019-5-16'), true],
+        [dayjs('2019-9-16'), false],
       ])(
         'when currentDate equal %p, should return %p',
         (selectedDate, expectedResult) => {
@@ -397,10 +514,33 @@ describe('DatePickerAgenda', () => {
     });
 
     describe('selectDate', () => {
+      it('Range : should update end date if start is already defined', () => {
+        const wrapper = mountComponent({ range: true });
+        const endDate = dayjs('2019-9-20');
+        wrapper.vm.selectDate(endDate);
+
+        expect(wrapper.vm.mutableDate).toEqual({ start: dummyDate, end: endDate });
+        expect(wrapper.emitted().selectDate).toBeTruthy();
+      });
+
+      it('Range : should update start date if selected date is before current start date', () => {
+        const wrapper = mountComponent({ range: true });
+        const startDate = dayjs('2019-5-1');
+        const endDate = dayjs('2019-9-20');
+        wrapper.vm.selectDate(startDate);
+
+        expect(wrapper.vm.mutableDate).toEqual({ start: startDate, end: undefined });
+        expect(wrapper.emitted().selectDate).toBeFalsy();
+
+        wrapper.vm.selectDate(endDate);
+        expect(wrapper.vm.mutableDate).toEqual({ start: startDate, end: endDate });
+        expect(wrapper.emitted().selectDate).toBeTruthy();
+      });
+
       it('Should send an event with selected date & update transition with next', () => {
         const wrapper = mountComponent();
         jest.spyOn(wrapper.vm, 'updateTransitions');
-        const newDate = dayjs(new Date([2019, 9, 16]));
+        const newDate = dayjs('2019-9-16');
         wrapper.vm.selectDate(newDate);
 
         expect(wrapper.vm.updateTransitions).toHaveBeenCalledWith('next');
@@ -610,6 +750,76 @@ describe('DatePickerAgenda', () => {
         });
         expect(wrapper.emitted().selectDate[0]).toEqual([dayjs().year(2019).month(2).startOf('month')]);
         expect(wrapper.vm.hideYearMonthSelector).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('handleMouseMove', () => {
+      let startDate;
+      let endDate;
+      beforeEach(() => {
+        startDate = dayjs('2019-5-15');
+        endDate = dayjs('2019-5-20');
+      });
+
+      it('should do nothing if range is false', () => {
+        const wrapper = mountComponent();
+        wrapper.vm.handleMouseMove({ target: undefined });
+        expect(wrapper.vm.rangeCurrentHoveredDay).toEqual(undefined);
+      });
+
+      it('should do nothing if mutableDate.end is already defined', () => {
+        const wrapper = mountComponent({ range: true, date: { start: startDate, end: endDate } });
+        wrapper.vm.handleMouseMove({ target: undefined });
+        expect(wrapper.vm.rangeCurrentHoveredDay).toEqual(undefined);
+      });
+
+      it('should do nothing if target hasn\'t a specific class', () => {
+        const wrapper = mountComponent({ range: true, date: { start: startDate, end: undefined } });
+        wrapper.vm.handleMouseMove({
+          target: {
+            className: 'datepicker-days',
+            tagName: 'DIV',
+          },
+        });
+        expect(wrapper.vm.rangeCurrentHoveredDay).toEqual(undefined);
+      });
+
+      it('should take parent if node is SPAN (child of button)', () => {
+        const wrapper = mountComponent({ range: true, date: { start: startDate, end: undefined } });
+        wrapper.vm.handleMouseMove({
+          target: {
+            className: 'datepicker-day__effect',
+            tagName: 'SPAN',
+            parentNode: {
+              dataset: { date: '2019-5-16' },
+            },
+          },
+        });
+        expect(wrapper.vm.rangeCurrentHoveredDay).toEqual('2019-5-16');
+      });
+
+      it('should do nothing if day hovered date is before that start date', () => {
+        const wrapper = mountComponent({ range: true, date: { start: startDate, end: undefined } });
+        wrapper.vm.handleMouseMove({
+          target: {
+            className: 'datepicker-day__effect',
+            tagName: 'BUTTON',
+            dataset: { date: '2019-5-10' },
+          },
+        });
+        expect(wrapper.vm.rangeCurrentHoveredDay).toEqual(undefined);
+      });
+
+      it('should trigger only if target has a specific class', () => {
+        const wrapper = mountComponent({ range: true, date: { start: startDate, end: undefined } });
+        wrapper.vm.handleMouseMove({
+          target: {
+            className: 'datepicker-day',
+            tagName: 'BUTTON',
+            dataset: { date: '2019-5-16' },
+          },
+        });
+        expect(wrapper.vm.rangeCurrentHoveredDay).toEqual('2019-5-16');
       });
     });
   });

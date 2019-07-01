@@ -25,6 +25,7 @@ afterEach(() => {
 describe('DatePicker', () => {
   let mountComponent;
   const dummyDate = new Date([2019, 5, 16]);
+  const dummyDateEnd = new Date([2019, 5, 17]);
 
   beforeEach(() => {
     mountComponent = ({
@@ -34,6 +35,7 @@ describe('DatePicker', () => {
       formatHeader,
       formatOutput,
       type = 'date',
+      range,
     } = {}) =>
       shallowMount(DatePicker, {
         propsData: {
@@ -43,6 +45,7 @@ describe('DatePicker', () => {
           formatHeader,
           formatOutput,
           type,
+          range,
         },
       });
   });
@@ -101,10 +104,21 @@ describe('DatePicker', () => {
   describe('watch', () => {
     describe('value', () => {
       it.each([
-        [dummyDate, dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
-        [undefined, dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
-      ])('when value equal %p, date should be equal to %p', (date, expectedResult) => {
-        const wrapper = mountComponent({ date });
+        [
+          { date: { start: dummyDate, end: undefined }, range: true },
+          { start: dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date), end: undefined },
+        ],
+        [
+          { date: { start: dummyDate, end: dummyDateEnd }, range: true },
+          {
+            start: dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date),
+            end: dayjs(dummyDateEnd, DEFAULT_OUTPUT_DATE_FORMAT.date),
+          },
+        ],
+        [{ date: dummyDate }, dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
+        [{ date: undefined }, dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
+      ])('when props equal %p, date should be equal to %p', (props, expectedResult) => {
+        const wrapper = mountComponent(props);
         expect(wrapper.vm.date).toEqual(expectedResult);
       });
     });
@@ -196,6 +210,19 @@ describe('DatePicker', () => {
         wrapper.vm.changeDate(dayjs(new Date([2019, 5, 18])));
         expect(wrapper.vm.date.format('YYYY-MM-DD')).toEqual('2019-05-18');
         expect(wrapper.emitted().input[0]).toEqual(['2019-05-18']);
+        expect(wrapper.emitted().onChange).toBeTruthy();
+      });
+
+      it('should update dates when range is active', () => {
+        const wrapper = mountComponent({ range: true });
+        const dates = {
+          start: dayjs(dummyDate),
+          end: dayjs(dummyDateEnd),
+        };
+        wrapper.vm.changeDate(dates);
+        expect(wrapper.vm.date).toEqual(dates);
+
+        expect(wrapper.emitted().input[0]).toEqual([{ start: '2019-05-16', end: '2019-05-17' }]);
         expect(wrapper.emitted().onChange).toBeTruthy();
       });
     });
