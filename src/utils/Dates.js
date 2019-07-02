@@ -87,6 +87,7 @@ export function getWeekDays ({ lang, weekDays }) {
 // - getDefaultHeaderFormat : Return format string for header (in agenda)
 // - getDefaultOutputFormat : Return format string when date selected
 // - formatDateWithLocale : Return date formatted with lang
+// - formatDate : Return date with lang
 // - getRangeDatesFormatted : Return dates formatted for range
 // -----------------------------------------
 
@@ -104,7 +105,12 @@ export function getDefaultOutputFormat (type = 'date') {
 
 export function formatDateWithLocale (date, { lang }, format) {
   const locale = locales[lang] || locales.en;
-  return date.locale(locale).format(format);
+  return dayjs(date).locale(locale).format(format);
+}
+
+export function formatDate (date, { lang }) {
+  const locale = locales[lang] || locales.en;
+  return dayjs(date).locale(locale);
 }
 
 export function formatDateWithYearAndMonth (year, month) {
@@ -115,18 +121,18 @@ export function getRangeDatesFormatted ({ start, end } = {}, { lang }, format) {
   const locale = locales[lang] || locales.en;
 
   if (!start) {
-    return '... - ...';
+    return `${format} ~ ${format}`;
   }
 
   if (start && !end) {
     return `\
 ${dayjs(start).locale(locale).startOf('day').format(format)} \
-- \
-...`;
+~ \
+${format}`;
   }
   return `\
 ${dayjs(start).locale(locale).startOf('day').format(format)} \
-- \
+~ \
 ${dayjs(end).locale(locale).startOf('day').format(format)}`;
 }
 

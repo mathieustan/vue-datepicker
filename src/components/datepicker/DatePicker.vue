@@ -62,6 +62,7 @@ import {
   getDefaultInputFormat,
   getDefaultHeaderFormat,
   getDefaultOutputFormat,
+  formatDate,
   formatDateToSend,
 } from '../../utils/Dates';
 
@@ -136,8 +137,8 @@ export default {
       handler (newDate = Date.now()) {
         if (this.range) {
           this.date = {
-            start: dayjs(newDate.start, this.outputFormat),
-            end: newDate.end && dayjs(newDate.end, this.outputFormat),
+            start: newDate.start && formatDate(newDate.start, this.locale),
+            end: newDate.end && formatDate(newDate.end, this.locale),
           };
           return;
         }

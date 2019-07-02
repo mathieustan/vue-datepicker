@@ -18,6 +18,7 @@ import Dates, {
   getDefaultHeaderFormat,
   getDefaultOutputFormat,
   formatDateWithLocale,
+  formatDate,
   formatDateWithYearAndMonth,
   getRangeDatesFormatted,
   formatDateToSend,
@@ -240,6 +241,19 @@ describe('Transactions: Functions', () => {
       );
     });
 
+    describe('formatDate', () => {
+      it.each([
+        [dayjs(new Date([2019, 5, 16])), { lang: 'en' }, 'May'],
+        [dayjs(new Date([2019, 5, 16])), { lang: 'fr' }, 'Mai'],
+        [dayjs(new Date([2019, 5, 16])), { lang: 'toto' }, 'May'],
+      ])(
+        'when date = %p, local is %p, should return %p',
+        (selectedDate, locale, expectedResult) => {
+          expect(formatDate(selectedDate, locale).format('MMM')).toEqual(expectedResult);
+        }
+      );
+    });
+
     describe('formatDateWithYearAndMonth', () => {
       it.each([
         [2018, 2, '2018-03'],
@@ -254,10 +268,10 @@ describe('Transactions: Functions', () => {
 
     describe('getRangeDatesFormatted', () => {
       it.each([
-        [undefined, {}, 'YYYY-MM-DD', '... - ...'],
-        [{ start: '2019-5-15', end: undefined }, {}, 'YYYY-MM-DD', '2019-05-15 - ...'],
-        [{ start: '2019-5-15', end: undefined }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 - ...'],
-        [{ start: '2019-5-15', end: '2019-5-17' }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 - 2019-05-17'],
+        [undefined, {}, 'YYYY-MM-DD', 'YYYY-MM-DD ~ YYYY-MM-DD'],
+        [{ start: '2019-5-15', end: undefined }, {}, 'YYYY-MM-DD', '2019-05-15 ~ YYYY-MM-DD'],
+        [{ start: '2019-5-15', end: undefined }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 ~ YYYY-MM-DD'],
+        [{ start: '2019-5-15', end: '2019-5-17' }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 ~ 2019-05-17'],
       ])(
         'when year = %p, month = %p should return %p when formatted with YYYY-MM',
         (dates, locale, format, expectedResult) => {

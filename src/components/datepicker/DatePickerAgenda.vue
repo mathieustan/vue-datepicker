@@ -90,6 +90,8 @@
                 'in-range': isInRange(day) && range,
                 'first': firstInRange(day) && range,
                 'last': lastInRange(day) && Boolean(date.end) && range,
+                'select-start': !mutableDate.start && range,
+                'select-end': mutableDate.start && !mutableDate.end && range,
                 'disabled': isDisabled(day),
               }"
               :disabled="isDisabled(day)"
@@ -137,6 +139,7 @@ import Dates, {
   isBeforeMinDate,
   isAfterEndDate,
   isDateAfter,
+  formatDate,
   generateMonthAndYear,
   isBetweenDates,
   convertMonthToQuarter,
@@ -341,7 +344,7 @@ export default {
     },
     updateDate (date) {
       if (this.range) {
-        const newDate = date.end || date.start;
+        const newDate = formatDate(date.end || date.start, this.locale);
         this.currentDate = new Dates(newDate.month(), newDate.year(), this.locale);
         this.mutableDate = date;
         return;
@@ -662,6 +665,16 @@ export default {
             border-radius: 0 get-border-radius(4) get-border-radius(4) 0;
           }
         }
+        &.select-start:hover:not(.selected) {
+          .datepicker-day__effect {
+            border-radius: get-border-radius(4) 0 0 get-border-radius(4);
+          }
+        }
+        &.select-end:hover:not(.selected) {
+          .datepicker-day__effect {
+            border-radius: 0 get-border-radius(4) get-border-radius(4) 0;
+          }
+        }
         &.disabled {
           cursor: default;
           color: rgba(0,0,0,0.26);
@@ -705,6 +718,8 @@ export default {
         .datepicker--range & {
           width: 100%;
           border-radius: 0;
+          height: 32px;
+          top: 6px;
         }
       }
 

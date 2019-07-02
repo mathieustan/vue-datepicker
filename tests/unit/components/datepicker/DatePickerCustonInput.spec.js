@@ -69,11 +69,11 @@ describe('DatePickerCustomInput', () => {
         [{ date: dayjs(new Date([2019, 4, 12])) }, '12 April 2019'],
         [
           { range: true, date: { start: dayjs(new Date([2018, 5, 16])), end: undefined }, formatHeader: 'YYYY-MM-DD' },
-          '16 May 2018 - ...',
+          '16 May 2018 ~ DD MMMM YYYY',
         ],
         [
-          { range: true, date: { start: dayjs(new Date([2018, 5, 16])), end: dayjs(new Date([2019, 5, 16])) }, formatHeader: 'YYYY-MM-DD' },
-          '16 May 2018 - 16 May 2019',
+          { range: true, date: { start: dayjs(new Date([2018, 5, 16])), end: dayjs(new Date([2019, 5, 16])) }, formatHeader: 'YYYY~MM-DD' },
+          '16 May 2018 ~ 16 May 2019',
         ],
       ])('When props equal %p, should return %p', (props, expectedResult) => {
         const wrapper = mountComponent(props);
