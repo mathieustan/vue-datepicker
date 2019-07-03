@@ -151,8 +151,8 @@ export function formatDateToSend (date, format, range) {
 // Compare Dates
 // - isDateToday : Return Boolean if date is today
 // - areSameDates : Return Boolean if dates are the same
-// - isBeforeMinDate : Return Boolean if date is before minDate (from props)
-// - isAfterEndDate : Return Boolean if date is after endDate (from props)
+// - isBeforeDate : Return Boolean if date is before minDate (from props)
+// - isAfterDate : Return Boolean if date is after endDate (from props)
 // - isDateAfter : Return Boolean if date are after a specific date
 // -----------------------------------------
 
@@ -165,24 +165,24 @@ export function areSameDates (date, dateSelected, type = 'date') {
     .isSame(dayjs(dateSelected, DEFAULT_OUTPUT_DATE_FORMAT[type]));
 }
 
-export function isBeforeMinDate (date, minDate, type = 'date') {
+export function isBeforeDate (date, beforeDate, type = 'date') {
   if (type === 'year') {
-    return Boolean(minDate) && date < dayjs(minDate, 'YYYY-MM-DD').get('year');
+    return Boolean(beforeDate) && date < dayjs(beforeDate, 'YYYY-MM-DD').get('year');
   }
-  const selectedDate = dayjs.isDayjs(date) ? date : dayjs(date);
-  return Boolean(minDate) && selectedDate.isBefore(dayjs(minDate, DEFAULT_OUTPUT_DATE_FORMAT[type]));
+  const selectedDate = dayjs.isDayjs(date) ? date : dayjs(date).startOf('day');
+  return Boolean(beforeDate) && selectedDate.isBefore(dayjs(beforeDate).startOf('day'));
 }
 
-export function isAfterEndDate (date, endDate, type) {
+export function isAfterDate (date, afterDate, type) {
   if (type === 'year') {
-    return Boolean(endDate) && date > dayjs(endDate, 'YYYY-MM-DD').get('year');
+    return Boolean(afterDate) && date > dayjs(afterDate, 'YYYY-MM-DD').get('year');
   }
-  const selectedDate = dayjs.isDayjs(date) ? date : dayjs(date);
-  return Boolean(endDate) && selectedDate.isAfter(dayjs(endDate, DEFAULT_OUTPUT_DATE_FORMAT[type]));
+  const selectedDate = dayjs.isDayjs(date) ? date : dayjs(date).startOf('day');
+  return Boolean(afterDate) && selectedDate.isAfter(dayjs(afterDate).startOf('day'));
 }
 
 export function isBetweenDates (date, startDate, endDate) {
-  return isBeforeMinDate(date, endDate) && isAfterEndDate(date, startDate);
+  return isAfterDate(date, startDate) && isBeforeDate(date, endDate);
 }
 
 export function isDateAfter (newDate, oldDate) {

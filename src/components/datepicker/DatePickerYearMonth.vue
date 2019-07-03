@@ -96,8 +96,8 @@ import DatePickerControls from './DatePickerControls.vue';
 
 import {
   formatDateWithYearAndMonth,
-  isBeforeMinDate,
-  isAfterEndDate,
+  isBeforeDate,
+  isAfterDate,
   areSameDates,
 } from '../../utils/Dates';
 
@@ -160,13 +160,13 @@ export default {
       );
     },
     isYearDisabled (year) {
-      return isBeforeMinDate(year, this.minDate, this.mode) ||
-        isAfterEndDate(year, this.endDate, this.mode);
+      return isBeforeDate(year, this.minDate, this.mode) ||
+        isAfterDate(year, this.endDate, this.mode);
     },
     isMonthOrQuarterDisabled (monthIndex) {
       const date = formatDateWithYearAndMonth(this.yearFormatted, monthIndex);
-      return isBeforeMinDate(date, this.minDate, this.mode) ||
-        isAfterEndDate(date, this.endDate, this.mode);
+      return isBeforeDate(date, this.minDate, this.mode) ||
+        isAfterDate(date, this.endDate, this.mode);
     },
     changeYear (direction) {
       this.$emit('changeYear', direction);

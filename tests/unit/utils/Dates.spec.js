@@ -24,8 +24,8 @@ import Dates, {
   formatDateToSend,
   isDateToday,
   areSameDates,
-  isBeforeMinDate,
-  isAfterEndDate,
+  isBeforeDate,
+  isAfterDate,
   isBetweenDates,
   isDateAfter,
   generateDateRange,
@@ -326,7 +326,7 @@ describe('Transactions: Functions', () => {
       );
     });
 
-    describe('isBeforeMinDate', () => {
+    describe('isBeforeDate', () => {
       it.each([
         ['2018-5-17', '2018-5-18', undefined, true],
         [dayjs(new Date([2018, 5, 16])), undefined, undefined, false],
@@ -337,12 +337,12 @@ describe('Transactions: Functions', () => {
       ])(
         'when date = %p, minDate = %p and type = %p, should return %p',
         (date, minDate, type, expectedResult) => {
-          expect(isBeforeMinDate(date, minDate, type)).toEqual(expectedResult);
+          expect(isBeforeDate(date, minDate, type)).toEqual(expectedResult);
         }
       );
     });
 
-    describe('isAfterEndDate', () => {
+    describe('isAfterDate', () => {
       it.each([
         ['2018-5-17', '2018-5-15', 'date', true],
         [dayjs(new Date([2018, 5, 16])), undefined, undefined, false],
@@ -353,7 +353,7 @@ describe('Transactions: Functions', () => {
       ])(
         'when date = %p, endDate = %p and type = %p, should return %p',
         (date, endDate, type, expectedResult) => {
-          expect(isAfterEndDate(date, endDate, type)).toEqual(expectedResult);
+          expect(isAfterDate(date, endDate, type)).toEqual(expectedResult);
         }
       );
     });

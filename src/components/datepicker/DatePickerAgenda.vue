@@ -137,8 +137,8 @@ import Dates, {
   getWeekDays,
   formatDateWithYearAndMonth,
   isDateToday,
-  isBeforeMinDate,
-  isAfterEndDate,
+  isBeforeDate,
+  isAfterDate,
   isDateAfter,
   formatDate,
   generateMonthAndYear,
@@ -319,14 +319,14 @@ export default {
       return this.mutableDate.end && this.mutableDate.end.startOf('day').unix() === day.unix();
     },
     isDisabled (day) {
-      return isBeforeMinDate(day, this.minDate) || isAfterEndDate(day, this.endDate);
+      return isBeforeDate(day, this.minDate) || isAfterDate(day, this.endDate);
     },
     isToday (day) {
       return isDateToday(day);
     },
     selectDate (day) {
       if (this.range) {
-        if (!this.mutableDate.start || this.mutableDate.end || isBeforeMinDate(day, this.mutableDate.start)) {
+        if (!this.mutableDate.start || this.mutableDate.end || isBeforeDate(day, this.mutableDate.start)) {
           this.mutableDate = { start: day.clone(), end: undefined };
         } else {
           this.mutableDate = { ...this.mutableDate, end: day.clone() };

@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { isBeforeMinDate, isAfterEndDate } from '../../utils/Dates';
+import { isBeforeDate, isAfterDate } from '../../utils/Dates';
 
 export default {
   name: 'DatePickerControls',
@@ -80,16 +80,16 @@ export default {
       return this.currentDate.getYearFormatted();
     },
     isYearDisabled () {
-      return isBeforeMinDate(this.yearFormatted, this.minDate, 'year') ||
-        isAfterEndDate(this.yearFormatted, this.endDate, 'year');
+      return isBeforeDate(this.yearFormatted, this.minDate, 'year') ||
+        isAfterDate(this.yearFormatted, this.endDate, 'year');
     },
     isPreviousDateDisabled () {
       if (this.mode !== 'year') return false;
-      return isBeforeMinDate(Number(this.yearFormatted) - 1, this.minDate, 'year');
+      return isBeforeDate(Number(this.yearFormatted) - 1, this.minDate, 'year');
     },
     isNextDateDisabled () {
       if (this.mode !== 'year') return false;
-      return isAfterEndDate(Number(this.yearFormatted) + 1, this.endDate, 'year');
+      return isAfterDate(Number(this.yearFormatted) + 1, this.endDate, 'year');
     },
   },
   methods: {
