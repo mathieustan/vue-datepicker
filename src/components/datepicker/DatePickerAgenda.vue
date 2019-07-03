@@ -644,7 +644,8 @@ export default {
           .datepicker-day__effect {
             transform: translateX(-50%) scale(1);
             opacity: 1;
-            width: 100%;
+            left: 0;
+            width: calc(100% + 1px); // 1 extra pixel to fix weird spaces;
             border-radius: 0;
             opacity: .5;
 

@@ -138,7 +138,6 @@ export default {
       align-items: center;
       display: inline-flex;
       font-size: 14px;
-      font-weight: get-font-weight(medium);
       margin-bottom: 8px;
       opacity: 0.6;
       transition: opacity .3s;
@@ -161,7 +160,6 @@ export default {
       font-size: 22px;
       height: calc(22px + #{$gutter});
       text-align: left;
-      font-weight: get-font-weight(medium);
       overflow: hidden;
       padding-bottom: $gutter;
       margin-bottom: -#{$gutter};
