@@ -31,6 +31,7 @@
       :date="date"
       :type="type"
       :range="range"
+      :range-header-text="rangeHeaderText"
       :format-header="headerFormat"
       :locale="locale"
       :no-header="noHeader"
@@ -74,7 +75,9 @@ export default {
     name: { type: String, default: 'datepicker' },
     // type (date, month, quarter, year picker)
     type: { type: String, default: 'date' },
+    // Range
     range: { type: Boolean, default: false },
+    rangeHeaderText: { type: String, default: 'From %d To %d' },
     // Current Value from v-model
     value: { type: [String, Object, Number, Date] },
     // Format

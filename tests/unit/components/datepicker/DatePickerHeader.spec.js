@@ -11,6 +11,7 @@ describe('DatePickerHeader', () => {
       date = dummyDate,
       formatHeader = 'dddd DD MMM',
       range,
+      rangeHeaderText = 'From %d To %d',
     } = {}) =>
       shallowMount(DatePickerHeader, {
         propsData: {
@@ -20,6 +21,7 @@ describe('DatePickerHeader', () => {
           formatHeader,
           mode: undefined,
           range,
+          rangeHeaderText,
         },
       });
   });
@@ -74,11 +76,11 @@ describe('DatePickerHeader', () => {
         [{ date: dayjs(new Date([2018, 5, 16])) }, 'Wednesday 16 May'],
         [
           { range: true, date: { start: dayjs(new Date([2018, 5, 16])), end: undefined }, formatHeader: 'YYYY-MM-DD' },
-          ['2018-05-16', 'YYYY-MM-DD'],
+          ['From 2018-05-16', 'To YYYY-MM-DD'],
         ],
         [
           { range: true, date: { start: dayjs(new Date([2018, 5, 16])), end: dayjs(new Date([2019, 5, 16])) }, formatHeader: 'YYYY-MM-DD' },
-          ['2018-05-16', '2019-05-16'],
+          ['From 2018-05-16', 'To 2019-05-16'],
         ],
       ])('When props = %p, should return %p', (props, expectedResult) => {
         const wrapper = mountComponent(props);

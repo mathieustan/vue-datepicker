@@ -102,7 +102,9 @@ Using `v-model`
 | endDate                       | String\|Number\|Date |        | Date are disabled AFTER this date       |
 | locale                        | Object          |{lang: 'en'} | More informations here [Translations](#translations)        |
 | inline                        | Boolean        | false        | Inline datepicker                       |
-| type                          | String          | 'date'      | Determines the type of the picker - date/month/quarter                 |
+| type                          | String         | 'date'      | Determines the type of the picker - date/month/quarter                 |
+| range                         | Boolean        | false       | Enable/disable Date range (actually only available for date )            |
+| rangeHeaderText               | String         | 'From %d To %d ' | When range is enabled, set text before date in datepicker header            |
 | tabindex                      | String\|Number | '0'          | Specify input tabindex                  |
 | zIndex                        | Number         |              | Specify a z-index to datepicker & overlay |
 | attachTo                      | String         | '#app'       | It will mount datepicker popup into this element as a child |

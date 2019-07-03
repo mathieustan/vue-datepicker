@@ -26,21 +26,6 @@
     </div>
 
     <div v-else class="datepicker-header__wrap">
-      <div class="datepicker-header__icon">
-        <!-- eslint-disable max-len -->
-        <svg
-          aria-hidden="true"
-          focusable="false"
-          data-prefix="fal"
-          data-icon="arrows-v"
-          role="img"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 192 512">
-          <path fill="currentColor" d="M181.415 399.959c-4.686-4.686-12.284-4.686-16.971 0L113 451.887V60.113l51.444 51.928c4.686 4.686 12.284 4.686 16.971 0l7.07-7.071c4.686-4.686 4.686-12.284 0-16.97l-84-84.485c-4.686-4.686-12.284-4.686-16.971 0L3.515 88c-4.686 4.686-4.686 12.284 0 16.97l7.07 7.071c4.686 4.686 12.284 4.686 16.971 0L79 60.113v391.773l-51.444-51.928c-4.686-4.686-12.284-4.686-16.971 0l-7.07 7.071c-4.686 4.686-4.686 12.284 0 16.97l84 84.485c4.686 4.687 12.284 4.687 16.971 0l84-84.485c4.686-4.686 4.686-12.284 0-16.97l-7.071-7.07z" class=""></path>
-        </svg>
-        <!-- eslint-enable max-len -->
-      </div>
-
       <TransitionGroup
         tag="div"
         :name="transitionName"
@@ -80,6 +65,7 @@ export default {
     formatHeader: { type: String },
     mode: { type: String },
     range: { type: Boolean },
+    rangeHeaderText: { type: String },
   },
   computed: {
     classes () {
@@ -91,8 +77,16 @@ export default {
       return formatDateWithLocale(this.mutableDate, this.locale, 'YYYY');
     },
     dateFormatted () {
-      if (this.range) {
-        return getRangeDatesFormatted(this.mutableDate, this.locale, this.formatHeader).split(' ~ ');
+      if (this.range && this.rangeHeaderText) {
+        const textSplitted = this.rangeHeaderText.split('%d').reduce((texts, text, index) => {
+          return {
+            ...texts,
+            ...(index === 0 && { start: text.trim() }),
+            ...(index === 1 && { end: text.trim() }),
+          };
+        }, {});
+        const datesSplitted = getRangeDatesFormatted(this.mutableDate, this.locale, this.formatHeader).split(' ~ ');
+        return [`${textSplitted.start} ${datesSplitted[0]}`, `${textSplitted.end} ${datesSplitted[1]}`];
       }
       return formatDateWithLocale(this.mutableDate, this.locale, this.formatHeader);
     },
@@ -128,7 +122,6 @@ export default {
         flex: 1 1 auto;
         flex-direction: column;
         justify-content: space-between;
-        padding-left: ($gutter*3);
       }
       .datepicker-header__date {
         font-size: 18px;
@@ -183,20 +176,6 @@ export default {
       @include mq(tablet) {
         font-size: 28px;
         height: calc(28px + #{$gutter});
-      }
-    }
-
-    &__icon {
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      height: 32px;
-
-      svg {
-        position: relative;
-        width: auto;
-        height: 100%;
       }
     }
   }

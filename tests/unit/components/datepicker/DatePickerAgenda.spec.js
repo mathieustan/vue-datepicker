@@ -798,18 +798,6 @@ describe('DatePickerAgenda', () => {
         expect(wrapper.vm.rangeCurrentHoveredDay).toEqual('2019-5-16');
       });
 
-      it('should do nothing if day hovered date is before that start date', () => {
-        const wrapper = mountComponent({ range: true, date: { start: startDate, end: undefined } });
-        wrapper.vm.handleMouseMove({
-          target: {
-            className: 'datepicker-day__effect',
-            tagName: 'BUTTON',
-            dataset: { date: '2019-5-10' },
-          },
-        });
-        expect(wrapper.vm.rangeCurrentHoveredDay).toEqual(undefined);
-      });
-
       it('should trigger only if target has a specific class', () => {
         const wrapper = mountComponent({ range: true, date: { start: startDate, end: undefined } });
         wrapper.vm.handleMouseMove({

@@ -43,6 +43,7 @@
         :format-header="formatHeader"
         :mode="yearMonthMode"
         :range="range"
+        :range-header-text="rangeHeaderText"
       />
 
       <div class="datepicker-content">
@@ -163,6 +164,7 @@ export default {
     date: { type: [Date, Object], required: true },
     type: { type: String, default: 'date' },
     range: { type: Boolean, default: false },
+    rangeHeaderText: { type: String, default: String },
     formatHeader: { type: String },
     locale: { type: Object },
     noHeader: { type: Boolean, default: false },
@@ -409,7 +411,7 @@ export default {
 
       // Should handle mouse move only on those classes
       const CLASSES = ['datepicker-day', 'datepicker-day__effect'];
-      if (!CLASSES.includes(target.className)) return;
+      if (!CLASSES.includes(target.className.split(' ')[0])) return;
 
       // If tagName is SPAN, it means we should select parent
       if (target.tagName === 'SPAN') {
@@ -418,9 +420,8 @@ export default {
 
       // Don't do anything if we are on the same day
       const isADate = target.dataset.date;
-      const isDateHoveredBeforeStart = isBeforeMinDate(target.dataset.date, this.mutableDate.start);
       const isCurrentHoveredDay = target.dataset.date === this.rangeCurrentHoveredDay;
-      if (!isADate || isDateHoveredBeforeStart || isCurrentHoveredDay) return;
+      if (!isADate || isCurrentHoveredDay) return;
       this.rangeCurrentHoveredDay = target.dataset.date;
     },
   },
@@ -621,6 +622,7 @@ export default {
         font-weight: get-font-weight(medium);
         cursor: pointer;
         transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);
+        overflow: hidden;
 
         @include mq(tablet) {
           width: calc(100% / 7);
@@ -632,11 +634,11 @@ export default {
 
           .datepicker-day__effect {
             transform: translateX(-50%) scale(1);
-            opacity: .6;
+            opacity: .5;
           }
         }
-        &.between,
-        &.in-range {
+        &.in-range,
+        &.between {
           color: white;
 
           .datepicker-day__effect {
@@ -645,34 +647,47 @@ export default {
             width: 100%;
             border-radius: 0;
             opacity: .5;
+
+            &:before {
+              opacity: 1;
+              left: 50%;
+            }
           }
         }
         &.selected {
           color: white;
+
+          &:hover:not(.disabled) {
+            .datepicker-day__effect {
+              opacity: 1;
+            }
+          }
 
           .datepicker-day__effect {
             transform: translateX(-50%) scale(1);
             opacity: 1;
           }
         }
-        &.first {
-          .datepicker-day__effect {
-            border-radius: get-border-radius(4) 0 0 get-border-radius(4);
-          }
-        }
-        &.last {
-          .datepicker-day__effect {
-            border-radius: 0 get-border-radius(4) get-border-radius(4) 0;
-          }
-        }
+        &.first,
         &.select-start:hover:not(.selected) {
           .datepicker-day__effect {
-            border-radius: get-border-radius(4) 0 0 get-border-radius(4);
+            opacity: 1;
+
+            &:before {
+              opacity: .5;
+              left: 50%;
+            }
           }
         }
+        &.last,
         &.select-end:hover:not(.selected) {
           .datepicker-day__effect {
-            border-radius: 0 get-border-radius(4) get-border-radius(4) 0;
+            opacity: 1;
+
+            &:before {
+              opacity: .5;
+              left: -50%;
+            }
           }
         }
         &.disabled {
@@ -716,10 +731,16 @@ export default {
         }
 
         .datepicker--range & {
-          width: 100%;
-          border-radius: 0;
-          height: 32px;
-          top: 6px;
+          &:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: inherit;
+            opacity: 0;
+          }
         }
       }
 

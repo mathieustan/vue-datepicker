@@ -441,7 +441,7 @@
               :name="`Choix de la date`"
               :min-date="examples.range.min"
               :end-date="examples.range.end"
-              placeholder="YYYY-MM-DD - YYYY-MM-DD"
+              placeholder="Start - End"
               range
               fullscreen-mobile
             />
@@ -455,6 +455,7 @@
     <span class="token attr-name">:name</span>="`Choix de la date`"
     <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
     <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
+    <span class="token attr-name">placeholder</span>="Start - End"
     <span class="token attr-name">range</span>
     <span class="token attr-name">fullscreen-mobile</span>
   <span class="token operator">/></span>
