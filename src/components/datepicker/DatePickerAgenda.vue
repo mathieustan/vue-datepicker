@@ -310,7 +310,7 @@ export default {
       return this.mutableDate.startOf('day').unix() === day.unix();
     },
     isBetween (day) {
-      if (!this.mutableDate.start && !this.mutableDate.end) return;
+      if (!this.mutableDate.start && !this.mutableDate.end) return false;
       return isBetweenDates(day, this.mutableDate.start, this.mutableDate.end);
     },
     isInRange (day) {
@@ -335,8 +335,8 @@ export default {
     },
     selectDate (day) {
       if (this.range) {
-        // If rangeIsSelected => should reset, and select start
-        if (this.isRangeSelected) {
+        // If rangeIsSelected or no dates selected => should reset, and select start
+        if (this.isRangeSelected || (!this.mutableDate.start && !this.mutableDate.end)) {
           this.mutableDate = { start: day.clone(), end: undefined };
           return;
         }

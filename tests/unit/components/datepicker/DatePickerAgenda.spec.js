@@ -47,7 +47,7 @@ describe('DatePickerAgenda', () => {
     } = {}) =>
       shallowMount(DatePickerAgenda, {
         propsData: {
-          date: range && (!date.start && !date.end) ? { start: date, end: undefined } : date,
+          date,
           minDate,
           endDate,
           isVisible,
@@ -540,6 +540,18 @@ describe('DatePickerAgenda', () => {
     });
 
     describe('selectDate', () => {
+      it('Range : should update start date if date start & end not defined', () => {
+        const wrapper = mountComponent({
+          range: true,
+          date: { start: undefined, end: undefined },
+        });
+        const startDate = dayjs('2019-9-20');
+        wrapper.vm.selectDate(startDate);
+
+        expect(wrapper.vm.mutableDate).toEqual({ start: startDate, end: undefined });
+        expect(wrapper.emitted().selectDate).toBeFalsy();
+      });
+
       it('Range : should update start date if date already selected', () => {
         const wrapper = mountComponent({
           range: true,
@@ -553,7 +565,7 @@ describe('DatePickerAgenda', () => {
       });
 
       it('Range : should update end date if start is already defined', () => {
-        const wrapper = mountComponent({ range: true });
+        const wrapper = mountComponent({ range: true, date: { start: dummyDate, end: undefined } });
         const endDate = dayjs('2019-9-20');
         wrapper.vm.selectDate(endDate);
 
