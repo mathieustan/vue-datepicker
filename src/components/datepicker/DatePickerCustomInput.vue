@@ -117,7 +117,7 @@ export default {
     }
 
     .datepicker-input--range & {
-      min-width: 280px;
+      min-width: 310px;
     }
   }
 </style>

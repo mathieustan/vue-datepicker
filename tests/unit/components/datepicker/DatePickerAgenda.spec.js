@@ -109,15 +109,23 @@ describe('DatePickerAgenda', () => {
             'datepicker--inline': false,
             'datepicker--no-header': true,
             'datepicker--range': false,
+            'datepicker--range-selecting': false,
           },
         ],
         [
-          { fullscreenMobile: false, inline: true, noHeader: false, range: true },
+          {
+            fullscreenMobile: false,
+            inline: true,
+            noHeader: false,
+            range: true,
+            date: { start: dayjs('2018-01-01'), end: dayjs('2018-02-01') },
+          },
           {
             'datepicker--fullscreen-mobile': false,
             'datepicker--inline': true,
             'datepicker--no-header': false,
             'datepicker--range': true,
+            'datepicker--range-selecting': false,
           },
         ],
       ])('when props = %p, should return %p', (props, expectedResult) => {

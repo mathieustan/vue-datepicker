@@ -120,16 +120,18 @@ export function formatDateWithYearAndMonth (year, month) {
 export function getRangeDatesFormatted ({ start, end } = {}, { lang }, format) {
   const locale = locales[lang] || locales.en;
 
-  if (!start) {
+  if (!start && !end) {
     return `${format} ~ ${format}`;
   }
 
-  if (start && !end) {
-    return `\
-${dayjs(start).locale(locale).startOf('day').format(format)} \
-~ \
-${format}`;
+  if (!start && end) {
+    return `${format} ~ ${dayjs(end).locale(locale).startOf('day').format(format)}`;
   }
+
+  if (start && !end) {
+    return `${dayjs(start).locale(locale).startOf('day').format(format)} ~ ${format}`;
+  }
+
   return `\
 ${dayjs(start).locale(locale).startOf('day').format(format)} \
 ~ \

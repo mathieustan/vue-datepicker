@@ -202,6 +202,7 @@ export default {
         'datepicker--fullscreen-mobile': this.fullscreenMobile,
         'datepicker--no-header': this.noHeader,
         'datepicker--range': this.range,
+        'datepicker--range-selecting': this.range && !this.isRangeSelected,
       };
     },
     weekDays () {
@@ -754,7 +755,7 @@ export default {
         height: #{get-size(mobile, day-height) - 2};
         border-radius: 50%;
         transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);
-        transition-property: transform;
+        transition-property: transform, opacity;
         transform: translateX(-50%) scale(0);
 
         @include mq(tablet) {
@@ -774,6 +775,12 @@ export default {
             background-color: inherit;
             opacity: 0;
           }
+        }
+
+        .datepicker--range-selecting & {
+          transform: translateX(-50%) scale(1);
+          opacity: 0;
+          transition: none;
         }
       }
 

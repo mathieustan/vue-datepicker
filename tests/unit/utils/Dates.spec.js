@@ -270,6 +270,7 @@ describe('Transactions: Functions', () => {
       it.each([
         [undefined, {}, 'YYYY-MM-DD', 'YYYY-MM-DD ~ YYYY-MM-DD'],
         [{ start: '2019-5-15', end: undefined }, {}, 'YYYY-MM-DD', '2019-05-15 ~ YYYY-MM-DD'],
+        [{ start: undefined, end: '2019-5-15' }, {}, 'YYYY-MM-DD', 'YYYY-MM-DD ~ 2019-05-15'],
         [{ start: '2019-5-15', end: undefined }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 ~ YYYY-MM-DD'],
         [{ start: '2019-5-15', end: '2019-5-17' }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 ~ 2019-05-17'],
       ])(
