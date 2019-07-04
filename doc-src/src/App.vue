@@ -587,7 +587,10 @@ export default {
         end: '2019-3',
       },
       range: {
-        dates: undefined,
+        dates: {
+          start: 'Wed Sep 09 2015 02:00:00 GMT+0200 (heure d’été d’Europe centrale)',
+          end: 'Wed Apr 17 2019 11:28:07 GMT+0200 (heure d’été d’Europe centrale)',
+        },
         min: '2018-08-12',
         end: '2019-08-12',
       },
@@ -643,6 +646,7 @@ export default {
     text-size-adjust: 100%;
     margin: 0;
     padding: 0;
+    font-family: 'Roboto', sans-serif;
   }
 </style>
 

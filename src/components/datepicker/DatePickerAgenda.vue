@@ -225,6 +225,10 @@ export default {
     shouldShowBottomSheet () {
       return this.innerWidth < 480 && this.fullscreenMobile && this.isVisible;
     },
+    isRangeSelected () {
+      if (!this.range) return false;
+      return Object.values(this.mutableDate).every(date => Boolean(date));
+    },
   },
   destroyed () {
     clearAllBodyScrollLocks();
@@ -310,6 +314,10 @@ export default {
     },
     isInRange (day) {
       if (!this.rangeCurrentHoveredDay) return;
+
+      if (isBeforeDate(this.rangeCurrentHoveredDay, this.mutableDate.end)) {
+        return isBetweenDates(day, this.rangeCurrentHoveredDay, this.mutableDate.end);
+      }
       return isBetweenDates(day, this.mutableDate.start, this.rangeCurrentHoveredDay);
     },
     firstInRange (day) {
@@ -326,14 +334,22 @@ export default {
     },
     selectDate (day) {
       if (this.range) {
-        if (!this.mutableDate.start || this.mutableDate.end || isBeforeDate(day, this.mutableDate.start)) {
+        // If rangeIsSelected => should reset, and select start
+        if (this.isRangeSelected) {
           this.mutableDate = { start: day.clone(), end: undefined };
-        } else {
-          this.mutableDate = { ...this.mutableDate, end: day.clone() };
-          this.$emit('selectDate', this.mutableDate);
-          this.rangeCurrentHoveredDay = undefined;
-          this.close();
+          return;
         }
+
+        // else, should update missing range (start or end)
+        this.mutableDate = {
+          ...this.mutableDate,
+          ...(this.mutableDate.start && { end: day.clone() }),
+          ...(this.mutableDate.end && { start: day.clone() }),
+        };
+
+        this.$emit('selectDate', this.mutableDate);
+        this.rangeCurrentHoveredDay = undefined;
+        this.close();
         return;
       }
 
@@ -404,9 +420,9 @@ export default {
     handleMouseMove (event) {
       // Should handle mouse move if :
       // -> not a range mode
-      // -> start day not selected
-      // -> end day already selected
-      if (!this.range || !this.mutableDate.start || this.mutableDate.end) return;
+      // -> range already selected
+      const isRangeSelected = Object.values(this.mutableDate).every(date => Boolean(date));
+      if (!this.range || isRangeSelected) return;
       let target = event.target;
 
       // Should handle mouse move only on those classes
@@ -422,7 +438,16 @@ export default {
       const isADate = target.dataset.date;
       const isCurrentHoveredDay = target.dataset.date === this.rangeCurrentHoveredDay;
       if (!isADate || isCurrentHoveredDay) return;
+
       this.rangeCurrentHoveredDay = target.dataset.date;
+
+      // Should update mutableDate if
+      // -> hovered day is before or after current selected date
+      if (isBeforeDate(this.rangeCurrentHoveredDay, this.mutableDate.start)) {
+        this.mutableDate = { start: undefined, end: this.mutableDate.start };
+      } else if (isAfterDate(this.rangeCurrentHoveredDay, this.mutableDate.end)) {
+        this.mutableDate = { start: this.mutableDate.end, end: undefined };
+      }
     },
   },
 };
@@ -688,6 +713,13 @@ export default {
             &:before {
               opacity: .5;
               left: -50%;
+            }
+          }
+        }
+        &.first.last {
+          .datepicker-day__effect {
+            &:before {
+              opacity: 0;
             }
           }
         }
