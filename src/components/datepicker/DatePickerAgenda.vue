@@ -131,7 +131,7 @@
 
 <script>
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
-import { directive as clickOutside } from 'v-click-outside';
+import ClickOutside from '../../directives/click-outside';
 
 import Dates, {
   getWeekDays,
@@ -156,7 +156,7 @@ import DatePickerYearMonth from './DatePickerYearMonth.vue';
 export default {
   name: 'DatepickerAgenda',
   mixins: [ detachable, dynamicPosition ],
-  directives: { clickOutside },
+  directives: { ClickOutside },
   components: { DatePickerHeader, DatePickerControls, DatePickerYearMonth },
   props: {
     name: { type: String },
