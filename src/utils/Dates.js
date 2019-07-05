@@ -167,20 +167,22 @@ export function areSameDates (date, dateSelected, type = 'date') {
     .isSame(dayjs(dateSelected, DEFAULT_OUTPUT_DATE_FORMAT[type]));
 }
 
-export function isBeforeDate (date, beforeDate, type = 'date') {
+export function isBeforeDate (date, beforeDate, type = 'day') {
   if (type === 'year') {
-    return Boolean(beforeDate) && date < dayjs(beforeDate, 'YYYY-MM-DD').get('year');
+    return Boolean(beforeDate) && date < dayjs(beforeDate, 'YYYY-MM-DD').get(type);
   }
+
   const selectedDate = dayjs.isDayjs(date) ? date : dayjs(date).startOf('day');
-  return Boolean(beforeDate) && selectedDate.isBefore(dayjs(beforeDate).startOf('day'));
+  return Boolean(beforeDate) && selectedDate.isBefore(dayjs(beforeDate).startOf('day'), type);
 }
 
-export function isAfterDate (date, afterDate, type) {
+export function isAfterDate (date, afterDate, type = 'day') {
   if (type === 'year') {
-    return Boolean(afterDate) && date > dayjs(afterDate, 'YYYY-MM-DD').get('year');
+    return Boolean(afterDate) && date > dayjs(afterDate, 'YYYY-MM-DD').get(type);
   }
+
   const selectedDate = dayjs.isDayjs(date) ? date : dayjs(date).startOf('day');
-  return Boolean(afterDate) && selectedDate.isAfter(dayjs(afterDate).startOf('day'));
+  return Boolean(afterDate) && selectedDate.isAfter(dayjs(afterDate).startOf('day'), type);
 }
 
 export function isBetweenDates (date, startDate, endDate) {

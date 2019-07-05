@@ -137,15 +137,15 @@ export default {
   },
   watch: {
     value: {
-      handler (newDate = Date.now()) {
+      handler (newDate) {
         if (this.range) {
           this.date = {
-            start: newDate.start && formatDate(newDate.start, this.locale),
-            end: newDate.end && formatDate(newDate.end, this.locale),
+            start: newDate && newDate.start && formatDate(newDate.start, this.locale),
+            end: newDate && newDate.end && formatDate(newDate.end, this.locale),
           };
           return;
         }
-        this.date = dayjs(newDate, this.outputFormat);
+        this.date = newDate && dayjs(newDate, this.outputFormat);
       },
       immediate: true,
     },

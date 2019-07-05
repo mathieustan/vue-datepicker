@@ -58,7 +58,7 @@ describe('DatePicker', () => {
   it('Should init data', () => {
     const wrapper = mountComponent();
     expect(wrapper.isVueInstance()).toBeTruthy();
-    expect(wrapper.vm.date).toEqual(dayjs(dummyDate));
+    expect(wrapper.vm.date).toEqual(undefined);
     expect(wrapper.vm.isVisible).toEqual(false);
     expect(wrapper.vm.placeholder).toEqual('YYYY-MM-DD');
     expect(wrapper.vm.color).toEqual('#4f88ff');
@@ -116,7 +116,7 @@ describe('DatePicker', () => {
           },
         ],
         [{ date: dummyDate }, dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
-        [{ date: undefined }, dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
+        [{ date: undefined }, undefined],
       ])('when props equal %p, date should be equal to %p', (props, expectedResult) => {
         const wrapper = mountComponent(props);
         expect(wrapper.vm.date).toEqual(expectedResult);

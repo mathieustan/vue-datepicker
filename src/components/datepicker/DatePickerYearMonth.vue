@@ -110,7 +110,7 @@ export default {
     mode: { type: String, default: String },
     range: { type: Boolean, default: false },
     currentDate: { type: Object, default: Object },
-    mutableDate: { type: Object, default: Object },
+    mutableDate: { type: Object, default: undefined },
     transitionName: { type: String, default: String },
     showYearMonthSelector: { type: Function },
     color: { type: String, default: String },
@@ -151,7 +151,7 @@ export default {
       return this.currentDate.year === year;
     },
     isSelectedMonthOrQuarter (monthIndex) {
-      if (this.range) return;
+      if (this.range || !this.mutableDate) return false;
       const selectedDate = formatDateWithYearAndMonth(this.currentDate.year, monthIndex);
       return areSameDates(
         this.mutableDate.format('YYYY-MM'),
@@ -165,8 +165,8 @@ export default {
     },
     isMonthOrQuarterDisabled (monthIndex) {
       const date = formatDateWithYearAndMonth(this.yearFormatted, monthIndex);
-      return isBeforeDate(date, this.minDate, this.mode) ||
-        isAfterDate(date, this.endDate, this.mode);
+      return isBeforeDate(date, this.minDate, 'month') ||
+        isAfterDate(date, this.endDate, 'month');
     },
     changeYear (direction) {
       this.$emit('changeYear', direction);

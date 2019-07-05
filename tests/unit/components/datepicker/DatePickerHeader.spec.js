@@ -8,14 +8,14 @@ describe('DatePickerHeader', () => {
 
   beforeEach(() => {
     mountComponent = ({
-      date = dummyDate,
+      mutableDate,
       formatHeader = 'dddd DD MMM',
       range,
       rangeHeaderText = 'From %d To %d',
     } = {}) =>
       shallowMount(DatePickerHeader, {
         propsData: {
-          mutableDate: range && !date.start ? { start: date, end: undefined } : date,
+          mutableDate,
           color: 'color',
           locale: { lang: 'en' },
           formatHeader,
@@ -35,7 +35,7 @@ describe('DatePickerHeader', () => {
     const wrapper = mountComponent();
     expect(wrapper.isVueInstance()).toBeTruthy();
     expect(wrapper.vm.color).toEqual('color');
-    expect(wrapper.vm.mutableDate).toEqual(dummyDate);
+    expect(wrapper.vm.mutableDate).toEqual(undefined);
     expect(wrapper.vm.locale).toEqual({ lang: 'en' });
     expect(wrapper.vm.formatHeader).toEqual('dddd DD MMM');
     expect(wrapper.vm.mode).toEqual(undefined);
@@ -45,7 +45,7 @@ describe('DatePickerHeader', () => {
     describe('classes', () => {
       it.each([
         [
-          { range: true },
+          { range: true, mutableDate: {} },
           {
             'datepicker-header--range': true,
           },
@@ -64,7 +64,8 @@ describe('DatePickerHeader', () => {
 
     describe('year', () => {
       it.each([
-        [{ date: dayjs(new Date([2018, 5, 16])) }, '2018'],
+        [{ mutableDate: undefined }, '-'],
+        [{ mutableDate: dummyDate }, '2019'],
       ])('When props = %p, should return %p', (props, expectedResult) => {
         const wrapper = mountComponent(props);
         expect(wrapper.vm.year).toEqual(expectedResult);
@@ -73,14 +74,15 @@ describe('DatePickerHeader', () => {
 
     describe('dateFormatted', () => {
       it.each([
-        [{ date: dayjs(new Date([2018, 5, 16])) }, 'Wednesday 16 May'],
+        [{ mutableDate: undefined }, '--'],
+        [{ mutableDate: dummyDate }, 'Thursday 16 May'],
         [
-          { range: true, date: { start: dayjs(new Date([2018, 5, 16])), end: undefined }, formatHeader: 'YYYY-MM-DD' },
-          ['From 2018-05-16', 'To YYYY-MM-DD'],
+          { range: true, mutableDate: { start: dummyDate, end: undefined }, formatHeader: 'YYYY-MM-DD' },
+          ['From 2019-05-16', 'To YYYY-MM-DD'],
         ],
         [
-          { range: true, date: { start: dayjs(new Date([2018, 5, 16])), end: dayjs(new Date([2019, 5, 16])) }, formatHeader: 'YYYY-MM-DD' },
-          ['From 2018-05-16', 'To 2019-05-16'],
+          { range: true, mutableDate: { start: dummyDate, end: dayjs(new Date([2019, 5, 16])) }, formatHeader: 'YYYY-MM-DD' },
+          ['From 2019-05-16', 'To 2019-05-16'],
         ],
       ])('When props = %p, should return %p', (props, expectedResult) => {
         const wrapper = mountComponent(props);

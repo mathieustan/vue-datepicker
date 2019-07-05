@@ -87,12 +87,12 @@
               :key="index"
               :class="{
                 'selected' : isSelected(day) && !isDisabled(day),
-                'between': isBetween(day) && range,
-                'in-range': isInRange(day) && range,
-                'first': firstInRange(day) && range,
-                'last': lastInRange(day) && Boolean(date.end) && range,
-                'select-start': !mutableDate.start && range,
-                'select-end': mutableDate.start && !mutableDate.end && range,
+                'between': range && isBetween(day),
+                'in-range': range && isInRange(day),
+                'first': range && firstInRange(day),
+                'last': range && lastInRange(day) && Boolean(mutableDate.end),
+                'select-start': range && !mutableDate.start,
+                'select-end': range && mutableDate.start && !mutableDate.end,
                 'disabled': isDisabled(day),
               }"
               :disabled="isDisabled(day)"
@@ -161,7 +161,7 @@ export default {
   props: {
     name: { type: String },
     isVisible: { type: Boolean, default: false },
-    date: { type: [Date, Object], required: true },
+    date: { type: [Date, Object] },
     type: { type: String, default: 'date' },
     range: { type: Boolean, default: false },
     rangeHeaderText: { type: String, default: String },
@@ -307,7 +307,7 @@ export default {
         ];
         return date.includes(day.unix());
       }
-      return this.mutableDate.startOf('day').unix() === day.unix();
+      return this.mutableDate && this.mutableDate.startOf('day').unix() === day.unix();
     },
     isBetween (day) {
       if (!this.mutableDate.start && !this.mutableDate.end) return false;
@@ -362,16 +362,22 @@ export default {
       this.close();
     },
     updateDate (date) {
+      let newDate = formatDate(this.range ? (date.end || date.start) : date, this.locale);
+
+      // If today's date is after endDate, we should show endDate month
+      if (isAfterDate(newDate, this.endDate)) {
+        newDate = formatDate(this.endDate, this.locale);
+      }
+
       if (this.range) {
-        const newDate = formatDate(date.end || date.start, this.locale);
         this.currentDate = new Dates(newDate.month(), newDate.year(), this.locale);
         this.mutableDate = date;
         return;
       }
 
-      const month = this.type === 'quarter' ? convertMonthToQuarter(date.month()) : date.month();
-      this.currentDate = new Dates(month, date.year(), this.locale);
-      this.mutableDate = date.month(month).clone();
+      let month = this.type === 'quarter' ? convertMonthToQuarter(newDate.month()) : newDate.month();
+      this.currentDate = new Dates(month, newDate.year(), this.locale);
+      this.mutableDate = date && date.month(month).clone();
     },
     changeMonth (direction) {
       let month = this.currentDate.month + (direction === 'prev' ? -1 : +1);
@@ -422,13 +428,15 @@ export default {
       // Should handle mouse move if :
       // -> not a range mode
       // -> range already selected
-      const isRangeSelected = Object.values(this.mutableDate).every(date => Boolean(date));
-      if (!this.range || isRangeSelected) return;
+      if (!this.range || this.isRangeSelected) return;
       let target = event.target;
 
       // Should handle mouse move only on those classes
       const CLASSES = ['datepicker-day', 'datepicker-day__effect'];
-      if (!CLASSES.includes(target.className.split(' ')[0])) return;
+      if (
+        typeof target.className === 'string' &&
+        !CLASSES.includes(target.className.split(' ')[0])
+      ) return;
 
       // If tagName is SPAN, it means we should select parent
       if (target.tagName === 'SPAN') {
@@ -663,8 +671,8 @@ export default {
             opacity: .5;
           }
         }
-        &.in-range,
-        &.between {
+        &.in-range:not(.disabled),
+        &.between:not(.disabled) {
           color: white;
 
           .datepicker-day__effect {
@@ -727,6 +735,13 @@ export default {
         &.disabled {
           cursor: default;
           color: rgba(0,0,0,0.26);
+
+          &:hover {
+            .datepicker-day__effect,
+            .datepicker-day__effect:before {
+              opacity: 0 !important;
+            }
+          }
         }
       }
 

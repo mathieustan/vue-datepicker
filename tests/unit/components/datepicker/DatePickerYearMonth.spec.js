@@ -12,7 +12,7 @@ describe('DatePickerYearMonth', () => {
   beforeEach(() => {
     mountComponent = ({
       date = new Dates(dummyDate.month(), dummyDate.year(), { lang: 'en' }),
-      mutableDate = dummyDate,
+      mutableDate,
       mode = 'month',
       minDate,
       endDate,
@@ -137,11 +137,12 @@ describe('DatePickerYearMonth', () => {
 
     describe('isSelectedMonthOrQuarter', () => {
       it.each([
+        [{ mutableDate: undefined }, 4, false],
         [{ mutableDate: dayjs(new Date([2019, 5, 16])) }, 4, true],
         [{ mutableDate: dayjs(new Date([2018, 5, 16])) }, 4, false],
         [{ mutableDate: dayjs(new Date([2019, 5, 16])) }, 12, false],
-        [{ mutableDate: dayjs(new Date([2019, 5, 16])), range: true }, 4, undefined],
-        [{ mutableDate: dayjs(new Date([2019, 5, 16])), range: true }, 12, undefined],
+        [{ mutableDate: dayjs(new Date([2019, 5, 16])), range: true }, 4, false],
+        [{ mutableDate: dayjs(new Date([2019, 5, 16])), range: true }, 12, false],
       ])(
         'when props = %p, and month is %p, should return %p',
         (props, monthIndex, expectedResult) => {
@@ -170,18 +171,23 @@ describe('DatePickerYearMonth', () => {
     describe('isMonthOrQuarterDisabled', () => {
       it.each([
         [{ minDate: undefined, endDate: undefined }, 'month', 4, false],
-        [{ minDate: '2019-1', endDate: '2019-12' }, 'month', 4, false],
-        [{ minDate: '2019-5', endDate: '2019-12' }, 'month', 3, true],
-        [{ minDate: '2019-1', endDate: '2019-5' }, 'month', 5, true],
-        [{ minDate: '2019-2', endDate: '2019-3' }, 'quarter', 1, false],
-        [{ minDate: '2019-2', endDate: '2019-3' }, 'quarter', 0, true],
-        [{ minDate: '2019-2', endDate: '2019-3' }, 'quarter', 3, true],
+        [{ minDate: '2019-1', endDate: '2019-3' }, 'month', 0, false],
+        [{ minDate: '2019-1', endDate: '2019-3' }, 'month', 1, false],
+        [{ minDate: '2019-1', endDate: '2019-3' }, 'month', 2, false],
+        [{ minDate: '2019-1', endDate: '2019-3' }, 'month', 3, true],
+        [{ minDate: '2019-1', endDate: '2019-3' }, 'month', 4, true],
+        [{ minDate: '2019-1', endDate: '2019-3' }, 'quarter', 0, false],
+        [{ minDate: '2019-1', endDate: '2019-3' }, 'quarter', 1, false],
+        [{ minDate: '2019-1', endDate: '2019-3' }, 'quarter', 2, false],
+        [{ minDate: '2019-1', endDate: '2019-3' }, 'quarter', 3, true],
+        [{ minDate: '2019-1', endDate: '2019-3' }, 'quarter', 4, true],
+        [{ minDate: '2019-2', endDate: '2019-3' }, 'quarter', 5, true],
       ])(
-        'when allowed dates = %p and month = %p and mode = %p, should return %p',
-        (allowedDates, mode, month, expectedResult) => {
+        'when allowed dates = %p and mode = %p and monthIndex = %p, should return %p',
+        (allowedDates, mode, monthIndex, expectedResult) => {
           const { minDate, endDate } = allowedDates;
           const wrapper = mountComponent({ minDate, endDate, mode });
-          expect(wrapper.vm.isMonthOrQuarterDisabled(month)).toEqual(expectedResult);
+          expect(wrapper.vm.isMonthOrQuarterDisabled(monthIndex)).toEqual(expectedResult);
         }
       );
     });

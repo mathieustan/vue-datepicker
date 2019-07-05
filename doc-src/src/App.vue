@@ -139,7 +139,12 @@
         <!-- EXAMPLE : Placeholder  -->
         <Example title="Placeholder" :current-date="examples.placeholder.currentDate">
           <template v-slot:datepicker>
-            <VueDatePicker v-model="examples.placeholder.currentDate" placeholder="DD/MM/YYYY" />
+            <VueDatePicker
+              v-model="examples.placeholder.currentDate"
+              :min-date="examples.placeholder.min"
+              :end-date="examples.placeholder.end"
+              placeholder="DD/MM/YYYY"
+            />
           </template>
           <template v-slot:code>
 <pre class="language-HTML" data-title="html">
@@ -147,6 +152,8 @@
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">:min-date</span>="{{ examples.placeholder.min }}"
+    <span class="token attr-name">:end-date</span>="{{ examples.placeholder.end }}"
     <span class="token attr-name">placeholder</span>="DD/MM/YYYY"
   <span class="token operator">/></span>
   ...
@@ -567,6 +574,8 @@ export default {
       },
       placeholder: {
         currentDate: undefined,
+        min: '2018-08-12',
+        end: '2019-05-12',
       },
       allowedDates: {
         min: '2019-5-3',
@@ -589,7 +598,7 @@ export default {
       range: {
         dates: undefined,
         min: '2018-08-12',
-        end: '2019-08-12',
+        end: '2019-05-12',
       },
       onOpen: {
         message: '',
@@ -721,7 +730,7 @@ export default {
     }
 
     .example-range & {
-      margin: 0 0 0$gutter*2;
+      margin: 0;
     }
   }
 

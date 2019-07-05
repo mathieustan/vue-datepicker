@@ -330,15 +330,18 @@ describe('Transactions: Functions', () => {
     describe('isBeforeDate', () => {
       it.each([
         ['2018-5-17', '2018-5-18', undefined, true],
+        ['2018-5-18', '2018-5-18', undefined, false],
         [dayjs(new Date([2018, 5, 16])), undefined, undefined, false],
         [dayjs(new Date([2018, 5, 16])), '2018-5-1', 'date', false],
         [dayjs(new Date([2018, 5, 16])), '2018-5-17', 'date', true],
+        ['2018-5', '2018-5-17', 'month', false],
+        ['2018-4', '2018-5-17', 'month', true],
         [2018, '2018-5-17', 'year', false],
         [2017, '2018-5-17', 'year', true],
       ])(
-        'when date = %p, minDate = %p and type = %p, should return %p',
-        (date, minDate, type, expectedResult) => {
-          expect(isBeforeDate(date, minDate, type)).toEqual(expectedResult);
+        'when date = %p, beforeDate = %p and type = %p, should return %p',
+        (date, beforeDate, type, expectedResult) => {
+          expect(isBeforeDate(date, beforeDate, type)).toEqual(expectedResult);
         }
       );
     });
@@ -349,12 +352,14 @@ describe('Transactions: Functions', () => {
         [dayjs(new Date([2018, 5, 16])), undefined, undefined, false],
         [dayjs(new Date([2018, 5, 16])), '2018-5-17', 'date', false],
         [dayjs(new Date([2018, 5, 16])), '2018-5-15', 'date', true],
+        ['2018-5', '2018-5-17', 'month', false],
+        ['2018-6', '2018-5-17', 'month', true],
         [2018, '2018-5-17', 'year', false],
         [2019, '2018-5-17', 'year', true],
       ])(
-        'when date = %p, endDate = %p and type = %p, should return %p',
-        (date, endDate, type, expectedResult) => {
-          expect(isAfterDate(date, endDate, type)).toEqual(expectedResult);
+        'when date = %p, afterDate = %p and type = %p, should return %p',
+        (date, afterDate, type, expectedResult) => {
+          expect(isAfterDate(date, afterDate, type)).toEqual(expectedResult);
         }
       );
     });

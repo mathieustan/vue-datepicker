@@ -74,6 +74,7 @@ export default {
       };
     },
     year () {
+      if (!this.mutableDate) return '-';
       return formatDateWithLocale(this.mutableDate, this.locale, 'YYYY');
     },
     dateFormatted () {
@@ -88,6 +89,7 @@ export default {
         const datesSplitted = getRangeDatesFormatted(this.mutableDate, this.locale, this.formatHeader).split(' ~ ');
         return [`${textSplitted.start} ${datesSplitted[0]}`, `${textSplitted.end} ${datesSplitted[1]}`];
       }
+      if (!this.mutableDate) return '--';
       return formatDateWithLocale(this.mutableDate, this.locale, this.formatHeader);
     },
   },
