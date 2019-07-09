@@ -10,7 +10,7 @@
     <input
       :id="id"
       :name="id"
-      :style="{ color: !disabled ? color : 'rgba(93, 106, 137, 0.5)' }"
+      :style="setTextColor(!disabled ? color : 'rgba(93, 106, 137, 0.5)')"
       :value="dateFormatted"
       :disabled="disabled"
       :placeholder="placeholder"
@@ -23,11 +23,18 @@
 </template>
 
 <script>
+// mixins
+import colorable from '../../mixins/colorable';
+
+// components
 import DatePickerCalendarIcon from './DatePickerCalendarIcon.vue';
+
+// functions
 import { formatDateWithLocale, getRangeDatesFormatted } from '../../utils/Dates';
 
 export default {
   name: 'DatePickerCustomInput',
+  mixins: [colorable],
   components: { DatePickerCalendarIcon },
   props: {
     id: { type: String },

@@ -103,7 +103,7 @@
             >
               <span v-if="isToday(day)" class="datepicker-day--current" />
               <span
-                :style="{ backgroundColor: color }"
+                :style="setBackgroundColor(color)"
                 class="datepicker-day__effect" />
               <span class="datepicker-day__text">{{day.format('D')}}</span>
             </button>
@@ -131,8 +131,21 @@
 
 <script>
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
+
+// directives
 import ClickOutside from '../../directives/click-outside';
 
+// mixins
+import dynamicPosition from '../../mixins/dynamicPosition';
+import detachable from '../../mixins/detachable';
+import colorable from '../../mixins/colorable';
+
+// components
+import DatePickerHeader from './DatePickerHeader.vue';
+import DatePickerControls from './DatePickerControls.vue';
+import DatePickerYearMonth from './DatePickerYearMonth.vue';
+
+// functions
 import Dates, {
   getWeekDays,
   formatDateWithYearAndMonth,
@@ -145,17 +158,13 @@ import Dates, {
   isBetweenDates,
   convertMonthToQuarter,
 } from '../../utils/Dates';
-import { yearMonthSelectorTypes } from '../../constants';
-import dynamicPosition from '../../mixins/dynamicPosition';
-import detachable from '../../mixins/detachable';
 
-import DatePickerHeader from './DatePickerHeader.vue';
-import DatePickerControls from './DatePickerControls.vue';
-import DatePickerYearMonth from './DatePickerYearMonth.vue';
+// constants
+import { yearMonthSelectorTypes } from '../../constants';
 
 export default {
   name: 'DatepickerAgenda',
-  mixins: [ detachable, dynamicPosition ],
+  mixins: [ detachable, colorable, dynamicPosition ],
   directives: { ClickOutside },
   components: { DatePickerHeader, DatePickerControls, DatePickerYearMonth },
   props: {

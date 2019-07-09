@@ -1,6 +1,6 @@
 <template>
   <div
-    :style="{ backgroundColor: color }"
+    :style="setBackgroundColor(color)"
     :class="classes"
     class="datepicker-header">
 
@@ -53,10 +53,15 @@
 </template>
 
 <script>
+// mixins
+import colorable from '../../mixins/colorable';
+
+// functions
 import { formatDateWithLocale, getRangeDatesFormatted } from '../../utils/Dates';
 
 export default {
   name: 'DatePickerHeader',
+  mixins: [colorable],
   props: {
     mutableDate: { type: [String, Object] },
     transitionName: { type: String },

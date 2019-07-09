@@ -49,8 +49,8 @@
                 :key="index"
                 :disabled="isMonthOrQuarterDisabled(index)"
                 :style="{
-                  color: isSelectedMonthOrQuarter(index) ? '#fff' : '',
-                  backgroundColor: isSelectedMonthOrQuarter(index) ? color : '',
+                  ...(isSelectedMonthOrQuarter(index) && setTextColor('#fff')),
+                  ...(isSelectedMonthOrQuarter(index) && setBackgroundColor(color)),
                 }"
                 type="button"
                 @click="onSelect(index)"
@@ -75,8 +75,8 @@
                 :key="index"
                 :disabled="isMonthOrQuarterDisabled(index)"
                 :style="{
-                  color: isSelectedMonthOrQuarter(index * 3) ? '#fff' : '',
-                  backgroundColor: isSelectedMonthOrQuarter(index * 3) ? color : '',
+                  ...(isSelectedMonthOrQuarter(index*3) && setTextColor('#fff')),
+                  ...(isSelectedMonthOrQuarter(index*3) && setBackgroundColor(color)),
                 }"
                 type="button"
                 @click="onSelect(index)"
@@ -92,8 +92,13 @@
 </template>
 
 <script>
+// mixins
+import colorable from '../../mixins/colorable';
+
+// components
 import DatePickerControls from './DatePickerControls.vue';
 
+// functions
 import {
   formatDateWithYearAndMonth,
   isBeforeDate,
@@ -105,6 +110,7 @@ import { computeYearsScrollPosition } from '../../utils/positions';
 
 export default {
   name: 'DatePickerYearMonth',
+  mixins: [colorable],
   components: { DatePickerControls },
   props: {
     mode: { type: String, default: String },
