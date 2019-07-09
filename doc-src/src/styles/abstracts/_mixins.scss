@@ -77,63 +77,6 @@ $breakpoints: (
 
 }
 
-// --------------------------------------------
-// Typography Mixins --------------------------
-// --------------------------------------------
-
-
-// Font Weight
-@mixin font-weight($elem) {
-	font-weight: get-font-weight($elem);
-}
-
-@mixin pseudo($display: block, $pos: absolute, $content: '') {
-    content: $content;
-    display: $display;
-    position: $pos;
-}
-
-@mixin truncate {
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-@mixin input-placeholder {
-  &.placeholder { @content; }
-  &::placeholder { @content; }
-  &:-moz-placeholder { @content; }
-  &::-moz-placeholder { @content; }
-  &:-ms-input-placeholder { @content; }
-  &::-webkit-input-placeholder { @content; }
-}
-
-// --------------------------------------------
-// Alignment Mixin ----------------------------
-// --------------------------------------------
-@mixin flex-align($direction: row, $vertical: flex-start, $horizontal: flex-start) {
-  display: flex;
-  flex-direction: $direction;
-  justify-content: $horizontal;
-  align-items: $vertical;
-  align-content: $vertical;
-}
-
-// --------------------------------------------
-// Keyframes Mixin ----------------------------
-// --------------------------------------------
-@mixin keyframes($animation-name) {
-  @-webkit-keyframes #{$animation-name} {
-    @content;
-  }
-  @-moz-keyframes #{$animation-name} {
-    @content;
-  }
-  @keyframes #{$animation-name} {
-    @content;
-  }
-}
-
 @mixin reset-button() {
   border: none;
   margin: 0;
@@ -162,13 +105,4 @@ $breakpoints: (
     outline: 0;
     box-shadow: 0;
   }
-}
-
-@mixin input-placeholder {
-  &.placeholder { @content; }
-  &::placeholder { @content; }
-  &:-moz-placeholder { @content; }
-  &::-moz-placeholder { @content; }
-  &:-ms-input-placeholder { @content; }
-  &::-webkit-input-placeholder { @content; }
 }

@@ -20,40 +20,36 @@
           <h2> Install </h2>
         </div>
         <p> 1. Install component with npm </p>
-        <pre class="language-bash" data-title="bash">
-<code class="language-bash"><span class="token function">npm install </span>@mathieustan/vue-datepicker --save</code>
-        </pre>
+        <CodeWrapper type="bash">
+<span class="token function">npm install </span>@mathieustan/vue-datepicker --save</CodeWrapper>
 
         <p> 2. Load component in your project </p>
-        <pre class="language-javascript" data-title="javascript">
-<code class="language-javascript"><span class="token keyword">import</span> VueDatePicker <span class="token keyword">from</span><span class="token string"> '@mathieustan/vue-datepicker'</span>;
+        <CodeWrapper type="javascript">
+<span class="token keyword">import</span> VueDatePicker <span class="token keyword">from</span><span class="token string"> '@mathieustan/vue-datepicker'</span>;
 
 <span class="token keyword">Vue</span><span class="token function">.use(</span>VueDatePicker<span class="token function">)</span>;
-</code>
-        </pre>
+</CodeWrapper>
 
         Or
 
-        <pre class="language-javascript" data-title="javascript">
-<code class="language-javascript"><span class="token keyword">import</span> { VueDatePicker } <span class="token keyword">from</span><span class="token string"> '@mathieustan/vue-datepicker'</span>;
+      <CodeWrapper type="javascript">
+<span class="token keyword">import</span> { VueDatePicker } <span class="token keyword">from</span><span class="token string"> '@mathieustan/vue-datepicker'</span>;
 
 <span class="token keyword">export default </span> {
   <span class="token function">components</span> : {
     VueDatePicker,
   <span>},</span>
 }
-</code>
-        </pre>
+</CodeWrapper>
 
         <p> 3. Use the component </p>
-        <pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+        <CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-        </pre>
+</CodeWrapper>
 
         <div class="title">
           <h2> Examples (props) </h2>
@@ -65,14 +61,14 @@
             <VueDatePicker v-model="currentDate" />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -82,8 +78,8 @@
             <VueDatePicker v-model="currentDate" format="YYYY-MM-DD" />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -91,8 +87,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -102,8 +98,8 @@
             <VueDatePicker v-model="currentDate" format-header="dddd DD MMMM" />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -111,8 +107,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -122,8 +118,8 @@
             <VueDatePicker v-model="currentDate" format-output="YYYY/MM/DD" />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -131,8 +127,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -147,8 +143,8 @@
             />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -158,8 +154,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -173,8 +169,8 @@
             <VueDatePicker v-model="currentDate" :visible="examples.visible.isVisible" />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -182,8 +178,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -193,8 +189,8 @@
             <VueDatePicker v-model="currentDate" :disabled="true" />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -202,8 +198,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -226,8 +222,8 @@
             <VueDatePicker v-model="currentDate" :color="examples.color.selected" />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -235,8 +231,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -246,8 +242,8 @@
             <VueDatePicker v-model="currentDate" no-header />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -255,8 +251,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -266,18 +262,17 @@
             <VueDatePicker v-model="currentDate" fullscreen-mobile no-header />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">fullscreen-mobile</span>
-    <span class="token attr-name">no-header</span>
+    <span class="token attr-name">no-header </span>
+    <span class="token attr-name">fullscreen-mobile </span>
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -287,8 +282,8 @@
             <VueDatePicker v-model="currentDate" :min-date="examples.allowedDates.min" :end-date="examples.allowedDates.max" />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -297,8 +292,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -312,8 +307,8 @@
               }" />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -321,8 +316,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -345,8 +340,8 @@
               :locale="{ lang: examples.locale.selectedLang }" />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -354,8 +349,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -365,8 +360,8 @@
             <VueDatePicker v-model="currentDate" :inline="true" />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -374,8 +369,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -390,8 +385,8 @@
               :inline="true" />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -402,8 +397,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -421,8 +416,8 @@
               :inline="true" />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -433,8 +428,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -448,14 +443,14 @@
               :name="`Choix de la date`"
               :min-date="examples.range.min"
               :end-date="examples.range.end"
-              placeholder="Start - End"
               range
+              placeholder="Start - End"
               fullscreen-mobile
             />
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="rangeDates"
@@ -463,13 +458,13 @@
     <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
     <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
     <span class="token attr-name">placeholder</span>="Start - End"
-    <span class="token attr-name">range</span>
-    <span class="token attr-name">fullscreen-mobile</span>
+    <span class="token attr-name">range </span>
+    <span class="token attr-name">fullscreen-mobile </span>
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
           <template v-slot:result>
             <p>startDate="{{ examples.range.dates && examples.range.dates.start }}"</p>
@@ -488,8 +483,8 @@
             {{ examples.onOpen.message }}
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -497,8 +492,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -509,8 +504,8 @@
             {{ examples.onClose.message }}
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -518,8 +513,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
 
@@ -530,8 +525,8 @@
             {{ examples.onChange.message }}
           </template>
           <template v-slot:code>
-<pre class="language-HTML" data-title="html">
-<code class="language-HTML"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+<CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
@@ -539,8 +534,8 @@
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</code>
-</pre>
+</CodeWrapper>
+
           </template>
         </Example>
       </div>
@@ -550,12 +545,11 @@
 
 <script>
 import Example from './components/Example.vue';
+import CodeWrapper from './components/CodeWrapper.vue';
 
 export default {
   name: 'App',
-  components: {
-    Example,
-  },
+  components: { Example, CodeWrapper },
   data: () => ({
     currentDate: new Date(),
     examples: {
@@ -777,120 +771,6 @@ export default {
 
       @include mq(tablet) {
         margin-bottom: $gutter*3;
-      }
-    }
-  }
-
-  code, pre, pre code {
-    -moz-osx-font-smoothing: auto;
-    -webkit-font-smoothing: auto;
-    font-family: monospace;
-  }
-
-  code[class*=language-],
-  pre[class*=language-] {
-    color:color(other, light-blue);
-    vertical-align: center;
-  }
-
-  pre {
-    position: relative;
-    display: flex;
-    border-radius: 8px;
-    border: none;
-    padding: $gutter*4 $gutter*2 $gutter*2;
-    overflow: auto;
-
-    line-height: 1;
-    font-size: 13px;
-
-    @include mq(tablet) {
-      font-size: 15px;
-      padding: ($gutter*5) ($gutter*3) ($gutter*3);
-    }
-
-    &[class*=language-] {
-      background: color(other, dark-purple);
-    }
-
-    &:not(:last-child) {
-      margin-top: $gutter*4;
-      margin-bottom: $gutter*5;
-    }
-
-    &:before {
-      content: attr(data-title);
-      position: absolute;
-      top: 6px;
-      padding: 0 $gutter ($gutter/2);
-      font-size: 10px;
-      right: 20px;
-      text-align: right;
-      color: #444;
-      font-weight: 700;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      border-radius: 0 0 5px 5px;
-      background-color: color(other, light-blue);
-    }
-
-    &:after {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 8px;
-      background-color: color(other, light-blue);
-    }
-
-    &.language-bash {
-      &:before,
-      &:after {
-        background-color: #363377;
-        color: #a2a0d6;
-      }
-    }
-
-    &.language-javascript {
-      &:before,
-      &:after {
-        background-color: color(other, yellow);
-      }
-    }
-
-    code {
-      padding: 0;
-      background-color: transparent;
-      color: currentColor;
-      font-size: 13px;
-      line-height: 15px;
-      font-weight: 400;
-
-      @include mq(tablet) {
-        font-size: 15px;
-        line-height: 19px;
-      }
-
-      .token {
-        &.function {
-          color: color(other, yellow);
-        }
-        &.char, &.string {
-          color: #c6feb9;
-        }
-        &.atrule, &.delimiter, &.important, &.keyword, &.selector {
-          color: color(other, orange);
-        }
-        &.attr-name, &.operator {
-          color: #ffb454;
-        }
-      }
-
-      span {
-        font-style: inherit;
-        font-weight: inherit;
       }
     }
   }

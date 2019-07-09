@@ -8,29 +8,6 @@ $screen__sizes: (
 );
 
 $gutter: 8px;
-
-// --------------------------------------------
-// Size ---------------------------------------
-// --------------------------------------------
-$sizes: (
-  desktop: (
-    width: 315px,
-    title: 48px,
-    header: 85px,
-    day-width: 41px,
-    day-height: 41px,
-    controls: 56px,
-  ),
-  mobile: (
-    width: 290px,
-    title: 48px,
-    header: 80px,
-    day-width: 38px,
-    day-height: 36px,
-    controls: 48px,
-  )
-);
-
 // --------------------------------------------
 // Colors -------------------------------------
 // --------------------------------------------
@@ -39,9 +16,11 @@ $color: (
     orange: #f8a623,
     yellow: #ffe725,
     pink: #ff4577,
-    purple: #9f4fff,
+    light-purple: #a2a0d6,
+    purple: #363377,
     dark-purple: #2d2b55,
     light-gray: #eef1f8,
+
     gray: #F3F4F9,
     blue: #4f88ff,
     light-blue: #c9feff,
