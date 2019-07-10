@@ -1992,7 +1992,7 @@
     instances: instances,
     bind: bind,
     update: function update(el, binding) {
-      if (binding.value === binding.oldValue) return;
+      if (JSON.stringify(binding.value) === JSON.stringify(binding.oldValue)) return;
       bind(el, binding);
     },
     unbind: unbind
