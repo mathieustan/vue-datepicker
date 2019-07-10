@@ -440,7 +440,7 @@
           <template v-slot:datepicker>
             <VueDatePicker
               v-model="examples.range.dates"
-              :name="`Choix de la date`"
+              :name="`Choose dates`"
               :min-date="examples.range.min"
               :end-date="examples.range.end"
               range
@@ -454,7 +454,7 @@
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="rangeDates"
-    <span class="token attr-name">:name</span>="`Choix de la date`"
+    <span class="token attr-name">:name</span>="`Choose dates`"
     <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
     <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
     <span class="token attr-name">placeholder</span>="Start - End"
@@ -576,8 +576,8 @@ export default {
         max: '2019-8-12',
       },
       locale: {
-        selectedLang: 'es',
-        langs: ['es', 'en', 'fr'],
+        selectedLang: 'de',
+        langs: ['es', 'en', 'fr', 'de'],
       },
       month: {
         currentDate: new Date().toISOString().substr(0, 7),

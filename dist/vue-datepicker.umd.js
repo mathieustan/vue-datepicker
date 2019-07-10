@@ -375,12 +375,33 @@
     }
   };
 
+  var localeObject$3 = {
+    name: 'de',
+    weekdays: 'Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag'.split('_'),
+    weekdaysShort: 'So_Mo_Di_Mi_Do_Fr_Sa'.split('_'),
+    months: 'Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember'.split('_'),
+    monthsShort: 'Jan._Feb._März_Apr._Mai_Juni_Juli_Aug._Sep._Okt._Nov._Dez.'.split('_'),
+    ordinal: function ordinal(n) {
+      return "".concat(n, ".");
+    },
+    weekStart: 1,
+    formats: {
+      LTS: 'HH:mm:ss',
+      LT: 'HH:mm',
+      L: 'DD.MM.YYYY',
+      LL: 'D. MMMM YYYY',
+      LLL: 'D. MMMM YYYY HH:mm',
+      LLLL: 'dddd, D. MMMM YYYY HH:mm'
+    }
+  };
+
 
 
   var locales = /*#__PURE__*/Object.freeze({
     fr: localeObject$1,
     en: localeObject,
-    es: localeObject$2
+    es: localeObject$2,
+    de: localeObject$3
   });
 
   var DEFAULT_INPUT_DATE_FORMAT = {
@@ -4498,7 +4519,7 @@
 
   var plugin = {
     // eslint-disable-next-line no-undef
-    version: "0.1.4",
+    version: "0.1.5",
     install: install
   };
 
