@@ -1,5 +1,6 @@
 import {
   computeYearsScrollPosition,
+  computeAgendaHeight,
   getDynamicPosition,
 } from '@/utils/positions';
 
@@ -33,6 +34,19 @@ describe('Utils: Functions', () => {
       const elementToShow = { offsetTop: 250, offsetHeight: 50 };
       expect(computeYearsScrollPosition(container, elementToShow)).toEqual(175);
     });
+  });
+
+  describe('computeAgendaHeight', () => {
+    it.each([
+      [{ offsetHeight: 200 }, 'has-6-weeks', 200],
+      [{ offsetHeight: 200 }, 'has-5-weeks', 236],
+      [{ offsetHeight: 200 }, undefined, 236],
+    ])(
+      'When agenda = %p, classWeeks = %p, should return %p',
+      (agenda, classWeeks, expectedResult) => {
+        expect(computeAgendaHeight(agenda, classWeeks)).toEqual(expectedResult);
+      },
+    );
   });
 
   describe('getDynamicPosition', () => {

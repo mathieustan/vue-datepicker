@@ -90,7 +90,7 @@ $breakpoints: (
 // --------------------------------------------
 // Reset Button Mixin -------------------------
 // --------------------------------------------
-@mixin reset-button {
+%reset-button {
   border: none;
   margin: 0;
   padding: 0;
@@ -117,5 +117,12 @@ $breakpoints: (
   &:active {
     outline: 0;
     box-shadow: 0;
+  }
+
+  &[type="button"],
+  &[type="reset"],
+  &[type="submit"],
+  &[role="button"] {
+    cursor: pointer;
   }
 }

@@ -137,6 +137,16 @@
           @selectedYearMonth="selectedYearMonth"
         />
       </div>
+
+      <!-- Validate -->
+      <DatePickerValidate
+        v-if="validate"
+        :button-validate="buttonValidate"
+        :button-cancel="buttonCancel"
+        :color="color"
+        @cancel="$emit('close')"
+        @validate="$emit('validateDate')"
+      />
     </div>
   </transition>
 </template>
@@ -157,6 +167,7 @@ import DatePickerHeader from './DatePickerHeader.vue';
 import DatePickerControls from './DatePickerControls.vue';
 import DatePickerYearMonth from './DatePickerYearMonth.vue';
 import DatePickerPresets from './DatePickerPresets.vue';
+import DatePickerValidate from './DatePickerValidate.vue';
 
 // functions
 import Dates, {
@@ -171,6 +182,7 @@ import Dates, {
   isBetweenDates,
   convertMonthToQuarter,
 } from '../../utils/Dates';
+import { computeAgendaHeight } from '../../utils/positions';
 
 // constants
 import { yearMonthSelectorTypes } from '../../constants';
@@ -179,12 +191,21 @@ export default {
   name: 'DatepickerAgenda',
   mixins: [ detachable, colorable, dynamicPosition ],
   directives: { ClickOutside },
-  components: { DatePickerHeader, DatePickerControls, DatePickerYearMonth, DatePickerPresets },
+  components: {
+    DatePickerHeader,
+    DatePickerControls,
+    DatePickerYearMonth,
+    DatePickerPresets,
+    DatePickerValidate,
+  },
   props: {
     name: { type: String },
     isVisible: { type: Boolean, default: false },
     date: { type: [Date, Object] },
     type: { type: String, default: 'date' },
+    validate: { type: Boolean, default: false },
+    buttonValidate: { type: String },
+    buttonCancel: { type: String },
     range: { type: Boolean, default: false },
     rangePresets: { type: Array, default: undefined },
     rangeHeaderText: { type: String, default: String },
@@ -194,12 +215,12 @@ export default {
     inline: { type: Boolean, default: false },
     fullscreenMobile: { type: Boolean, default: false },
     color: { type: String },
-    close: { type: Function },
     minDate: { type: [String, Number, Date] },
     endDate: { type: [String, Number, Date] },
     zIndex: { type: Number },
   },
   data: () => ({
+    height: 'auto',
     isActive: false,
     currentDate: undefined,
     mutableDate: undefined,
@@ -212,6 +233,7 @@ export default {
   computed: {
     styles () {
       return {
+        height: this.height,
         // left, top, orign from @/mixins/dynamicPosition
         left: `${this.left}px`,
         top: `${this.top}px`,
@@ -224,6 +246,7 @@ export default {
         'datepicker--inline': this.inline,
         'datepicker--fullscreen-mobile': this.fullscreenMobile,
         'datepicker--no-header': this.noHeader,
+        'datepicker--validate': this.validate,
         'datepicker--range': this.range,
         'datepicker--range-selecting': this.range && !this.isRangeSelected,
         ...(this.classPresets && { [this.classPresets]: true }),
@@ -307,9 +330,11 @@ export default {
         await this.$nextTick();
 
         if (show) {
+          this.height = `${computeAgendaHeight(this.$refs.content, this.classWeeks)}px`;
           disableBodyScroll(this.$el.querySelector('.datepicker-content'));
           return;
         }
+        this.height = 'auto';
         enableBodyScroll();
       },
       immediate: true,
@@ -383,9 +408,8 @@ export default {
     },
     emitSelectedDate (date) {
       this.mutableDate = date;
-      this.$emit('selectDate', this.mutableDate);
       this.rangeCurrentHoveredDay = undefined;
-      this.close();
+      this.$emit('selectDate', this.mutableDate);
     },
     updateDate (date) {
       let newDate = formatDate(this.range ? (date.end || date.start) : date, this.locale);
@@ -492,7 +516,7 @@ export default {
   @import   '../../styles/abstracts/functions',
             '../../styles/abstracts/variables',
             '../../styles/abstracts/mixins',
-            '../../styles/base/_animations.scss';
+            '../../styles/base/animations.scss';
 
   .datepicker {
     position: absolute;
@@ -523,76 +547,29 @@ export default {
     }
 
     &--fullscreen-mobile {
-      $height: get-size(mobile, title) +
-        get-size(mobile, header) +
-        get-size(mobile, controls) +
-        (get-size(mobile, day-height) * 6) +
-        30px;
-
       @include mq($to: phone) {
         position: fixed;
         top: auto !important;
         bottom: 0 !important;
         left: 0 !important;
         right: 0 !important;
-        height: $height;
         width: 100%;
         border-radius: get-border-radius(4) get-border-radius(4) 0 0;
 
         // Browsers which partially support CSS Environment variables (iOS 11.0-11.2).
         @supports (padding-bottom: constant(safe-area-inset-bottom)) {
           --safe-area-inset-bottom: constant(safe-area-inset-bottom);
-          height: calc(#{$height} + var(--safe-area-inset-bottom));
+          padding-bottom: var(--safe-area-inset-bottom);
         }
 
         // Browsers which fully support CSS Environment variables (iOS 11.2+).
         @supports (padding-bottom: env(safe-area-inset-bottom)) {
           --safe-area-inset-bottom: env(safe-area-inset-bottom);
-          height: calc(#{$height} + var(--safe-area-inset-bottom));
+          padding-bottom: var(--safe-area-inset-bottom);
         }
 
         .datepicker-header {
           border-radius: 0;
-        }
-
-        &.datepicker--no-header {
-          height: get-size(mobile, title) +
-            get-size(mobile, controls) +
-            (get-size(mobile, day-height) * 6) +
-            30px;
-        }
-
-        &.datepicker--presets-row-1 {
-          height: get-size(mobile, title) +
-            get-size(mobile, header) +
-            (get-size(mobile, presets-row) * 1) +
-            get-size(mobile, controls) +
-            (get-size(mobile, day-height) * 6) +
-            30px;
-
-            &.datepicker--no-header {
-              height: get-size(mobile, title) +
-                (get-size(mobile, presets-row) * 1) +
-                get-size(mobile, controls) +
-                (get-size(mobile, day-height) * 6) +
-                30px;
-            }
-        }
-        &.datepicker--presets-row-2 {
-          height: get-size(mobile, title) +
-            get-size(mobile, header) +
-            (get-size(mobile, presets-row) * 2) +
-            get-size(mobile, controls) +
-            (get-size(mobile, day-height) * 6) +
-            30px;
-
-            &.datepicker--no-header {
-              height: get-size(mobile, title) +
-                (get-size(mobile, presets-row) * 2) +
-                get-size(mobile, controls) +
-                (get-size(mobile, day-height) * 6) +
-                30px;
-            }
         }
       }
     }
@@ -626,7 +603,6 @@ export default {
         outline: none;
         background-color: transparent;
         user-select: none;
-        cursor: pointer;
 
         @include mq(tablet) {
           height: get-size(desktop, controls);
@@ -646,7 +622,7 @@ export default {
       position: relative;
       display: flex;
       flex-direction: column;
-      height: 100%;
+      flex: 1 1 auto;
     }
 
     /* Week
@@ -703,7 +679,7 @@ export default {
       width: 100%;
 
       .datepicker-day {
-        @include reset-button;
+        @extend %reset-button;
         position: relative;
         width: calc(100% / 7);
         height: get-size(mobile, day-height);
@@ -713,7 +689,6 @@ export default {
         text-align: center;
         color: transparentize(black, .13);
         font-weight: get-font-weight(medium);
-        cursor: pointer;
         transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);
         overflow: hidden;
 
@@ -735,7 +710,7 @@ export default {
           color: white;
 
           .datepicker-day__effect {
-            transform: translateX(-50%) scale(1);
+            transform: translateX(-50%);
             opacity: 1;
             left: 0;
             width: calc(100% + 1px); // 1 extra pixel to fix weird spaces;
@@ -758,7 +733,7 @@ export default {
           }
 
           .datepicker-day__effect {
-            transform: translateX(-50%) scale(1);
+            transform: translateX(-50%);
             opacity: 1;
           }
         }
@@ -852,7 +827,7 @@ export default {
         }
 
         .datepicker--range-selecting & {
-          transform: translateX(-50%) scale(1);
+          transform: translateX(-50%) scale(0);
           opacity: 0;
           transition: none;
         }

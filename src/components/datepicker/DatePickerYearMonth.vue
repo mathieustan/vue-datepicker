@@ -243,10 +243,9 @@ export default {
 
         button {
           position: relative;
-          @include reset-button;
+          @extend %reset-button;
           width: 100%;
           padding: $gutter 0;
-          cursor: pointer;
         }
 
         &.active {
@@ -304,7 +303,7 @@ export default {
 
       button {
         position: relative;
-        @include reset-button;
+        @extend %reset-button;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -315,7 +314,6 @@ export default {
         font-weight: get-font-weight(medium);
         border-radius: 2px;
         outline: none;
-        cursor: pointer;
         transition: background-color .3s;
 
         &:hover {

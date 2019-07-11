@@ -5,7 +5,7 @@
     @mousedown="$emit('toggleDatepicker')">
     <DatePickerCalendarIcon
       :id="id"
-      :color="date && !disabled ? color : 'rgba(93, 106, 137, 0.5)'"
+      :color="isDateDefined && !disabled ? color : 'rgba(93, 106, 137, 0.5)'"
       :disabled="disabled" />
     <input
       :id="id"
@@ -39,7 +39,7 @@ export default {
   props: {
     id: { type: String },
     name: { type: String },
-    date: { type: Object },
+    date: { type: [Object, Date, String] },
     format: { type: String },
     type: { type: String },
     range: { type: Boolean },
@@ -56,9 +56,14 @@ export default {
         'datepicker-input--range': this.range,
       };
     },
+    isDateDefined () {
+      const isDateDefined = !this.range && this.date;
+      const isDateRangeDefined = this.range && this.date && this.date.start && this.date.end;
+      return Boolean(isDateDefined) || Boolean(isDateRangeDefined);
+    },
     // Displayed Date
     dateFormatted () {
-      if (!this.date) return;
+      if (!this.isDateDefined) return;
       if (this.range) {
         return getRangeDatesFormatted(this.date, this.locale, this.format);
       }

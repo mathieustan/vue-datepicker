@@ -6,7 +6,7 @@
       v-if="!inline"
       :id="componentId"
       :name="name"
-      :date="value ? date : value"
+      :date="value"
       :type="type"
       :range="range"
       :format="inputFormat"
@@ -30,6 +30,9 @@
       :isVisible="isVisible"
       :date="date"
       :type="type"
+      :validate="validate"
+      :button-cancel="buttonCancel"
+      :button-validate="buttonValidate"
       :range="range"
       :range-header-text="rangeHeaderText"
       :range-presets="rangePresets"
@@ -39,12 +42,12 @@
       :inline="inline"
       :fullscreen-mobile="fullscreenMobile"
       :color="color"
-      :close="hideDatePicker"
       :min-date="minDate"
       :end-date="endDate"
       :attach-to="attachTo"
       :z-index="zIndex + 1"
       @selectDate="changeDate"
+      @validateDate="validateDate"
       @close="hideDatePicker"
       @hide="hideDatePicker"
     />
@@ -74,6 +77,10 @@ export default {
   props: {
     id: { type: String, default: 'datepicker' },
     name: { type: String, default: 'datepicker' },
+    // Validation Buttons
+    validate: { type: Boolean, default: false },
+    buttonValidate: { type: String, default: 'Ok' },
+    buttonCancel: { type: String, default: 'Cancel' },
     // type (date, month, quarter, year picker)
     type: { type: String, default: 'date' },
     // Range
@@ -189,8 +196,13 @@ export default {
     },
     changeDate (date) {
       this.date = date;
-      this.$emit('input', formatDateToSend(date, this.outputFormat, this.range));
+      if (this.validate) return;
+      this.validateDate(date);
+    },
+    validateDate () {
+      this.$emit('input', formatDateToSend(this.date, this.outputFormat, this.range));
       this.$emit('onChange');
+      this.hideDatePicker();
     },
   },
 };

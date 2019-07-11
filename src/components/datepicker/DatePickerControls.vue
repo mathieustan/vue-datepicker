@@ -154,7 +154,7 @@ export default {
       padding: $gutter $gutter/2;
 
       button {
-        @include reset-button;
+        @extend %reset-button;
         position: relative;
         display: flex;
         font-size: 15px;
@@ -163,7 +163,6 @@ export default {
         padding: 0;
         border: none;
         outline: none;
-        cursor: pointer;
 
         &:disabled,
         &[disabled] {

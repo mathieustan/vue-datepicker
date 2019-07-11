@@ -36,6 +36,7 @@ describe('DatePicker', () => {
       formatOutput,
       type = 'date',
       range,
+      validate,
     } = {}) =>
       shallowMount(DatePicker, {
         propsData: {
@@ -46,6 +47,7 @@ describe('DatePicker', () => {
           formatOutput,
           type,
           range,
+          validate,
         },
       });
   });
@@ -207,10 +209,18 @@ describe('DatePicker', () => {
     describe('changeDate', () => {
       it('should update date', () => {
         const wrapper = mountComponent();
-        wrapper.vm.changeDate(dayjs(new Date([2019, 5, 18])));
+        wrapper.vm.changeDate(dayjs('2019-5-18'));
         expect(wrapper.vm.date.format('YYYY-MM-DD')).toEqual('2019-05-18');
         expect(wrapper.emitted().input[0]).toEqual(['2019-05-18']);
         expect(wrapper.emitted().onChange).toBeTruthy();
+      });
+
+      it('should update date but not value if validate equal true', () => {
+        const wrapper = mountComponent({ validate: true });
+        wrapper.vm.changeDate(dayjs('2019-5-18'));
+        expect(wrapper.vm.date.format('YYYY-MM-DD')).toEqual('2019-05-18');
+        expect(wrapper.emitted().input).toBeFalsy();
+        expect(wrapper.emitted().onChange).toBeFalsy();
       });
 
       it('should update dates when range is active', () => {
@@ -223,6 +233,16 @@ describe('DatePicker', () => {
         expect(wrapper.vm.date).toEqual(dates);
 
         expect(wrapper.emitted().input[0]).toEqual([{ start: '2019-05-16', end: '2019-05-17' }]);
+        expect(wrapper.emitted().onChange).toBeTruthy();
+      });
+    });
+
+    describe('validateDate', () => {
+      it('should update date', () => {
+        const wrapper = mountComponent();
+        wrapper.setData({ date: dayjs('2019-5-18') });
+        wrapper.vm.validateDate();
+        expect(wrapper.emitted().input[0]).toEqual(['2019-05-18']);
         expect(wrapper.emitted().onChange).toBeTruthy();
       });
     });

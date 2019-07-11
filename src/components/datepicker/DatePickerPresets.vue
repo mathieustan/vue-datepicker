@@ -98,12 +98,11 @@ export default {
 
   .datepicker-preset {
     position: relative;
-    @include reset-button;
+    @extend %reset-button;
     padding: 0 $gutter;
     transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);
     font-size: 14px;
     line-height: 14px;
-    cursor: pointer;
     overflow: hidden;
     border-color: color(other, light-gray);
     border-style: solid;

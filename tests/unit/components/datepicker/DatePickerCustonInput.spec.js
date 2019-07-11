@@ -61,18 +61,33 @@ describe('DatePickerCustomInput', () => {
         expect(wrapper.vm.classes).toEqual(expectedResult);
       });
     });
+
+    describe('isDateDefined', () => {
+      it.each([
+        [undefined, false],
+        [{ date: dayjs('2019-5-16') }, true],
+        [{ range: true, date: {} }, false],
+        [{ range: true, date: { start: dayjs('2019-5-16') } }, false],
+        [{ range: true, date: { start: dayjs('2019-5-16'), end: dayjs('2019-5-17') } }, true],
+
+      ])('When props equal %p, should return %p', (props, expectedResult) => {
+        const wrapper = mountComponent(props);
+        expect(wrapper.vm.isDateDefined).toEqual(expectedResult);
+      });
+    });
+
     describe('dateFormatted', () => {
       it.each([
         [undefined, undefined],
-        [{ date: dayjs(new Date([2019, 5, 16])) }, '16 May 2019'],
-        [{ date: dayjs(new Date([2019, 4, 12])) }, '12 April 2019'],
-        [{ date: dayjs(new Date([2019, 4, 12])) }, '12 April 2019'],
+        [{ date: dayjs('2019-5-16') }, '16 May 2019'],
+        [{ date: dayjs('2019-4-12') }, '12 April 2019'],
+        [{ date: dayjs('2019-4-12') }, '12 April 2019'],
         [
-          { range: true, date: { start: dayjs(new Date([2018, 5, 16])), end: undefined }, formatHeader: 'YYYY-MM-DD' },
-          '16 May 2018 ~ DD MMMM YYYY',
+          { range: true, date: { start: dayjs('2018-5-16'), end: undefined }, formatHeader: 'YYYY-MM-DD' },
+          undefined,
         ],
         [
-          { range: true, date: { start: dayjs(new Date([2018, 5, 16])), end: dayjs(new Date([2019, 5, 16])) }, formatHeader: 'YYYY~MM-DD' },
+          { range: true, date: { start: dayjs('2018-5-16'), end: dayjs('2019-5-16') }, formatHeader: 'YYYY~MM-DD' },
           '16 May 2018 ~ 16 May 2019',
         ],
       ])('When props equal %p, should return %p', (props, expectedResult) => {

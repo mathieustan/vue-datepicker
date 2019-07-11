@@ -1,10 +1,18 @@
 export {
   computeYearsScrollPosition,
+  computeAgendaHeight,
   getDynamicPosition,
 };
 
 function computeYearsScrollPosition (container, elementToShow) {
   return elementToShow.offsetTop - (container.offsetHeight / 2) + (elementToShow.offsetHeight / 2);
+}
+
+function computeAgendaHeight (agenda, classWeeks) {
+  if (classWeeks === 'has-6-weeks') {
+    return agenda.offsetHeight;
+  }
+  return agenda.offsetHeight + 36; // height of a day's row;
 }
 
 function getDynamicPosition (element, parent) {

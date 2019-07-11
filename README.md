@@ -89,6 +89,9 @@ Using `v-model`
 | id                            | String          | 'datepicker'| Input id                                 |
 | value                         | Date\|String\|Number |        | Date value of the datepicker             |
 | name                          | String          | 'datepicker'| Input name property & datepicker title in fullscreenMobile     |
+| validate                      | Boolean         | false       | Show validations button to select date   |
+| buttonValidate                | String          | 'Ok'        | Text for validation button               |
+| buttonCancel                  | String          | 'Cancel'    | Text for cancel button                   |
 | format                        | String          | DD MMMM YYYY| Date formatting for input                |
 | formatHeader                  | String          | dddd DD MMM | Allows you to customize the format of the month string that appears in the header of the calendar.    |
 | formatOutput                  | String          | YYYY-MM-DD  | Allows you to customize the format of date when selected    |
@@ -102,9 +105,10 @@ Using `v-model`
 | endDate                       | String\|Number\|Date |        | Date are disabled AFTER this date       |
 | locale                        | Object          |{lang: 'en'} | More informations here [Translations](#translations)        |
 | inline                        | Boolean        | false        | Inline datepicker                       |
-| type                          | String         | 'date'      | Determines the type of the picker - date/month/quarter                 |
-| range                         | Boolean        | false       | Enable/disable Date range (actually only available for date )            |
+| type                          | String         | 'date'       | Determines the type of the picker - date/month/quarter                 |
+| range                         | Boolean        | false        | Enable/disable Date range (actually only available for date )            |
 | rangeHeaderText               | String         | 'From %d To %d ' | When range is enabled, set text before date in datepicker header            |
+| rangePresets                  | Array          |              | Allow to add custom range presets to range datepicker. (Max custom presets = 6) Example: [{ name: 'This year', dates: { start: ..., end: ... } }]   |
 | tabindex                      | String\|Number | '0'          | Specify input tabindex                  |
 | zIndex                        | Number         |              | Specify a z-index to datepicker & overlay |
 | attachTo                      | String         | '#app'       | It will mount datepicker popup into this element as a child |

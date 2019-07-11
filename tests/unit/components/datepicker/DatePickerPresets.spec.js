@@ -36,7 +36,6 @@ describe('DatePickerPresets', () => {
     expect(wrapper.vm.mutableDate).toEqual(undefined);
     expect(wrapper.vm.minDate).toEqual(undefined);
     expect(wrapper.vm.endDate).toEqual(undefined);
-    expect(wrapper.vm.endDate).toEqual(undefined);
     expect(wrapper.vm.color).toEqual('color');
     expect(wrapper.vm.locale).toEqual({ lang: 'en' });
   });

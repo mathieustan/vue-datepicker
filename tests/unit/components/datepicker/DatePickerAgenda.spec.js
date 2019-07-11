@@ -43,6 +43,7 @@ describe('DatePickerAgenda', () => {
       noHeader = false,
       inline = false,
       type = 'date',
+      validate,
       range,
       rangePresets,
     } = {}) =>
@@ -57,6 +58,7 @@ describe('DatePickerAgenda', () => {
           color: 'color',
           close: jest.fn(),
           type,
+          validate,
           range,
           rangePresets,
           fullscreenMobile,
@@ -78,7 +80,6 @@ describe('DatePickerAgenda', () => {
     expect(wrapper.vm.isVisible).toEqual(true);
     expect(wrapper.vm.locale).toEqual({ lang: 'en' });
     expect(wrapper.vm.color).toEqual('color');
-    expect(wrapper.vm.close).toEqual(expect.any(Function));
 
     expect(wrapper.vm.currentDate).toEqual({
       start: dummyDate.startOf('month'),
@@ -94,6 +95,7 @@ describe('DatePickerAgenda', () => {
       it('should return styles from data', () => {
         const wrapper = mountComponent();
         expect(wrapper.vm.styles).toEqual({
+          height: 'auto',
           top: '0px',
           left: '0px',
           transformOrigin: 'top center',
@@ -105,11 +107,12 @@ describe('DatePickerAgenda', () => {
     describe('classes', () => {
       it.each([
         [
-          { fullscreenMobile: true, inline: false, noHeader: true },
+          { fullscreenMobile: true, inline: false, noHeader: true, validate: true },
           {
             'datepicker--fullscreen-mobile': true,
             'datepicker--inline': false,
             'datepicker--no-header': true,
+            'datepicker--validate': true,
             'datepicker--range': false,
             'datepicker--range-selecting': false,
           },
@@ -126,6 +129,7 @@ describe('DatePickerAgenda', () => {
             'datepicker--fullscreen-mobile': false,
             'datepicker--inline': true,
             'datepicker--no-header': false,
+            'datepicker--validate': false,
             'datepicker--range': true,
             'datepicker--range-selecting': false,
           },
@@ -608,7 +612,6 @@ describe('DatePickerAgenda', () => {
         expect(wrapper.vm.updateTransitions).toHaveBeenCalledWith('next');
         expect(wrapper.vm.mutableDate).toEqual(newDate);
         expect(wrapper.emitted().selectDate).toBeTruthy();
-        expect(wrapper.vm.close).toHaveBeenCalled();
       });
 
       it('Should send an event with selected date & update transaction with prev', () => {
@@ -620,7 +623,6 @@ describe('DatePickerAgenda', () => {
         expect(wrapper.vm.updateTransitions).toHaveBeenCalledWith('prev');
         expect(wrapper.vm.mutableDate).toEqual(newDate);
         expect(wrapper.emitted().selectDate[0]).toEqual([newDate]);
-        expect(wrapper.vm.close).toHaveBeenCalled();
       });
     });
 
@@ -632,7 +634,6 @@ describe('DatePickerAgenda', () => {
 
         expect(wrapper.vm.mutableDate).toEqual(range);
         expect(wrapper.emitted().selectDate[0]).toEqual([range]);
-        expect(wrapper.vm.close).toHaveBeenCalled();
       });
     });
 
