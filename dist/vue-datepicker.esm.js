@@ -305,6 +305,14 @@ var advancedFormat = createCommonjsModule(function (module, exports) {
 !function(e,t){module.exports=t();}(commonjsGlobal,function(){return function(e,t,r){var n=t.prototype,o=n.format;r.en.ordinal=function(e){var t=["th","st","nd","rd"],r=e%100;return "["+e+(t[(r-20)%10]||t[r]||t[0])+"]"},n.format=function(e){var t=this,r=this.$locale(),n=this.$utils(),i=(e||"YYYY-MM-DDTHH:mm:ssZ").replace(/\[([^\]]+)]|Q|wo|gggg|Do|X|x|k{1,2}|S/g,function(e){switch(e){case"Q":return Math.ceil((t.$M+1)/3);case"Do":return r.ordinal(t.$D);case"gggg":return t.weekYear();case"wo":return r.ordinal(t.week(),"W");case"k":case"kk":return n.s(String(0===t.$H?24:t.$H),"k"===e?1:2,"0");case"X":return Math.floor(t.$d.getTime()/1e3);case"x":return t.$d.getTime();default:return e}});return o.bind(this)(i)};}});
 });
 
+var isSameOrAfter = createCommonjsModule(function (module, exports) {
+!function(e,t){module.exports=t();}(commonjsGlobal,function(){return function(e,t){t.prototype.isSameOrAfter=function(e,t){return this.isSame(e,t)||this.isAfter(e,t)};}});
+});
+
+var isSameOrBefore = createCommonjsModule(function (module, exports) {
+!function(e,t){module.exports=t();}(commonjsGlobal,function(){return function(e,t){t.prototype.isSameOrBefore=function(e,t){return this.isSame(e,t)||this.isBefore(e,t)};}});
+});
+
 var localeObject = {
   name: 'en',
   weekdays: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
@@ -423,6 +431,8 @@ dayjs.extend(weekday);
 dayjs.extend(weekOfYear);
 dayjs.extend(quarterOfYear);
 dayjs.extend(advancedFormat);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 var PickerDate =
 /*#__PURE__*/
@@ -622,6 +632,13 @@ function isBetweenDates(date, startDate, endDate) {
 }
 function isDateAfter(newDate, oldDate) {
   return dayjs(newDate).isAfter(dayjs(oldDate));
+}
+function generateDateRangeWithoutDisabled(_ref8, minDate, endDate) {
+  var start = _ref8.start,
+      end = _ref8.end;
+  return generateDateRange(start, end).filter(function (date) {
+    return date.isSameOrAfter(minDate, 'day') && date.isSameOrBefore(dayjs(endDate, 'day'));
+  });
 } // -----------------------------------------
 // Generate Dates
 // - generateDateRange : Return an array of dates
@@ -3290,6 +3307,247 @@ __vue_render__$5._withStripped = true;
     __vue_create_injector__$5);
 
 var script$6 = {
+  name: 'DatePickerPresets',
+  mixins: [colorable],
+  props: {
+    rangePresets: {
+      type: Array
+    },
+    mutableDate: {
+      type: Object
+    },
+    minDate: {
+      type: [String, Number, Date]
+    },
+    endDate: {
+      type: [String, Number, Date]
+    },
+    color: {
+      type: String
+    },
+    locale: {
+      type: Object
+    }
+  },
+  computed: {
+    presetsFormatted: function presetsFormatted() {
+      var _this = this;
+
+      if (!this.rangePresets) return;
+      return this.rangePresets.map(function (preset) {
+        return objectSpread({}, preset, {
+          availableDates: generateDateRangeWithoutDisabled(preset.dates, _this.minDate, _this.endDate)
+        });
+      }).splice(0, 6); // Max 6 presets
+    }
+  },
+  methods: {
+    isPresetSelected: function isPresetSelected() {
+      var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          _ref$availableDates = _ref.availableDates,
+          availableDates = _ref$availableDates === void 0 ? [] : _ref$availableDates;
+
+      if (availableDates.length === 0 || !this.mutableDate) return false;
+      return areSameDates(availableDates[0], this.mutableDate.start) && areSameDates(availableDates[availableDates.length - 1], this.mutableDate.end);
+    },
+    isPresetValid: function isPresetValid() {
+      var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          _ref2$availableDates = _ref2.availableDates,
+          availableDates = _ref2$availableDates === void 0 ? [] : _ref2$availableDates;
+
+      if (!this.mutableDate) return false;
+      return availableDates.length > 0;
+    },
+    setPresetDates: function setPresetDates(_ref3) {
+      var availableDates = _ref3.availableDates;
+      this.$emit('updateRange', {
+        start: availableDates[0],
+        end: availableDates[availableDates.length - 1]
+      });
+    }
+  }
+};
+
+/* script */
+            const __vue_script__$6 = script$6;
+            
+/* template */
+var __vue_render__$6 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _vm.rangePresets
+    ? _c("div", { staticClass: "datepicker-presets" }, [
+        _c(
+          "div",
+          { staticClass: "datepicker-presets__wrapper" },
+          _vm._l(_vm.presetsFormatted, function(preset, index) {
+            return _c(
+              "button",
+              {
+                key: index,
+                staticClass: "datepicker-preset",
+                class: {
+                  "datepicker-preset--selected": _vm.isPresetSelected(preset),
+                  "datepicker-preset--disabled": !_vm.isPresetValid(preset)
+                },
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.setPresetDates(preset)
+                  }
+                }
+              },
+              [
+                _c("div", {
+                  staticClass: "datepicker-preset__effect",
+                  style: _vm.setBackgroundColor(_vm.color)
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "datepicker-preset__name" }, [
+                  _vm._v(_vm._s(preset.name))
+                ])
+              ]
+            )
+          }),
+          0
+        )
+      ])
+    : _vm._e()
+};
+var __vue_staticRenderFns__$6 = [];
+__vue_render__$6._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__$6 = function (inject) {
+    if (!inject) return
+    inject("data-v-1e2291ba_0", { source: "/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-presets[data-v-1e2291ba] {\n  position: relative;\n  display: flex;\n  padding: 16px 16px 8px;\n}\n.datepicker-presets__wrapper[data-v-1e2291ba] {\n    position: relative;\n    display: grid;\n    grid-template-columns: repeat(3, 1fr);\n    grid-auto-rows: 32px;\n    width: 100%;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-presets__wrapper[data-v-1e2291ba] {\n        grid-auto-rows: 32px;\n}\n}\n.datepicker-preset[data-v-1e2291ba] {\n  position: relative;\n  border: none;\n  margin: 0;\n  padding: 0;\n  width: auto;\n  overflow: visible;\n  background: transparent;\n  /* inherit font & color from ancestor */\n  color: inherit;\n  font: inherit;\n  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n  line-height: normal;\n  /* Corrects font smoothing for webkit */\n  -webkit-font-smoothing: inherit;\n  -moz-osx-font-smoothing: inherit;\n  /* Corrects inability to style clickable `input` types in iOS */\n  -webkit-appearance: none;\n  padding: 0 8px;\n  transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);\n  font-size: 14px;\n  line-height: 14px;\n  cursor: pointer;\n  overflow: hidden;\n  border-color: #eef1f8;\n  border-style: solid;\n  border-width: 0;\n}\n.datepicker-preset[data-v-1e2291ba]:focus, .datepicker-preset[data-v-1e2291ba]:active {\n    outline: 0;\n    box-shadow: 0;\n}\n.datepicker-preset[data-v-1e2291ba]:nth-child(1) {\n    border-width: 1px;\n}\n.datepicker-preset[data-v-1e2291ba]:nth-child(2), .datepicker-preset[data-v-1e2291ba]:nth-child(3) {\n    border-width: 1px 1px 1px 0;\n}\n.datepicker-preset[data-v-1e2291ba]:nth-child(4) {\n    border-width: 0 1px 1px 1px;\n}\n.datepicker-preset[data-v-1e2291ba]:nth-child(5) {\n    border-width: 0 1px 1px 0;\n}\n.datepicker-preset__effect[data-v-1e2291ba] {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    opacity: 0;\n    transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);\n    z-index: -1;\n}\n.datepicker-preset[data-v-1e2291ba]:hover:not(.datepicker-preset--disabled) {\n    color: white;\n}\n.datepicker-preset:hover:not(.datepicker-preset--disabled) .datepicker-preset__effect[data-v-1e2291ba] {\n      opacity: 1;\n}\n.datepicker-preset--selected[data-v-1e2291ba] {\n    color: white;\n}\n.datepicker-preset--selected .datepicker-preset__effect[data-v-1e2291ba] {\n      opacity: 1;\n}\n.datepicker-preset--disabled[data-v-1e2291ba] {\n    color: rgba(93, 106, 137, 0.2);\n    cursor: not-allowed;\n    pointer-events: none;\n}\n\n/*# sourceMappingURL=DatePickerPresets.vue.map */", map: {"version":3,"sources":["DatePickerPresets.vue","/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerPresets.vue"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;CAgBC;ACgED;EACA,kBAAA;EACA,aAAA;EACA,sBAAA;AAAA;AAEA;IACA,kBAAA;IACA,aAAA;IACA,qCAAA;IACA,oBAAA;IACA,WAAA;AAAA;AD/DI;AC0DJ;QAQA,oBAAA;AAAA;AAEA;AAGA;EACA,kBAAA;EANA,YAAA;EACA,SAAA;EACA,UAAA;EACA,WAAA;ED3DE,iBAAiB;EC8DnB,uBAAA;EAEA,uCAAA;EACA,cAAA;EACA,aAAA;EAEA,4EAAA;EACA,mBAAA;EAEA,uCAAA;EACA,+BAAA;ED/DE,gCAAgC;ECkElC,+DAAA;EACA,wBAAA;EAZA,cAAA;EACA,wDAAA;EACA,eAAA;EACA,iBAAA;EACA,eAAA;EACA,gBAAA;EACA,qBAAA;EACA,mBAAA;EACA,eAAA;AAAA;AAXA;IAmBA,UAAA;IACA,aAAA;AAAA;AApBA;IAcA,iBAAA;AAAA;AAdA;IAkBA,2BAAA;AAAA;AAlBA;IAqBA,2BAAA;AAAA;AArBA;IAwBA,yBAAA;AAAA;AAGA;IACA,kBAAA;IACA,MAAA;IACA,OAAA;IACA,QAAA;IACA,SAAA;IACA,UAAA;IACA,wDAAA;IACA,WAAA;AAAA;AAnCA;IAuCA,YAAA;AAAA;AAvCA;MA0CA,UAAA;AAAA;AAIA;IACA,YAAA;AAAA;AADA;MAIA,UAAA;AAAA;AAIA;IACA,8BAAA;IACA,mBAAA;IACA,oBAAA;AAAA;;ADhEA,gDAAgD","file":"DatePickerPresets.vue","sourcesContent":["/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-presets {\n  position: relative;\n  display: flex;\n  padding: 16px 16px 8px; }\n  .datepicker-presets__wrapper {\n    position: relative;\n    display: grid;\n    grid-template-columns: repeat(3, 1fr);\n    grid-auto-rows: 32px;\n    width: 100%; }\n    @media only screen and (min-width: 768px) {\n      .datepicker-presets__wrapper {\n        grid-auto-rows: 32px; } }\n\n.datepicker-preset {\n  position: relative;\n  border: none;\n  margin: 0;\n  padding: 0;\n  width: auto;\n  overflow: visible;\n  background: transparent;\n  /* inherit font & color from ancestor */\n  color: inherit;\n  font: inherit;\n  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n  line-height: normal;\n  /* Corrects font smoothing for webkit */\n  -webkit-font-smoothing: inherit;\n  -moz-osx-font-smoothing: inherit;\n  /* Corrects inability to style clickable `input` types in iOS */\n  -webkit-appearance: none;\n  padding: 0 8px;\n  transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);\n  font-size: 14px;\n  line-height: 14px;\n  cursor: pointer;\n  overflow: hidden;\n  border-color: #eef1f8;\n  border-style: solid;\n  border-width: 0; }\n  .datepicker-preset:focus, .datepicker-preset:active {\n    outline: 0;\n    box-shadow: 0; }\n  .datepicker-preset:nth-child(1) {\n    border-width: 1px; }\n  .datepicker-preset:nth-child(2), .datepicker-preset:nth-child(3) {\n    border-width: 1px 1px 1px 0; }\n  .datepicker-preset:nth-child(4) {\n    border-width: 0 1px 1px 1px; }\n  .datepicker-preset:nth-child(5) {\n    border-width: 0 1px 1px 0; }\n  .datepicker-preset__effect {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    opacity: 0;\n    transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);\n    z-index: -1; }\n  .datepicker-preset:hover:not(.datepicker-preset--disabled) {\n    color: white; }\n    .datepicker-preset:hover:not(.datepicker-preset--disabled) .datepicker-preset__effect {\n      opacity: 1; }\n  .datepicker-preset--selected {\n    color: white; }\n    .datepicker-preset--selected .datepicker-preset__effect {\n      opacity: 1; }\n  .datepicker-preset--disabled {\n    color: rgba(93, 106, 137, 0.2);\n    cursor: not-allowed;\n    pointer-events: none; }\n\n/*# sourceMappingURL=DatePickerPresets.vue.map */",null]}, media: undefined });
+
+  };
+  /* scoped */
+  const __vue_scope_id__$6 = "data-v-1e2291ba";
+  /* module identifier */
+  const __vue_module_identifier__$6 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$6 = false;
+  /* component normalizer */
+  function __vue_normalize__$6(
+    template, style, script,
+    scope, functional, moduleIdentifier,
+    createInjector, createInjectorSSR
+  ) {
+    const component = (typeof script === 'function' ? script.options : script) || {};
+
+    // For security concerns, we use only base name in production mode.
+    component.__file = "/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerPresets.vue";
+
+    if (!component.render) {
+      component.render = template.render;
+      component.staticRenderFns = template.staticRenderFns;
+      component._compiled = true;
+
+      if (functional) component.functional = true;
+    }
+
+    component._scopeId = scope;
+
+    {
+      let hook;
+      if (style) {
+        hook = function(context) {
+          style.call(this, createInjector(context));
+        };
+      }
+
+      if (hook !== undefined) {
+        if (component.functional) {
+          // register for functional component in vue file
+          const originalRender = component.render;
+          component.render = function renderWithStyleInjection(h, context) {
+            hook.call(context);
+            return originalRender(h, context)
+          };
+        } else {
+          // inject component registration as beforeCreate hook
+          const existing = component.beforeCreate;
+          component.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+        }
+      }
+    }
+
+    return component
+  }
+  /* style inject */
+  function __vue_create_injector__$6() {
+    const head = document.head || document.getElementsByTagName('head')[0];
+    const styles = __vue_create_injector__$6.styles || (__vue_create_injector__$6.styles = {});
+    const isOldIE =
+      typeof navigator !== 'undefined' &&
+      /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
+
+    return function addStyle(id, css) {
+      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) return // SSR styles are present.
+
+      const group = isOldIE ? css.media || 'default' : id;
+      const style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+
+      if (!style.ids.includes(id)) {
+        let code = css.source;
+        let index = style.ids.length;
+
+        style.ids.push(id);
+
+        if (isOldIE) {
+          style.element = style.element || document.querySelector('style[data-group=' + group + ']');
+        }
+
+        if (!style.element) {
+          const el = style.element = document.createElement('style');
+          el.type = 'text/css';
+
+          if (css.media) el.setAttribute('media', css.media);
+          if (isOldIE) {
+            el.setAttribute('data-group', group);
+            el.setAttribute('data-next-index', '0');
+          }
+
+          head.appendChild(el);
+        }
+
+        if (isOldIE) {
+          index = parseInt(style.element.getAttribute('data-next-index'));
+          style.element.setAttribute('data-next-index', index + 1);
+        }
+
+        if (style.element.styleSheet) {
+          style.parts.push(code);
+          style.element.styleSheet.cssText = style.parts
+            .filter(Boolean)
+            .join('\n');
+        } else {
+          const textNode = document.createTextNode(code);
+          const nodes = style.element.childNodes;
+          if (nodes[index]) style.element.removeChild(nodes[index]);
+          if (nodes.length) style.element.insertBefore(textNode, nodes[index]);
+          else style.element.appendChild(textNode);
+        }
+      }
+    }
+  }
+  /* style inject SSR */
+  
+
+  
+  var DatePickerPresets = __vue_normalize__$6(
+    { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
+    __vue_inject_styles__$6,
+    __vue_script__$6,
+    __vue_scope_id__$6,
+    __vue_is_functional_template__$6,
+    __vue_module_identifier__$6,
+    __vue_create_injector__$6);
+
+var script$7 = {
   name: 'DatepickerAgenda',
   mixins: [detachable, colorable, dynamicPosition],
   directives: {
@@ -3298,7 +3556,8 @@ var script$6 = {
   components: {
     DatePickerHeader: DatePickerHeader,
     DatePickerControls: DatePickerControls,
-    DatePickerYearMonth: DatePickerYearMonth
+    DatePickerYearMonth: DatePickerYearMonth,
+    DatePickerPresets: DatePickerPresets
   },
   props: {
     name: {
@@ -3318,6 +3577,10 @@ var script$6 = {
     range: {
       type: Boolean,
       default: false
+    },
+    rangePresets: {
+      type: Array,
+      default: undefined
     },
     rangeHeaderText: {
       type: String,
@@ -3380,13 +3643,13 @@ var script$6 = {
       };
     },
     classes: function classes() {
-      return {
+      return objectSpread({
         'datepicker--inline': this.inline,
         'datepicker--fullscreen-mobile': this.fullscreenMobile,
         'datepicker--no-header': this.noHeader,
         'datepicker--range': this.range,
         'datepicker--range-selecting': this.range && !this.isRangeSelected
-      };
+      }, this.classPresets && defineProperty({}, this.classPresets, true));
     },
     weekDays: function weekDays() {
       return getWeekDays(this.locale);
@@ -3403,6 +3666,10 @@ var script$6 = {
       }
 
       return "has-5-weeks";
+    },
+    classPresets: function classPresets() {
+      if (!this.rangePresets) return;
+      return "datepicker--presets-row-".concat(Math.ceil(this.rangePresets.length / 3));
     },
     shouldShowAgenda: function shouldShowAgenda() {
       return this.isVisible || this.inline;
@@ -3594,21 +3861,22 @@ var script$6 = {
         } // else, should update missing range (start or end)
 
 
-        this.mutableDate = objectSpread({}, this.mutableDate, this.mutableDate.start && {
+        this.emitSelectedDate(objectSpread({}, this.mutableDate, this.mutableDate.start && {
           end: day.clone()
         }, this.mutableDate.end && {
           start: day.clone()
-        });
-        this.$emit('selectDate', this.mutableDate);
-        this.rangeCurrentHoveredDay = undefined;
-        this.close();
+        }));
         return;
       }
 
       var direction = isDateAfter(day, this.mutableDate) ? 'next' : 'prev';
       this.updateTransitions(direction);
-      this.mutableDate = day.clone();
+      this.emitSelectedDate(day.clone());
+    },
+    emitSelectedDate: function emitSelectedDate(date) {
+      this.mutableDate = date;
       this.$emit('selectDate', this.mutableDate);
+      this.rangeCurrentHoveredDay = undefined;
       this.close();
     },
     updateDate: function updateDate(date) {
@@ -3715,10 +3983,10 @@ var script$6 = {
 };
 
 /* script */
-            const __vue_script__$6 = script$6;
+            const __vue_script__$7 = script$7;
             
 /* template */
-var __vue_render__$6 = function() {
+var __vue_render__$7 = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
@@ -3815,6 +4083,20 @@ var __vue_render__$6 = function() {
                       range: _vm.range,
                       "range-header-text": _vm.rangeHeaderText
                     }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.range
+                ? _c("DatePickerPresets", {
+                    attrs: {
+                      "range-presets": _vm.rangePresets,
+                      "mutable-date": _vm.mutableDate,
+                      "min-date": _vm.minDate,
+                      "end-date": _vm.endDate,
+                      color: _vm.color,
+                      locale: _vm.locale
+                    },
+                    on: { updateRange: _vm.emitSelectedDate }
                   })
                 : _vm._e(),
               _vm._v(" "),
@@ -3961,23 +4243,23 @@ var __vue_render__$6 = function() {
     ]
   )
 };
-var __vue_staticRenderFns__$6 = [];
-__vue_render__$6._withStripped = true;
+var __vue_staticRenderFns__$7 = [];
+__vue_render__$7._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__$6 = function (inject) {
+  const __vue_inject_styles__$7 = function (inject) {
     if (!inject) return
-    inject("data-v-868fe3aa_0", { source: "/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.slide-h-next-leave-active[data-v-868fe3aa],\n.slide-h-next-enter-active[data-v-868fe3aa],\n.slide-h-prev-leave-active[data-v-868fe3aa],\n.slide-h-prev-enter-active[data-v-868fe3aa] {\n  position: absolute;\n  transition: transform .3s, opacity .3s;\n}\n.slide-h-next-enter[data-v-868fe3aa], .slide-h-prev-leave-to[data-v-868fe3aa] {\n  transform: translateX(100%);\n  opacity: 0;\n}\n.slide-h-next-leave-to[data-v-868fe3aa], .slide-h-prev-enter[data-v-868fe3aa] {\n  transform: translateX(-100%);\n  opacity: 0;\n}\n.slide-v-next-leave-active[data-v-868fe3aa],\n.slide-v-next-enter-active[data-v-868fe3aa],\n.slide-v-prev-leave-active[data-v-868fe3aa],\n.slide-v-prev-enter-active[data-v-868fe3aa] {\n  position: absolute;\n  transition: transform .3s, opacity .3s;\n}\n.slide-v-next-enter[data-v-868fe3aa], .slide-v-prev-leave-to[data-v-868fe3aa] {\n  transform: translateY(100%);\n  opacity: 0;\n}\n.slide-v-next-leave-to[data-v-868fe3aa], .slide-v-prev-enter[data-v-868fe3aa] {\n  transform: translateY(-100%);\n  opacity: 0;\n}\n.yearMonth-leave-active[data-v-868fe3aa], .yearMonth-enter-active[data-v-868fe3aa] {\n  position: absolute;\n  transition: opacity .3s;\n}\n.yearMonth-enter[data-v-868fe3aa], .yearMonth-leave-to[data-v-868fe3aa] {\n  opacity: 0;\n}\n.datepicker[data-v-868fe3aa] {\n  position: absolute;\n  display: flex;\n  flex-direction: column;\n  width: 290px;\n  left: 0;\n  top: 100%;\n  will-change: transform;\n  background-color: white;\n  border-radius: 6px;\n  box-shadow: 0 2px 8px rgba(50, 50, 93, 0.2);\n  /* Title\n  ---------------------- */\n  /* Contsnt\n  ---------------------- */\n  /* Week\n  ---------------------- */\n  /* Days\n  ---------------------- */\n}\n.datepicker[data-v-868fe3aa]:focus, .datepicker[data-v-868fe3aa]:active {\n    outline: 0;\n}\n@media only screen and (min-width: 768px) {\n.datepicker[data-v-868fe3aa] {\n      width: 315px;\n}\n}\n.datepicker--inline[data-v-868fe3aa] {\n    position: relative;\n    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n}\n@media only screen and (max-width: 479px) {\n.datepicker--fullscreen-mobile[data-v-868fe3aa] {\n      position: fixed;\n      top: auto !important;\n      bottom: 0 !important;\n      left: 0 !important;\n      right: 0 !important;\n      height: 422px;\n      width: 100%;\n      border-radius: 12px 12px 0 0;\n}\n@supports (padding-bottom: constant(safe-area-inset-bottom)) {\n.datepicker--fullscreen-mobile[data-v-868fe3aa] {\n          --safe-area-inset-bottom: constant(safe-area-inset-bottom);\n          height: calc(422px + var(--safe-area-inset-bottom));\n}\n}\n@supports (padding-bottom: env(safe-area-inset-bottom)) {\n.datepicker--fullscreen-mobile[data-v-868fe3aa] {\n          --safe-area-inset-bottom: env(safe-area-inset-bottom);\n          height: calc(422px + var(--safe-area-inset-bottom));\n}\n}\n.datepicker--fullscreen-mobile .datepicker-header[data-v-868fe3aa] {\n        border-radius: 0;\n}\n.datepicker--fullscreen-mobile.datepicker--no-header[data-v-868fe3aa] {\n        height: 342px;\n}\n}\n.datepicker-title[data-v-868fe3aa] {\n    position: relative;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    min-height: 48px;\n    padding: 0 0 0 16px;\n    border-radius: 12px 12px 0 0;\n}\n@media only screen and (min-width: 480px) {\n.datepicker-title[data-v-868fe3aa] {\n        display: none;\n}\n}\n.datepicker-title p[data-v-868fe3aa] {\n      margin: 0;\n}\n.datepicker-title button[data-v-868fe3aa] {\n      position: relative;\n      flex: 0 0 40px;\n      height: 48px;\n      width: 48px;\n      padding: 0 16px 0 8px;\n      border: none;\n      outline: none;\n      background-color: transparent;\n      user-select: none;\n      cursor: pointer;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-title button[data-v-868fe3aa] {\n          height: 56px;\n          width: 56px;\n}\n}\n.datepicker-title button svg[data-v-868fe3aa] {\n        width: 24px;\n        height: 24px;\n}\n.datepicker-content[data-v-868fe3aa] {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    height: 100%;\n}\n.datepicker-week[data-v-868fe3aa] {\n    font-size: 12px;\n    line-height: 12px;\n    font-weight: 500;\n    padding: 8px 12px;\n    color: rgba(0, 0, 0, 0.38);\n}\n@media only screen and (min-width: 768px) {\n.datepicker-week[data-v-868fe3aa] {\n        padding: 8px 14px;\n}\n}\n.datepicker-week .datepicker-weekday[data-v-868fe3aa] {\n      float: left;\n      width: calc(100% / 7);\n      text-align: center;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-week .datepicker-weekday[data-v-868fe3aa] {\n          width: 41px;\n}\n}\n.datepicker-days__wrapper[data-v-868fe3aa] {\n    position: relative;\n    height: 180px;\n    margin: 0 12px 12px;\n    overflow: hidden;\n    transition: height 0.3s cubic-bezier(0.23, 1, 0.32, 1);\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days__wrapper[data-v-868fe3aa] {\n        margin: 0 14px 14px;\n        height: 205px;\n}\n}\n.datepicker-days__wrapper.has-6-weeks[data-v-868fe3aa] {\n      height: 216px;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days__wrapper.has-6-weeks[data-v-868fe3aa] {\n          height: 246px;\n}\n}\n.datepicker-days[data-v-868fe3aa] {\n    display: flex;\n    flex-wrap: wrap;\n    overflow: hidden;\n    width: 100%;\n}\n.datepicker-days .datepicker-day[data-v-868fe3aa] {\n      border: none;\n      margin: 0;\n      padding: 0;\n      width: auto;\n      overflow: visible;\n      background: transparent;\n      /* inherit font & color from ancestor */\n      color: inherit;\n      font: inherit;\n      /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n      line-height: normal;\n      /* Corrects font smoothing for webkit */\n      -webkit-font-smoothing: inherit;\n      -moz-osx-font-smoothing: inherit;\n      /* Corrects inability to style clickable `input` types in iOS */\n      -webkit-appearance: none;\n      position: relative;\n      width: calc(100% / 7);\n      height: 36px;\n      line-height: 1;\n      font-size: 12px;\n      float: left;\n      text-align: center;\n      color: rgba(0, 0, 0, 0.87);\n      font-weight: 500;\n      cursor: pointer;\n      transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);\n      overflow: hidden;\n}\n.datepicker-days .datepicker-day[data-v-868fe3aa]:focus, .datepicker-days .datepicker-day[data-v-868fe3aa]:active {\n        outline: 0;\n        box-shadow: 0;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days .datepicker-day[data-v-868fe3aa] {\n          width: calc(100% / 7);\n          height: 41px;\n}\n}\n.datepicker-days .datepicker-day[data-v-868fe3aa]:hover:not(.disabled) {\n        color: white;\n}\n.datepicker-days .datepicker-day:hover:not(.disabled) .datepicker-day__effect[data-v-868fe3aa] {\n          transform: translateX(-50%) scale(1);\n          opacity: .5;\n}\n.datepicker-days .datepicker-day.in-range[data-v-868fe3aa]:not(.disabled), .datepicker-days .datepicker-day.between[data-v-868fe3aa]:not(.disabled) {\n        color: white;\n}\n.datepicker-days .datepicker-day.in-range:not(.disabled) .datepicker-day__effect[data-v-868fe3aa], .datepicker-days .datepicker-day.between:not(.disabled) .datepicker-day__effect[data-v-868fe3aa] {\n          transform: translateX(-50%) scale(1);\n          opacity: 1;\n          left: 0;\n          width: calc(100% + 1px);\n          border-radius: 0;\n          opacity: .5;\n}\n.datepicker-days .datepicker-day.in-range:not(.disabled) .datepicker-day__effect[data-v-868fe3aa]:before, .datepicker-days .datepicker-day.between:not(.disabled) .datepicker-day__effect[data-v-868fe3aa]:before {\n            opacity: 1;\n            left: 50%;\n}\n.datepicker-days .datepicker-day.selected[data-v-868fe3aa] {\n        color: white;\n}\n.datepicker-days .datepicker-day.selected:hover:not(.disabled) .datepicker-day__effect[data-v-868fe3aa] {\n          opacity: 1;\n}\n.datepicker-days .datepicker-day.selected .datepicker-day__effect[data-v-868fe3aa] {\n          transform: translateX(-50%) scale(1);\n          opacity: 1;\n}\n.datepicker-days .datepicker-day.first .datepicker-day__effect[data-v-868fe3aa], .datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect[data-v-868fe3aa] {\n        opacity: 1;\n}\n.datepicker-days .datepicker-day.first .datepicker-day__effect[data-v-868fe3aa]:before, .datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect[data-v-868fe3aa]:before {\n          opacity: .5;\n          left: 50%;\n}\n.datepicker-days .datepicker-day.last .datepicker-day__effect[data-v-868fe3aa], .datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect[data-v-868fe3aa] {\n        opacity: 1;\n}\n.datepicker-days .datepicker-day.last .datepicker-day__effect[data-v-868fe3aa]:before, .datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect[data-v-868fe3aa]:before {\n          opacity: .5;\n          left: -50%;\n}\n.datepicker-days .datepicker-day.first.last .datepicker-day__effect[data-v-868fe3aa]:before {\n        opacity: 0;\n}\n.datepicker-days .datepicker-day.disabled[data-v-868fe3aa] {\n        cursor: default;\n        color: rgba(0, 0, 0, 0.26);\n}\n.datepicker-days .datepicker-day.disabled:hover .datepicker-day__effect[data-v-868fe3aa],\n        .datepicker-days .datepicker-day.disabled:hover .datepicker-day__effect[data-v-868fe3aa]:before {\n          opacity: 0 !important;\n}\n.datepicker-days .datepicker-day--current[data-v-868fe3aa] {\n      position: absolute;\n      top: 1px;\n      left: 50%;\n      transform: translateX(-50%);\n      width: 34px;\n      height: 34px;\n      border-radius: 50%;\n      border: 1px solid currentColor;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days .datepicker-day--current[data-v-868fe3aa] {\n          top: 4px;\n          width: 36px;\n          height: 36px;\n}\n}\n.datepicker-days .datepicker-day__effect[data-v-868fe3aa] {\n      position: absolute;\n      top: 1px;\n      left: 50%;\n      width: 34px;\n      height: 34px;\n      border-radius: 50%;\n      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);\n      transition-property: transform, opacity;\n      transform: translateX(-50%) scale(0);\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days .datepicker-day__effect[data-v-868fe3aa] {\n          top: 4px;\n          width: 36px;\n          height: 36px;\n}\n}\n.datepicker--range .datepicker-days .datepicker-day__effect[data-v-868fe3aa]:before {\n        content: \"\";\n        position: absolute;\n        top: 0;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        background-color: inherit;\n        opacity: 0;\n}\n.datepicker--range-selecting .datepicker-days .datepicker-day__effect[data-v-868fe3aa] {\n        transform: translateX(-50%) scale(1);\n        opacity: 0;\n        transition: none;\n}\n.datepicker-days .datepicker-day__text[data-v-868fe3aa] {\n      position: relative;\n      vertical-align: sub;\n}\n.datepicker-transition-enter-active[data-v-868fe3aa], .datepicker-transition-leave-active[data-v-868fe3aa] {\n  opacity: 1;\n  transition: all 300ms;\n  transition-property: transform, opacity;\n  transform: scale(1);\n}\n@media only screen and (max-width: 479px) {\n.datepicker-transition-enter-active.datepicker--fullscreen-mobile[data-v-868fe3aa], .datepicker-transition-leave-active.datepicker--fullscreen-mobile[data-v-868fe3aa] {\n      transform: translateY(0);\n}\n}\n.datepicker-transition-leave-to[data-v-868fe3aa], .datepicker-transition-enter[data-v-868fe3aa] {\n  opacity: 0;\n  transform: scale(0);\n}\n@media only screen and (max-width: 479px) {\n.datepicker-transition-leave-to.datepicker--fullscreen-mobile[data-v-868fe3aa], .datepicker-transition-enter.datepicker--fullscreen-mobile[data-v-868fe3aa] {\n      transform: translateY(100%);\n}\n}\n\n/*# sourceMappingURL=DatePickerAgenda.vue.map */", map: {"version":3,"sources":["DatePickerAgenda.vue","/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerAgenda.vue"],"names":[],"mappings":"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","file":"DatePickerAgenda.vue","sourcesContent":["/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.slide-h-next-leave-active,\n.slide-h-next-enter-active,\n.slide-h-prev-leave-active,\n.slide-h-prev-enter-active {\n  position: absolute;\n  transition: transform .3s, opacity .3s; }\n\n.slide-h-next-enter, .slide-h-prev-leave-to {\n  transform: translateX(100%);\n  opacity: 0; }\n\n.slide-h-next-leave-to, .slide-h-prev-enter {\n  transform: translateX(-100%);\n  opacity: 0; }\n\n.slide-v-next-leave-active,\n.slide-v-next-enter-active,\n.slide-v-prev-leave-active,\n.slide-v-prev-enter-active {\n  position: absolute;\n  transition: transform .3s, opacity .3s; }\n\n.slide-v-next-enter, .slide-v-prev-leave-to {\n  transform: translateY(100%);\n  opacity: 0; }\n\n.slide-v-next-leave-to, .slide-v-prev-enter {\n  transform: translateY(-100%);\n  opacity: 0; }\n\n.yearMonth-leave-active, .yearMonth-enter-active {\n  position: absolute;\n  transition: opacity .3s; }\n\n.yearMonth-enter, .yearMonth-leave-to {\n  opacity: 0; }\n\n.datepicker {\n  position: absolute;\n  display: flex;\n  flex-direction: column;\n  width: 290px;\n  left: 0;\n  top: 100%;\n  will-change: transform;\n  background-color: white;\n  border-radius: 6px;\n  box-shadow: 0 2px 8px rgba(50, 50, 93, 0.2);\n  /* Title\n  ---------------------- */\n  /* Contsnt\n  ---------------------- */\n  /* Week\n  ---------------------- */\n  /* Days\n  ---------------------- */ }\n  .datepicker:focus, .datepicker:active {\n    outline: 0; }\n  @media only screen and (min-width: 768px) {\n    .datepicker {\n      width: 315px; } }\n  .datepicker--inline {\n    position: relative;\n    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12); }\n  @media only screen and (max-width: 479px) {\n    .datepicker--fullscreen-mobile {\n      position: fixed;\n      top: auto !important;\n      bottom: 0 !important;\n      left: 0 !important;\n      right: 0 !important;\n      height: 422px;\n      width: 100%;\n      border-radius: 12px 12px 0 0; }\n      @supports (padding-bottom: constant(safe-area-inset-bottom)) {\n        .datepicker--fullscreen-mobile {\n          --safe-area-inset-bottom: constant(safe-area-inset-bottom);\n          height: calc(422px + var(--safe-area-inset-bottom)); } }\n      @supports (padding-bottom: env(safe-area-inset-bottom)) {\n        .datepicker--fullscreen-mobile {\n          --safe-area-inset-bottom: env(safe-area-inset-bottom);\n          height: calc(422px + var(--safe-area-inset-bottom)); } }\n      .datepicker--fullscreen-mobile .datepicker-header {\n        border-radius: 0; }\n      .datepicker--fullscreen-mobile.datepicker--no-header {\n        height: 342px; } }\n  .datepicker-title {\n    position: relative;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    min-height: 48px;\n    padding: 0 0 0 16px;\n    border-radius: 12px 12px 0 0; }\n    @media only screen and (min-width: 480px) {\n      .datepicker-title {\n        display: none; } }\n    .datepicker-title p {\n      margin: 0; }\n    .datepicker-title button {\n      position: relative;\n      flex: 0 0 40px;\n      height: 48px;\n      width: 48px;\n      padding: 0 16px 0 8px;\n      border: none;\n      outline: none;\n      background-color: transparent;\n      user-select: none;\n      cursor: pointer; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-title button {\n          height: 56px;\n          width: 56px; } }\n      .datepicker-title button svg {\n        width: 24px;\n        height: 24px; }\n  .datepicker-content {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    height: 100%; }\n  .datepicker-week {\n    font-size: 12px;\n    line-height: 12px;\n    font-weight: 500;\n    padding: 8px 12px;\n    color: rgba(0, 0, 0, 0.38); }\n    @media only screen and (min-width: 768px) {\n      .datepicker-week {\n        padding: 8px 14px; } }\n    .datepicker-week .datepicker-weekday {\n      float: left;\n      width: calc(100% / 7);\n      text-align: center; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-week .datepicker-weekday {\n          width: 41px; } }\n  .datepicker-days__wrapper {\n    position: relative;\n    height: 180px;\n    margin: 0 12px 12px;\n    overflow: hidden;\n    transition: height 0.3s cubic-bezier(0.23, 1, 0.32, 1); }\n    @media only screen and (min-width: 768px) {\n      .datepicker-days__wrapper {\n        margin: 0 14px 14px;\n        height: 205px; } }\n    .datepicker-days__wrapper.has-6-weeks {\n      height: 216px; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-days__wrapper.has-6-weeks {\n          height: 246px; } }\n  .datepicker-days {\n    display: flex;\n    flex-wrap: wrap;\n    overflow: hidden;\n    width: 100%; }\n    .datepicker-days .datepicker-day {\n      border: none;\n      margin: 0;\n      padding: 0;\n      width: auto;\n      overflow: visible;\n      background: transparent;\n      /* inherit font & color from ancestor */\n      color: inherit;\n      font: inherit;\n      /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n      line-height: normal;\n      /* Corrects font smoothing for webkit */\n      -webkit-font-smoothing: inherit;\n      -moz-osx-font-smoothing: inherit;\n      /* Corrects inability to style clickable `input` types in iOS */\n      -webkit-appearance: none;\n      position: relative;\n      width: calc(100% / 7);\n      height: 36px;\n      line-height: 1;\n      font-size: 12px;\n      float: left;\n      text-align: center;\n      color: rgba(0, 0, 0, 0.87);\n      font-weight: 500;\n      cursor: pointer;\n      transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);\n      overflow: hidden; }\n      .datepicker-days .datepicker-day:focus, .datepicker-days .datepicker-day:active {\n        outline: 0;\n        box-shadow: 0; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-days .datepicker-day {\n          width: calc(100% / 7);\n          height: 41px; } }\n      .datepicker-days .datepicker-day:hover:not(.disabled) {\n        color: white; }\n        .datepicker-days .datepicker-day:hover:not(.disabled) .datepicker-day__effect {\n          transform: translateX(-50%) scale(1);\n          opacity: .5; }\n      .datepicker-days .datepicker-day.in-range:not(.disabled), .datepicker-days .datepicker-day.between:not(.disabled) {\n        color: white; }\n        .datepicker-days .datepicker-day.in-range:not(.disabled) .datepicker-day__effect, .datepicker-days .datepicker-day.between:not(.disabled) .datepicker-day__effect {\n          transform: translateX(-50%) scale(1);\n          opacity: 1;\n          left: 0;\n          width: calc(100% + 1px);\n          border-radius: 0;\n          opacity: .5; }\n          .datepicker-days .datepicker-day.in-range:not(.disabled) .datepicker-day__effect:before, .datepicker-days .datepicker-day.between:not(.disabled) .datepicker-day__effect:before {\n            opacity: 1;\n            left: 50%; }\n      .datepicker-days .datepicker-day.selected {\n        color: white; }\n        .datepicker-days .datepicker-day.selected:hover:not(.disabled) .datepicker-day__effect {\n          opacity: 1; }\n        .datepicker-days .datepicker-day.selected .datepicker-day__effect {\n          transform: translateX(-50%) scale(1);\n          opacity: 1; }\n      .datepicker-days .datepicker-day.first .datepicker-day__effect, .datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect {\n        opacity: 1; }\n        .datepicker-days .datepicker-day.first .datepicker-day__effect:before, .datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect:before {\n          opacity: .5;\n          left: 50%; }\n      .datepicker-days .datepicker-day.last .datepicker-day__effect, .datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect {\n        opacity: 1; }\n        .datepicker-days .datepicker-day.last .datepicker-day__effect:before, .datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect:before {\n          opacity: .5;\n          left: -50%; }\n      .datepicker-days .datepicker-day.first.last .datepicker-day__effect:before {\n        opacity: 0; }\n      .datepicker-days .datepicker-day.disabled {\n        cursor: default;\n        color: rgba(0, 0, 0, 0.26); }\n        .datepicker-days .datepicker-day.disabled:hover .datepicker-day__effect,\n        .datepicker-days .datepicker-day.disabled:hover .datepicker-day__effect:before {\n          opacity: 0 !important; }\n    .datepicker-days .datepicker-day--current {\n      position: absolute;\n      top: 1px;\n      left: 50%;\n      transform: translateX(-50%);\n      width: 34px;\n      height: 34px;\n      border-radius: 50%;\n      border: 1px solid currentColor; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-days .datepicker-day--current {\n          top: 4px;\n          width: 36px;\n          height: 36px; } }\n    .datepicker-days .datepicker-day__effect {\n      position: absolute;\n      top: 1px;\n      left: 50%;\n      width: 34px;\n      height: 34px;\n      border-radius: 50%;\n      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);\n      transition-property: transform, opacity;\n      transform: translateX(-50%) scale(0); }\n      @media only screen and (min-width: 768px) {\n        .datepicker-days .datepicker-day__effect {\n          top: 4px;\n          width: 36px;\n          height: 36px; } }\n      .datepicker--range .datepicker-days .datepicker-day__effect:before {\n        content: \"\";\n        position: absolute;\n        top: 0;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        background-color: inherit;\n        opacity: 0; }\n      .datepicker--range-selecting .datepicker-days .datepicker-day__effect {\n        transform: translateX(-50%) scale(1);\n        opacity: 0;\n        transition: none; }\n    .datepicker-days .datepicker-day__text {\n      position: relative;\n      vertical-align: sub; }\n\n.datepicker-transition-enter-active, .datepicker-transition-leave-active {\n  opacity: 1;\n  transition: all 300ms;\n  transition-property: transform, opacity;\n  transform: scale(1); }\n  @media only screen and (max-width: 479px) {\n    .datepicker-transition-enter-active.datepicker--fullscreen-mobile, .datepicker-transition-leave-active.datepicker--fullscreen-mobile {\n      transform: translateY(0); } }\n\n.datepicker-transition-leave-to, .datepicker-transition-enter {\n  opacity: 0;\n  transform: scale(0); }\n  @media only screen and (max-width: 479px) {\n    .datepicker-transition-leave-to.datepicker--fullscreen-mobile, .datepicker-transition-enter.datepicker--fullscreen-mobile {\n      transform: translateY(100%); } }\n\n/*# sourceMappingURL=DatePickerAgenda.vue.map */",null]}, media: undefined });
+    inject("data-v-9ed20d10_0", { source: "/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.slide-h-next-leave-active[data-v-9ed20d10],\n.slide-h-next-enter-active[data-v-9ed20d10],\n.slide-h-prev-leave-active[data-v-9ed20d10],\n.slide-h-prev-enter-active[data-v-9ed20d10] {\n  position: absolute;\n  transition: transform .3s, opacity .3s;\n}\n.slide-h-next-enter[data-v-9ed20d10], .slide-h-prev-leave-to[data-v-9ed20d10] {\n  transform: translateX(100%);\n  opacity: 0;\n}\n.slide-h-next-leave-to[data-v-9ed20d10], .slide-h-prev-enter[data-v-9ed20d10] {\n  transform: translateX(-100%);\n  opacity: 0;\n}\n.slide-v-next-leave-active[data-v-9ed20d10],\n.slide-v-next-enter-active[data-v-9ed20d10],\n.slide-v-prev-leave-active[data-v-9ed20d10],\n.slide-v-prev-enter-active[data-v-9ed20d10] {\n  position: absolute;\n  transition: transform .3s, opacity .3s;\n}\n.slide-v-next-enter[data-v-9ed20d10], .slide-v-prev-leave-to[data-v-9ed20d10] {\n  transform: translateY(100%);\n  opacity: 0;\n}\n.slide-v-next-leave-to[data-v-9ed20d10], .slide-v-prev-enter[data-v-9ed20d10] {\n  transform: translateY(-100%);\n  opacity: 0;\n}\n.yearMonth-leave-active[data-v-9ed20d10], .yearMonth-enter-active[data-v-9ed20d10] {\n  position: absolute;\n  transition: opacity .3s;\n}\n.yearMonth-enter[data-v-9ed20d10], .yearMonth-leave-to[data-v-9ed20d10] {\n  opacity: 0;\n}\n.datepicker[data-v-9ed20d10] {\n  position: absolute;\n  display: flex;\n  flex-direction: column;\n  width: 290px;\n  left: 0;\n  top: 100%;\n  will-change: transform;\n  background-color: white;\n  border-radius: 6px;\n  box-shadow: 0 2px 8px rgba(50, 50, 93, 0.2);\n  /* Title\n  ---------------------- */\n  /* Contsnt\n  ---------------------- */\n  /* Week\n  ---------------------- */\n  /* Days\n  ---------------------- */\n}\n.datepicker[data-v-9ed20d10]:focus, .datepicker[data-v-9ed20d10]:active {\n    outline: 0;\n}\n@media only screen and (min-width: 768px) {\n.datepicker[data-v-9ed20d10] {\n      width: 315px;\n}\n}\n.datepicker--inline[data-v-9ed20d10] {\n    position: relative;\n    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n}\n@media only screen and (max-width: 479px) {\n.datepicker--fullscreen-mobile[data-v-9ed20d10] {\n      position: fixed;\n      top: auto !important;\n      bottom: 0 !important;\n      left: 0 !important;\n      right: 0 !important;\n      height: 422px;\n      width: 100%;\n      border-radius: 12px 12px 0 0;\n}\n@supports (padding-bottom: constant(safe-area-inset-bottom)) {\n.datepicker--fullscreen-mobile[data-v-9ed20d10] {\n          --safe-area-inset-bottom: constant(safe-area-inset-bottom);\n          height: calc(422px + var(--safe-area-inset-bottom));\n}\n}\n@supports (padding-bottom: env(safe-area-inset-bottom)) {\n.datepicker--fullscreen-mobile[data-v-9ed20d10] {\n          --safe-area-inset-bottom: env(safe-area-inset-bottom);\n          height: calc(422px + var(--safe-area-inset-bottom));\n}\n}\n.datepicker--fullscreen-mobile .datepicker-header[data-v-9ed20d10] {\n        border-radius: 0;\n}\n.datepicker--fullscreen-mobile.datepicker--no-header[data-v-9ed20d10] {\n        height: 342px;\n}\n.datepicker--fullscreen-mobile.datepicker--presets-row-1[data-v-9ed20d10] {\n        height: 454px;\n}\n.datepicker--fullscreen-mobile.datepicker--presets-row-1.datepicker--no-header[data-v-9ed20d10] {\n          height: 374px;\n}\n.datepicker--fullscreen-mobile.datepicker--presets-row-2[data-v-9ed20d10] {\n        height: 486px;\n}\n.datepicker--fullscreen-mobile.datepicker--presets-row-2.datepicker--no-header[data-v-9ed20d10] {\n          height: 406px;\n}\n}\n.datepicker-title[data-v-9ed20d10] {\n    position: relative;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    min-height: 48px;\n    padding: 0 0 0 16px;\n    border-radius: 12px 12px 0 0;\n}\n@media only screen and (min-width: 480px) {\n.datepicker-title[data-v-9ed20d10] {\n        display: none;\n}\n}\n.datepicker-title p[data-v-9ed20d10] {\n      margin: 0;\n}\n.datepicker-title button[data-v-9ed20d10] {\n      position: relative;\n      flex: 0 0 40px;\n      height: 48px;\n      width: 48px;\n      padding: 0 16px 0 8px;\n      border: none;\n      outline: none;\n      background-color: transparent;\n      user-select: none;\n      cursor: pointer;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-title button[data-v-9ed20d10] {\n          height: 56px;\n          width: 56px;\n}\n}\n.datepicker-title button svg[data-v-9ed20d10] {\n        width: 24px;\n        height: 24px;\n}\n.datepicker-content[data-v-9ed20d10] {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    height: 100%;\n}\n.datepicker-week[data-v-9ed20d10] {\n    font-size: 12px;\n    line-height: 12px;\n    font-weight: 500;\n    padding: 8px 12px;\n    color: rgba(0, 0, 0, 0.38);\n}\n@media only screen and (min-width: 768px) {\n.datepicker-week[data-v-9ed20d10] {\n        padding: 8px 14px;\n}\n}\n.datepicker-week .datepicker-weekday[data-v-9ed20d10] {\n      float: left;\n      width: calc(100% / 7);\n      text-align: center;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-week .datepicker-weekday[data-v-9ed20d10] {\n          width: 40px;\n}\n}\n.datepicker-days__wrapper[data-v-9ed20d10] {\n    position: relative;\n    height: 180px;\n    margin: 0 12px 12px;\n    overflow: hidden;\n    transition: height 0.3s cubic-bezier(0.23, 1, 0.32, 1);\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days__wrapper[data-v-9ed20d10] {\n        margin: 0 14px 14px;\n        height: 200px;\n}\n}\n.datepicker-days__wrapper.has-6-weeks[data-v-9ed20d10] {\n      height: 216px;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days__wrapper.has-6-weeks[data-v-9ed20d10] {\n          height: 240px;\n}\n}\n.datepicker-days[data-v-9ed20d10] {\n    display: flex;\n    flex-wrap: wrap;\n    overflow: hidden;\n    width: 100%;\n}\n.datepicker-days .datepicker-day[data-v-9ed20d10] {\n      border: none;\n      margin: 0;\n      padding: 0;\n      width: auto;\n      overflow: visible;\n      background: transparent;\n      /* inherit font & color from ancestor */\n      color: inherit;\n      font: inherit;\n      /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n      line-height: normal;\n      /* Corrects font smoothing for webkit */\n      -webkit-font-smoothing: inherit;\n      -moz-osx-font-smoothing: inherit;\n      /* Corrects inability to style clickable `input` types in iOS */\n      -webkit-appearance: none;\n      position: relative;\n      width: calc(100% / 7);\n      height: 36px;\n      line-height: 1;\n      font-size: 12px;\n      float: left;\n      text-align: center;\n      color: rgba(0, 0, 0, 0.87);\n      font-weight: 500;\n      cursor: pointer;\n      transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);\n      overflow: hidden;\n}\n.datepicker-days .datepicker-day[data-v-9ed20d10]:focus, .datepicker-days .datepicker-day[data-v-9ed20d10]:active {\n        outline: 0;\n        box-shadow: 0;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days .datepicker-day[data-v-9ed20d10] {\n          width: calc(100% / 7);\n          height: 40px;\n}\n}\n.datepicker-days .datepicker-day[data-v-9ed20d10]:hover:not(.disabled) {\n        color: white;\n}\n.datepicker-days .datepicker-day:hover:not(.disabled) .datepicker-day__effect[data-v-9ed20d10] {\n          transform: translateX(-50%) scale(1);\n          opacity: .5;\n}\n.datepicker-days .datepicker-day.in-range[data-v-9ed20d10]:not(.disabled), .datepicker-days .datepicker-day.between[data-v-9ed20d10]:not(.disabled) {\n        color: white;\n}\n.datepicker-days .datepicker-day.in-range:not(.disabled) .datepicker-day__effect[data-v-9ed20d10], .datepicker-days .datepicker-day.between:not(.disabled) .datepicker-day__effect[data-v-9ed20d10] {\n          transform: translateX(-50%) scale(1);\n          opacity: 1;\n          left: 0;\n          width: calc(100% + 1px);\n          border-radius: 0;\n          opacity: .5;\n}\n.datepicker-days .datepicker-day.in-range:not(.disabled) .datepicker-day__effect[data-v-9ed20d10]:before, .datepicker-days .datepicker-day.between:not(.disabled) .datepicker-day__effect[data-v-9ed20d10]:before {\n            opacity: 1;\n            left: 50%;\n}\n.datepicker-days .datepicker-day.selected[data-v-9ed20d10] {\n        color: white;\n}\n.datepicker-days .datepicker-day.selected:hover:not(.disabled) .datepicker-day__effect[data-v-9ed20d10] {\n          opacity: 1;\n}\n.datepicker-days .datepicker-day.selected .datepicker-day__effect[data-v-9ed20d10] {\n          transform: translateX(-50%) scale(1);\n          opacity: 1;\n}\n.datepicker-days .datepicker-day.first .datepicker-day__effect[data-v-9ed20d10], .datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect[data-v-9ed20d10] {\n        opacity: 1;\n}\n.datepicker-days .datepicker-day.first .datepicker-day__effect[data-v-9ed20d10]:before, .datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect[data-v-9ed20d10]:before {\n          opacity: .5;\n          left: 50%;\n}\n.datepicker-days .datepicker-day.last .datepicker-day__effect[data-v-9ed20d10], .datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect[data-v-9ed20d10] {\n        opacity: 1;\n}\n.datepicker-days .datepicker-day.last .datepicker-day__effect[data-v-9ed20d10]:before, .datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect[data-v-9ed20d10]:before {\n          opacity: .5;\n          left: -50%;\n}\n.datepicker-days .datepicker-day.first.last .datepicker-day__effect[data-v-9ed20d10]:before {\n        opacity: 0;\n}\n.datepicker-days .datepicker-day.disabled[data-v-9ed20d10] {\n        cursor: default;\n        color: rgba(0, 0, 0, 0.26);\n}\n.datepicker-days .datepicker-day.disabled:hover .datepicker-day__effect[data-v-9ed20d10],\n        .datepicker-days .datepicker-day.disabled:hover .datepicker-day__effect[data-v-9ed20d10]:before {\n          opacity: 0 !important;\n}\n.datepicker-days .datepicker-day--current[data-v-9ed20d10] {\n      position: absolute;\n      top: 1px;\n      left: 50%;\n      transform: translateX(-50%);\n      width: 34px;\n      height: 34px;\n      border-radius: 50%;\n      border: 1px solid currentColor;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days .datepicker-day--current[data-v-9ed20d10] {\n          top: 4px;\n          width: 36px;\n          height: 36px;\n}\n}\n.datepicker-days .datepicker-day__effect[data-v-9ed20d10] {\n      position: absolute;\n      top: 1px;\n      left: 50%;\n      width: 34px;\n      height: 34px;\n      border-radius: 50%;\n      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);\n      transition-property: transform, opacity;\n      transform: translateX(-50%) scale(0);\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days .datepicker-day__effect[data-v-9ed20d10] {\n          top: 4px;\n          width: 36px;\n          height: 36px;\n}\n}\n.datepicker--range .datepicker-days .datepicker-day__effect[data-v-9ed20d10]:before {\n        content: \"\";\n        position: absolute;\n        top: 0;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        background-color: inherit;\n        opacity: 0;\n}\n.datepicker--range-selecting .datepicker-days .datepicker-day__effect[data-v-9ed20d10] {\n        transform: translateX(-50%) scale(1);\n        opacity: 0;\n        transition: none;\n}\n.datepicker-days .datepicker-day__text[data-v-9ed20d10] {\n      position: relative;\n      vertical-align: sub;\n}\n.datepicker-transition-enter-active[data-v-9ed20d10], .datepicker-transition-leave-active[data-v-9ed20d10] {\n  opacity: 1;\n  transition: all 300ms;\n  transition-property: transform, opacity;\n  transform: scale(1);\n}\n@media only screen and (max-width: 479px) {\n.datepicker-transition-enter-active.datepicker--fullscreen-mobile[data-v-9ed20d10], .datepicker-transition-leave-active.datepicker--fullscreen-mobile[data-v-9ed20d10] {\n      transform: translateY(0);\n}\n}\n.datepicker-transition-leave-to[data-v-9ed20d10], .datepicker-transition-enter[data-v-9ed20d10] {\n  opacity: 0;\n  transform: scale(0);\n}\n@media only screen and (max-width: 479px) {\n.datepicker-transition-leave-to.datepicker--fullscreen-mobile[data-v-9ed20d10], .datepicker-transition-enter.datepicker--fullscreen-mobile[data-v-9ed20d10] {\n      transform: translateY(100%);\n}\n}\n\n/*# sourceMappingURL=DatePickerAgenda.vue.map */", map: {"version":3,"sources":["DatePickerAgenda.vue","/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerAgenda.vue"],"names":[],"mappings":"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","file":"DatePickerAgenda.vue","sourcesContent":["/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.slide-h-next-leave-active,\n.slide-h-next-enter-active,\n.slide-h-prev-leave-active,\n.slide-h-prev-enter-active {\n  position: absolute;\n  transition: transform .3s, opacity .3s; }\n\n.slide-h-next-enter, .slide-h-prev-leave-to {\n  transform: translateX(100%);\n  opacity: 0; }\n\n.slide-h-next-leave-to, .slide-h-prev-enter {\n  transform: translateX(-100%);\n  opacity: 0; }\n\n.slide-v-next-leave-active,\n.slide-v-next-enter-active,\n.slide-v-prev-leave-active,\n.slide-v-prev-enter-active {\n  position: absolute;\n  transition: transform .3s, opacity .3s; }\n\n.slide-v-next-enter, .slide-v-prev-leave-to {\n  transform: translateY(100%);\n  opacity: 0; }\n\n.slide-v-next-leave-to, .slide-v-prev-enter {\n  transform: translateY(-100%);\n  opacity: 0; }\n\n.yearMonth-leave-active, .yearMonth-enter-active {\n  position: absolute;\n  transition: opacity .3s; }\n\n.yearMonth-enter, .yearMonth-leave-to {\n  opacity: 0; }\n\n.datepicker {\n  position: absolute;\n  display: flex;\n  flex-direction: column;\n  width: 290px;\n  left: 0;\n  top: 100%;\n  will-change: transform;\n  background-color: white;\n  border-radius: 6px;\n  box-shadow: 0 2px 8px rgba(50, 50, 93, 0.2);\n  /* Title\n  ---------------------- */\n  /* Contsnt\n  ---------------------- */\n  /* Week\n  ---------------------- */\n  /* Days\n  ---------------------- */ }\n  .datepicker:focus, .datepicker:active {\n    outline: 0; }\n  @media only screen and (min-width: 768px) {\n    .datepicker {\n      width: 315px; } }\n  .datepicker--inline {\n    position: relative;\n    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12); }\n  @media only screen and (max-width: 479px) {\n    .datepicker--fullscreen-mobile {\n      position: fixed;\n      top: auto !important;\n      bottom: 0 !important;\n      left: 0 !important;\n      right: 0 !important;\n      height: 422px;\n      width: 100%;\n      border-radius: 12px 12px 0 0; }\n      @supports (padding-bottom: constant(safe-area-inset-bottom)) {\n        .datepicker--fullscreen-mobile {\n          --safe-area-inset-bottom: constant(safe-area-inset-bottom);\n          height: calc(422px + var(--safe-area-inset-bottom)); } }\n      @supports (padding-bottom: env(safe-area-inset-bottom)) {\n        .datepicker--fullscreen-mobile {\n          --safe-area-inset-bottom: env(safe-area-inset-bottom);\n          height: calc(422px + var(--safe-area-inset-bottom)); } }\n      .datepicker--fullscreen-mobile .datepicker-header {\n        border-radius: 0; }\n      .datepicker--fullscreen-mobile.datepicker--no-header {\n        height: 342px; }\n      .datepicker--fullscreen-mobile.datepicker--presets-row-1 {\n        height: 454px; }\n        .datepicker--fullscreen-mobile.datepicker--presets-row-1.datepicker--no-header {\n          height: 374px; }\n      .datepicker--fullscreen-mobile.datepicker--presets-row-2 {\n        height: 486px; }\n        .datepicker--fullscreen-mobile.datepicker--presets-row-2.datepicker--no-header {\n          height: 406px; } }\n  .datepicker-title {\n    position: relative;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    min-height: 48px;\n    padding: 0 0 0 16px;\n    border-radius: 12px 12px 0 0; }\n    @media only screen and (min-width: 480px) {\n      .datepicker-title {\n        display: none; } }\n    .datepicker-title p {\n      margin: 0; }\n    .datepicker-title button {\n      position: relative;\n      flex: 0 0 40px;\n      height: 48px;\n      width: 48px;\n      padding: 0 16px 0 8px;\n      border: none;\n      outline: none;\n      background-color: transparent;\n      user-select: none;\n      cursor: pointer; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-title button {\n          height: 56px;\n          width: 56px; } }\n      .datepicker-title button svg {\n        width: 24px;\n        height: 24px; }\n  .datepicker-content {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    height: 100%; }\n  .datepicker-week {\n    font-size: 12px;\n    line-height: 12px;\n    font-weight: 500;\n    padding: 8px 12px;\n    color: rgba(0, 0, 0, 0.38); }\n    @media only screen and (min-width: 768px) {\n      .datepicker-week {\n        padding: 8px 14px; } }\n    .datepicker-week .datepicker-weekday {\n      float: left;\n      width: calc(100% / 7);\n      text-align: center; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-week .datepicker-weekday {\n          width: 40px; } }\n  .datepicker-days__wrapper {\n    position: relative;\n    height: 180px;\n    margin: 0 12px 12px;\n    overflow: hidden;\n    transition: height 0.3s cubic-bezier(0.23, 1, 0.32, 1); }\n    @media only screen and (min-width: 768px) {\n      .datepicker-days__wrapper {\n        margin: 0 14px 14px;\n        height: 200px; } }\n    .datepicker-days__wrapper.has-6-weeks {\n      height: 216px; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-days__wrapper.has-6-weeks {\n          height: 240px; } }\n  .datepicker-days {\n    display: flex;\n    flex-wrap: wrap;\n    overflow: hidden;\n    width: 100%; }\n    .datepicker-days .datepicker-day {\n      border: none;\n      margin: 0;\n      padding: 0;\n      width: auto;\n      overflow: visible;\n      background: transparent;\n      /* inherit font & color from ancestor */\n      color: inherit;\n      font: inherit;\n      /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n      line-height: normal;\n      /* Corrects font smoothing for webkit */\n      -webkit-font-smoothing: inherit;\n      -moz-osx-font-smoothing: inherit;\n      /* Corrects inability to style clickable `input` types in iOS */\n      -webkit-appearance: none;\n      position: relative;\n      width: calc(100% / 7);\n      height: 36px;\n      line-height: 1;\n      font-size: 12px;\n      float: left;\n      text-align: center;\n      color: rgba(0, 0, 0, 0.87);\n      font-weight: 500;\n      cursor: pointer;\n      transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);\n      overflow: hidden; }\n      .datepicker-days .datepicker-day:focus, .datepicker-days .datepicker-day:active {\n        outline: 0;\n        box-shadow: 0; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-days .datepicker-day {\n          width: calc(100% / 7);\n          height: 40px; } }\n      .datepicker-days .datepicker-day:hover:not(.disabled) {\n        color: white; }\n        .datepicker-days .datepicker-day:hover:not(.disabled) .datepicker-day__effect {\n          transform: translateX(-50%) scale(1);\n          opacity: .5; }\n      .datepicker-days .datepicker-day.in-range:not(.disabled), .datepicker-days .datepicker-day.between:not(.disabled) {\n        color: white; }\n        .datepicker-days .datepicker-day.in-range:not(.disabled) .datepicker-day__effect, .datepicker-days .datepicker-day.between:not(.disabled) .datepicker-day__effect {\n          transform: translateX(-50%) scale(1);\n          opacity: 1;\n          left: 0;\n          width: calc(100% + 1px);\n          border-radius: 0;\n          opacity: .5; }\n          .datepicker-days .datepicker-day.in-range:not(.disabled) .datepicker-day__effect:before, .datepicker-days .datepicker-day.between:not(.disabled) .datepicker-day__effect:before {\n            opacity: 1;\n            left: 50%; }\n      .datepicker-days .datepicker-day.selected {\n        color: white; }\n        .datepicker-days .datepicker-day.selected:hover:not(.disabled) .datepicker-day__effect {\n          opacity: 1; }\n        .datepicker-days .datepicker-day.selected .datepicker-day__effect {\n          transform: translateX(-50%) scale(1);\n          opacity: 1; }\n      .datepicker-days .datepicker-day.first .datepicker-day__effect, .datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect {\n        opacity: 1; }\n        .datepicker-days .datepicker-day.first .datepicker-day__effect:before, .datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect:before {\n          opacity: .5;\n          left: 50%; }\n      .datepicker-days .datepicker-day.last .datepicker-day__effect, .datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect {\n        opacity: 1; }\n        .datepicker-days .datepicker-day.last .datepicker-day__effect:before, .datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect:before {\n          opacity: .5;\n          left: -50%; }\n      .datepicker-days .datepicker-day.first.last .datepicker-day__effect:before {\n        opacity: 0; }\n      .datepicker-days .datepicker-day.disabled {\n        cursor: default;\n        color: rgba(0, 0, 0, 0.26); }\n        .datepicker-days .datepicker-day.disabled:hover .datepicker-day__effect,\n        .datepicker-days .datepicker-day.disabled:hover .datepicker-day__effect:before {\n          opacity: 0 !important; }\n    .datepicker-days .datepicker-day--current {\n      position: absolute;\n      top: 1px;\n      left: 50%;\n      transform: translateX(-50%);\n      width: 34px;\n      height: 34px;\n      border-radius: 50%;\n      border: 1px solid currentColor; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-days .datepicker-day--current {\n          top: 4px;\n          width: 36px;\n          height: 36px; } }\n    .datepicker-days .datepicker-day__effect {\n      position: absolute;\n      top: 1px;\n      left: 50%;\n      width: 34px;\n      height: 34px;\n      border-radius: 50%;\n      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);\n      transition-property: transform, opacity;\n      transform: translateX(-50%) scale(0); }\n      @media only screen and (min-width: 768px) {\n        .datepicker-days .datepicker-day__effect {\n          top: 4px;\n          width: 36px;\n          height: 36px; } }\n      .datepicker--range .datepicker-days .datepicker-day__effect:before {\n        content: \"\";\n        position: absolute;\n        top: 0;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        background-color: inherit;\n        opacity: 0; }\n      .datepicker--range-selecting .datepicker-days .datepicker-day__effect {\n        transform: translateX(-50%) scale(1);\n        opacity: 0;\n        transition: none; }\n    .datepicker-days .datepicker-day__text {\n      position: relative;\n      vertical-align: sub; }\n\n.datepicker-transition-enter-active, .datepicker-transition-leave-active {\n  opacity: 1;\n  transition: all 300ms;\n  transition-property: transform, opacity;\n  transform: scale(1); }\n  @media only screen and (max-width: 479px) {\n    .datepicker-transition-enter-active.datepicker--fullscreen-mobile, .datepicker-transition-leave-active.datepicker--fullscreen-mobile {\n      transform: translateY(0); } }\n\n.datepicker-transition-leave-to, .datepicker-transition-enter {\n  opacity: 0;\n  transform: scale(0); }\n  @media only screen and (max-width: 479px) {\n    .datepicker-transition-leave-to.datepicker--fullscreen-mobile, .datepicker-transition-enter.datepicker--fullscreen-mobile {\n      transform: translateY(100%); } }\n\n/*# sourceMappingURL=DatePickerAgenda.vue.map */",null]}, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__$6 = "data-v-868fe3aa";
+  const __vue_scope_id__$7 = "data-v-9ed20d10";
   /* module identifier */
-  const __vue_module_identifier__$6 = undefined;
+  const __vue_module_identifier__$7 = undefined;
   /* functional template */
-  const __vue_is_functional_template__$6 = false;
+  const __vue_is_functional_template__$7 = false;
   /* component normalizer */
-  function __vue_normalize__$6(
+  function __vue_normalize__$7(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -4024,9 +4306,9 @@ __vue_render__$6._withStripped = true;
     return component
   }
   /* style inject */
-  function __vue_create_injector__$6() {
+  function __vue_create_injector__$7() {
     const head = document.head || document.getElementsByTagName('head')[0];
-    const styles = __vue_create_injector__$6.styles || (__vue_create_injector__$6.styles = {});
+    const styles = __vue_create_injector__$7.styles || (__vue_create_injector__$7.styles = {});
     const isOldIE =
       typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
@@ -4084,21 +4366,21 @@ __vue_render__$6._withStripped = true;
   
 
   
-  var DatepickerAgenda = __vue_normalize__$6(
-    { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
-    __vue_inject_styles__$6,
-    __vue_script__$6,
-    __vue_scope_id__$6,
-    __vue_is_functional_template__$6,
-    __vue_module_identifier__$6,
-    __vue_create_injector__$6);
+  var DatepickerAgenda = __vue_normalize__$7(
+    { render: __vue_render__$7, staticRenderFns: __vue_staticRenderFns__$7 },
+    __vue_inject_styles__$7,
+    __vue_script__$7,
+    __vue_scope_id__$7,
+    __vue_is_functional_template__$7,
+    __vue_module_identifier__$7,
+    __vue_create_injector__$7);
 
 function generateRandomId() {
   return "_".concat(Math.random().toString(36).substr(2, 9));
 }
 
 //
-var script$7 = {
+var script$8 = {
   name: 'DatePicker',
   components: {
     DatePickerCustomInput: DatePickerCustomInput,
@@ -4127,6 +4409,10 @@ var script$7 = {
     rangeHeaderText: {
       type: String,
       default: 'From %d To %d'
+    },
+    rangePresets: {
+      type: Array,
+      default: undefined
     },
     // Current Value from v-model
     value: {
@@ -4297,10 +4583,10 @@ var script$7 = {
 };
 
 /* script */
-            const __vue_script__$7 = script$7;
+            const __vue_script__$8 = script$8;
             
 /* template */
-var __vue_render__$7 = function() {
+var __vue_render__$8 = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
@@ -4351,6 +4637,7 @@ var __vue_render__$7 = function() {
           type: _vm.type,
           range: _vm.range,
           "range-header-text": _vm.rangeHeaderText,
+          "range-presets": _vm.rangePresets,
           "format-header": _vm.headerFormat,
           locale: _vm.locale,
           "no-header": _vm.noHeader,
@@ -4373,24 +4660,24 @@ var __vue_render__$7 = function() {
     1
   )
 };
-var __vue_staticRenderFns__$7 = [];
-__vue_render__$7._withStripped = true;
+var __vue_staticRenderFns__$8 = [];
+__vue_render__$8._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__$7 = function (inject) {
+  const __vue_inject_styles__$8 = function (inject) {
     if (!inject) return
-    inject("data-v-338b3e83_0", { source: "\n*, ::before, ::after {\n  box-sizing: border-box;\n}\n", map: {"version":3,"sources":["/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePicker.vue"],"names":[],"mappings":";AAqMA;EACA,sBAAA;AACA","file":"DatePicker.vue","sourcesContent":["<template>\n  <div\n    :class=\"{ 'datepicker-container--active' : isVisible }\"\n    class=\"datepicker-container\">\n    <DatePickerCustomInput\n      v-if=\"!inline\"\n      :id=\"componentId\"\n      :name=\"name\"\n      :date=\"value ? date : value\"\n      :type=\"type\"\n      :range=\"range\"\n      :format=\"inputFormat\"\n      :locale=\"locale\"\n      :placeholder=\"placeholder\"\n      :color=\"color\"\n      :disabled=\"disabled\"\n      :tabindex=\"tabindex\"\n      @toggleDatepicker=\"toggleDatepicker\"\n      @focus=\"showDatePicker\"\n    />\n    <DatePickerOverlay\n      :isVisible=\"isVisible\"\n      :fullscreen-mobile=\"fullscreenMobile\"\n      :attach-to=\"attachTo\"\n      :z-index=\"zIndex\"\n      @close=\"hideDatePicker\"\n    />\n    <DatepickerAgenda\n      :name=\"name\"\n      :isVisible=\"isVisible\"\n      :date=\"date\"\n      :type=\"type\"\n      :range=\"range\"\n      :range-header-text=\"rangeHeaderText\"\n      :format-header=\"headerFormat\"\n      :locale=\"locale\"\n      :no-header=\"noHeader\"\n      :inline=\"inline\"\n      :fullscreen-mobile=\"fullscreenMobile\"\n      :color=\"color\"\n      :close=\"hideDatePicker\"\n      :min-date=\"minDate\"\n      :end-date=\"endDate\"\n      :attach-to=\"attachTo\"\n      :z-index=\"zIndex + 1\"\n      @selectDate=\"changeDate\"\n      @close=\"hideDatePicker\"\n      @hide=\"hideDatePicker\"\n    />\n  </div>\n</template>\n\n<script>\nimport dayjs from 'dayjs';\nimport { clearAllBodyScrollLocks } from 'body-scroll-lock';\nimport DatePickerCustomInput from './DatePickerCustomInput.vue';\nimport DatePickerOverlay from './DatePickerOverlay.vue';\nimport DatepickerAgenda from './DatePickerAgenda.vue';\nimport { generateRandomId } from '../../utils/helpers';\nimport {\n  getDefaultLocale,\n  setLocaleLang,\n  getDefaultInputFormat,\n  getDefaultHeaderFormat,\n  getDefaultOutputFormat,\n  formatDate,\n  formatDateToSend,\n} from '../../utils/Dates';\n\nexport default {\n  name: 'DatePicker',\n  components: { DatePickerCustomInput, DatePickerOverlay, DatepickerAgenda },\n  props: {\n    id: { type: String, default: 'datepicker' },\n    name: { type: String, default: 'datepicker' },\n    // type (date, month, quarter, year picker)\n    type: { type: String, default: 'date' },\n    // Range\n    range: { type: Boolean, default: false },\n    rangeHeaderText: { type: String, default: 'From %d To %d' },\n    // Current Value from v-model\n    value: { type: [String, Object, Number, Date] },\n    // Format\n    format: { type: String, default: undefined },\n    formatHeader: { type: String, default: undefined },\n    formatOutput: { type: String, default: undefined },\n    // Show/hide datepicker\n    visible: { type: Boolean, default: false },\n    // Sets the locale.\n    locale: {\n      type: Object,\n      default: () => ({ lang: getDefaultLocale() }),\n    },\n    placeholder: { type: String, default: 'YYYY-MM-DD' },\n    // Applies specified color to the control\n    color: { type: String, default: '#4f88ff' },\n    // Allowed dates\n    minDate: { type: [String, Number, Date] },\n    endDate: { type: [String, Number, Date] },\n    // Disabled all datepicker\n    disabled: { type: Boolean, default: false },\n    // Inline\n    inline: { type: Boolean, default: false },\n    // Set if header in agenda should be visible\n    noHeader: { type: Boolean, default: false },\n    // Responsive bottom sheet\n    fullscreenMobile: { type: Boolean, default: false },\n    // tabindex\n    tabindex: { type: [String, Number], default: '0' },\n    // Specificy a z-index for agenda & overlay\n    zIndex: { type: Number, default: 1 },\n    // attachTo\n    attachTo: { type: String, default: '#app' },\n  },\n  data: () => ({\n    date: undefined,\n    isVisible: undefined,\n  }),\n  computed: {\n    // use a computed to have a dynamicId for each instance\n    componentId () {\n      return `${this.id}${generateRandomId()}`;\n    },\n    // If format isnt specificed, select default format from type\n    inputFormat () {\n      if (!this.format) return getDefaultInputFormat(this.range ? 'range' : this.type);\n      return this.format;\n    },\n    headerFormat () {\n      if (!this.formatHeader) return getDefaultHeaderFormat(this.range ? 'range' : this.type);\n      return this.formatHeader;\n    },\n    outputFormat () {\n      if (!this.formatOutput) return getDefaultOutputFormat(this.range ? 'range' : this.type);\n      return this.formatOutput;\n    },\n  },\n  watch: {\n    value: {\n      handler (newDate) {\n        if (this.range) {\n          this.date = {\n            start: newDate && newDate.start && formatDate(newDate.start, this.locale),\n            end: newDate && newDate.end && formatDate(newDate.end, this.locale),\n          };\n          return;\n        }\n        this.date = newDate && dayjs(newDate, this.outputFormat);\n      },\n      immediate: true,\n    },\n    visible: {\n      handler (isVisible) {\n        this.isVisible = isVisible;\n      },\n      immediate: true,\n    },\n    locale: {\n      handler (newLocale) {\n        setLocaleLang(newLocale);\n      },\n      immediate: true,\n    },\n  },\n  beforeDestroy () {\n    this.hideDatePicker();\n    this.$emit('onDestroy');\n  },\n  methods: {\n    toggleDatepicker () {\n      if (this.isVisible) {\n        this.hideDatePicker();\n        return;\n      }\n      this.showDatePicker();\n    },\n    showDatePicker () {\n      if (this.disabled) return;\n      this.isVisible = true;\n      this.$emit('onOpen');\n    },\n    hideDatePicker () {\n      if (!this.isVisible) return;\n      this.isVisible = false;\n      clearAllBodyScrollLocks();\n      this.$emit('onClose');\n    },\n    changeDate (date) {\n      this.date = date;\n      this.$emit('input', formatDateToSend(date, this.outputFormat, this.range));\n      this.$emit('onChange');\n    },\n  },\n};\n</script>\n\n<style>\n  *, ::before, ::after {\n    box-sizing: border-box;\n  }\n</style>\n\n<style lang=\"scss\" scoped>\n  .datepicker-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    width: auto;\n    cursor: pointer;\n\n    &:focus,\n    &:active {\n      outline: 0;\n    }\n  }\n</style>\n"]}, media: undefined })
-,inject("data-v-338b3e83_1", { source: ".datepicker-container[data-v-338b3e83] {\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  width: auto;\n  cursor: pointer;\n}\n.datepicker-container[data-v-338b3e83]:focus, .datepicker-container[data-v-338b3e83]:active {\n    outline: 0;\n}\n\n/*# sourceMappingURL=DatePicker.vue.map */", map: {"version":3,"sources":["/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePicker.vue","DatePicker.vue"],"names":[],"mappings":"AA2MA;EACA,kBAAA;EACA,aAAA;EACA,mBAAA;EACA,mBAAA;EACA,WAAA;EACA,eAAA;AAAA;AANA;IAUA,UAAA;AAAA;;AC3MA,yCAAyC","file":"DatePicker.vue","sourcesContent":[null,".datepicker-container {\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  width: auto;\n  cursor: pointer; }\n  .datepicker-container:focus, .datepicker-container:active {\n    outline: 0; }\n\n/*# sourceMappingURL=DatePicker.vue.map */"]}, media: undefined });
+    inject("data-v-14b47b62_0", { source: "\n*, ::before, ::after {\n  box-sizing: border-box;\n}\n", map: {"version":3,"sources":["/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePicker.vue"],"names":[],"mappings":";AAuMA;EACA,sBAAA;AACA","file":"DatePicker.vue","sourcesContent":["<template>\n  <div\n    :class=\"{ 'datepicker-container--active' : isVisible }\"\n    class=\"datepicker-container\">\n    <DatePickerCustomInput\n      v-if=\"!inline\"\n      :id=\"componentId\"\n      :name=\"name\"\n      :date=\"value ? date : value\"\n      :type=\"type\"\n      :range=\"range\"\n      :format=\"inputFormat\"\n      :locale=\"locale\"\n      :placeholder=\"placeholder\"\n      :color=\"color\"\n      :disabled=\"disabled\"\n      :tabindex=\"tabindex\"\n      @toggleDatepicker=\"toggleDatepicker\"\n      @focus=\"showDatePicker\"\n    />\n    <DatePickerOverlay\n      :isVisible=\"isVisible\"\n      :fullscreen-mobile=\"fullscreenMobile\"\n      :attach-to=\"attachTo\"\n      :z-index=\"zIndex\"\n      @close=\"hideDatePicker\"\n    />\n    <DatepickerAgenda\n      :name=\"name\"\n      :isVisible=\"isVisible\"\n      :date=\"date\"\n      :type=\"type\"\n      :range=\"range\"\n      :range-header-text=\"rangeHeaderText\"\n      :range-presets=\"rangePresets\"\n      :format-header=\"headerFormat\"\n      :locale=\"locale\"\n      :no-header=\"noHeader\"\n      :inline=\"inline\"\n      :fullscreen-mobile=\"fullscreenMobile\"\n      :color=\"color\"\n      :close=\"hideDatePicker\"\n      :min-date=\"minDate\"\n      :end-date=\"endDate\"\n      :attach-to=\"attachTo\"\n      :z-index=\"zIndex + 1\"\n      @selectDate=\"changeDate\"\n      @close=\"hideDatePicker\"\n      @hide=\"hideDatePicker\"\n    />\n  </div>\n</template>\n\n<script>\nimport dayjs from 'dayjs';\nimport { clearAllBodyScrollLocks } from 'body-scroll-lock';\nimport DatePickerCustomInput from './DatePickerCustomInput.vue';\nimport DatePickerOverlay from './DatePickerOverlay.vue';\nimport DatepickerAgenda from './DatePickerAgenda.vue';\nimport { generateRandomId } from '../../utils/helpers';\nimport {\n  getDefaultLocale,\n  setLocaleLang,\n  getDefaultInputFormat,\n  getDefaultHeaderFormat,\n  getDefaultOutputFormat,\n  formatDate,\n  formatDateToSend,\n} from '../../utils/Dates';\n\nexport default {\n  name: 'DatePicker',\n  components: { DatePickerCustomInput, DatePickerOverlay, DatepickerAgenda },\n  props: {\n    id: { type: String, default: 'datepicker' },\n    name: { type: String, default: 'datepicker' },\n    // type (date, month, quarter, year picker)\n    type: { type: String, default: 'date' },\n    // Range\n    range: { type: Boolean, default: false },\n    rangeHeaderText: { type: String, default: 'From %d To %d' },\n    rangePresets: { type: Array, default: undefined },\n    // Current Value from v-model\n    value: { type: [String, Object, Number, Date] },\n    // Format\n    format: { type: String, default: undefined },\n    formatHeader: { type: String, default: undefined },\n    formatOutput: { type: String, default: undefined },\n    // Show/hide datepicker\n    visible: { type: Boolean, default: false },\n    // Sets the locale.\n    locale: {\n      type: Object,\n      default: () => ({ lang: getDefaultLocale() }),\n    },\n    placeholder: { type: String, default: 'YYYY-MM-DD' },\n    // Applies specified color to the control\n    color: { type: String, default: '#4f88ff' },\n    // Allowed dates\n    minDate: { type: [String, Number, Date] },\n    endDate: { type: [String, Number, Date] },\n    // Disabled all datepicker\n    disabled: { type: Boolean, default: false },\n    // Inline\n    inline: { type: Boolean, default: false },\n    // Set if header in agenda should be visible\n    noHeader: { type: Boolean, default: false },\n    // Responsive bottom sheet\n    fullscreenMobile: { type: Boolean, default: false },\n    // tabindex\n    tabindex: { type: [String, Number], default: '0' },\n    // Specificy a z-index for agenda & overlay\n    zIndex: { type: Number, default: 1 },\n    // attachTo\n    attachTo: { type: String, default: '#app' },\n  },\n  data: () => ({\n    date: undefined,\n    isVisible: undefined,\n  }),\n  computed: {\n    // use a computed to have a dynamicId for each instance\n    componentId () {\n      return `${this.id}${generateRandomId()}`;\n    },\n    // If format isnt specificed, select default format from type\n    inputFormat () {\n      if (!this.format) return getDefaultInputFormat(this.range ? 'range' : this.type);\n      return this.format;\n    },\n    headerFormat () {\n      if (!this.formatHeader) return getDefaultHeaderFormat(this.range ? 'range' : this.type);\n      return this.formatHeader;\n    },\n    outputFormat () {\n      if (!this.formatOutput) return getDefaultOutputFormat(this.range ? 'range' : this.type);\n      return this.formatOutput;\n    },\n  },\n  watch: {\n    value: {\n      handler (newDate) {\n        if (this.range) {\n          this.date = {\n            start: newDate && newDate.start && formatDate(newDate.start, this.locale),\n            end: newDate && newDate.end && formatDate(newDate.end, this.locale),\n          };\n          return;\n        }\n        this.date = newDate && dayjs(newDate, this.outputFormat);\n      },\n      immediate: true,\n    },\n    visible: {\n      handler (isVisible) {\n        this.isVisible = isVisible;\n      },\n      immediate: true,\n    },\n    locale: {\n      handler (newLocale) {\n        setLocaleLang(newLocale);\n      },\n      immediate: true,\n    },\n  },\n  beforeDestroy () {\n    this.hideDatePicker();\n    this.$emit('onDestroy');\n  },\n  methods: {\n    toggleDatepicker () {\n      if (this.isVisible) {\n        this.hideDatePicker();\n        return;\n      }\n      this.showDatePicker();\n    },\n    showDatePicker () {\n      if (this.disabled) return;\n      this.isVisible = true;\n      this.$emit('onOpen');\n    },\n    hideDatePicker () {\n      if (!this.isVisible) return;\n      this.isVisible = false;\n      clearAllBodyScrollLocks();\n      this.$emit('onClose');\n    },\n    changeDate (date) {\n      this.date = date;\n      this.$emit('input', formatDateToSend(date, this.outputFormat, this.range));\n      this.$emit('onChange');\n    },\n  },\n};\n</script>\n\n<style>\n  *, ::before, ::after {\n    box-sizing: border-box;\n  }\n</style>\n\n<style lang=\"scss\" scoped>\n  .datepicker-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    width: auto;\n    cursor: pointer;\n\n    &:focus,\n    &:active {\n      outline: 0;\n    }\n  }\n</style>\n"]}, media: undefined })
+,inject("data-v-14b47b62_1", { source: ".datepicker-container[data-v-14b47b62] {\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  width: auto;\n  cursor: pointer;\n}\n.datepicker-container[data-v-14b47b62]:focus, .datepicker-container[data-v-14b47b62]:active {\n    outline: 0;\n}\n\n/*# sourceMappingURL=DatePicker.vue.map */", map: {"version":3,"sources":["/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePicker.vue","DatePicker.vue"],"names":[],"mappings":"AA6MA;EACA,kBAAA;EACA,aAAA;EACA,mBAAA;EACA,mBAAA;EACA,WAAA;EACA,eAAA;AAAA;AANA;IAUA,UAAA;AAAA;;AC7MA,yCAAyC","file":"DatePicker.vue","sourcesContent":[null,".datepicker-container {\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  width: auto;\n  cursor: pointer; }\n  .datepicker-container:focus, .datepicker-container:active {\n    outline: 0; }\n\n/*# sourceMappingURL=DatePicker.vue.map */"]}, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__$7 = "data-v-338b3e83";
+  const __vue_scope_id__$8 = "data-v-14b47b62";
   /* module identifier */
-  const __vue_module_identifier__$7 = undefined;
+  const __vue_module_identifier__$8 = undefined;
   /* functional template */
-  const __vue_is_functional_template__$7 = false;
+  const __vue_is_functional_template__$8 = false;
   /* component normalizer */
-  function __vue_normalize__$7(
+  function __vue_normalize__$8(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
@@ -4437,9 +4724,9 @@ __vue_render__$7._withStripped = true;
     return component
   }
   /* style inject */
-  function __vue_create_injector__$7() {
+  function __vue_create_injector__$8() {
     const head = document.head || document.getElementsByTagName('head')[0];
-    const styles = __vue_create_injector__$7.styles || (__vue_create_injector__$7.styles = {});
+    const styles = __vue_create_injector__$8.styles || (__vue_create_injector__$8.styles = {});
     const isOldIE =
       typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
@@ -4497,14 +4784,14 @@ __vue_render__$7._withStripped = true;
   
 
   
-  var VueDatePicker = __vue_normalize__$7(
-    { render: __vue_render__$7, staticRenderFns: __vue_staticRenderFns__$7 },
-    __vue_inject_styles__$7,
-    __vue_script__$7,
-    __vue_scope_id__$7,
-    __vue_is_functional_template__$7,
-    __vue_module_identifier__$7,
-    __vue_create_injector__$7);
+  var VueDatePicker = __vue_normalize__$8(
+    { render: __vue_render__$8, staticRenderFns: __vue_staticRenderFns__$8 },
+    __vue_inject_styles__$8,
+    __vue_script__$8,
+    __vue_scope_id__$8,
+    __vue_is_functional_template__$8,
+    __vue_module_identifier__$8,
+    __vue_create_injector__$8);
 
 var install = function install(Vue) {
   Vue.component('VueDatePicker', VueDatePicker);

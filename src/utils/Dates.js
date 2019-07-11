@@ -3,6 +3,8 @@ import weekDay from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import AdvancedFormat from 'dayjs/plugin/advancedFormat';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
 import * as locales from '../locale';
 import {
@@ -15,6 +17,8 @@ dayjs.extend(weekDay);
 dayjs.extend(weekOfYear);
 dayjs.extend(quarterOfYear);
 dayjs.extend(AdvancedFormat);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 export default class PickerDate {
   constructor (month, year, { lang = getDefaultLocale() } = {}) {
@@ -191,6 +195,13 @@ export function isBetweenDates (date, startDate, endDate) {
 
 export function isDateAfter (newDate, oldDate) {
   return dayjs(newDate).isAfter(dayjs(oldDate));
+}
+
+export function generateDateRangeWithoutDisabled ({ start, end }, minDate, endDate) {
+  return generateDateRange(start, end)
+    .filter(date =>
+      date.isSameOrAfter(minDate, 'day') &&
+      date.isSameOrBefore(dayjs(endDate, 'day')));
 }
 
 // -----------------------------------------

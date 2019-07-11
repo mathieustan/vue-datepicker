@@ -46,6 +46,18 @@
         :range-header-text="rangeHeaderText"
       />
 
+      <!-- Presets -->
+      <DatePickerPresets
+        v-if="range"
+        :range-presets="rangePresets"
+        :mutable-date="mutableDate"
+        :min-date="minDate"
+        :end-date="endDate"
+        :color="color"
+        :locale="locale"
+        @updateRange="emitSelectedDate"
+      />
+
       <div class="datepicker-content">
         <!-- Controls -->
         <DatePickerControls
@@ -144,6 +156,7 @@ import colorable from '../../mixins/colorable';
 import DatePickerHeader from './DatePickerHeader.vue';
 import DatePickerControls from './DatePickerControls.vue';
 import DatePickerYearMonth from './DatePickerYearMonth.vue';
+import DatePickerPresets from './DatePickerPresets.vue';
 
 // functions
 import Dates, {
@@ -166,13 +179,14 @@ export default {
   name: 'DatepickerAgenda',
   mixins: [ detachable, colorable, dynamicPosition ],
   directives: { ClickOutside },
-  components: { DatePickerHeader, DatePickerControls, DatePickerYearMonth },
+  components: { DatePickerHeader, DatePickerControls, DatePickerYearMonth, DatePickerPresets },
   props: {
     name: { type: String },
     isVisible: { type: Boolean, default: false },
     date: { type: [Date, Object] },
     type: { type: String, default: 'date' },
     range: { type: Boolean, default: false },
+    rangePresets: { type: Array, default: undefined },
     rangeHeaderText: { type: String, default: String },
     formatHeader: { type: String },
     locale: { type: Object },
@@ -212,6 +226,7 @@ export default {
         'datepicker--no-header': this.noHeader,
         'datepicker--range': this.range,
         'datepicker--range-selecting': this.range && !this.isRangeSelected,
+        ...(this.classPresets && { [this.classPresets]: true }),
       };
     },
     weekDays () {
@@ -228,6 +243,10 @@ export default {
         return `has-6-weeks`;
       }
       return `has-5-weeks`;
+    },
+    classPresets () {
+      if (!this.rangePresets) return;
+      return `datepicker--presets-row-${Math.ceil(this.rangePresets.length / 3)}`;
     },
     shouldShowAgenda () {
       return this.isVisible || this.inline;
@@ -349,25 +368,23 @@ export default {
           this.mutableDate = { start: day.clone(), end: undefined };
           return;
         }
-
         // else, should update missing range (start or end)
-        this.mutableDate = {
+        this.emitSelectedDate({
           ...this.mutableDate,
           ...(this.mutableDate.start && { end: day.clone() }),
           ...(this.mutableDate.end && { start: day.clone() }),
-        };
-
-        this.$emit('selectDate', this.mutableDate);
-        this.rangeCurrentHoveredDay = undefined;
-        this.close();
+        });
         return;
       }
 
       const direction = isDateAfter(day, this.mutableDate) ? 'next' : 'prev';
       this.updateTransitions(direction);
-
-      this.mutableDate = day.clone();
+      this.emitSelectedDate(day.clone());
+    },
+    emitSelectedDate (date) {
+      this.mutableDate = date;
       this.$emit('selectDate', this.mutableDate);
+      this.rangeCurrentHoveredDay = undefined;
       this.close();
     },
     updateDate (date) {
@@ -543,6 +560,39 @@ export default {
             get-size(mobile, controls) +
             (get-size(mobile, day-height) * 6) +
             30px;
+        }
+
+        &.datepicker--presets-row-1 {
+          height: get-size(mobile, title) +
+            get-size(mobile, header) +
+            (get-size(mobile, presets-row) * 1) +
+            get-size(mobile, controls) +
+            (get-size(mobile, day-height) * 6) +
+            30px;
+
+            &.datepicker--no-header {
+              height: get-size(mobile, title) +
+                (get-size(mobile, presets-row) * 1) +
+                get-size(mobile, controls) +
+                (get-size(mobile, day-height) * 6) +
+                30px;
+            }
+        }
+        &.datepicker--presets-row-2 {
+          height: get-size(mobile, title) +
+            get-size(mobile, header) +
+            (get-size(mobile, presets-row) * 2) +
+            get-size(mobile, controls) +
+            (get-size(mobile, day-height) * 6) +
+            30px;
+
+            &.datepicker--no-header {
+              height: get-size(mobile, title) +
+                (get-size(mobile, presets-row) * 2) +
+                get-size(mobile, controls) +
+                (get-size(mobile, day-height) * 6) +
+                30px;
+            }
         }
       }
     }

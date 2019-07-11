@@ -44,6 +44,7 @@ describe('DatePickerAgenda', () => {
       inline = false,
       type = 'date',
       range,
+      rangePresets,
     } = {}) =>
       shallowMount(DatePickerAgenda, {
         propsData: {
@@ -57,6 +58,7 @@ describe('DatePickerAgenda', () => {
           close: jest.fn(),
           type,
           range,
+          rangePresets,
           fullscreenMobile,
           noHeader,
           zIndex: 1,
@@ -141,6 +143,18 @@ describe('DatePickerAgenda', () => {
       ])('when date equal %p, should return %p', (date, expectedResult) => {
         const wrapper = mountComponent({ date });
         expect(wrapper.vm.classWeeks).toEqual(expectedResult);
+      });
+    });
+
+    describe('classPresets', () => {
+      it.each([
+        [undefined, undefined],
+        [[{}], 'datepicker--presets-row-1'],
+        [[{}, {}, {}], 'datepicker--presets-row-1'],
+        [[{}, {}, {}, {}], 'datepicker--presets-row-2'],
+      ])('when rangePresets equal %p, should return %p', (rangePresets, expectedResult) => {
+        const wrapper = mountComponent({ rangePresets });
+        expect(wrapper.vm.classPresets).toEqual(expectedResult);
       });
     });
 
@@ -600,12 +614,24 @@ describe('DatePickerAgenda', () => {
       it('Should send an event with selected date & update transaction with prev', () => {
         const wrapper = mountComponent();
         jest.spyOn(wrapper.vm, 'updateTransitions');
-        const newDate = dayjs(new Date([2019, 4, 16]));
+        const newDate = dayjs('2019-4-16');
         wrapper.vm.selectDate(newDate);
 
         expect(wrapper.vm.updateTransitions).toHaveBeenCalledWith('prev');
         expect(wrapper.vm.mutableDate).toEqual(newDate);
-        expect(wrapper.emitted().selectDate).toBeTruthy();
+        expect(wrapper.emitted().selectDate[0]).toEqual([newDate]);
+        expect(wrapper.vm.close).toHaveBeenCalled();
+      });
+    });
+
+    describe('emitSelectedDate', () => {
+      it('should update mutableDate, and emit selectDate', () => {
+        const wrapper = mountComponent();
+        const range = { start: dayjs('2019-4-16'), end: dayjs('2019-4-18') };
+        wrapper.vm.emitSelectedDate(range);
+
+        expect(wrapper.vm.mutableDate).toEqual(range);
+        expect(wrapper.emitted().selectDate[0]).toEqual([range]);
         expect(wrapper.vm.close).toHaveBeenCalled();
       });
     });

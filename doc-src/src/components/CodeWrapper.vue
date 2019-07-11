@@ -42,6 +42,8 @@ export default {
     display: flex;
     border: none;
     padding: $gutter*4 $gutter*2 $gutter*2;
+    border-radius: get-border-radius(3);
+    overflow: hidden;
     margin: 0;
     overflow: auto;
     width: 100%;

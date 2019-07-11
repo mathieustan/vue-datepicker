@@ -28,6 +28,7 @@ import Dates, {
   isAfterDate,
   isBetweenDates,
   isDateAfter,
+  generateDateRangeWithoutDisabled,
   generateDateRange,
   generateMonthAndYear,
 
@@ -386,6 +387,20 @@ describe('Transactions: Functions', () => {
         'when date = %p, endDate = %p and type = %p, should return %p',
         (date, anotherDate, expectedResult) => {
           expect(isDateAfter(date, anotherDate)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('generateDateRangeWithoutDisabled', () => {
+      it.each([
+        [{ start: '2018-01-01', end: '2018-01-31' }, '2018-01-20', '2018-02-05', 12],
+        [{ start: '2018-01-01', end: '2018-01-31' }, '2017-12-01', '2018-01-10', 10],
+        [{ start: '2018-01-01', end: '2018-01-31' }, '2019-01-01', '2019-01-31', 0],
+      ])(
+        'when dates = %p, minDate = %p, endDate = %p, should return %p date available',
+        (dates, minDate, endDate, expectedResult) => {
+          const ranges = generateDateRangeWithoutDisabled(dates, minDate, endDate);
+          expect(ranges.length).toEqual(expectedResult);
         }
       );
     });
