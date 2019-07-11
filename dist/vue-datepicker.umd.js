@@ -1640,7 +1640,7 @@
     // as the regeneratorRuntime namespace. Otherwise create a new empty
     // object. Either way, the resulting object will be used to initialize
     // the regeneratorRuntime variable at the top of this file.
-    module.exports
+     module.exports 
   ));
 
   try {
@@ -1977,27 +1977,6 @@
 
   var defineProperty = _defineProperty;
 
-  function _objectSpread(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i] != null ? arguments[i] : {};
-      var ownKeys = Object.keys(source);
-
-      if (typeof Object.getOwnPropertySymbols === 'function') {
-        ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-          return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-        }));
-      }
-
-      ownKeys.forEach(function (key) {
-        defineProperty(target, key, source[key]);
-      });
-    }
-
-    return target;
-  }
-
-  var objectSpread = _objectSpread;
-
   var _typeof_1 = createCommonjsModule(function (module) {
   function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
 
@@ -2276,6 +2255,9 @@
     }
   };
 
+  function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+  function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   var script$3 = {
     name: 'DatePickerHeader',
     mixins: [colorable],
@@ -2318,9 +2300,9 @@
       dateFormatted: function dateFormatted() {
         if (this.range && this.rangeHeaderText) {
           var textSplitted = this.rangeHeaderText.split('%d').reduce(function (texts, text, index) {
-            return objectSpread({}, texts, index === 0 && {
+            return _objectSpread({}, texts, {}, index === 0 && {
               start: text.trim()
-            }, index === 1 && {
+            }, {}, index === 1 && {
               end: text.trim()
             });
           }, {});
@@ -3311,6 +3293,9 @@
       __vue_module_identifier__$5,
       __vue_create_injector__$5);
 
+  function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+  function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$1(source, true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$1(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   var script$6 = {
     name: 'DatePickerPresets',
     mixins: [colorable],
@@ -3340,7 +3325,7 @@
 
         if (!this.rangePresets) return;
         return this.rangePresets.map(function (preset) {
-          return objectSpread({}, preset, {
+          return _objectSpread$1({}, preset, {
             availableDates: generateDateRangeWithoutDisabled(preset.dates, _this.minDate, _this.endDate)
           });
         }).splice(0, 6); // Max 6 presets
@@ -3552,6 +3537,9 @@
       __vue_module_identifier__$6,
       __vue_create_injector__$6);
 
+  function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+  function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2(source, true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
   var script$7 = {
     name: 'DatepickerAgenda',
     mixins: [detachable, colorable, dynamicPosition],
@@ -3648,7 +3636,7 @@
         };
       },
       classes: function classes() {
-        return objectSpread({
+        return _objectSpread$2({
           'datepicker--inline': this.inline,
           'datepicker--fullscreen-mobile': this.fullscreenMobile,
           'datepicker--no-header': this.noHeader,
@@ -3866,9 +3854,9 @@
           } // else, should update missing range (start or end)
 
 
-          this.emitSelectedDate(objectSpread({}, this.mutableDate, this.mutableDate.start && {
+          this.emitSelectedDate(_objectSpread$2({}, this.mutableDate, {}, this.mutableDate.start && {
             end: day.clone()
-          }, this.mutableDate.end && {
+          }, {}, this.mutableDate.end && {
             start: day.clone()
           }));
           return;
