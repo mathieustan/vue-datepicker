@@ -2107,12 +2107,12 @@
     return agenda.offsetHeight + 36; // height of a day's row;
   }
 
-  function getDynamicPosition(element, parent) {
+  function getDynamicPosition(element, parent, target) {
     // -------------------------------
     // Select parent (datepicker container) to get position
     // -------------------------------
     var parentRect = parent.getBoundingClientRect();
-    var parentOffsets = getParentOffset(parentRect);
+    var parentOffsets = getParentOffset(parentRect, target);
     var spacesAroundParent = getSpacesAroundParent(parentRect); // -------------------------------
     // Detect space around element
     // -------------------------------
@@ -2136,12 +2136,12 @@
   // -------------------------------
 
 
-  function getParentOffset(parentRect) {
+  function getParentOffset(parentRect, target) {
     var scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
     var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     return {
-      parentOffsetTop: parentRect.top + scrollTop,
-      parentOffsetLeft: parentRect.left + scrollLeft
+      parentOffsetTop: parentRect.top + scrollTop - target.offsetTop,
+      parentOffsetLeft: parentRect.left + scrollLeft - target.offsetLeft
     };
   }
 
@@ -2233,7 +2233,6 @@
   var dynamicPosition = {
     data: function data() {
       return {
-        offset: 28,
         left: 0,
         top: 0,
         origin: 'top center',
@@ -2258,8 +2257,17 @@
       },
       updatePosition: function updatePosition() {
         this.innerWidth = window.innerWidth;
+        var target = document.querySelector(this.attachTo);
 
-        var _getDynamicPosition = getDynamicPosition(this.$refs.content, document.querySelector('.datepicker-container--active'), this.offset),
+        if (!target) {
+          console.error("Unable to locate target '".concat(this.attachTo, "'"), this);
+          return;
+        }
+
+        var _getDynamicPosition = getDynamicPosition(this.$refs.content, // element to show
+        document.querySelector('.datepicker-container--active'), // datepicker container
+        target // where datepicker will be shown
+        ),
             top = _getDynamicPosition.top,
             left = _getDynamicPosition.left,
             origin = _getDynamicPosition.origin;

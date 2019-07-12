@@ -9,15 +9,20 @@ describe('Utils: Functions', () => {
     childrenWidth = '100px',
     childrenHeight = '100px',
   } = {}) => {
+    const target = document.createElement('body');
     const parentElement = document.createElement('div');
     parentElement.setAttribute('class', 'parent');
     const childrenElement = document.createElement('div');
     childrenElement.setAttribute('class', 'children');
+
     parentElement.appendChild(childrenElement);
     childrenElement.style.height = childrenWidth;
     childrenElement.style.width = childrenHeight;
 
+    target.appendChild(parentElement);
+
     return {
+      target,
       parent: parentElement,
       element: childrenElement,
     };
@@ -50,13 +55,12 @@ describe('Utils: Functions', () => {
   });
 
   describe('getDynamicPosition', () => {
-    const offset = 0;
-
     it.each([
       // Should place ABOVE
       [
         { width: 800, height: 800 },
         { top: 700, left: 0, bottom: 700, width: 300, height: 50 },
+        { offsetTop: 0, offsetLeft: 0 },
         { width: 100, height: 400 },
         { top: 300, left: 0, origin: 'bottom left' },
       ],
@@ -64,6 +68,15 @@ describe('Utils: Functions', () => {
       [
         { width: 800, height: 800 },
         { top: 100, left: 0, bottom: 100, width: 300, height: 50 },
+        { offsetTop: 0, offsetLeft: 0 },
+        { width: 100, height: 100 },
+        { top: 150, left: 0, origin: 'top left' },
+      ],
+      // Should place BELOW in SPECIFIC TARGET
+      [
+        { width: 800, height: 800 },
+        { top: 100, left: 100, bottom: 100, width: 300, height: 50 },
+        { offsetTop: 0, offsetLeft: 100 },
         { width: 100, height: 100 },
         { top: 150, left: 0, origin: 'top left' },
       ],
@@ -71,6 +84,7 @@ describe('Utils: Functions', () => {
       [
         { width: 800, height: 800 },
         { top: 100, left: 500, bottom: 100, width: 300, height: 50 },
+        { offsetTop: 0, offsetLeft: 0 },
         { width: 100, height: 100 },
         { top: 150, left: 700, origin: 'top right' },
       ],
@@ -78,6 +92,7 @@ describe('Utils: Functions', () => {
       [
         { width: 800, height: 800 },
         { top: 700, left: 500, bottom: 700, width: 300, height: 50 },
+        { offsetTop: 0, offsetLeft: 0 },
         { width: 100, height: 100 },
         { top: 600, left: 700, origin: 'bottom right' },
       ],
@@ -85,6 +100,7 @@ describe('Utils: Functions', () => {
       [
         { width: 800, height: 800 },
         { top: 100, left: 300, bottom: 100, width: 300, height: 50 },
+        { offsetTop: 0, offsetLeft: 0 },
         { width: 300, height: 100 },
         { top: 150, left: 250, origin: 'top center' },
       ],
@@ -92,6 +108,7 @@ describe('Utils: Functions', () => {
       [
         { width: 800, height: 800 },
         { top: 700, left: 300, bottom: 700, width: 300, height: 50 },
+        { offsetTop: 0, offsetLeft: 0 },
         { width: 300, height: 100 },
         { top: 600, left: 250, origin: 'bottom center' },
       ],
@@ -99,6 +116,7 @@ describe('Utils: Functions', () => {
       [
         { width: 800, height: 500 },
         { top: 250, left: 500, bottom: 250, width: 300, height: 50 },
+        { offsetTop: 0, offsetLeft: 0 },
         { width: 400, height: 400 },
         { top: 50, left: 100, origin: 'right center' },
       ],
@@ -106,6 +124,7 @@ describe('Utils: Functions', () => {
       [
         { width: 800, height: 400 },
         { top: 200, left: 50, bottom: 200, width: 300, height: 50 },
+        { offsetTop: 0, offsetLeft: 0 },
         { width: 300, height: 300 },
         { top: 50, left: 350, origin: 'left center' },
       ],
@@ -113,12 +132,13 @@ describe('Utils: Functions', () => {
       [
         { width: 400, height: 400 },
         { top: 200, left: 150, bottom: 200, width: 300, height: 50 },
+        { offsetTop: 0, offsetLeft: 0 },
         { width: 300, height: 300 },
         { top: 50, left: 50, origin: 'center center' },
       ],
     ])(
       'should compute position to an element from parent and window',
-      (windowSize, parentRect, elementSize, expectedResult) => {
+      (windowSize, parentRect, targetRect, elementSize, expectedResult) => {
         Object.defineProperties(window.HTMLElement.prototype, {
           offsetHeight: { get: () => elementSize.height },
           offsetWidth: { get: () => elementSize.width },
@@ -131,7 +151,7 @@ describe('Utils: Functions', () => {
 
         const { parent, element } = createDivParentWithChildren();
         jest.spyOn(parent, 'getBoundingClientRect').mockReturnValue(parentRect);
-        expect(getDynamicPosition(element, parent, offset)).toEqual(expectedResult);
+        expect(getDynamicPosition(element, parent, targetRect)).toEqual(expectedResult);
       },
     );
   });

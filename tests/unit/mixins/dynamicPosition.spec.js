@@ -8,7 +8,7 @@ describe('dynamicPosition', () => {
   let mountComponent;
   const EmptyComponent = Vue.component('empty-component', {
     mixins: [dynamicPosition],
-    props: ['fullscreenMobile', 'isVisible'],
+    props: ['fullscreenMobile', 'isVisible', 'attachTo'],
     template: '<div></div>',
   });
 
@@ -22,10 +22,12 @@ describe('dynamicPosition', () => {
     mountComponent = ({
       fullscreenMobile = false,
       isVisible = false,
+      attachTo = 'body',
     } = {}) => shallowMount(EmptyComponent, {
       propsData: {
         fullscreenMobile,
         isVisible,
+        attachTo,
       },
     });
   });
@@ -39,7 +41,6 @@ describe('dynamicPosition', () => {
   it('Should init data', () => {
     const wrapper = mountComponent();
     expect(wrapper.isVueInstance()).toBeTruthy();
-    expect(wrapper.vm.offset).toEqual(28);
     expect(wrapper.vm.left).toEqual(0);
     expect(wrapper.vm.top).toEqual(0);
     expect(wrapper.vm.origin).toEqual('top center');

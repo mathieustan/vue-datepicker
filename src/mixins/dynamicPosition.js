@@ -2,7 +2,6 @@ import { getDynamicPosition } from '../utils/positions';
 
 const dynamicPosition = {
   data: () => ({
-    offset: 28,
     left: 0,
     top: 0,
     origin: 'top center',
@@ -23,10 +22,17 @@ const dynamicPosition = {
     updatePosition () {
       this.innerWidth = window.innerWidth;
 
+      const target = document.querySelector(this.attachTo);
+      if (!target) {
+        console.error(`Unable to locate target '${this.attachTo}'`, this);
+        return;
+      }
+
       const { top, left, origin } = getDynamicPosition(
-        this.$refs.content,
-        document.querySelector('.datepicker-container--active'),
-        this.offset
+        this.$refs.content, // element to show
+        document.querySelector('.datepicker-container--active'), // datepicker container
+        target, // where datepicker will be shown
+
       );
       this.top = top;
       this.left = left;

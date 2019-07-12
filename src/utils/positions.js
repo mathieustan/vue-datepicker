@@ -15,12 +15,12 @@ function computeAgendaHeight (agenda, classWeeks) {
   return agenda.offsetHeight + 36; // height of a day's row;
 }
 
-function getDynamicPosition (element, parent) {
+function getDynamicPosition (element, parent, target) {
   // -------------------------------
   // Select parent (datepicker container) to get position
   // -------------------------------
   const parentRect = parent.getBoundingClientRect();
-  const parentOffsets = getParentOffset(parentRect);
+  const parentOffsets = getParentOffset(parentRect, target);
   const spacesAroundParent = getSpacesAroundParent(parentRect);
   // -------------------------------
   // Detect space around element
@@ -56,12 +56,13 @@ function getDynamicPosition (element, parent) {
 // HELPERS
 // -------------------------------
 
-function getParentOffset (parentRect) {
+function getParentOffset (parentRect, target) {
   const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
   return {
-    parentOffsetTop: parentRect.top + scrollTop,
-    parentOffsetLeft: parentRect.left + scrollLeft,
+    parentOffsetTop: parentRect.top + scrollTop - target.offsetTop,
+    parentOffsetLeft: parentRect.left + scrollLeft - target.offsetLeft,
   };
 }
 
