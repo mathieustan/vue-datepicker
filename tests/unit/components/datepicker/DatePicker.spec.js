@@ -206,6 +206,29 @@ describe('DatePicker', () => {
       });
     });
 
+    describe('resetDate', () => {
+      it.each([
+        [
+          { date: { start: dummyDate, end: undefined }, range: true },
+          { date: { start: dayjs('2019-02-01'), end: dayjs('2019-03-01') } },
+          { start: dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date), end: undefined },
+        ],
+        [{ date: dummyDate }, dayjs('2019-02-01'), dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
+        [{ date: undefined }, dayjs('2019-02-01'), undefined],
+      ])(
+        'when props = %p, current date = %p, should reset date to %p & close',
+        (props, currentDate, expectedResult) => {
+          const wrapper = mountComponent(props);
+          wrapper.setData({ date: currentDate });
+          jest.spyOn(wrapper.vm, 'hideDatePicker');
+
+          wrapper.vm.resetDate();
+          expect(wrapper.vm.date).toEqual(expectedResult);
+          expect(wrapper.vm.hideDatePicker).toHaveBeenCalled();
+        },
+      );
+    });
+
     describe('changeDate', () => {
       it('should update date', () => {
         const wrapper = mountComponent();

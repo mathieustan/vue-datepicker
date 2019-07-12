@@ -81,12 +81,16 @@ export default {
   .datepicker-presets {
     position: relative;
     display: flex;
-    padding: $gutter*2 $gutter*2 $gutter;
+    padding: $gutter*2 $gutter*3;
+
+    @include mq(phone) {
+      padding: $gutter*2 $gutter*2 $gutter;
+    }
 
     &__wrapper {
       position: relative;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       grid-auto-rows: get-size(mobile, presets-row);
       width: 100%;
 
@@ -108,17 +112,16 @@ export default {
     border-style: solid;
     border-width: 0;
 
-    &:nth-child(1) {
-      border-width: 1px;
-    }
-    &:nth-child(2),
-    &:nth-child(3) {
-      border-width: 1px 1px 1px 0;
-    }
-    &:nth-child(4) {
+    &:nth-child(odd) {
+      &:first-child {
+        border-width: 1px;
+      }
       border-width: 0 1px 1px 1px;
     }
-    &:nth-child(5) {
+    &:nth-child(even) {
+      &:nth-child(2) {
+        border-width: 1px 1px 1px 0;
+      }
       border-width: 0 1px 1px 0;
     }
 

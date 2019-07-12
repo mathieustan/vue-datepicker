@@ -144,7 +144,7 @@
         :button-validate="buttonValidate"
         :button-cancel="buttonCancel"
         :color="color"
-        @cancel="$emit('close')"
+        @cancel="$emit('resetDate')"
         @validate="$emit('validateDate')"
       />
     </div>
@@ -269,7 +269,7 @@ export default {
     },
     classPresets () {
       if (!this.rangePresets) return;
-      return `datepicker--presets-row-${Math.ceil(this.rangePresets.length / 3)}`;
+      return `datepicker--presets-row-${Math.ceil(this.rangePresets.length / 2)}`;
     },
     shouldShowAgenda () {
       return this.isVisible || this.inline;
@@ -582,7 +582,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       min-height: get-size(mobile, title);
-      padding: 0 0 0 $gutter*2;
+      padding: 0 0 0 $gutter*3;
       border-radius: get-border-radius(4) get-border-radius(4) 0 0;
 
       @include mq(phone) {
@@ -631,11 +631,11 @@ export default {
       font-size: 12px;
       line-height: 12px;
       font-weight: get-font-weight(medium);
-      padding: $gutter 12px;
+      margin: $gutter $gutter*3;
       color: transparentize(black, .62);
 
       @include mq(tablet) {
-        padding: $gutter 14px;
+        margin: $gutter $gutter*2;
       }
 
       .datepicker-weekday {
@@ -654,12 +654,12 @@ export default {
     &-days__wrapper {
       position: relative;
       height: get-size(mobile, day-height) * 5;
-      margin: 0 12px 12px;
+      margin: 0 $gutter*3 $gutter;
       overflow: hidden;
       transition: height .3s cubic-bezier(0.23, 1, 0.32, 1);
 
       @include mq(tablet) {
-        margin: 0 14px 14px;
+        margin: 0 $gutter*2 $gutter;
         height: get-size(desktop, day-height) * 5;
       }
 
@@ -668,6 +668,14 @@ export default {
 
         @include mq(tablet) {
           height: get-size(desktop, day-height) * 6;
+        }
+      }
+
+      .datepicker--validate & {
+        margin: 0 $gutter*3;
+
+        @include mq(tablet) {
+          margin: 0 $gutter*2;
         }
       }
     }

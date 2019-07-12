@@ -154,8 +154,9 @@ describe('DatePickerAgenda', () => {
       it.each([
         [undefined, undefined],
         [[{}], 'datepicker--presets-row-1'],
-        [[{}, {}, {}], 'datepicker--presets-row-1'],
+        [[{}, {}, {}], 'datepicker--presets-row-2'],
         [[{}, {}, {}, {}], 'datepicker--presets-row-2'],
+        [[{}, {}, {}, {}, {}], 'datepicker--presets-row-3'],
       ])('when rangePresets equal %p, should return %p', (rangePresets, expectedResult) => {
         const wrapper = mountComponent({ rangePresets });
         expect(wrapper.vm.classPresets).toEqual(expectedResult);

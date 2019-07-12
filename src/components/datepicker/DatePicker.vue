@@ -48,6 +48,7 @@
       :z-index="zIndex + 1"
       @selectDate="changeDate"
       @validateDate="validateDate"
+      @resetDate="resetDate"
       @close="hideDatePicker"
       @hide="hideDatePicker"
     />
@@ -146,16 +147,7 @@ export default {
   },
   watch: {
     value: {
-      handler (newDate) {
-        if (this.range) {
-          this.date = {
-            start: newDate && newDate.start && formatDate(newDate.start, this.locale),
-            end: newDate && newDate.end && formatDate(newDate.end, this.locale),
-          };
-          return;
-        }
-        this.date = newDate && dayjs(newDate, this.outputFormat);
-      },
+      handler: 'initDate',
       immediate: true,
     },
     visible: {
@@ -193,6 +185,20 @@ export default {
       this.isVisible = false;
       clearAllBodyScrollLocks();
       this.$emit('onClose');
+    },
+    initDate (date) {
+      if (this.range) {
+        this.date = {
+          start: date && date.start && formatDate(date.start, this.locale),
+          end: date && date.end && formatDate(date.end, this.locale),
+        };
+        return;
+      }
+      this.date = date && dayjs(date, this.outputFormat);
+    },
+    resetDate () {
+      this.initDate(this.value);
+      this.hideDatePicker();
     },
     changeDate (date) {
       this.date = date;

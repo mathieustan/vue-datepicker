@@ -178,7 +178,7 @@ export default {
       flex: 0 0 40px;
       height: get-size(mobile, controls);
       width: get-size(mobile, controls);
-      padding: 0 $gutter 0 $gutter*2;
+      padding: 0 0 0 $gutter*3;
       border: none;
       outline: none;
       background-color: transparent;
@@ -186,6 +186,7 @@ export default {
       cursor: pointer;
 
       @include mq(tablet) {
+        padding: 0 $gutter 0 $gutter;
         height: get-size(desktop, controls);
         width: get-size(desktop, controls);
       }
@@ -200,7 +201,11 @@ export default {
     }
 
     button.datepicker-controls__next {
-      padding: 0 $gutter*2 0 $gutter;
+      padding: 0 $gutter*3 0 0;
+
+      @include mq(tablet) {
+        padding: 0 $gutter 0 $gutter;
+      }
     }
 
     svg {

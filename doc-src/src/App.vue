@@ -706,9 +706,9 @@
               :name="`Choose dates`"
               :min-date="examples.range.min"
               :end-date="examples.range.end"
-              :validate="true"
               :range-presets="examples.range.presets"
               placeholder="Start - End"
+              validate
               range
               no-header
               fullscreen-mobile

@@ -49,7 +49,11 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: 0 $gutter*2 $gutter $gutter*2;
+    padding: 0 $gutter*3 $gutter $gutter*3;
+
+    @include mq(tablet) {
+      padding: $gutter $gutter*2;
+    }
 
     &__button {
       @extend %reset-button;
@@ -59,15 +63,19 @@ export default {
       align-items: center;
       justify-content: center;
       height: 36px;
-      min-width: 88px;
+      min-width: 44px;
       font-size: 14px;
       font-weight: 500;
       border-radius: get-border-radius(1);
-      margin: 6px 8px;
+      padding: 6px 8px;
       outline: 0;
       text-transform: uppercase;
       text-decoration: none;
       overflow: hidden;
+
+      & + & {
+        margin-left: $gutter;
+      }
 
       &:hover {
         .datepicker-validate__effect {
