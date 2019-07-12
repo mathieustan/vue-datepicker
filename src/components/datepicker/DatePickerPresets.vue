@@ -33,6 +33,8 @@ import {
   areSameDates,
 } from '../../utils/Dates';
 
+import { MAX_PRESETS_NUMBER } from '../../constants';
+
 export default {
   name: 'DatePickerPresets',
   mixins: [colorable],
@@ -50,7 +52,7 @@ export default {
       return this.rangePresets.map(preset => ({
         ...preset,
         availableDates: generateDateRangeWithoutDisabled(preset.dates, this.minDate, this.endDate),
-      })).splice(0, 6); // Max 6 presets
+      })).splice(0, MAX_PRESETS_NUMBER); // Allow a number of presets
     },
   },
   methods: {

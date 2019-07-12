@@ -20,3 +20,5 @@ export const DEFAULT_HEADER_DATE_FORMAT = {
 };
 
 export const yearMonthSelectorTypes = ['month', 'quarter', 'year'];
+
+export const MAX_PRESETS_NUMBER = 6;

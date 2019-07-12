@@ -249,7 +249,6 @@ export default {
         'datepicker--validate': this.validate,
         'datepicker--range': this.range,
         'datepicker--range-selecting': this.range && !this.isRangeSelected,
-        ...(this.classPresets && { [this.classPresets]: true }),
       };
     },
     weekDays () {
@@ -266,10 +265,6 @@ export default {
         return `has-6-weeks`;
       }
       return `has-5-weeks`;
-    },
-    classPresets () {
-      if (!this.rangePresets) return;
-      return `datepicker--presets-row-${Math.ceil(this.rangePresets.length / 2)}`;
     },
     shouldShowAgenda () {
       return this.isVisible || this.inline;
