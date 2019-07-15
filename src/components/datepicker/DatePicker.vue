@@ -23,7 +23,7 @@
       :fullscreen-mobile="fullscreenMobile"
       :attach-to="attachTo"
       :z-index="zIndex"
-      @close="hideDatePicker"
+      @close="resetDate"
     />
     <DatepickerAgenda
       :name="name"

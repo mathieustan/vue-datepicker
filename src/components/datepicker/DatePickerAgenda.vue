@@ -1,7 +1,7 @@
 <template>
   <transition name="datepicker-transition" appear @after-enter="setActive">
     <div
-      v-click-outside="{ handler : () => $emit('hide'), isActive: !inline && isActive }"
+      v-click-outside="{ handler : () => $emit('resetDate'), isActive: !inline && isActive }"
       v-if="shouldShowAgenda"
       ref="content"
       :style="styles"
