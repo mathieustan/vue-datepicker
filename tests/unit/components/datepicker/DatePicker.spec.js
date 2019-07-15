@@ -165,6 +165,28 @@ describe('DatePicker', () => {
     });
 
     describe('showDatePicker', () => {
+      it.each([
+        [
+          { date: { start: dummyDate, end: undefined }, range: true },
+          { date: { start: dayjs('2019-02-01'), end: dayjs('2019-03-01') } },
+          { start: dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date), end: undefined },
+        ],
+        [{ date: dummyDate }, dayjs('2019-02-01'), dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
+        [{ date: undefined }, dayjs('2019-02-01'), undefined],
+      ])(
+        'when props = %p, current date = %p, should reset date to %p & close',
+        (props, currentDate, expectedResult) => {
+          const wrapper = mountComponent(props);
+          wrapper.setData({ date: currentDate });
+          jest.spyOn(wrapper.vm, 'hideDatePicker');
+
+          wrapper.vm.showDatePicker();
+          expect(wrapper.vm.date).toEqual(expectedResult);
+          expect(wrapper.vm.isVisible).toEqual(true);
+          expect(wrapper.emitted().onOpen).toBeTruthy();
+        },
+      );
+
       it('should set isVisible to true', () => {
         const wrapper = mountComponent();
         wrapper.setData({ isVisible: false });
@@ -204,29 +226,6 @@ describe('DatePicker', () => {
         expect(bodyScrollLockFunctions.clearAllBodyScrollLocks).not.toHaveBeenCalled();
         expect(wrapper.emitted().onClose).toBeFalsy();
       });
-    });
-
-    describe('resetDate', () => {
-      it.each([
-        [
-          { date: { start: dummyDate, end: undefined }, range: true },
-          { date: { start: dayjs('2019-02-01'), end: dayjs('2019-03-01') } },
-          { start: dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date), end: undefined },
-        ],
-        [{ date: dummyDate }, dayjs('2019-02-01'), dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
-        [{ date: undefined }, dayjs('2019-02-01'), undefined],
-      ])(
-        'when props = %p, current date = %p, should reset date to %p & close',
-        (props, currentDate, expectedResult) => {
-          const wrapper = mountComponent(props);
-          wrapper.setData({ date: currentDate });
-          jest.spyOn(wrapper.vm, 'hideDatePicker');
-
-          wrapper.vm.resetDate();
-          expect(wrapper.vm.date).toEqual(expectedResult);
-          expect(wrapper.vm.hideDatePicker).toHaveBeenCalled();
-        },
-      );
     });
 
     describe('changeDate', () => {

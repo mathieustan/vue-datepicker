@@ -66,6 +66,8 @@ export default {
       return availableDates.length > 0;
     },
     setPresetDates ({ availableDates }) {
+      if (this.isPresetSelected({ availableDates })) return;
+
       this.$emit('updateRange', {
         start: availableDates[0],
         end: availableDates[availableDates.length - 1],
@@ -148,6 +150,7 @@ export default {
 
     &--selected  {
       color: white;
+      pointer-events: none;
 
       .datepicker-preset__effect {
         opacity: 1;

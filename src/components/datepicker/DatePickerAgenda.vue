@@ -1,7 +1,7 @@
 <template>
   <transition name="datepicker-transition" appear @after-enter="setActive">
     <div
-      v-click-outside="{ handler : () => $emit('resetDate'), isActive: !inline && isActive }"
+      v-click-outside="{ handler : () => $emit('close'), isActive: !inline && isActive }"
       v-if="shouldShowAgenda"
       ref="content"
       :style="styles"
@@ -144,7 +144,7 @@
         :button-validate="buttonValidate"
         :button-cancel="buttonCancel"
         :color="color"
-        @cancel="$emit('resetDate')"
+        @cancel="$emit('close')"
         @validate="$emit('validateDate')"
       />
     </div>

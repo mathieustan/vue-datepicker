@@ -23,7 +23,7 @@
       :fullscreen-mobile="fullscreenMobile"
       :attach-to="attachTo"
       :z-index="zIndex"
-      @close="resetDate"
+      @close="hideDatePicker"
     />
     <DatepickerAgenda
       :name="name"
@@ -48,9 +48,7 @@
       :z-index="zIndex + 1"
       @selectDate="changeDate"
       @validateDate="validateDate"
-      @resetDate="resetDate"
       @close="hideDatePicker"
-      @hide="hideDatePicker"
     />
   </div>
 </template>
@@ -177,11 +175,14 @@ export default {
     },
     showDatePicker () {
       if (this.disabled) return;
+
+      this.initDate(this.value);
       this.isVisible = true;
       this.$emit('onOpen');
     },
     hideDatePicker () {
       if (!this.isVisible) return;
+
       this.isVisible = false;
       clearAllBodyScrollLocks();
       this.$emit('onClose');
@@ -195,10 +196,6 @@ export default {
         return;
       }
       this.date = date && dayjs(date, this.outputFormat);
-    },
-    resetDate () {
-      this.initDate(this.value);
-      this.hideDatePicker();
     },
     changeDate (date) {
       this.date = date;

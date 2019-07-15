@@ -114,6 +114,13 @@ describe('DatePickerPresets', () => {
     });
 
     describe('setPresetDates', () => {
+      it('should do nothing if preset is already selected', () => {
+        const wrapper = mountComponent({ mutableDate: { start: '2018-01-29', end: '2018-01-31' } });
+        const preset = { availableDates: [dayjs('2018-01-29'), dayjs('2018-01-30'), dayjs('2018-01-31')] };
+        wrapper.vm.setPresetDates(preset);
+        expect(wrapper.emitted().updateRange).toBeFalsy();
+      });
+
       it('Should emit first & last day from available dates', () => {
         const wrapper = mountComponent();
         const preset = { availableDates: [dayjs('2018-01-29'), dayjs('2018-01-30'), dayjs('2018-01-31')] };
