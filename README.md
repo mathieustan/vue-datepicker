@@ -1,32 +1,35 @@
 # vue-datepicker
 
-[![codecov](https://codecov.io/gh/mathieustan/vue-datepicker/branch/master/graph/badge.svg?token=gWRibMQnfD)](https://codecov.io/gh/mathieustan/vue-datepicker)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/22e0f8947502421bb85192ef11d7c2f9)](https://www.codacy.com/app/mathieustan/vue-datepicker?utm_source=github.com&utm_medium=referral&utm_content=mathieustan/vue-datepicker&utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/22e0f8947502421bb85192ef11d7c2f9)](https://www.codacy.com/app/mathieustan/vue-datepicker?utm_source=github.com&utm_medium=referral&utm_content=mathieustan/vue-datepicker&utm_campaign=Badge_Coverage)
 
 > A datepicker Vue component. Compatible with Vue 2.x
 
-- [Demo](#demo)
-- [Install](#install)
-- [Usage](#usage)
-- [Props](#available-props)
-- [Events](#events)
-- [Date Formatting](#date-formatting)
-- [Translations](#translations)
+-   [Demo](#demo)
+-   [Install](#install)
+-   [Usage](#usage)
+-   [Props](#available-props)
+-   [Events](#events)
+-   [Date Formatting](#date-formatting)
+-   [Translations](#translations)
 
 ## Demo
 
-To view a demo online: https://vue-datepicker.netlify.com/
+To view a demo online: <https://vue-datepicker.netlify.com/>
 
 ## Install
 
-``` bash
+```bash
 npm install @mathieustan/vue-datepicker --save
 ```
+
 or
-``` bash
+
+```bash
 yarn add @mathieustan/vue-datepicker
 ```
 
-``` javascript
+```javascript
 import { VueDatePicker } from '@mathieustan/vue-datepicker';
 
 export default {
@@ -40,7 +43,7 @@ export default {
 
 or
 
-``` javascript
+```javascript
 import VueDatePicker from '@mathieustan/vue-datepicker';
 
 Vue.use(VueDatePicker);
@@ -48,18 +51,19 @@ Vue.use(VueDatePicker);
 
 ## Usage
 
-``` html
+```html
 <VueDatePicker v-model="currentDate" />
 ```
 
-*value* prop if passed should be a Date object
+_value_ prop if passed should be a Date object
 
-``` html
+```html
 <template>
     <VueDatePicker :value="date"></VueDatePicker>
 </template>
 ```
-``` javascript
+
+```javascript
 <script>
 export default {
   // ...
@@ -73,61 +77,66 @@ export default {
 }
 </script>
 ```
+
 support name attribute for normal html form submission
-``` html
+
+```html
 <VueDatePicker :value="state.date" name="uniquename"></VueDatePicker>
 ```
+
 Using `v-model`
-``` html
+
+```html
 <VueDatePicker v-model="state.date" name="uniquename"></VueDatePicker>
 ```
 
 ## Available props
 
-| Prop                          | Type            | Default     | Description                              |
-|-------------------------------|-----------------|-------------|------------------------------------------|
-| id                            | String          | 'datepicker'| Input id                                 |
-| value                         | Date\|String\|Number |        | Date value of the datepicker             |
-| name                          | String          | 'datepicker'| Input name property & datepicker title in fullscreenMobile     |
-| validate                      | Boolean         | false       | Show validations button to select date   |
-| buttonValidate                | String          | 'Ok'        | Text for validation button               |
-| buttonCancel                  | String          | 'Cancel'    | Text for cancel button                   |
-| format                        | String          | DD MMMM YYYY| Date formatting for input                |
-| formatHeader                  | String          | dddd DD MMM | Allows you to customize the format of the month string that appears in the header of the calendar.    |
-| formatOutput                  | String          | YYYY-MM-DD  | Allows you to customize the format of date when selected    |
-| placeholder                   | String          | 'YYYY-MM-DD'| Allow you to change input placeholder   |
-| visible                       | Boolean         | false       | Allow you to trigger datepicker         |
-| disabled                      | Boolean         | false       | Datepicker disabled or not              |
-| color                         | String          | #4f88ff     | Applies specified color                  |
-| noHeader                      | Boolean         |             | Allow to hide header                    |
-| fullscreenMobile              | Boolean         | false       | Datepicker will appear in a bottom sheet in mobile view     |
-| minDate                       | String\|Number\|Date |        | Date are available FROM this date       |
-| endDate                       | String\|Number\|Date |        | Date are disabled AFTER this date       |
-| locale                        | Object          |{lang: 'en'} | More informations here [Translations](#translations)        |
-| inline                        | Boolean        | false        | Inline datepicker                       |
-| type                          | String         | 'date'       | Determines the type of the picker - date/month/quarter                 |
-| range                         | Boolean        | false        | Enable/disable Date range (actually only available for date )            |
-| rangeHeaderText               | String         | 'From %d To %d ' | When range is enabled, set text before date in datepicker header            |
-| rangePresets                  | Array          |              | Allow to add custom range presets to range datepicker. (Max custom presets = 6) Example: [{ name: 'This year', dates: { start: ..., end: ... } }]   |
-| tabindex                      | String\|Number | '0'          | Specify input tabindex                  |
-| zIndex                        | Number         |              | Specify a z-index to datepicker & overlay |
-| attachTo                      | String         | '#app'       | It will mount datepicker popup into this element as a child |
+| Prop             | Type                 | Default          | Description                                                                                                                                         |
+| ---------------- | -------------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id               | String               | 'datepicker'     | Input id                                                                                                                                            |
+| value            | Date\|String\|Number |                  | Date value of the datepicker                                                                                                                        |
+| name             | String               | 'datepicker'     | Input name property & datepicker title in fullscreenMobile                                                                                          |
+| validate         | Boolean              | false            | Show validations button to select date                                                                                                              |
+| buttonValidate   | String               | 'Ok'             | Text for validation button                                                                                                                          |
+| buttonCancel     | String               | 'Cancel'         | Text for cancel button                                                                                                                              |
+| format           | String               | DD MMMM YYYY     | Date formatting for input                                                                                                                           |
+| formatHeader     | String               | dddd DD MMM      | Allows you to customize the format of the month string that appears in the header of the calendar.                                                  |
+| formatOutput     | String               | YYYY-MM-DD       | Allows you to customize the format of date when selected                                                                                            |
+| placeholder      | String               | 'YYYY-MM-DD'     | Allow you to change input placeholder                                                                                                               |
+| visible          | Boolean              | false            | Allow you to trigger datepicker                                                                                                                     |
+| disabled         | Boolean              | false            | Datepicker disabled or not                                                                                                                          |
+| color            | String               | #4f88ff          | Applies specified color                                                                                                                             |
+| noHeader         | Boolean              |                  | Allow to hide header                                                                                                                                |
+| fullscreenMobile | Boolean              | false            | Datepicker will appear in a bottom sheet in mobile view                                                                                             |
+| minDate          | String\|Number\|Date |                  | Date are available FROM this date                                                                                                                   |
+| endDate          | String\|Number\|Date |                  | Date are disabled AFTER this date                                                                                                                   |
+| locale           | Object               | {lang: 'en'}     | More informations here [Translations](#translations)                                                                                                |
+| inline           | Boolean              | false            | Inline datepicker                                                                                                                                   |
+| type             | String               | 'date'           | Determines the type of the picker - date/month/quarter                                                                                              |
+| range            | Boolean              | false            | Enable/disable Date range (actually only available for date )                                                                                       |
+| rangeHeaderText  | String               | 'From %d To %d ' | When range is enabled, set text before date in datepicker header                                                                                    |
+| rangePresets     | Array                |                  | Allow to add custom range presets to range datepicker. (Max custom presets = 6) Example: `[{ name: 'This year', dates: { start: ..., end: ... } }]` |
+| tabindex         | String\|Number       | '0'              | Specify input tabindex                                                                                                                              |
+| zIndex           | Number               |                  | Specify a z-index to datepicker & overlay                                                                                                           |
+| attachTo         | String               | '#app'           | It will mount datepicker popup into this element as a child                                                                                         |
 
 ## Events
 
-| Event                         | Output          | Description                                            |
-|-------------------------------|-----------------|--------------------------------------------------------|
-| onOpen                        |                 | datepicker opened                                      |
-| onClose                       |                 | datepicker closed                                      |
-| onChange                      |                 | datepicker changed                                     |
-| onDestroy                     |                 | datepicker destroyed                                   |
+| Event     | Output | Description          |
+| --------- | ------ | -------------------- |
+| onOpen    |        | datepicker opened    |
+| onClose   |        | datepicker closed    |
+| onChange  |        | datepicker changed   |
+| onDestroy |        | datepicker destroyed |
 
 ## Date Formatting
 
 You can use this with `format` props.
 
 Example :
-``` html
+
+```html
 <VueDatePicker v-model="currentDate" format="YYYY-MM-DD" />
 ```
 
@@ -165,12 +174,14 @@ But it's possible to set it from `locale` props.
 Supported language : 'en', 'fr', 'es' in src/locale/translations (more will be added)
 
 exemple:
-``` html
+
+```html
 <template>
     <VueDatePicker :value="date" :locale="locale"></VueDatePicker>
 </template>
 ```
-``` javascript
+
+```javascript
 <script>
 export default {
   // ...
@@ -188,4 +199,3 @@ export default {
 }
 </script>
 ```
-
