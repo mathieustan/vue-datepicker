@@ -1,5 +1,6 @@
 # vue-datepicker
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f946c5839c7649bca73b0e73b74ebe69)](https://app.codacy.com/app/mathieustan/vue-datepicker?utm_source=github.com&utm_medium=referral&utm_content=mathieustan/vue-datepicker&utm_campaign=Badge_Grade_Dashboard)
 [![codecov](https://codecov.io/gh/mathieustan/vue-datepicker/branch/master/graph/badge.svg?token=gWRibMQnfD)](https://codecov.io/gh/mathieustan/vue-datepicker)
 
 > A datepicker Vue component. Compatible with Vue 2.x
