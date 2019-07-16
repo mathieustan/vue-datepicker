@@ -13,14 +13,14 @@ var colorable = {
   },
   methods: {
     setBackgroundColor: function setBackgroundColor(color) {
-      if (!isCssColor(color)) return;
+      if (!isCssColor(color)) { return; }
       return {
         'background-color': "".concat(color),
         'border-color': "".concat(color)
       };
     },
     setTextColor: function setTextColor(color) {
-      if (!isCssColor(color)) return;
+      if (!isCssColor(color)) { return; }
       return {
         'color': "".concat(color)
       };
@@ -62,77 +62,47 @@ var script = {
 };
 
 /* script */
-            const __vue_script__ = script;
+            var __vue_script__ = script;
             
 /* template */
-var __vue_render__ = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c("label", { attrs: { for: _vm.id } }, [
-    _c(
-      "svg",
-      {
-        attrs: {
-          "aria-hidden": "true",
-          focusable: "false",
-          "data-prefix": "fal",
-          "data-icon": "calendar-alt",
-          role: "img",
-          xmlns: "http://www.w3.org/2000/svg",
-          viewBox: "0 0 448 512"
-        }
-      },
-      [
-        _c("path", {
-          attrs: {
-            fill: _vm.color,
-            d:
-              "M400 64h-48V12c0-6.6-5.4-12-12-12h-8c-6.6 0-12 5.4-12 12v52H128V12c0-6.6-5.4-12-12-12h-8c-6.6 0-12 5.4-12 12v52H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48zM48 96h352c8.8 0 16 7.2 16 16v48H32v-48c0-8.8 7.2-16 16-16zm352 384H48c-8.8 0-16-7.2-16-16V192h384v272c0 8.8-7.2 16-16 16zM148 320h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm96 0h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm96 0h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm-96 96h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm-96 0h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm192 0h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12z"
-          }
-        })
-      ]
-    )
-  ])
-};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('label',{attrs:{"for":_vm.id}},[_c('svg',{attrs:{"aria-hidden":"true","focusable":"false","data-prefix":"fal","data-icon":"calendar-alt","role":"img","xmlns":"http://www.w3.org/2000/svg","viewBox":"0 0 448 512"}},[_c('path',{attrs:{"fill":_vm.color,"d":"M400 64h-48V12c0-6.6-5.4-12-12-12h-8c-6.6 0-12 5.4-12 12v52H128V12c0-6.6-5.4-12-12-12h-8c-6.6 0-12 5.4-12 12v52H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48zM48 96h352c8.8 0 16 7.2 16 16v48H32v-48c0-8.8 7.2-16 16-16zm352 384H48c-8.8 0-16-7.2-16-16V192h384v272c0 8.8-7.2 16-16 16zM148 320h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm96 0h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm96 0h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm-96 96h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm-96 0h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm192 0h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12z"}})])])};
 var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__ = function (inject) {
-    if (!inject) return
-    inject("data-v-5a5d4481_0", { source: "label[data-v-5a5d4481] {\n  cursor: inherit;\n}\nsvg[data-v-5a5d4481] {\n  display: flex;\n  font-size: 1em;\n  height: 1em;\n  width: 0.875em;\n  overflow: visible;\n  vertical-align: -0.125em;\n  margin-bottom: 2px;\n}\n\n/*# sourceMappingURL=DatePickerCalendarIcon.vue.map */", map: {"version":3,"sources":["/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerCalendarIcon.vue","DatePickerCalendarIcon.vue"],"names":[],"mappings":"AA8BA;EACA,eAAA;AAAA;AAEA;EACA,aAAA;EACA,cAAA;EACA,WAAA;EACA,cAAA;EACA,iBAAA;EACA,wBAAA;EACA,kBAAA;AAAA;;AC5BA,qDAAqD","file":"DatePickerCalendarIcon.vue","sourcesContent":[null,"label {\n  cursor: inherit; }\n\nsvg {\n  display: flex;\n  font-size: 1em;\n  height: 1em;\n  width: 0.875em;\n  overflow: visible;\n  vertical-align: -0.125em;\n  margin-bottom: 2px; }\n\n/*# sourceMappingURL=DatePickerCalendarIcon.vue.map */"]}, media: undefined });
+  var __vue_inject_styles__ = function (inject) {
+    if (!inject) { return }
+    inject("data-v-5a5d4481_0", { source: "label[data-v-5a5d4481]{cursor:inherit}svg[data-v-5a5d4481]{display:flex;font-size:1em;height:1em;width:.875em;overflow:visible;vertical-align:-.125em;margin-bottom:2px}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-5a5d4481";
+  var __vue_scope_id__ = "data-v-5a5d4481";
   /* module identifier */
-  const __vue_module_identifier__ = undefined;
+  var __vue_module_identifier__ = undefined;
   /* functional template */
-  const __vue_is_functional_template__ = false;
+  var __vue_is_functional_template__ = false;
   /* component normalizer */
   function __vue_normalize__(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
   ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
+    var component = (typeof script === 'function' ? script.options : script) || {};
 
     // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerCalendarIcon.vue";
+    component.__file = "DatePickerCalendarIcon.vue";
 
     if (!component.render) {
       component.render = template.render;
       component.staticRenderFns = template.staticRenderFns;
       component._compiled = true;
 
-      if (functional) component.functional = true;
+      if (functional) { component.functional = true; }
     }
 
     component._scopeId = scope;
 
     {
-      let hook;
+      var hook;
       if (style) {
         hook = function(context) {
           style.call(this, createInjector(context));
@@ -142,14 +112,14 @@ __vue_render__._withStripped = true;
       if (hook !== undefined) {
         if (component.functional) {
           // register for functional component in vue file
-          const originalRender = component.render;
+          var originalRender = component.render;
           component.render = function renderWithStyleInjection(h, context) {
             hook.call(context);
             return originalRender(h, context)
           };
         } else {
           // inject component registration as beforeCreate hook
-          const existing = component.beforeCreate;
+          var existing = component.beforeCreate;
           component.beforeCreate = existing ? [].concat(existing, hook) : [hook];
         }
       }
@@ -159,33 +129,44 @@ __vue_render__._withStripped = true;
   }
   /* style inject */
   function __vue_create_injector__() {
-    const head = document.head || document.getElementsByTagName('head')[0];
-    const styles = __vue_create_injector__.styles || (__vue_create_injector__.styles = {});
-    const isOldIE =
+    var head = document.head || document.getElementsByTagName('head')[0];
+    var styles = __vue_create_injector__.styles || (__vue_create_injector__.styles = {});
+    var isOldIE =
       typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
     return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) return // SSR styles are present.
+      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-      const group = isOldIE ? css.media || 'default' : id;
-      const style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+      var group = isOldIE ? css.media || 'default' : id;
+      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
       if (!style.ids.includes(id)) {
-        let code = css.source;
-        let index = style.ids.length;
+        var code = css.source;
+        var index = style.ids.length;
 
         style.ids.push(id);
+
+        if ( css.map) {
+          // https://developer.chrome.com/devtools/docs/javascript-debugging
+          // this makes source maps inside style tags work properly in Chrome
+          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+          // http://stackoverflow.com/a/26603875
+          code +=
+            '\n/*# sourceMappingURL=data:application/json;base64,' +
+            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+            ' */';
+        }
 
         if (isOldIE) {
           style.element = style.element || document.querySelector('style[data-group=' + group + ']');
         }
 
         if (!style.element) {
-          const el = style.element = document.createElement('style');
+          var el = style.element = document.createElement('style');
           el.type = 'text/css';
 
-          if (css.media) el.setAttribute('media', css.media);
+          if (css.media) { el.setAttribute('media', css.media); }
           if (isOldIE) {
             el.setAttribute('data-group', group);
             el.setAttribute('data-next-index', '0');
@@ -205,11 +186,11 @@ __vue_render__._withStripped = true;
             .filter(Boolean)
             .join('\n');
         } else {
-          const textNode = document.createTextNode(code);
-          const nodes = style.element.childNodes;
-          if (nodes[index]) style.element.removeChild(nodes[index]);
-          if (nodes.length) style.element.insertBefore(textNode, nodes[index]);
-          else style.element.appendChild(textNode);
+          var textNode = document.createTextNode(code);
+          var nodes = style.element.childNodes;
+          if (nodes[index]) { style.element.removeChild(nodes[index]); }
+          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+          else { style.element.appendChild(textNode); }
         }
       }
     }
@@ -240,7 +221,7 @@ function _arrayWithoutHoles(arr) {
 var arrayWithoutHoles = _arrayWithoutHoles;
 
 function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") { return Array.from(iter); }
 }
 
 var iterableToArray = _iterableToArray;
@@ -270,14 +251,14 @@ function _defineProperties(target, props) {
     var descriptor = props[i];
     descriptor.enumerable = descriptor.enumerable || false;
     descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
+    if ("value" in descriptor) { descriptor.writable = true; }
     Object.defineProperty(target, descriptor.key, descriptor);
   }
 }
 
 function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
+  if (protoProps) { _defineProperties(Constructor.prototype, protoProps); }
+  if (staticProps) { _defineProperties(Constructor, staticProps); }
   return Constructor;
 }
 
@@ -294,7 +275,7 @@ var weekday = createCommonjsModule(function (module, exports) {
 });
 
 var weekOfYear = createCommonjsModule(function (module, exports) {
-!function(e,t){module.exports=t();}(commonjsGlobal,function(){var e="year";return function(t,i,n){var r=i.prototype;r.week=function(t){if(void 0===t&&(t=null),null!==t)return this.add(7*(t-this.week()),"day");var i=n(this).endOf(e);if(6!==i.day()&&11===this.month()&&31-this.date()<=i.day())return 1;var r=n(this).startOf(e),d=r.subtract(r.day(),"day").subtract(1,"millisecond"),u=this.diff(d,"week",!0);return Math.ceil(u)},r.weeks=function(e){return void 0===e&&(e=null),this.week(e)};}});
+!function(e,t){module.exports=t();}(commonjsGlobal,function(){var e="year";return function(t,i,n){var r=i.prototype;r.week=function(t){if(void 0===t&&(t=null),null!==t){ return this.add(7*(t-this.week()),"day"); }var i=n(this).endOf(e);if(6!==i.day()&&11===this.month()&&31-this.date()<=i.day()){ return 1; }var r=n(this).startOf(e),d=r.subtract(r.day(),"day").subtract(1,"millisecond"),u=this.diff(d,"week",!0);return Math.ceil(u)},r.weeks=function(e){return void 0===e&&(e=null),this.week(e)};}});
 });
 
 var quarterOfYear = createCommonjsModule(function (module, exports) {
@@ -736,7 +717,7 @@ var script$1 = {
     },
     // Displayed Date
     dateFormatted: function dateFormatted() {
-      if (!this.isDateDefined) return;
+      if (!this.isDateDefined) { return; }
 
       if (this.range) {
         return getRangeDatesFormatted(this.date, this.locale, this.format);
@@ -748,98 +729,47 @@ var script$1 = {
 };
 
 /* script */
-            const __vue_script__$1 = script$1;
+            var __vue_script__$1 = script$1;
             
 /* template */
-var __vue_render__$1 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c(
-    "div",
-    {
-      staticClass: "datepicker-input",
-      class: _vm.classes,
-      on: {
-        mousedown: function($event) {
-          return _vm.$emit("toggleDatepicker")
-        }
-      }
-    },
-    [
-      _c("DatePickerCalendarIcon", {
-        attrs: {
-          id: _vm.id,
-          color:
-            _vm.isDateDefined && !_vm.disabled
-              ? _vm.color
-              : "rgba(93, 106, 137, 0.5)",
-          disabled: _vm.disabled
-        }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        style: _vm.setTextColor(
-          !_vm.disabled ? _vm.color : "rgba(93, 106, 137, 0.5)"
-        ),
-        attrs: {
-          id: _vm.id,
-          name: _vm.id,
-          disabled: _vm.disabled,
-          placeholder: _vm.placeholder,
-          tabindex: _vm.tabindex,
-          type: "text",
-          readonly: ""
-        },
-        domProps: { value: _vm.dateFormatted },
-        on: {
-          focus: function($event) {
-            return _vm.$emit("focus")
-          }
-        }
-      })
-    ],
-    1
-  )
-};
+var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker-input",class:_vm.classes,on:{"mousedown":function($event){return _vm.$emit('toggleDatepicker')}}},[_c('DatePickerCalendarIcon',{attrs:{"id":_vm.id,"color":_vm.isDateDefined && !_vm.disabled ? _vm.color : 'rgba(93, 106, 137, 0.5)',"disabled":_vm.disabled}}),_vm._v(" "),_c('input',{style:(_vm.setTextColor(!_vm.disabled ? _vm.color : 'rgba(93, 106, 137, 0.5)')),attrs:{"id":_vm.id,"name":_vm.id,"disabled":_vm.disabled,"placeholder":_vm.placeholder,"tabindex":_vm.tabindex,"type":"text","readonly":""},domProps:{"value":_vm.dateFormatted},on:{"focus":function($event){return _vm.$emit('focus')}}})],1)};
 var __vue_staticRenderFns__$1 = [];
-__vue_render__$1._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__$1 = function (inject) {
-    if (!inject) return
-    inject("data-v-43dda096_0", { source: "/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-input[data-v-43dda096] {\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  align-items: center;\n}\n.datepicker-input--disabled[data-v-43dda096] {\n    cursor: not-allowed;\n}\ninput[type='hidden'][data-v-43dda096] {\n  position: absolute;\n  bottom: 0;\n  left: 50%;\n  height: 1px;\n  width: 1px;\n  border: 0;\n  clip: rect(0 0 0 0);\n  margin: -1px;\n  padding: 0;\n  outline: 0;\n  -webkit-appearance: none;\n  overflow: hidden;\n}\ninput[type=\"text\"][data-v-43dda096] {\n  cursor: pointer;\n  border: none;\n  box-shadow: none;\n  outline: 0;\n  font-size: 16px;\n  line-height: 19px;\n  margin-left: 8px;\n}\ninput[type=\"text\"][data-v-43dda096]:focus, input[type=\"text\"][data-v-43dda096]:active {\n    outline: 0;\n    box-shadow: none;\n}\ninput[type=\"text\"][data-v-43dda096]:disabled, input[type=\"text\"][disabled][data-v-43dda096] {\n    cursor: not-allowed;\n}\ninput[type=\"text\"].placeholder[data-v-43dda096] {\n    color: rgba(0, 0, 0, 0.4);\n}\ninput[type=\"text\"][data-v-43dda096]::placeholder {\n    color: rgba(0, 0, 0, 0.4);\n}\ninput[type=\"text\"][data-v-43dda096]:-moz-placeholder {\n    color: rgba(0, 0, 0, 0.4);\n}\ninput[type=\"text\"][data-v-43dda096]::-moz-placeholder {\n    color: rgba(0, 0, 0, 0.4);\n}\ninput[type=\"text\"][data-v-43dda096]:-ms-input-placeholder {\n    color: rgba(0, 0, 0, 0.4);\n}\ninput[type=\"text\"][data-v-43dda096]::-webkit-input-placeholder {\n    color: rgba(0, 0, 0, 0.4);\n}\n.datepicker-input--range input[type=\"text\"][data-v-43dda096] {\n    min-width: 310px;\n}\n\n/*# sourceMappingURL=DatePickerCustomInput.vue.map */", map: {"version":3,"sources":["DatePickerCustomInput.vue","/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerCustomInput.vue"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;CAgBC;AC+DD;EACA,kBAAA;EACA,aAAA;EACA,mBAAA;EACA,2BAAA;EACA,mBAAA;AAAA;AAEA;IACA,mBAAA;AAAA;AAIA;EACA,kBAAA;EACA,SAAA;EACA,SAAA;EACA,WAAA;EACA,UAAA;EACA,SAAA;EACA,mBAAA;EACA,YAAA;EACA,UAAA;EACA,UAAA;EACA,wBAAA;EACA,gBAAA;AAAA;AAGA;EACA,eAAA;EACA,YAAA;EACA,gBAAA;EACA,UAAA;EACA,eAAA;EACA,iBAAA;EACA,gBAAA;AAAA;AAPA;IAWA,UAAA;IACA,gBAAA;AAAA;AAZA;IAiBA,mBAAA;AAAA;AAzCA;IA6CA,yBAAA;AAAA;AA5CA;IA4CA,yBAAA;AAAA;AA3CA;IA2CA,yBAAA;AAAA;AArBA;IAqBA,yBAAA;AAAA;AAzCA;IAyCA,yBAAA;AAAA;AAxCA;IAwCA,yBAAA;AAAA;AAGA;IACA,gBAAA;AAAA;;AD/DA,oDAAoD","file":"DatePickerCustomInput.vue","sourcesContent":["/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-input {\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  align-items: center; }\n  .datepicker-input--disabled {\n    cursor: not-allowed; }\n\ninput[type='hidden'] {\n  position: absolute;\n  bottom: 0;\n  left: 50%;\n  height: 1px;\n  width: 1px;\n  border: 0;\n  clip: rect(0 0 0 0);\n  margin: -1px;\n  padding: 0;\n  outline: 0;\n  -webkit-appearance: none;\n  overflow: hidden; }\n\ninput[type=\"text\"] {\n  cursor: pointer;\n  border: none;\n  box-shadow: none;\n  outline: 0;\n  font-size: 16px;\n  line-height: 19px;\n  margin-left: 8px; }\n  input[type=\"text\"]:focus, input[type=\"text\"]:active {\n    outline: 0;\n    box-shadow: none; }\n  input[type=\"text\"]:disabled, input[type=\"text\"][disabled] {\n    cursor: not-allowed; }\n  input[type=\"text\"].placeholder {\n    color: rgba(0, 0, 0, 0.4); }\n  input[type=\"text\"]::placeholder {\n    color: rgba(0, 0, 0, 0.4); }\n  input[type=\"text\"]:-moz-placeholder {\n    color: rgba(0, 0, 0, 0.4); }\n  input[type=\"text\"]::-moz-placeholder {\n    color: rgba(0, 0, 0, 0.4); }\n  input[type=\"text\"]:-ms-input-placeholder {\n    color: rgba(0, 0, 0, 0.4); }\n  input[type=\"text\"]::-webkit-input-placeholder {\n    color: rgba(0, 0, 0, 0.4); }\n  .datepicker-input--range input[type=\"text\"] {\n    min-width: 310px; }\n\n/*# sourceMappingURL=DatePickerCustomInput.vue.map */",null]}, media: undefined });
+  var __vue_inject_styles__$1 = function (inject) {
+    if (!inject) { return }
+    inject("data-v-43dda096_0", { source: ".datepicker-input[data-v-43dda096]{position:relative;display:flex;flex-direction:row;justify-content:flex-start;align-items:center}.datepicker-input--disabled[data-v-43dda096]{cursor:not-allowed}input[type=hidden][data-v-43dda096]{position:absolute;bottom:0;left:50%;height:1px;width:1px;border:0;clip:rect(0 0 0 0);margin:-1px;padding:0;outline:0;-webkit-appearance:none;overflow:hidden}input[type=text][data-v-43dda096]{cursor:pointer;border:none;box-shadow:none;outline:0;font-size:16px;line-height:19px;margin-left:8px}input[type=text][data-v-43dda096]:active,input[type=text][data-v-43dda096]:focus{outline:0;box-shadow:none}input[type=text][data-v-43dda096]:disabled,input[type=text][disabled][data-v-43dda096]{cursor:not-allowed}input[type=text].placeholder[data-v-43dda096]{color:rgba(0,0,0,.4)}input[type=text][data-v-43dda096]::placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-43dda096]:-moz-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-43dda096]::-moz-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-43dda096]:-ms-input-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-43dda096]::-webkit-input-placeholder{color:rgba(0,0,0,.4)}.datepicker-input--range input[type=text][data-v-43dda096]{min-width:310px}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__$1 = "data-v-43dda096";
+  var __vue_scope_id__$1 = "data-v-43dda096";
   /* module identifier */
-  const __vue_module_identifier__$1 = undefined;
+  var __vue_module_identifier__$1 = undefined;
   /* functional template */
-  const __vue_is_functional_template__$1 = false;
+  var __vue_is_functional_template__$1 = false;
   /* component normalizer */
   function __vue_normalize__$1(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
   ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
+    var component = (typeof script === 'function' ? script.options : script) || {};
 
     // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerCustomInput.vue";
+    component.__file = "DatePickerCustomInput.vue";
 
     if (!component.render) {
       component.render = template.render;
       component.staticRenderFns = template.staticRenderFns;
       component._compiled = true;
 
-      if (functional) component.functional = true;
+      if (functional) { component.functional = true; }
     }
 
     component._scopeId = scope;
 
     {
-      let hook;
+      var hook;
       if (style) {
         hook = function(context) {
           style.call(this, createInjector(context));
@@ -849,14 +779,14 @@ __vue_render__$1._withStripped = true;
       if (hook !== undefined) {
         if (component.functional) {
           // register for functional component in vue file
-          const originalRender = component.render;
+          var originalRender = component.render;
           component.render = function renderWithStyleInjection(h, context) {
             hook.call(context);
             return originalRender(h, context)
           };
         } else {
           // inject component registration as beforeCreate hook
-          const existing = component.beforeCreate;
+          var existing = component.beforeCreate;
           component.beforeCreate = existing ? [].concat(existing, hook) : [hook];
         }
       }
@@ -866,33 +796,44 @@ __vue_render__$1._withStripped = true;
   }
   /* style inject */
   function __vue_create_injector__$1() {
-    const head = document.head || document.getElementsByTagName('head')[0];
-    const styles = __vue_create_injector__$1.styles || (__vue_create_injector__$1.styles = {});
-    const isOldIE =
+    var head = document.head || document.getElementsByTagName('head')[0];
+    var styles = __vue_create_injector__$1.styles || (__vue_create_injector__$1.styles = {});
+    var isOldIE =
       typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
     return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) return // SSR styles are present.
+      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-      const group = isOldIE ? css.media || 'default' : id;
-      const style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+      var group = isOldIE ? css.media || 'default' : id;
+      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
       if (!style.ids.includes(id)) {
-        let code = css.source;
-        let index = style.ids.length;
+        var code = css.source;
+        var index = style.ids.length;
 
         style.ids.push(id);
+
+        if ( css.map) {
+          // https://developer.chrome.com/devtools/docs/javascript-debugging
+          // this makes source maps inside style tags work properly in Chrome
+          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+          // http://stackoverflow.com/a/26603875
+          code +=
+            '\n/*# sourceMappingURL=data:application/json;base64,' +
+            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+            ' */';
+        }
 
         if (isOldIE) {
           style.element = style.element || document.querySelector('style[data-group=' + group + ']');
         }
 
         if (!style.element) {
-          const el = style.element = document.createElement('style');
+          var el = style.element = document.createElement('style');
           el.type = 'text/css';
 
-          if (css.media) el.setAttribute('media', css.media);
+          if (css.media) { el.setAttribute('media', css.media); }
           if (isOldIE) {
             el.setAttribute('data-group', group);
             el.setAttribute('data-next-index', '0');
@@ -912,11 +853,11 @@ __vue_render__$1._withStripped = true;
             .filter(Boolean)
             .join('\n');
         } else {
-          const textNode = document.createTextNode(code);
-          const nodes = style.element.childNodes;
-          if (nodes[index]) style.element.removeChild(nodes[index]);
-          if (nodes.length) style.element.insertBefore(textNode, nodes[index]);
-          else style.element.appendChild(textNode);
+          var textNode = document.createTextNode(code);
+          var nodes = style.element.childNodes;
+          if (nodes[index]) { style.element.removeChild(nodes[index]); }
+          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+          else { style.element.appendChild(textNode); }
         }
       }
     }
@@ -1180,7 +1121,7 @@ var runtime = (function (exports) {
         if (delegate) {
           var delegateResult = maybeInvokeDelegate(delegate, context);
           if (delegateResult) {
-            if (delegateResult === ContinueSentinel) continue;
+            if (delegateResult === ContinueSentinel) { continue; }
             return delegateResult;
           }
         }
@@ -1721,7 +1662,7 @@ var detachable = {
   },
   methods: {
     initDetach: function initDetach() {
-      if (!this.$refs.content || this.hasDetached) return;
+      if (!this.$refs.content || this.hasDetached) { return; }
       var target = document.querySelector(this.attachTo);
 
       if (!target) {
@@ -1805,70 +1746,47 @@ var script$2 = {
 };
 
 /* script */
-            const __vue_script__$2 = script$2;
+            var __vue_script__$2 = script$2;
             
 /* template */
-var __vue_render__$2 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c(
-    "transition",
-    { attrs: { name: "overlay-transition", appear: "" } },
-    [
-      _vm.shouldShowOverlay
-        ? _c("div", {
-            ref: "content",
-            staticClass: "datepicker-overlay",
-            style: _vm.styles,
-            on: {
-              click: function($event) {
-                return _vm.$emit("close")
-              }
-            }
-          })
-        : _vm._e()
-    ]
-  )
-};
+var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"overlay-transition","appear":""}},[(_vm.shouldShowOverlay)?_c('div',{ref:"content",staticClass:"datepicker-overlay",style:(_vm.styles),on:{"click":function($event){return _vm.$emit('close')}}}):_vm._e()])};
 var __vue_staticRenderFns__$2 = [];
-__vue_render__$2._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__$2 = function (inject) {
-    if (!inject) return
-    inject("data-v-3fb95e6c_0", { source: "/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-overlay[data-v-3fb95e6c] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n@media only screen and (min-width: 480px) {\n.datepicker-overlay[data-v-3fb95e6c] {\n      display: none;\n}\n}\n.overlay-transition-enter-active[data-v-3fb95e6c], .overlay-transition-leave-active[data-v-3fb95e6c] {\n  opacity: 1;\n  transition: opacity 300ms;\n}\n.overlay-transition-leave-to[data-v-3fb95e6c], .overlay-transition-enter[data-v-3fb95e6c] {\n  opacity: 0;\n}\n\n/*# sourceMappingURL=DatePickerOverlay.vue.map */", map: {"version":3,"sources":["DatePickerOverlay.vue","/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerOverlay.vue"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;CAgBC;ACkCD;EACA,eAAA;EACA,MAAA;EACA,OAAA;EACA,QAAA;EACA,SAAA;EACA,oCAAA;AAAA;AAiBA;AAvBA;MASA,aAAA;AAAA;AAEA;AAGA;EAEA,UAAA;EACA,yBAAA;AAAA;AAEA;EAEA,UAAA;AAAA;;ADpCA,gDAAgD","file":"DatePickerOverlay.vue","sourcesContent":["/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5); }\n  @media only screen and (min-width: 480px) {\n    .datepicker-overlay {\n      display: none; } }\n\n.overlay-transition-enter-active, .overlay-transition-leave-active {\n  opacity: 1;\n  transition: opacity 300ms; }\n\n.overlay-transition-leave-to, .overlay-transition-enter {\n  opacity: 0; }\n\n/*# sourceMappingURL=DatePickerOverlay.vue.map */",null]}, media: undefined });
+  var __vue_inject_styles__$2 = function (inject) {
+    if (!inject) { return }
+    inject("data-v-3fb95e6c_0", { source: ".datepicker-overlay[data-v-3fb95e6c]{position:fixed;top:0;left:0;right:0;bottom:0;background-color:rgba(0,0,0,.5)}@media only screen and (min-width:480px){.datepicker-overlay[data-v-3fb95e6c]{display:none}}.overlay-transition-enter-active[data-v-3fb95e6c],.overlay-transition-leave-active[data-v-3fb95e6c]{opacity:1;transition:opacity .3s}.overlay-transition-enter[data-v-3fb95e6c],.overlay-transition-leave-to[data-v-3fb95e6c]{opacity:0}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__$2 = "data-v-3fb95e6c";
+  var __vue_scope_id__$2 = "data-v-3fb95e6c";
   /* module identifier */
-  const __vue_module_identifier__$2 = undefined;
+  var __vue_module_identifier__$2 = undefined;
   /* functional template */
-  const __vue_is_functional_template__$2 = false;
+  var __vue_is_functional_template__$2 = false;
   /* component normalizer */
   function __vue_normalize__$2(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
   ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
+    var component = (typeof script === 'function' ? script.options : script) || {};
 
     // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerOverlay.vue";
+    component.__file = "DatePickerOverlay.vue";
 
     if (!component.render) {
       component.render = template.render;
       component.staticRenderFns = template.staticRenderFns;
       component._compiled = true;
 
-      if (functional) component.functional = true;
+      if (functional) { component.functional = true; }
     }
 
     component._scopeId = scope;
 
     {
-      let hook;
+      var hook;
       if (style) {
         hook = function(context) {
           style.call(this, createInjector(context));
@@ -1878,14 +1796,14 @@ __vue_render__$2._withStripped = true;
       if (hook !== undefined) {
         if (component.functional) {
           // register for functional component in vue file
-          const originalRender = component.render;
+          var originalRender = component.render;
           component.render = function renderWithStyleInjection(h, context) {
             hook.call(context);
             return originalRender(h, context)
           };
         } else {
           // inject component registration as beforeCreate hook
-          const existing = component.beforeCreate;
+          var existing = component.beforeCreate;
           component.beforeCreate = existing ? [].concat(existing, hook) : [hook];
         }
       }
@@ -1895,33 +1813,44 @@ __vue_render__$2._withStripped = true;
   }
   /* style inject */
   function __vue_create_injector__$2() {
-    const head = document.head || document.getElementsByTagName('head')[0];
-    const styles = __vue_create_injector__$2.styles || (__vue_create_injector__$2.styles = {});
-    const isOldIE =
+    var head = document.head || document.getElementsByTagName('head')[0];
+    var styles = __vue_create_injector__$2.styles || (__vue_create_injector__$2.styles = {});
+    var isOldIE =
       typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
     return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) return // SSR styles are present.
+      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-      const group = isOldIE ? css.media || 'default' : id;
-      const style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+      var group = isOldIE ? css.media || 'default' : id;
+      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
       if (!style.ids.includes(id)) {
-        let code = css.source;
-        let index = style.ids.length;
+        var code = css.source;
+        var index = style.ids.length;
 
         style.ids.push(id);
+
+        if ( css.map) {
+          // https://developer.chrome.com/devtools/docs/javascript-debugging
+          // this makes source maps inside style tags work properly in Chrome
+          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+          // http://stackoverflow.com/a/26603875
+          code +=
+            '\n/*# sourceMappingURL=data:application/json;base64,' +
+            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+            ' */';
+        }
 
         if (isOldIE) {
           style.element = style.element || document.querySelector('style[data-group=' + group + ']');
         }
 
         if (!style.element) {
-          const el = style.element = document.createElement('style');
+          var el = style.element = document.createElement('style');
           el.type = 'text/css';
 
-          if (css.media) el.setAttribute('media', css.media);
+          if (css.media) { el.setAttribute('media', css.media); }
           if (isOldIE) {
             el.setAttribute('data-group', group);
             el.setAttribute('data-next-index', '0');
@@ -1941,11 +1870,11 @@ __vue_render__$2._withStripped = true;
             .filter(Boolean)
             .join('\n');
         } else {
-          const textNode = document.createTextNode(code);
-          const nodes = style.element.childNodes;
-          if (nodes[index]) style.element.removeChild(nodes[index]);
-          if (nodes.length) style.element.insertBefore(textNode, nodes[index]);
-          else style.element.appendChild(textNode);
+          var textNode = document.createTextNode(code);
+          var nodes = style.element.childNodes;
+          if (nodes[index]) { style.element.removeChild(nodes[index]); }
+          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+          else { style.element.appendChild(textNode); }
         }
       }
     }
@@ -2012,7 +1941,7 @@ var ClickOutside = {
   instances: instances,
   bind: bind,
   update: function update(el, binding) {
-    if (JSON.stringify(binding.value) === JSON.stringify(binding.oldValue)) return;
+    if (JSON.stringify(binding.value) === JSON.stringify(binding.oldValue)) { return; }
     bind(el, binding);
   },
   unbind: unbind
@@ -2024,9 +1953,9 @@ function bind(el, _ref) {
   var bindingValue = value;
   var isFunction = typeof bindingValue === 'function';
   var isObject = _typeof_1(bindingValue) === 'object';
-  if (!isFunction && !isObject) return;
+  if (!isFunction && !isObject) { return; }
   var isActive = !(bindingValue.isActive === false);
-  if (!isActive) return;
+  if (!isActive) { return; }
   var handler = isFunction ? bindingValue : bindingValue.handler;
   var instance = createInstance({
     el: el,
@@ -2046,7 +1975,7 @@ function unbind(el) {
   var instanceIndex = instances.findIndex(function (instance) {
     return instance.el === el;
   });
-  if (instanceIndex === -1) return;
+  if (instanceIndex === -1) { return; }
   var instance = instances[instanceIndex];
   instance.eventHandlers.forEach(function (_ref3) {
     var event = _ref3.event,
@@ -2237,7 +2166,7 @@ var dynamicPosition = {
   mounted: function mounted() {
     var _this = this;
 
-    if (this.inline) return; // We're using a `requestAnimationFrame()` for optimal performance.
+    if (this.inline) { return; } // We're using a `requestAnimationFrame()` for optimal performance.
 
     this.eventHandler = function () {
       return requestAnimationFrame(_this.updatePosition);
@@ -2274,9 +2203,11 @@ var dynamicPosition = {
   }
 };
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) { keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) {
+var arguments$1 = arguments;
+ for (var i = 1; i < arguments.length; i++) { var source = arguments$1[i] != null ? arguments$1[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 var script$3 = {
   name: 'DatePickerHeader',
   mixins: [colorable],
@@ -2313,7 +2244,7 @@ var script$3 = {
       };
     },
     year: function year() {
-      if (!this.mutableDate) return '-';
+      if (!this.mutableDate) { return '-'; }
       return formatDateWithLocale(this.mutableDate, this.locale, 'YYYY');
     },
     dateFormatted: function dateFormatted() {
@@ -2329,144 +2260,54 @@ var script$3 = {
         return ["".concat(textSplitted.start, " ").concat(datesSplitted[0]), "".concat(textSplitted.end, " ").concat(datesSplitted[1])];
       }
 
-      if (!this.mutableDate) return '--';
+      if (!this.mutableDate) { return '--'; }
       return formatDateWithLocale(this.mutableDate, this.locale, this.formatHeader);
     }
   }
 };
 
 /* script */
-            const __vue_script__$3 = script$3;
+            var __vue_script__$3 = script$3;
             
 /* template */
-var __vue_render__$3 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c(
-    "div",
-    {
-      staticClass: "datepicker-header",
-      class: _vm.classes,
-      style: _vm.setBackgroundColor(_vm.color)
-    },
-    [
-      !_vm.range
-        ? _c(
-            "div",
-            {
-              staticClass: "datepicker-header__year",
-              class: { "datepicker-header__year--active": _vm.mode === "year" }
-            },
-            [_vm._v("\n    " + _vm._s(_vm.year) + "\n  ")]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.range
-        ? _c(
-            "div",
-            { staticClass: "datepicker-header__wrap" },
-            [
-              _c(
-                "TransitionGroup",
-                {
-                  staticClass: "datepicker-header__date",
-                  class: {
-                    "datepicker-header__date--active": _vm.mode !== "year"
-                  },
-                  attrs: { tag: "div", name: _vm.transitionName }
-                },
-                _vm._l([_vm.dateFormatted], function(dateFormatted) {
-                  return _c("span", { key: dateFormatted }, [
-                    _vm._v("\n        " + _vm._s(dateFormatted) + "\n      ")
-                  ])
-                }),
-                0
-              )
-            ],
-            1
-          )
-        : _c(
-            "div",
-            { staticClass: "datepicker-header__wrap" },
-            [
-              _c(
-                "TransitionGroup",
-                {
-                  staticClass: "datepicker-header__date",
-                  class: {
-                    "datepicker-header__date--active": _vm.mutableDate.start
-                  },
-                  attrs: { tag: "div", name: _vm.transitionName }
-                },
-                _vm._l([_vm.dateFormatted[0]], function(dateFormatted) {
-                  return _c("span", { key: dateFormatted }, [
-                    _vm._v("\n        " + _vm._s(dateFormatted) + "\n      ")
-                  ])
-                }),
-                0
-              ),
-              _vm._v(" "),
-              _c(
-                "TransitionGroup",
-                {
-                  staticClass: "datepicker-header__date",
-                  class: {
-                    "datepicker-header__date--active": _vm.mutableDate.end
-                  },
-                  attrs: { tag: "div", name: _vm.transitionName }
-                },
-                _vm._l([_vm.dateFormatted[1]], function(dateFormatted) {
-                  return _c("span", { key: dateFormatted }, [
-                    _vm._v("\n        " + _vm._s(dateFormatted) + "\n      ")
-                  ])
-                }),
-                0
-              )
-            ],
-            1
-          )
-    ]
-  )
-};
+var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker-header",class:_vm.classes,style:(_vm.setBackgroundColor(_vm.color))},[(!_vm.range)?_c('div',{staticClass:"datepicker-header__year",class:{ 'datepicker-header__year--active' : _vm.mode === 'year' }},[_vm._v("\n    "+_vm._s(_vm.year)+"\n  ")]):_vm._e(),_vm._v(" "),(!_vm.range)?_c('div',{staticClass:"datepicker-header__wrap"},[_c('TransitionGroup',{staticClass:"datepicker-header__date",class:{ 'datepicker-header__date--active' : _vm.mode !== 'year' },attrs:{"tag":"div","name":_vm.transitionName}},_vm._l(([_vm.dateFormatted]),function(dateFormatted){return _c('span',{key:dateFormatted},[_vm._v("\n        "+_vm._s(dateFormatted)+"\n      ")])}),0)],1):_c('div',{staticClass:"datepicker-header__wrap"},[_c('TransitionGroup',{staticClass:"datepicker-header__date",class:{ 'datepicker-header__date--active' : _vm.mutableDate.start },attrs:{"tag":"div","name":_vm.transitionName}},_vm._l(([_vm.dateFormatted[0]]),function(dateFormatted){return _c('span',{key:dateFormatted},[_vm._v("\n        "+_vm._s(dateFormatted)+"\n      ")])}),0),_vm._v(" "),_c('TransitionGroup',{staticClass:"datepicker-header__date",class:{ 'datepicker-header__date--active' : _vm.mutableDate.end },attrs:{"tag":"div","name":_vm.transitionName}},_vm._l(([_vm.dateFormatted[1]]),function(dateFormatted){return _c('span',{key:dateFormatted},[_vm._v("\n        "+_vm._s(dateFormatted)+"\n      ")])}),0)],1)])};
 var __vue_staticRenderFns__$3 = [];
-__vue_render__$3._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__$3 = function (inject) {
-    if (!inject) return
-    inject("data-v-2edfcdaf_0", { source: "/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.slide-h-next-leave-active[data-v-2edfcdaf],\n.slide-h-next-enter-active[data-v-2edfcdaf],\n.slide-h-prev-leave-active[data-v-2edfcdaf],\n.slide-h-prev-enter-active[data-v-2edfcdaf] {\n  position: absolute;\n  transition: transform .3s, opacity .3s;\n}\n.slide-h-next-enter[data-v-2edfcdaf], .slide-h-prev-leave-to[data-v-2edfcdaf] {\n  transform: translateX(100%);\n  opacity: 0;\n}\n.slide-h-next-leave-to[data-v-2edfcdaf], .slide-h-prev-enter[data-v-2edfcdaf] {\n  transform: translateX(-100%);\n  opacity: 0;\n}\n.slide-v-next-leave-active[data-v-2edfcdaf],\n.slide-v-next-enter-active[data-v-2edfcdaf],\n.slide-v-prev-leave-active[data-v-2edfcdaf],\n.slide-v-prev-enter-active[data-v-2edfcdaf] {\n  position: absolute;\n  transition: transform .3s, opacity .3s;\n}\n.slide-v-next-enter[data-v-2edfcdaf], .slide-v-prev-leave-to[data-v-2edfcdaf] {\n  transform: translateY(100%);\n  opacity: 0;\n}\n.slide-v-next-leave-to[data-v-2edfcdaf], .slide-v-prev-enter[data-v-2edfcdaf] {\n  transform: translateY(-100%);\n  opacity: 0;\n}\n.yearMonth-leave-active[data-v-2edfcdaf], .yearMonth-enter-active[data-v-2edfcdaf] {\n  position: absolute;\n  transition: opacity .3s;\n}\n.yearMonth-enter[data-v-2edfcdaf], .yearMonth-leave-to[data-v-2edfcdaf] {\n  opacity: 0;\n}\n.datepicker-header[data-v-2edfcdaf] {\n  color: white;\n  padding: 16px;\n  display: flex;\n  justify-content: space-between;\n  flex-direction: column;\n  flex-wrap: wrap;\n  line-height: 1;\n  min-height: 80px;\n  max-height: 80px;\n  border-radius: 6px 6px 0 0;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-header[data-v-2edfcdaf] {\n      min-height: 85px;\n      max-height: 85px;\n}\n}\n.datepicker-header--range .datepicker-header__wrap[data-v-2edfcdaf] {\n    flex: 1 1 auto;\n    flex-direction: column;\n    justify-content: space-between;\n}\n.datepicker-header--range .datepicker-header__date[data-v-2edfcdaf] {\n    font-size: 18px;\n    height: calc(18px + 8px);\n}\n@media only screen and (min-width: 768px) {\n.datepicker-header--range .datepicker-header__date[data-v-2edfcdaf] {\n        font-size: 22px;\n        height: calc(22px + 8px);\n}\n}\n.datepicker-header__year[data-v-2edfcdaf] {\n    align-items: center;\n    display: inline-flex;\n    font-size: 14px;\n    margin-bottom: 8px;\n    opacity: 0.6;\n    transition: opacity .3s;\n}\n.datepicker-header__year.datepicker-header__year--active[data-v-2edfcdaf] {\n      opacity: 1;\n}\n.datepicker-header__wrap[data-v-2edfcdaf] {\n    position: relative;\n    display: flex;\n    width: 100%;\n}\n.datepicker-header__date[data-v-2edfcdaf] {\n    position: relative;\n    display: flex;\n    width: 100%;\n    font-size: 22px;\n    height: calc(22px + 8px);\n    text-align: left;\n    overflow: hidden;\n    padding-bottom: 8px;\n    margin-bottom: -8px;\n    opacity: 0.6;\n    transition: opacity .3s;\n}\n.datepicker-header__date[data-v-2edfcdaf]:hover, .datepicker-header__date.datepicker-header__date--active[data-v-2edfcdaf] {\n      opacity: 1;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-header__date[data-v-2edfcdaf] {\n        font-size: 28px;\n        height: calc(28px + 8px);\n}\n}\n\n/*# sourceMappingURL=DatePickerHeader.vue.map */", map: {"version":3,"sources":["DatePickerHeader.vue","/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerHeader.vue"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;CAgBC;AACD;;;;EAIE,kBAAkB;EAClB,sCAAsC;AAAE;AAE1C;EACE,2BAA2B;EAC3B,UAAU;AAAE;AAEd;EACE,4BAA4B;EAC5B,UAAU;AAAE;AAEd;;;;EAIE,kBAAkB;EAClB,sCAAsC;AAAE;AAE1C;EACE,2BAA2B;EAC3B,UAAU;AAAE;AAEd;EACE,4BAA4B;EAC5B,UAAU;AAAE;AAEd;EACE,kBAAkB;EAClB,uBAAuB;AAAE;AAE3B;EACE,UAAU;AAAE;ACyDd;EACA,YAAA;EACA,aAAA;EACA,aAAA;EACA,8BAAA;EACA,sBAAA;EACA,eAAA;EACA,cAAA;EACA,gBAAA;EACA,gBAAA;EACA,0BAAA;AAAA;ADtDE;AC4CF;MAaA,gBAAA;MACA,gBAAA;AAAA;AA8DA;AA3DA;IAEA,cAAA;IACA,sBAAA;IACA,8BAAA;AAAA;AAJA;IAOA,eAAA;IACA,wBAAA;AAAA;AD1DI;ACkDJ;QAWA,eAAA;QACA,wBAAA;AAAA;AAEA;AAGA;IACA,mBAAA;IACA,oBAAA;IACA,eAAA;IACA,kBAAA;IACA,YAAA;IACA,uBAAA;AAAA;AANA;MASA,UAAA;AAAA;AAIA;IACA,kBAAA;IACA,aAAA;IACA,WAAA;AAAA;AAGA;IACA,kBAAA;IACA,aAAA;IACA,WAAA;IACA,eAAA;IACA,wBAAA;IACA,gBAAA;IACA,gBAAA;IACA,mBAAA;IACA,mBAAA;IACA,YAAA;IACA,uBAAA;AAAA;AAXA;MAeA,UAAA;AAAA;ADtEI;ACuDJ;QAmBA,eAAA;QACA,wBAAA;AAAA;AAEA;;ADxEA,+CAA+C","file":"DatePickerHeader.vue","sourcesContent":["/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.slide-h-next-leave-active,\n.slide-h-next-enter-active,\n.slide-h-prev-leave-active,\n.slide-h-prev-enter-active {\n  position: absolute;\n  transition: transform .3s, opacity .3s; }\n\n.slide-h-next-enter, .slide-h-prev-leave-to {\n  transform: translateX(100%);\n  opacity: 0; }\n\n.slide-h-next-leave-to, .slide-h-prev-enter {\n  transform: translateX(-100%);\n  opacity: 0; }\n\n.slide-v-next-leave-active,\n.slide-v-next-enter-active,\n.slide-v-prev-leave-active,\n.slide-v-prev-enter-active {\n  position: absolute;\n  transition: transform .3s, opacity .3s; }\n\n.slide-v-next-enter, .slide-v-prev-leave-to {\n  transform: translateY(100%);\n  opacity: 0; }\n\n.slide-v-next-leave-to, .slide-v-prev-enter {\n  transform: translateY(-100%);\n  opacity: 0; }\n\n.yearMonth-leave-active, .yearMonth-enter-active {\n  position: absolute;\n  transition: opacity .3s; }\n\n.yearMonth-enter, .yearMonth-leave-to {\n  opacity: 0; }\n\n.datepicker-header {\n  color: white;\n  padding: 16px;\n  display: flex;\n  justify-content: space-between;\n  flex-direction: column;\n  flex-wrap: wrap;\n  line-height: 1;\n  min-height: 80px;\n  max-height: 80px;\n  border-radius: 6px 6px 0 0; }\n  @media only screen and (min-width: 768px) {\n    .datepicker-header {\n      min-height: 85px;\n      max-height: 85px; } }\n  .datepicker-header--range .datepicker-header__wrap {\n    flex: 1 1 auto;\n    flex-direction: column;\n    justify-content: space-between; }\n  .datepicker-header--range .datepicker-header__date {\n    font-size: 18px;\n    height: calc(18px + 8px); }\n    @media only screen and (min-width: 768px) {\n      .datepicker-header--range .datepicker-header__date {\n        font-size: 22px;\n        height: calc(22px + 8px); } }\n  .datepicker-header__year {\n    align-items: center;\n    display: inline-flex;\n    font-size: 14px;\n    margin-bottom: 8px;\n    opacity: 0.6;\n    transition: opacity .3s; }\n    .datepicker-header__year.datepicker-header__year--active {\n      opacity: 1; }\n  .datepicker-header__wrap {\n    position: relative;\n    display: flex;\n    width: 100%; }\n  .datepicker-header__date {\n    position: relative;\n    display: flex;\n    width: 100%;\n    font-size: 22px;\n    height: calc(22px + 8px);\n    text-align: left;\n    overflow: hidden;\n    padding-bottom: 8px;\n    margin-bottom: -8px;\n    opacity: 0.6;\n    transition: opacity .3s; }\n    .datepicker-header__date:hover, .datepicker-header__date.datepicker-header__date--active {\n      opacity: 1; }\n    @media only screen and (min-width: 768px) {\n      .datepicker-header__date {\n        font-size: 28px;\n        height: calc(28px + 8px); } }\n\n/*# sourceMappingURL=DatePickerHeader.vue.map */",null]}, media: undefined });
+  var __vue_inject_styles__$3 = function (inject) {
+    if (!inject) { return }
+    inject("data-v-2edfcdaf_0", { source: ".slide-h-next-enter-active[data-v-2edfcdaf],.slide-h-next-leave-active[data-v-2edfcdaf],.slide-h-prev-enter-active[data-v-2edfcdaf],.slide-h-prev-leave-active[data-v-2edfcdaf]{position:absolute;transition:transform .3s,opacity .3s}.slide-h-next-enter[data-v-2edfcdaf],.slide-h-prev-leave-to[data-v-2edfcdaf]{transform:translateX(100%);opacity:0}.slide-h-next-leave-to[data-v-2edfcdaf],.slide-h-prev-enter[data-v-2edfcdaf]{transform:translateX(-100%);opacity:0}.slide-v-next-enter-active[data-v-2edfcdaf],.slide-v-next-leave-active[data-v-2edfcdaf],.slide-v-prev-enter-active[data-v-2edfcdaf],.slide-v-prev-leave-active[data-v-2edfcdaf]{position:absolute;transition:transform .3s,opacity .3s}.slide-v-next-enter[data-v-2edfcdaf],.slide-v-prev-leave-to[data-v-2edfcdaf]{transform:translateY(100%);opacity:0}.slide-v-next-leave-to[data-v-2edfcdaf],.slide-v-prev-enter[data-v-2edfcdaf]{transform:translateY(-100%);opacity:0}.yearMonth-enter-active[data-v-2edfcdaf],.yearMonth-leave-active[data-v-2edfcdaf]{position:absolute;transition:opacity .3s}.yearMonth-enter[data-v-2edfcdaf],.yearMonth-leave-to[data-v-2edfcdaf]{opacity:0}.datepicker-header[data-v-2edfcdaf]{color:#fff;padding:16px;display:flex;justify-content:space-between;flex-direction:column;flex-wrap:wrap;line-height:1;min-height:80px;max-height:80px;border-radius:6px 6px 0 0}@media only screen and (min-width:768px){.datepicker-header[data-v-2edfcdaf]{min-height:85px;max-height:85px}}.datepicker-header--range .datepicker-header__wrap[data-v-2edfcdaf]{flex:1 1 auto;flex-direction:column;justify-content:space-between}.datepicker-header--range .datepicker-header__date[data-v-2edfcdaf]{font-size:18px;height:calc(18px + 8px)}@media only screen and (min-width:768px){.datepicker-header--range .datepicker-header__date[data-v-2edfcdaf]{font-size:22px;height:calc(22px + 8px)}}.datepicker-header__year[data-v-2edfcdaf]{align-items:center;display:inline-flex;font-size:14px;margin-bottom:8px;opacity:.6;transition:opacity .3s}.datepicker-header__year.datepicker-header__year--active[data-v-2edfcdaf]{opacity:1}.datepicker-header__wrap[data-v-2edfcdaf]{position:relative;display:flex;width:100%}.datepicker-header__date[data-v-2edfcdaf]{position:relative;display:flex;width:100%;font-size:22px;height:calc(22px + 8px);text-align:left;overflow:hidden;padding-bottom:8px;margin-bottom:-8px;opacity:.6;transition:opacity .3s}.datepicker-header__date.datepicker-header__date--active[data-v-2edfcdaf],.datepicker-header__date[data-v-2edfcdaf]:hover{opacity:1}@media only screen and (min-width:768px){.datepicker-header__date[data-v-2edfcdaf]{font-size:28px;height:calc(28px + 8px)}}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__$3 = "data-v-2edfcdaf";
+  var __vue_scope_id__$3 = "data-v-2edfcdaf";
   /* module identifier */
-  const __vue_module_identifier__$3 = undefined;
+  var __vue_module_identifier__$3 = undefined;
   /* functional template */
-  const __vue_is_functional_template__$3 = false;
+  var __vue_is_functional_template__$3 = false;
   /* component normalizer */
   function __vue_normalize__$3(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
   ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
+    var component = (typeof script === 'function' ? script.options : script) || {};
 
     // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerHeader.vue";
+    component.__file = "DatePickerHeader.vue";
 
     if (!component.render) {
       component.render = template.render;
       component.staticRenderFns = template.staticRenderFns;
       component._compiled = true;
 
-      if (functional) component.functional = true;
+      if (functional) { component.functional = true; }
     }
 
     component._scopeId = scope;
 
     {
-      let hook;
+      var hook;
       if (style) {
         hook = function(context) {
           style.call(this, createInjector(context));
@@ -2476,14 +2317,14 @@ __vue_render__$3._withStripped = true;
       if (hook !== undefined) {
         if (component.functional) {
           // register for functional component in vue file
-          const originalRender = component.render;
+          var originalRender = component.render;
           component.render = function renderWithStyleInjection(h, context) {
             hook.call(context);
             return originalRender(h, context)
           };
         } else {
           // inject component registration as beforeCreate hook
-          const existing = component.beforeCreate;
+          var existing = component.beforeCreate;
           component.beforeCreate = existing ? [].concat(existing, hook) : [hook];
         }
       }
@@ -2493,33 +2334,44 @@ __vue_render__$3._withStripped = true;
   }
   /* style inject */
   function __vue_create_injector__$3() {
-    const head = document.head || document.getElementsByTagName('head')[0];
-    const styles = __vue_create_injector__$3.styles || (__vue_create_injector__$3.styles = {});
-    const isOldIE =
+    var head = document.head || document.getElementsByTagName('head')[0];
+    var styles = __vue_create_injector__$3.styles || (__vue_create_injector__$3.styles = {});
+    var isOldIE =
       typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
     return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) return // SSR styles are present.
+      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-      const group = isOldIE ? css.media || 'default' : id;
-      const style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+      var group = isOldIE ? css.media || 'default' : id;
+      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
       if (!style.ids.includes(id)) {
-        let code = css.source;
-        let index = style.ids.length;
+        var code = css.source;
+        var index = style.ids.length;
 
         style.ids.push(id);
+
+        if ( css.map) {
+          // https://developer.chrome.com/devtools/docs/javascript-debugging
+          // this makes source maps inside style tags work properly in Chrome
+          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+          // http://stackoverflow.com/a/26603875
+          code +=
+            '\n/*# sourceMappingURL=data:application/json;base64,' +
+            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+            ' */';
+        }
 
         if (isOldIE) {
           style.element = style.element || document.querySelector('style[data-group=' + group + ']');
         }
 
         if (!style.element) {
-          const el = style.element = document.createElement('style');
+          var el = style.element = document.createElement('style');
           el.type = 'text/css';
 
-          if (css.media) el.setAttribute('media', css.media);
+          if (css.media) { el.setAttribute('media', css.media); }
           if (isOldIE) {
             el.setAttribute('data-group', group);
             el.setAttribute('data-next-index', '0');
@@ -2539,11 +2391,11 @@ __vue_render__$3._withStripped = true;
             .filter(Boolean)
             .join('\n');
         } else {
-          const textNode = document.createTextNode(code);
-          const nodes = style.element.childNodes;
-          if (nodes[index]) style.element.removeChild(nodes[index]);
-          if (nodes.length) style.element.insertBefore(textNode, nodes[index]);
-          else style.element.appendChild(textNode);
+          var textNode = document.createTextNode(code);
+          var nodes = style.element.childNodes;
+          if (nodes[index]) { style.element.removeChild(nodes[index]); }
+          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+          else { style.element.appendChild(textNode); }
         }
       }
     }
@@ -2594,11 +2446,11 @@ var script$4 = {
       return isBeforeDate(this.yearFormatted, this.minDate, 'year') || isAfterDate(this.yearFormatted, this.endDate, 'year');
     },
     isPreviousDateDisabled: function isPreviousDateDisabled() {
-      if (this.mode !== 'year') return false;
+      if (this.mode !== 'year') { return false; }
       return isBeforeDate(Number(this.yearFormatted) - 1, this.minDate, 'year');
     },
     isNextDateDisabled: function isNextDateDisabled() {
-      if (this.mode !== 'year') return false;
+      if (this.mode !== 'year') { return false; }
       return isAfterDate(Number(this.yearFormatted) + 1, this.endDate, 'year');
     }
   },
@@ -2613,173 +2465,47 @@ var script$4 = {
 };
 
 /* script */
-            const __vue_script__$4 = script$4;
+            var __vue_script__$4 = script$4;
             
 /* template */
-var __vue_render__$4 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c("div", { staticClass: "datepicker-controls" }, [
-    _c(
-      "button",
-      {
-        staticClass: "datepicker-controls__prev",
-        attrs: { disabled: _vm.isPreviousDateDisabled, type: "button" },
-        on: {
-          click: function($event) {
-            return _vm.changeVisibleDate("prev")
-          }
-        }
-      },
-      [
-        _c("svg", { attrs: { viewBox: "0 0 24 24" } }, [
-          _c("path", {
-            attrs: { d: "M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" }
-          })
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "datepicker-controls__wrapper" },
-      [
-        _vm.mode === "month"
-          ? _c(
-              "TransitionGroup",
-              {
-                staticClass: "datepicker-controls__month",
-                attrs: { name: _vm.transitionName, tag: "span" }
-              },
-              _vm._l([_vm.currentDate.month], function(month) {
-                return _c(
-                  "div",
-                  { key: month, staticClass: "datepicker-controls__label" },
-                  [
-                    _c(
-                      "button",
-                      {
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.showYearMonthSelector("month")
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n          " +
-                            _vm._s(_vm.monthFormatted) +
-                            "\n        "
-                        )
-                      ]
-                    )
-                  ]
-                )
-              }),
-              0
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _c(
-          "TransitionGroup",
-          {
-            staticClass: "datepicker-controls__year",
-            class: { "datepicker-controls__year--center": _vm.mode === "year" },
-            attrs: { name: _vm.transitionName, tag: "span" }
-          },
-          _vm._l([_vm.currentDate.year], function(year) {
-            return _c(
-              "div",
-              { key: year, staticClass: "datepicker-controls__label" },
-              [
-                _c(
-                  "button",
-                  {
-                    attrs: { disabled: _vm.isYearDisabled, type: "button" },
-                    on: {
-                      click: function($event) {
-                        return _vm.showYearMonthSelector("year")
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n            " +
-                        _vm._s(_vm.yearFormatted) +
-                        "\n          "
-                    )
-                  ]
-                )
-              ]
-            )
-          }),
-          0
-        )
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "datepicker-controls__next",
-        attrs: { disabled: _vm.isNextDateDisabled, type: "button" },
-        on: {
-          click: function($event) {
-            return _vm.changeVisibleDate("next")
-          }
-        }
-      },
-      [
-        _c("svg", { attrs: { viewBox: "0 0 24 24" } }, [
-          _c("path", {
-            attrs: { d: "M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" }
-          })
-        ])
-      ]
-    )
-  ])
-};
+var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker-controls"},[_c('button',{staticClass:"datepicker-controls__prev",attrs:{"disabled":_vm.isPreviousDateDisabled,"type":"button"},on:{"click":function($event){return _vm.changeVisibleDate('prev')}}},[_c('svg',{attrs:{"viewBox":"0 0 24 24"}},[_c('path',{attrs:{"d":"M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"}})])]),_vm._v(" "),_c('div',{staticClass:"datepicker-controls__wrapper"},[(_vm.mode === 'month')?_c('TransitionGroup',{staticClass:"datepicker-controls__month",attrs:{"name":_vm.transitionName,"tag":"span"}},_vm._l(([_vm.currentDate.month]),function(month){return _c('div',{key:month,staticClass:"datepicker-controls__label"},[_c('button',{attrs:{"type":"button"},on:{"click":function($event){return _vm.showYearMonthSelector('month')}}},[_vm._v("\n          "+_vm._s(_vm.monthFormatted)+"\n        ")])])}),0):_vm._e(),_vm._v(" "),_c('TransitionGroup',{staticClass:"datepicker-controls__year",class:{ 'datepicker-controls__year--center' : _vm.mode === 'year' },attrs:{"name":_vm.transitionName,"tag":"span"}},_vm._l(([_vm.currentDate.year]),function(year){return _c('div',{key:year,staticClass:"datepicker-controls__label"},[_c('button',{attrs:{"disabled":_vm.isYearDisabled,"type":"button"},on:{"click":function($event){return _vm.showYearMonthSelector('year')}}},[_vm._v("\n            "+_vm._s(_vm.yearFormatted)+"\n          ")])])}),0)],1),_vm._v(" "),_c('button',{staticClass:"datepicker-controls__next",attrs:{"disabled":_vm.isNextDateDisabled,"type":"button"},on:{"click":function($event){return _vm.changeVisibleDate('next')}}},[_c('svg',{attrs:{"viewBox":"0 0 24 24"}},[_c('path',{attrs:{"d":"M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"}})])])])};
 var __vue_staticRenderFns__$4 = [];
-__vue_render__$4._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__$4 = function (inject) {
-    if (!inject) return
-    inject("data-v-733d3382_0", { source: "/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-controls__label button[data-v-733d3382] {\n  border: none;\n  margin: 0;\n  padding: 0;\n  width: auto;\n  overflow: visible;\n  background: transparent;\n  /* inherit font & color from ancestor */\n  color: inherit;\n  font: inherit;\n  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n  line-height: normal;\n  /* Corrects font smoothing for webkit */\n  -webkit-font-smoothing: inherit;\n  -moz-osx-font-smoothing: inherit;\n  /* Corrects inability to style clickable `input` types in iOS */\n  -webkit-appearance: none;\n}\n.datepicker-controls__label button[data-v-733d3382]:focus, .datepicker-controls__label button[data-v-733d3382]:active {\n    outline: 0;\n    box-shadow: 0;\n}\n.datepicker-controls__label button[type=\"button\"][data-v-733d3382], .datepicker-controls__label button[type=\"reset\"][data-v-733d3382], .datepicker-controls__label button[type=\"submit\"][data-v-733d3382], .datepicker-controls__label button[role=\"button\"][data-v-733d3382] {\n    cursor: pointer;\n}\n.slide-h-next-leave-active[data-v-733d3382],\n.slide-h-next-enter-active[data-v-733d3382],\n.slide-h-prev-leave-active[data-v-733d3382],\n.slide-h-prev-enter-active[data-v-733d3382] {\n  position: absolute;\n  transition: transform .3s, opacity .3s;\n}\n.slide-h-next-enter[data-v-733d3382], .slide-h-prev-leave-to[data-v-733d3382] {\n  transform: translateX(100%);\n  opacity: 0;\n}\n.slide-h-next-leave-to[data-v-733d3382], .slide-h-prev-enter[data-v-733d3382] {\n  transform: translateX(-100%);\n  opacity: 0;\n}\n.slide-v-next-leave-active[data-v-733d3382],\n.slide-v-next-enter-active[data-v-733d3382],\n.slide-v-prev-leave-active[data-v-733d3382],\n.slide-v-prev-enter-active[data-v-733d3382] {\n  position: absolute;\n  transition: transform .3s, opacity .3s;\n}\n.slide-v-next-enter[data-v-733d3382], .slide-v-prev-leave-to[data-v-733d3382] {\n  transform: translateY(100%);\n  opacity: 0;\n}\n.slide-v-next-leave-to[data-v-733d3382], .slide-v-prev-enter[data-v-733d3382] {\n  transform: translateY(-100%);\n  opacity: 0;\n}\n.yearMonth-leave-active[data-v-733d3382], .yearMonth-enter-active[data-v-733d3382] {\n  position: absolute;\n  transition: opacity .3s;\n}\n.yearMonth-enter[data-v-733d3382], .yearMonth-leave-to[data-v-733d3382] {\n  opacity: 0;\n}\n.datepicker-controls[data-v-733d3382] {\n  position: relative;\n  display: flex;\n  height: 48px;\n  text-align: center;\n  position: relative;\n  width: 100%;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-controls[data-v-733d3382] {\n      height: 56px;\n}\n}\n.datepicker-controls__wrapper[data-v-733d3382] {\n    position: relative;\n    overflow: hidden;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex: 1;\n}\n.datepicker-controls__month[data-v-733d3382], .datepicker-controls__year[data-v-733d3382] {\n    position: relative;\n    display: flex;\n    flex: 1;\n    align-items: center;\n}\n.datepicker-controls__month[data-v-733d3382] {\n    justify-content: flex-end;\n}\n.datepicker-controls__year[data-v-733d3382] {\n    justify-content: flex-start;\n}\n.datepicker-controls__year.datepicker-controls__year--center[data-v-733d3382] {\n      justify-content: center;\n}\n.datepicker-controls__label[data-v-733d3382] {\n    padding: 8px 4px;\n}\n.datepicker-controls__label button[data-v-733d3382] {\n      position: relative;\n      display: flex;\n      font-size: 15px;\n      font-weight: 500;\n      line-height: 15px;\n      padding: 0;\n      border: none;\n      outline: none;\n}\n.datepicker-controls__label button[data-v-733d3382]:disabled, .datepicker-controls__label button[disabled][data-v-733d3382] {\n        cursor: default;\n        color: rgba(0, 0, 0, 0.26);\n}\n.datepicker-controls button.datepicker-controls__prev[data-v-733d3382],\n  .datepicker-controls button.datepicker-controls__next[data-v-733d3382] {\n    position: relative;\n    flex: 0 0 40px;\n    height: 48px;\n    width: 48px;\n    padding: 0 0 0 24px;\n    border: none;\n    outline: none;\n    background-color: transparent;\n    user-select: none;\n    cursor: pointer;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-controls button.datepicker-controls__prev[data-v-733d3382],\n      .datepicker-controls button.datepicker-controls__next[data-v-733d3382] {\n        padding: 0 8px 0 8px;\n        height: 56px;\n        width: 56px;\n}\n}\n.datepicker-controls button.datepicker-controls__prev[data-v-733d3382]:disabled, .datepicker-controls button.datepicker-controls__prev[disabled][data-v-733d3382],\n    .datepicker-controls button.datepicker-controls__next[data-v-733d3382]:disabled,\n    .datepicker-controls button.datepicker-controls__next[disabled][data-v-733d3382] {\n      cursor: default;\n}\n.datepicker-controls button.datepicker-controls__prev:disabled svg[data-v-733d3382], .datepicker-controls button.datepicker-controls__prev[disabled] svg[data-v-733d3382],\n      .datepicker-controls button.datepicker-controls__next:disabled svg[data-v-733d3382],\n      .datepicker-controls button.datepicker-controls__next[disabled] svg[data-v-733d3382] {\n        fill: rgba(0, 0, 0, 0.26);\n}\n.datepicker-controls button.datepicker-controls__next[data-v-733d3382] {\n    padding: 0 24px 0 0;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-controls button.datepicker-controls__next[data-v-733d3382] {\n        padding: 0 8px 0 8px;\n}\n}\n.datepicker-controls svg[data-v-733d3382] {\n    width: 24px;\n    height: 24px;\n    fill: rgba(0, 0, 0, 0.87);\n    vertical-align: middle;\n}\n\n/*# sourceMappingURL=DatePickerControls.vue.map */", map: {"version":3,"sources":["DatePickerControls.vue","/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerControls.vue"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;CAgBC;ACwID;EDtIE,YAAY;EACZ,SAAS;EACT,UAAU;EACV,WAAW;EACX,iBAAiB;EACjB,uBAAuB;EACvB,uCAAuC;EACvC,cAAc;EACd,aAAa;EACb,4EAA4E;EC+E9E,mBAAA;EAEA,uCAAA;EACA,+BAAA;ED9EE,gCAAgC;ECiFlC,+DAAA;EACA,wBAAA;AAAA;AAEA;IAEA,UAAA;IDjFI,aAAa;AAAE;ACqFnB;IAIA,eAAA;AAAA;ADrFA;;;;EAIE,kBAAkB;EAClB,sCAAsC;AAAE;AAE1C;EACE,2BAA2B;EAC3B,UAAU;AAAE;AAEd;EACE,4BAA4B;EAC5B,UAAU;AAAE;AAEd;;;;EAIE,kBAAkB;EAClB,sCAAsC;AAAE;AAE1C;EACE,2BAA2B;EAC3B,UAAU;AAAE;AAEd;EACE,4BAA4B;EAC5B,UAAU;AAAE;AAEd;EACE,kBAAkB;EAClB,uBAAuB;AAAE;AAE3B;EACE,UAAU;AAAE;ACoCd;EACA,kBAAA;EACA,aAAA;EACA,YAAA;EACA,kBAAA;EACA,kBAAA;EACA,WAAA;AAAA;ADjCE;AC2BF;MASA,YAAA;AAAA;AAgGA;AA7FA;IACA,kBAAA;IACA,gBAAA;IACA,aAAA;IACA,uBAAA;IACA,mBAAA;IACA,OAAA;AAAA;AAGA;IAEA,kBAAA;IACA,aAAA;IACA,OAAA;IACA,mBAAA;AAAA;AAGA;IACA,yBAAA;AAAA;AAGA;IACA,2BAAA;AAAA;AADA;MAIA,uBAAA;AAAA;AAIA;IACA,gBAAA;AAAA;AADA;MAKA,kBAAA;MACA,aAAA;MACA,eAAA;MACA,gBAAA;MACA,iBAAA;MACA,UAAA;MACA,YAAA;MACA,aAAA;AAAA;AAZA;QAgBA,eAAA;QACA,0BAAA;AAAA;AA1DA;;IAiEA,kBAAA;IACA,cAAA;IACA,YAAA;IACA,WAAA;IACA,mBAAA;IACA,YAAA;IACA,aAAA;IACA,6BAAA;IACA,iBAAA;IACA,eAAA;AAAA;ADtDI;ACpBJ;;QA6EA,oBAAA;QACA,YAAA;QACA,WAAA;AAAA;AAUA;AAzFA;;;MAuFA,eAAA;AAAA;AAvFA;;;QAqFA,yBAAA;AAAA;AArFA;IA4FA,mBAAA;AAAA;ADxDI;ACpCJ;QA+FA,oBAAA;AAAA;AAEA;AAjGA;IAoGA,WAAA;IACA,YAAA;IACA,yBAAA;IACA,sBAAA;AAAA;;AD1DA,iDAAiD","file":"DatePickerControls.vue","sourcesContent":["/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-controls__label button {\n  border: none;\n  margin: 0;\n  padding: 0;\n  width: auto;\n  overflow: visible;\n  background: transparent;\n  /* inherit font & color from ancestor */\n  color: inherit;\n  font: inherit;\n  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n  line-height: normal;\n  /* Corrects font smoothing for webkit */\n  -webkit-font-smoothing: inherit;\n  -moz-osx-font-smoothing: inherit;\n  /* Corrects inability to style clickable `input` types in iOS */\n  -webkit-appearance: none; }\n  .datepicker-controls__label button:focus, .datepicker-controls__label button:active {\n    outline: 0;\n    box-shadow: 0; }\n  .datepicker-controls__label button[type=\"button\"], .datepicker-controls__label button[type=\"reset\"], .datepicker-controls__label button[type=\"submit\"], .datepicker-controls__label button[role=\"button\"] {\n    cursor: pointer; }\n\n.slide-h-next-leave-active,\n.slide-h-next-enter-active,\n.slide-h-prev-leave-active,\n.slide-h-prev-enter-active {\n  position: absolute;\n  transition: transform .3s, opacity .3s; }\n\n.slide-h-next-enter, .slide-h-prev-leave-to {\n  transform: translateX(100%);\n  opacity: 0; }\n\n.slide-h-next-leave-to, .slide-h-prev-enter {\n  transform: translateX(-100%);\n  opacity: 0; }\n\n.slide-v-next-leave-active,\n.slide-v-next-enter-active,\n.slide-v-prev-leave-active,\n.slide-v-prev-enter-active {\n  position: absolute;\n  transition: transform .3s, opacity .3s; }\n\n.slide-v-next-enter, .slide-v-prev-leave-to {\n  transform: translateY(100%);\n  opacity: 0; }\n\n.slide-v-next-leave-to, .slide-v-prev-enter {\n  transform: translateY(-100%);\n  opacity: 0; }\n\n.yearMonth-leave-active, .yearMonth-enter-active {\n  position: absolute;\n  transition: opacity .3s; }\n\n.yearMonth-enter, .yearMonth-leave-to {\n  opacity: 0; }\n\n.datepicker-controls {\n  position: relative;\n  display: flex;\n  height: 48px;\n  text-align: center;\n  position: relative;\n  width: 100%; }\n  @media only screen and (min-width: 768px) {\n    .datepicker-controls {\n      height: 56px; } }\n  .datepicker-controls__wrapper {\n    position: relative;\n    overflow: hidden;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex: 1; }\n  .datepicker-controls__month, .datepicker-controls__year {\n    position: relative;\n    display: flex;\n    flex: 1;\n    align-items: center; }\n  .datepicker-controls__month {\n    justify-content: flex-end; }\n  .datepicker-controls__year {\n    justify-content: flex-start; }\n    .datepicker-controls__year.datepicker-controls__year--center {\n      justify-content: center; }\n  .datepicker-controls__label {\n    padding: 8px 4px; }\n    .datepicker-controls__label button {\n      position: relative;\n      display: flex;\n      font-size: 15px;\n      font-weight: 500;\n      line-height: 15px;\n      padding: 0;\n      border: none;\n      outline: none; }\n      .datepicker-controls__label button:disabled, .datepicker-controls__label button[disabled] {\n        cursor: default;\n        color: rgba(0, 0, 0, 0.26); }\n  .datepicker-controls button.datepicker-controls__prev,\n  .datepicker-controls button.datepicker-controls__next {\n    position: relative;\n    flex: 0 0 40px;\n    height: 48px;\n    width: 48px;\n    padding: 0 0 0 24px;\n    border: none;\n    outline: none;\n    background-color: transparent;\n    user-select: none;\n    cursor: pointer; }\n    @media only screen and (min-width: 768px) {\n      .datepicker-controls button.datepicker-controls__prev,\n      .datepicker-controls button.datepicker-controls__next {\n        padding: 0 8px 0 8px;\n        height: 56px;\n        width: 56px; } }\n    .datepicker-controls button.datepicker-controls__prev:disabled, .datepicker-controls button.datepicker-controls__prev[disabled],\n    .datepicker-controls button.datepicker-controls__next:disabled,\n    .datepicker-controls button.datepicker-controls__next[disabled] {\n      cursor: default; }\n      .datepicker-controls button.datepicker-controls__prev:disabled svg, .datepicker-controls button.datepicker-controls__prev[disabled] svg,\n      .datepicker-controls button.datepicker-controls__next:disabled svg,\n      .datepicker-controls button.datepicker-controls__next[disabled] svg {\n        fill: rgba(0, 0, 0, 0.26); }\n  .datepicker-controls button.datepicker-controls__next {\n    padding: 0 24px 0 0; }\n    @media only screen and (min-width: 768px) {\n      .datepicker-controls button.datepicker-controls__next {\n        padding: 0 8px 0 8px; } }\n  .datepicker-controls svg {\n    width: 24px;\n    height: 24px;\n    fill: rgba(0, 0, 0, 0.87);\n    vertical-align: middle; }\n\n/*# sourceMappingURL=DatePickerControls.vue.map */",null]}, media: undefined });
+  var __vue_inject_styles__$4 = function (inject) {
+    if (!inject) { return }
+    inject("data-v-733d3382_0", { source: ".datepicker-controls__label button[data-v-733d3382]{border:none;margin:0;padding:0;width:auto;overflow:visible;background:0 0;color:inherit;font:inherit;line-height:normal;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-appearance:none}.datepicker-controls__label button[data-v-733d3382]:active,.datepicker-controls__label button[data-v-733d3382]:focus{outline:0;box-shadow:0}.datepicker-controls__label button[role=button][data-v-733d3382],.datepicker-controls__label button[type=button][data-v-733d3382],.datepicker-controls__label button[type=reset][data-v-733d3382],.datepicker-controls__label button[type=submit][data-v-733d3382]{cursor:pointer}.slide-h-next-enter-active[data-v-733d3382],.slide-h-next-leave-active[data-v-733d3382],.slide-h-prev-enter-active[data-v-733d3382],.slide-h-prev-leave-active[data-v-733d3382]{position:absolute;transition:transform .3s,opacity .3s}.slide-h-next-enter[data-v-733d3382],.slide-h-prev-leave-to[data-v-733d3382]{transform:translateX(100%);opacity:0}.slide-h-next-leave-to[data-v-733d3382],.slide-h-prev-enter[data-v-733d3382]{transform:translateX(-100%);opacity:0}.slide-v-next-enter-active[data-v-733d3382],.slide-v-next-leave-active[data-v-733d3382],.slide-v-prev-enter-active[data-v-733d3382],.slide-v-prev-leave-active[data-v-733d3382]{position:absolute;transition:transform .3s,opacity .3s}.slide-v-next-enter[data-v-733d3382],.slide-v-prev-leave-to[data-v-733d3382]{transform:translateY(100%);opacity:0}.slide-v-next-leave-to[data-v-733d3382],.slide-v-prev-enter[data-v-733d3382]{transform:translateY(-100%);opacity:0}.yearMonth-enter-active[data-v-733d3382],.yearMonth-leave-active[data-v-733d3382]{position:absolute;transition:opacity .3s}.yearMonth-enter[data-v-733d3382],.yearMonth-leave-to[data-v-733d3382]{opacity:0}.datepicker-controls[data-v-733d3382]{position:relative;display:flex;height:48px;text-align:center;position:relative;width:100%}@media only screen and (min-width:768px){.datepicker-controls[data-v-733d3382]{height:56px}}.datepicker-controls__wrapper[data-v-733d3382]{position:relative;overflow:hidden;display:flex;justify-content:center;align-items:center;flex:1}.datepicker-controls__month[data-v-733d3382],.datepicker-controls__year[data-v-733d3382]{position:relative;display:flex;flex:1;align-items:center}.datepicker-controls__month[data-v-733d3382]{justify-content:flex-end}.datepicker-controls__year[data-v-733d3382]{justify-content:flex-start}.datepicker-controls__year.datepicker-controls__year--center[data-v-733d3382]{justify-content:center}.datepicker-controls__label[data-v-733d3382]{padding:8px 4px}.datepicker-controls__label button[data-v-733d3382]{position:relative;display:flex;font-size:15px;font-weight:500;line-height:15px;padding:0;border:none;outline:0}.datepicker-controls__label button[data-v-733d3382]:disabled,.datepicker-controls__label button[disabled][data-v-733d3382]{cursor:default;color:rgba(0,0,0,.26)}.datepicker-controls button.datepicker-controls__next[data-v-733d3382],.datepicker-controls button.datepicker-controls__prev[data-v-733d3382]{position:relative;flex:0 0 40px;height:48px;width:48px;padding:0 0 0 24px;border:none;outline:0;background-color:transparent;user-select:none;cursor:pointer}@media only screen and (min-width:768px){.datepicker-controls button.datepicker-controls__next[data-v-733d3382],.datepicker-controls button.datepicker-controls__prev[data-v-733d3382]{padding:0 8px 0 8px;height:56px;width:56px}}.datepicker-controls button.datepicker-controls__next[data-v-733d3382]:disabled,.datepicker-controls button.datepicker-controls__next[disabled][data-v-733d3382],.datepicker-controls button.datepicker-controls__prev[data-v-733d3382]:disabled,.datepicker-controls button.datepicker-controls__prev[disabled][data-v-733d3382]{cursor:default}.datepicker-controls button.datepicker-controls__next:disabled svg[data-v-733d3382],.datepicker-controls button.datepicker-controls__next[disabled] svg[data-v-733d3382],.datepicker-controls button.datepicker-controls__prev:disabled svg[data-v-733d3382],.datepicker-controls button.datepicker-controls__prev[disabled] svg[data-v-733d3382]{fill:rgba(0,0,0,.26)}.datepicker-controls button.datepicker-controls__next[data-v-733d3382]{padding:0 24px 0 0}@media only screen and (min-width:768px){.datepicker-controls button.datepicker-controls__next[data-v-733d3382]{padding:0 8px 0 8px}}.datepicker-controls svg[data-v-733d3382]{width:24px;height:24px;fill:rgba(0,0,0,.87);vertical-align:middle}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__$4 = "data-v-733d3382";
+  var __vue_scope_id__$4 = "data-v-733d3382";
   /* module identifier */
-  const __vue_module_identifier__$4 = undefined;
+  var __vue_module_identifier__$4 = undefined;
   /* functional template */
-  const __vue_is_functional_template__$4 = false;
+  var __vue_is_functional_template__$4 = false;
   /* component normalizer */
   function __vue_normalize__$4(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
   ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
+    var component = (typeof script === 'function' ? script.options : script) || {};
 
     // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerControls.vue";
+    component.__file = "DatePickerControls.vue";
 
     if (!component.render) {
       component.render = template.render;
       component.staticRenderFns = template.staticRenderFns;
       component._compiled = true;
 
-      if (functional) component.functional = true;
+      if (functional) { component.functional = true; }
     }
 
     component._scopeId = scope;
 
     {
-      let hook;
+      var hook;
       if (style) {
         hook = function(context) {
           style.call(this, createInjector(context));
@@ -2789,14 +2515,14 @@ __vue_render__$4._withStripped = true;
       if (hook !== undefined) {
         if (component.functional) {
           // register for functional component in vue file
-          const originalRender = component.render;
+          var originalRender = component.render;
           component.render = function renderWithStyleInjection(h, context) {
             hook.call(context);
             return originalRender(h, context)
           };
         } else {
           // inject component registration as beforeCreate hook
-          const existing = component.beforeCreate;
+          var existing = component.beforeCreate;
           component.beforeCreate = existing ? [].concat(existing, hook) : [hook];
         }
       }
@@ -2806,33 +2532,44 @@ __vue_render__$4._withStripped = true;
   }
   /* style inject */
   function __vue_create_injector__$4() {
-    const head = document.head || document.getElementsByTagName('head')[0];
-    const styles = __vue_create_injector__$4.styles || (__vue_create_injector__$4.styles = {});
-    const isOldIE =
+    var head = document.head || document.getElementsByTagName('head')[0];
+    var styles = __vue_create_injector__$4.styles || (__vue_create_injector__$4.styles = {});
+    var isOldIE =
       typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
     return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) return // SSR styles are present.
+      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-      const group = isOldIE ? css.media || 'default' : id;
-      const style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+      var group = isOldIE ? css.media || 'default' : id;
+      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
       if (!style.ids.includes(id)) {
-        let code = css.source;
-        let index = style.ids.length;
+        var code = css.source;
+        var index = style.ids.length;
 
         style.ids.push(id);
+
+        if ( css.map) {
+          // https://developer.chrome.com/devtools/docs/javascript-debugging
+          // this makes source maps inside style tags work properly in Chrome
+          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+          // http://stackoverflow.com/a/26603875
+          code +=
+            '\n/*# sourceMappingURL=data:application/json;base64,' +
+            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+            ' */';
+        }
 
         if (isOldIE) {
           style.element = style.element || document.querySelector('style[data-group=' + group + ']');
         }
 
         if (!style.element) {
-          const el = style.element = document.createElement('style');
+          var el = style.element = document.createElement('style');
           el.type = 'text/css';
 
-          if (css.media) el.setAttribute('media', css.media);
+          if (css.media) { el.setAttribute('media', css.media); }
           if (isOldIE) {
             el.setAttribute('data-group', group);
             el.setAttribute('data-next-index', '0');
@@ -2852,11 +2589,11 @@ __vue_render__$4._withStripped = true;
             .filter(Boolean)
             .join('\n');
         } else {
-          const textNode = document.createTextNode(code);
-          const nodes = style.element.childNodes;
-          if (nodes[index]) style.element.removeChild(nodes[index]);
-          if (nodes.length) style.element.insertBefore(textNode, nodes[index]);
-          else style.element.appendChild(textNode);
+          var textNode = document.createTextNode(code);
+          var nodes = style.element.childNodes;
+          if (nodes[index]) { style.element.removeChild(nodes[index]); }
+          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+          else { style.element.appendChild(textNode); }
         }
       }
     }
@@ -2981,7 +2718,7 @@ var script$5 = {
       return this.currentDate.year === year;
     },
     isSelectedMonthOrQuarter: function isSelectedMonthOrQuarter(monthIndex) {
-      if (this.range || !this.mutableDate) return false;
+      if (this.range || !this.mutableDate) { return false; }
       var selectedDate = formatDateWithYearAndMonth(this.currentDate.year, monthIndex);
       return areSameDates(this.mutableDate.format('YYYY-MM'), selectedDate.format('YYYY-MM'), this.mode);
     },
@@ -3002,222 +2739,52 @@ var script$5 = {
 };
 
 /* script */
-            const __vue_script__$5 = script$5;
+            var __vue_script__$5 = script$5;
             
 /* template */
-var __vue_render__$5 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c("transition", { attrs: { name: "yearMonth", appear: "" } }, [
-    _c("div", { staticClass: "datepicker-year-month" }, [
-      _vm.mode === "year"
-        ? _c("div", { staticClass: "datepicker-years" }, [
-            _c(
-              "ul",
-              { staticClass: "datepicker-years__list" },
-              _vm._l(_vm.getYears, function(year) {
-                return _c(
-                  "li",
-                  {
-                    key: year,
-                    class: {
-                      active: _vm.isSelectedYear(year),
-                      disabled: _vm.isYearDisabled(year)
-                    }
-                  },
-                  [
-                    _c(
-                      "button",
-                      {
-                        attrs: {
-                          disabled: _vm.isYearDisabled(year),
-                          type: "button"
-                        },
-                        on: {
-                          click: function($event) {
-                            return _vm.onSelect(year)
-                          }
-                        }
-                      },
-                      [_vm._v("\n            " + _vm._s(year) + "\n          ")]
-                    )
-                  ]
-                )
-              }),
-              0
-            )
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.mode === "month" || _vm.mode === "quarter"
-        ? _c(
-            "div",
-            { staticClass: "datepicker-months" },
-            [
-              _c("DatePickerControls", {
-                attrs: {
-                  "current-date": _vm.currentDate,
-                  "transition-name": _vm.transitionName,
-                  "min-date": _vm.minDate,
-                  "end-date": _vm.endDate,
-                  mode: "year"
-                },
-                on: {
-                  changeVisibleDate: _vm.changeYear,
-                  showYearMonthSelector: _vm.showYearMonthSelector
-                }
-              }),
-              _vm._v(" "),
-              _vm.mode === "month"
-                ? [
-                    _c(
-                      "TransitionGroup",
-                      {
-                        staticClass: "datepicker-months__wrapper",
-                        attrs: { tag: "div", name: _vm.transitionName }
-                      },
-                      _vm._l([_vm.currentDate.year], function(year) {
-                        return _c(
-                          "div",
-                          { key: year, staticClass: "datepicker-months__list" },
-                          _vm._l(_vm.getMonths, function(month, index) {
-                            return _c(
-                              "button",
-                              {
-                                key: index,
-                                style: Object.assign(
-                                  {},
-                                  _vm.isSelectedMonthOrQuarter(index) &&
-                                    _vm.setTextColor("#fff"),
-                                  _vm.isSelectedMonthOrQuarter(index) &&
-                                    _vm.setBackgroundColor(_vm.color)
-                                ),
-                                attrs: {
-                                  disabled: _vm.isMonthOrQuarterDisabled(index),
-                                  type: "button"
-                                },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.onSelect(index)
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n            " +
-                                    _vm._s(month) +
-                                    "\n            "
-                                )
-                              ]
-                            )
-                          }),
-                          0
-                        )
-                      }),
-                      0
-                    )
-                  ]
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.mode === "quarter"
-                ? [
-                    _c(
-                      "TransitionGroup",
-                      {
-                        staticClass: "datepicker-months__wrapper",
-                        attrs: { tag: "div", name: _vm.transitionName }
-                      },
-                      _vm._l([_vm.currentDate.year], function(year) {
-                        return _c(
-                          "div",
-                          {
-                            key: year,
-                            staticClass: "datepicker-quarters__list"
-                          },
-                          _vm._l(_vm.getQuarters, function(quarter, index) {
-                            return _c(
-                              "button",
-                              {
-                                key: index,
-                                style: Object.assign(
-                                  {},
-                                  _vm.isSelectedMonthOrQuarter(index * 3) &&
-                                    _vm.setTextColor("#fff"),
-                                  _vm.isSelectedMonthOrQuarter(index * 3) &&
-                                    _vm.setBackgroundColor(_vm.color)
-                                ),
-                                attrs: {
-                                  disabled: _vm.isMonthOrQuarterDisabled(index),
-                                  type: "button"
-                                },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.onSelect(index)
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n            " +
-                                    _vm._s(quarter) +
-                                    "\n            "
-                                )
-                              ]
-                            )
-                          }),
-                          0
-                        )
-                      }),
-                      0
-                    )
-                  ]
-                : _vm._e()
-            ],
-            2
-          )
-        : _vm._e()
-    ])
-  ])
-};
+var __vue_render__$5 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"yearMonth","appear":""}},[_c('div',{staticClass:"datepicker-year-month"},[(_vm.mode === 'year')?_c('div',{staticClass:"datepicker-years"},[_c('ul',{staticClass:"datepicker-years__list"},_vm._l((_vm.getYears),function(year){return _c('li',{key:year,class:{
+            'active' : _vm.isSelectedYear(year),
+            'disabled' : _vm.isYearDisabled(year)
+          }},[_c('button',{attrs:{"disabled":_vm.isYearDisabled(year),"type":"button"},on:{"click":function($event){return _vm.onSelect(year)}}},[_vm._v("\n            "+_vm._s(year)+"\n          ")])])}),0)]):_vm._e(),_vm._v(" "),(_vm.mode === 'month' || _vm.mode === 'quarter')?_c('div',{staticClass:"datepicker-months"},[_c('DatePickerControls',{attrs:{"current-date":_vm.currentDate,"transition-name":_vm.transitionName,"min-date":_vm.minDate,"end-date":_vm.endDate,"mode":"year"},on:{"changeVisibleDate":_vm.changeYear,"showYearMonthSelector":_vm.showYearMonthSelector}}),_vm._v(" "),(_vm.mode === 'month')?[_c('TransitionGroup',{staticClass:"datepicker-months__wrapper",attrs:{"tag":"div","name":_vm.transitionName}},_vm._l(([_vm.currentDate.year]),function(year){return _c('div',{key:year,staticClass:"datepicker-months__list"},_vm._l((_vm.getMonths),function(month,index){return _c('button',{key:index,style:(Object.assign({}, (_vm.isSelectedMonthOrQuarter(index) && _vm.setTextColor('#fff')),
+                (_vm.isSelectedMonthOrQuarter(index) && _vm.setBackgroundColor(_vm.color)))),attrs:{"disabled":_vm.isMonthOrQuarterDisabled(index),"type":"button"},on:{"click":function($event){return _vm.onSelect(index)}}},[_vm._v("\n            "+_vm._s(month)+"\n            ")])}),0)}),0)]:_vm._e(),_vm._v(" "),(_vm.mode === 'quarter')?[_c('TransitionGroup',{staticClass:"datepicker-months__wrapper",attrs:{"tag":"div","name":_vm.transitionName}},_vm._l(([_vm.currentDate.year]),function(year){return _c('div',{key:year,staticClass:"datepicker-quarters__list"},_vm._l((_vm.getQuarters),function(quarter,index){return _c('button',{key:index,style:(Object.assign({}, (_vm.isSelectedMonthOrQuarter(index*3) && _vm.setTextColor('#fff')),
+                (_vm.isSelectedMonthOrQuarter(index*3) && _vm.setBackgroundColor(_vm.color)))),attrs:{"disabled":_vm.isMonthOrQuarterDisabled(index),"type":"button"},on:{"click":function($event){return _vm.onSelect(index)}}},[_vm._v("\n            "+_vm._s(quarter)+"\n            ")])}),0)}),0)]:_vm._e()],2):_vm._e()])])};
 var __vue_staticRenderFns__$5 = [];
-__vue_render__$5._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__$5 = function (inject) {
-    if (!inject) return
-    inject("data-v-5591e484_0", { source: "/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-years ul li button[data-v-5591e484], .datepicker-months .datepicker-months__list button[data-v-5591e484],\n.datepicker-months .datepicker-quarters__list button[data-v-5591e484] {\n  border: none;\n  margin: 0;\n  padding: 0;\n  width: auto;\n  overflow: visible;\n  background: transparent;\n  /* inherit font & color from ancestor */\n  color: inherit;\n  font: inherit;\n  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n  line-height: normal;\n  /* Corrects font smoothing for webkit */\n  -webkit-font-smoothing: inherit;\n  -moz-osx-font-smoothing: inherit;\n  /* Corrects inability to style clickable `input` types in iOS */\n  -webkit-appearance: none;\n}\n.datepicker-years ul li button[data-v-5591e484]:focus, .datepicker-months .datepicker-months__list button[data-v-5591e484]:focus,\n  .datepicker-months .datepicker-quarters__list button[data-v-5591e484]:focus, .datepicker-years ul li button[data-v-5591e484]:active, .datepicker-months .datepicker-months__list button[data-v-5591e484]:active,\n  .datepicker-months .datepicker-quarters__list button[data-v-5591e484]:active {\n    outline: 0;\n    box-shadow: 0;\n}\n.datepicker-years ul li button[type=\"button\"][data-v-5591e484], .datepicker-months .datepicker-months__list button[type=\"button\"][data-v-5591e484],\n  .datepicker-months .datepicker-quarters__list button[type=\"button\"][data-v-5591e484], .datepicker-years ul li button[type=\"reset\"][data-v-5591e484], .datepicker-months .datepicker-months__list button[type=\"reset\"][data-v-5591e484],\n  .datepicker-months .datepicker-quarters__list button[type=\"reset\"][data-v-5591e484], .datepicker-years ul li button[type=\"submit\"][data-v-5591e484], .datepicker-months .datepicker-months__list button[type=\"submit\"][data-v-5591e484],\n  .datepicker-months .datepicker-quarters__list button[type=\"submit\"][data-v-5591e484], .datepicker-years ul li button[role=\"button\"][data-v-5591e484], .datepicker-months .datepicker-months__list button[role=\"button\"][data-v-5591e484],\n  .datepicker-months .datepicker-quarters__list button[role=\"button\"][data-v-5591e484] {\n    cursor: pointer;\n}\n.slide-h-next-leave-active[data-v-5591e484],\n.slide-h-next-enter-active[data-v-5591e484],\n.slide-h-prev-leave-active[data-v-5591e484],\n.slide-h-prev-enter-active[data-v-5591e484] {\n  position: absolute;\n  transition: transform .3s, opacity .3s;\n}\n.slide-h-next-enter[data-v-5591e484], .slide-h-prev-leave-to[data-v-5591e484] {\n  transform: translateX(100%);\n  opacity: 0;\n}\n.slide-h-next-leave-to[data-v-5591e484], .slide-h-prev-enter[data-v-5591e484] {\n  transform: translateX(-100%);\n  opacity: 0;\n}\n.slide-v-next-leave-active[data-v-5591e484],\n.slide-v-next-enter-active[data-v-5591e484],\n.slide-v-prev-leave-active[data-v-5591e484],\n.slide-v-prev-enter-active[data-v-5591e484] {\n  position: absolute;\n  transition: transform .3s, opacity .3s;\n}\n.slide-v-next-enter[data-v-5591e484], .slide-v-prev-leave-to[data-v-5591e484] {\n  transform: translateY(100%);\n  opacity: 0;\n}\n.slide-v-next-leave-to[data-v-5591e484], .slide-v-prev-enter[data-v-5591e484] {\n  transform: translateY(-100%);\n  opacity: 0;\n}\n.yearMonth-leave-active[data-v-5591e484], .yearMonth-enter-active[data-v-5591e484] {\n  position: absolute;\n  transition: opacity .3s;\n}\n.yearMonth-enter[data-v-5591e484], .yearMonth-leave-to[data-v-5591e484] {\n  opacity: 0;\n}\n.datepicker-year-month[data-v-5591e484] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: white;\n}\n@supports (padding-bottom: constant(safe-area-inset-bottom)) {\n.datepicker-year-month[data-v-5591e484] {\n      --safe-area-inset-bottom: constant(safe-area-inset-bottom);\n      padding-bottom: var(--safe-area-inset-bottom);\n}\n}\n@supports (padding-bottom: env(safe-area-inset-bottom)) {\n.datepicker-year-month[data-v-5591e484] {\n      --safe-area-inset-bottom: env(safe-area-inset-bottom);\n      padding-bottom: var(--safe-area-inset-bottom);\n}\n}\n.datepicker-years[data-v-5591e484] {\n  height: auto;\n  position: relative;\n  z-index: 0;\n  flex: 1 0 auto;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  height: 100%;\n}\n.datepicker-years ul[data-v-5591e484] {\n    width: 100%;\n    font-size: 16px;\n    font-weight: 400;\n    list-style-type: none;\n    overflow-y: scroll;\n    /* has to be scroll, not auto */\n    -webkit-overflow-scrolling: touch;\n    padding: 0;\n    margin: 0;\n    text-align: center;\n}\n.datepicker-years ul li[data-v-5591e484] {\n      cursor: pointer;\n      transition: none;\n}\n.datepicker-years ul li[data-v-5591e484]:hover, .datepicker-years ul li[data-v-5591e484]:focus {\n        background-color: #eef1f8;\n}\n.datepicker-years ul li button[data-v-5591e484] {\n        position: relative;\n        width: 100%;\n        padding: 8px 0;\n}\n.datepicker-years ul li.active button[data-v-5591e484] {\n        font-size: 26px;\n        font-weight: 500;\n        padding: 8px 0;\n}\n.datepicker-years ul li.disabled button[data-v-5591e484] {\n        cursor: default;\n        color: rgba(0, 0, 0, 0.26);\n}\n.datepicker-months[data-v-5591e484] {\n  height: auto;\n  overflow: hidden;\n  position: relative;\n  z-index: 0;\n  flex: 1 0 auto;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  height: 100%;\n}\n.datepicker-months .datepicker-months__wrapper[data-v-5591e484] {\n    position: relative;\n    display: flex;\n    width: 100%;\n    height: 100%;\n    padding: 0 8px 8px;\n}\n.datepicker-months .datepicker-months__list[data-v-5591e484],\n  .datepicker-months .datepicker-quarters__list[data-v-5591e484] {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    display: grid;\n    grid-template-columns: repeat(3, 1fr);\n    grid-template-rows: repeat(4, 1fr);\n    grid-gap: 8px;\n    width: 100%;\n    height: 100%;\n    justify-items: center;\n    align-items: center;\n}\n.datepicker-months .datepicker-months__list button[data-v-5591e484],\n    .datepicker-months .datepicker-quarters__list button[data-v-5591e484] {\n      position: relative;\n      display: flex;\n      justify-content: center;\n      align-items: center;\n      font-size: 12px;\n      padding: 0 20px;\n      height: 30px;\n      font-size: 15px;\n      font-weight: 500;\n      border-radius: 2px;\n      outline: none;\n      transition: background-color .3s;\n}\n.datepicker-months .datepicker-months__list button[data-v-5591e484]:hover,\n      .datepicker-months .datepicker-quarters__list button[data-v-5591e484]:hover {\n        background-color: #eef1f8;\n}\n.datepicker-months .datepicker-months__list button[data-v-5591e484]:disabled, .datepicker-months .datepicker-months__list button[disabled][data-v-5591e484],\n      .datepicker-months .datepicker-quarters__list button[data-v-5591e484]:disabled,\n      .datepicker-months .datepicker-quarters__list button[disabled][data-v-5591e484] {\n        cursor: default;\n        color: rgba(0, 0, 0, 0.26);\n}\n.datepicker-months .datepicker-months__list button .datepicker-month--current[data-v-5591e484],\n      .datepicker-months .datepicker-quarters__list button .datepicker-month--current[data-v-5591e484] {\n        position: absolute;\n        top: 0;\n        bottom: 0;\n        left: 0;\n        right: 0;\n        margin: auto;\n        width: 100%;\n        height: 30px;\n        background-color: currentColor;\n}\n.datepicker-months .datepicker-quarters__list[data-v-5591e484] {\n    grid-template-columns: 1fr;\n    grid-template-rows: repeat(4, 1fr);\n}\n.datepicker-months .datepicker-quarters__list button[data-v-5591e484] {\n      height: 100%;\n      width: 100%;\n}\n\n/*# sourceMappingURL=DatePickerYearMonth.vue.map */", map: {"version":3,"sources":["DatePickerYearMonth.vue","/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerYearMonth.vue"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;CAgBC;ACqMD;;EDlME,YAAY;EACZ,SAAS;EACT,UAAU;EACV,WAAW;EACX,iBAAiB;EACjB,uBAAuB;EACvB,uCAAuC;EACvC,cAAc;EACd,aAAa;EACb,4EAA4E;EAC5E,mBAAmB;EACnB,uCAAuC;EACvC,+BAA+B;EAC/B,gCAAgC;EAChC,+DAA+D;EAC/D,wBAAwB;AAAE;ACmL5B;;;ID/KI,UAAU;IACV,aAAa;AAAE;AC8KnB;;;;;IDxKI,eAAe;AAAE;AAErB;;;;EAIE,kBAAkB;EAClB,sCAAsC;AAAE;AAE1C;EACE,2BAA2B;EAC3B,UAAU;AAAE;AAEd;EACE,4BAA4B;EAC5B,UAAU;AAAE;AAEd;;;;EAIE,kBAAkB;EAClB,sCAAsC;AAAE;AAE1C;EACE,2BAA2B;EAC3B,UAAU;AAAE;AAEd;EACE,4BAA4B;EAC5B,UAAU;AAAE;AAEd;EACE,kBAAkB;EAClB,uBAAuB;AAAE;AAE3B;EACE,UAAU;AAAE;AC8Gd;EACA,kBAAA;EACA,MAAA;EACA,OAAA;EACA,QAAA;EACA,SAAA;EACA,iBAAA;AAAA;AAGA;AATA;MAUA,0DAAA;MACA,6CAAA;AAAA;AAQA;AAJA;AAfA;MAgBA,qDAAA;MACA,6CAAA;AAAA;AAEA;AAEA;EACA,YAAA;EACA,kBAAA;EACA,UAAA;EACA,cAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,YAAA;AAAA;AARA;IAWA,WAAA;IACA,eAAA;IACA,gBAAA;IACA,qBAAA;IACA,kBAAA;IAAA,+BAAA;IACA,iCAAA;IACA,UAAA;IACA,SAAA;IACA,kBAAA;AAAA;AAnBA;MAsBA,eAAA;MACA,gBAAA;AAAA;AAvBA;QA2BA,yBAAA;AAAA;AA3BA;QA+BA,kBAAA;QAEA,WAAA;QACA,cAAA;AAAA;AAlCA;QAuCA,eAAA;QACA,gBAAA;QACA,cAAA;AAAA;AAzCA;QA+CA,eAAA;QACA,0BAAA;AAAA;AAOA;EACA,YAAA;EACA,gBAAA;EACA,kBAAA;EACA,UAAA;EACA,cAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,YAAA;AAAA;AATA;IAYA,kBAAA;IACA,aAAA;IACA,WAAA;IACA,YAAA;IACA,kBAAA;AAAA;AAhBA;;IAqBA,kBAAA;IACA,MAAA;IACA,OAAA;IACA,QAAA;IACA,SAAA;IACA,aAAA;IACA,qCAAA;IACA,kCAAA;IACA,aAAA;IACA,WAAA;IACA,YAAA;IACA,qBAAA;IACA,mBAAA;AAAA;AAjCA;;MAoCA,kBAAA;MAEA,aAAA;MACA,uBAAA;MACA,mBAAA;MACA,eAAA;MACA,eAAA;MACA,YAAA;MACA,eAAA;MACA,gBAAA;MACA,kBAAA;MACA,aAAA;MACA,gCAAA;AAAA;AAhDA;;QAmDA,yBAAA;AAAA;AAnDA;;;QAwDA,eAAA;QACA,0BAAA;AAAA;AAzDA;;QA6DA,kBAAA;QACA,MAAA;QACA,SAAA;QACA,OAAA;QACA,QAAA;QACA,YAAA;QACA,WAAA;QACA,YAAA;QACA,8BAAA;AAAA;AArEA;IA2EA,0BAAA;IACA,kCAAA;AAAA;AA5EA;MA+EA,YAAA;MACA,WAAA;AAAA;;AD5IA,kDAAkD","file":"DatePickerYearMonth.vue","sourcesContent":["/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-years ul li button, .datepicker-months .datepicker-months__list button,\n.datepicker-months .datepicker-quarters__list button {\n  border: none;\n  margin: 0;\n  padding: 0;\n  width: auto;\n  overflow: visible;\n  background: transparent;\n  /* inherit font & color from ancestor */\n  color: inherit;\n  font: inherit;\n  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n  line-height: normal;\n  /* Corrects font smoothing for webkit */\n  -webkit-font-smoothing: inherit;\n  -moz-osx-font-smoothing: inherit;\n  /* Corrects inability to style clickable `input` types in iOS */\n  -webkit-appearance: none; }\n  .datepicker-years ul li button:focus, .datepicker-months .datepicker-months__list button:focus,\n  .datepicker-months .datepicker-quarters__list button:focus, .datepicker-years ul li button:active, .datepicker-months .datepicker-months__list button:active,\n  .datepicker-months .datepicker-quarters__list button:active {\n    outline: 0;\n    box-shadow: 0; }\n  .datepicker-years ul li button[type=\"button\"], .datepicker-months .datepicker-months__list button[type=\"button\"],\n  .datepicker-months .datepicker-quarters__list button[type=\"button\"], .datepicker-years ul li button[type=\"reset\"], .datepicker-months .datepicker-months__list button[type=\"reset\"],\n  .datepicker-months .datepicker-quarters__list button[type=\"reset\"], .datepicker-years ul li button[type=\"submit\"], .datepicker-months .datepicker-months__list button[type=\"submit\"],\n  .datepicker-months .datepicker-quarters__list button[type=\"submit\"], .datepicker-years ul li button[role=\"button\"], .datepicker-months .datepicker-months__list button[role=\"button\"],\n  .datepicker-months .datepicker-quarters__list button[role=\"button\"] {\n    cursor: pointer; }\n\n.slide-h-next-leave-active,\n.slide-h-next-enter-active,\n.slide-h-prev-leave-active,\n.slide-h-prev-enter-active {\n  position: absolute;\n  transition: transform .3s, opacity .3s; }\n\n.slide-h-next-enter, .slide-h-prev-leave-to {\n  transform: translateX(100%);\n  opacity: 0; }\n\n.slide-h-next-leave-to, .slide-h-prev-enter {\n  transform: translateX(-100%);\n  opacity: 0; }\n\n.slide-v-next-leave-active,\n.slide-v-next-enter-active,\n.slide-v-prev-leave-active,\n.slide-v-prev-enter-active {\n  position: absolute;\n  transition: transform .3s, opacity .3s; }\n\n.slide-v-next-enter, .slide-v-prev-leave-to {\n  transform: translateY(100%);\n  opacity: 0; }\n\n.slide-v-next-leave-to, .slide-v-prev-enter {\n  transform: translateY(-100%);\n  opacity: 0; }\n\n.yearMonth-leave-active, .yearMonth-enter-active {\n  position: absolute;\n  transition: opacity .3s; }\n\n.yearMonth-enter, .yearMonth-leave-to {\n  opacity: 0; }\n\n.datepicker-year-month {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: white; }\n  @supports (padding-bottom: constant(safe-area-inset-bottom)) {\n    .datepicker-year-month {\n      --safe-area-inset-bottom: constant(safe-area-inset-bottom);\n      padding-bottom: var(--safe-area-inset-bottom); } }\n  @supports (padding-bottom: env(safe-area-inset-bottom)) {\n    .datepicker-year-month {\n      --safe-area-inset-bottom: env(safe-area-inset-bottom);\n      padding-bottom: var(--safe-area-inset-bottom); } }\n\n.datepicker-years {\n  height: auto;\n  position: relative;\n  z-index: 0;\n  flex: 1 0 auto;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  height: 100%; }\n  .datepicker-years ul {\n    width: 100%;\n    font-size: 16px;\n    font-weight: 400;\n    list-style-type: none;\n    overflow-y: scroll;\n    /* has to be scroll, not auto */\n    -webkit-overflow-scrolling: touch;\n    padding: 0;\n    margin: 0;\n    text-align: center; }\n    .datepicker-years ul li {\n      cursor: pointer;\n      transition: none; }\n      .datepicker-years ul li:hover, .datepicker-years ul li:focus {\n        background-color: #eef1f8; }\n      .datepicker-years ul li button {\n        position: relative;\n        width: 100%;\n        padding: 8px 0; }\n      .datepicker-years ul li.active button {\n        font-size: 26px;\n        font-weight: 500;\n        padding: 8px 0; }\n      .datepicker-years ul li.disabled button {\n        cursor: default;\n        color: rgba(0, 0, 0, 0.26); }\n\n.datepicker-months {\n  height: auto;\n  overflow: hidden;\n  position: relative;\n  z-index: 0;\n  flex: 1 0 auto;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  height: 100%; }\n  .datepicker-months .datepicker-months__wrapper {\n    position: relative;\n    display: flex;\n    width: 100%;\n    height: 100%;\n    padding: 0 8px 8px; }\n  .datepicker-months .datepicker-months__list,\n  .datepicker-months .datepicker-quarters__list {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    display: grid;\n    grid-template-columns: repeat(3, 1fr);\n    grid-template-rows: repeat(4, 1fr);\n    grid-gap: 8px;\n    width: 100%;\n    height: 100%;\n    justify-items: center;\n    align-items: center; }\n    .datepicker-months .datepicker-months__list button,\n    .datepicker-months .datepicker-quarters__list button {\n      position: relative;\n      display: flex;\n      justify-content: center;\n      align-items: center;\n      font-size: 12px;\n      padding: 0 20px;\n      height: 30px;\n      font-size: 15px;\n      font-weight: 500;\n      border-radius: 2px;\n      outline: none;\n      transition: background-color .3s; }\n      .datepicker-months .datepicker-months__list button:hover,\n      .datepicker-months .datepicker-quarters__list button:hover {\n        background-color: #eef1f8; }\n      .datepicker-months .datepicker-months__list button:disabled, .datepicker-months .datepicker-months__list button[disabled],\n      .datepicker-months .datepicker-quarters__list button:disabled,\n      .datepicker-months .datepicker-quarters__list button[disabled] {\n        cursor: default;\n        color: rgba(0, 0, 0, 0.26); }\n      .datepicker-months .datepicker-months__list button .datepicker-month--current,\n      .datepicker-months .datepicker-quarters__list button .datepicker-month--current {\n        position: absolute;\n        top: 0;\n        bottom: 0;\n        left: 0;\n        right: 0;\n        margin: auto;\n        width: 100%;\n        height: 30px;\n        background-color: currentColor; }\n  .datepicker-months .datepicker-quarters__list {\n    grid-template-columns: 1fr;\n    grid-template-rows: repeat(4, 1fr); }\n    .datepicker-months .datepicker-quarters__list button {\n      height: 100%;\n      width: 100%; }\n\n/*# sourceMappingURL=DatePickerYearMonth.vue.map */",null]}, media: undefined });
+  var __vue_inject_styles__$5 = function (inject) {
+    if (!inject) { return }
+    inject("data-v-5591e484_0", { source: ".datepicker-months .datepicker-months__list button[data-v-5591e484],.datepicker-months .datepicker-quarters__list button[data-v-5591e484],.datepicker-years ul li button[data-v-5591e484]{border:none;margin:0;padding:0;width:auto;overflow:visible;background:0 0;color:inherit;font:inherit;line-height:normal;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-appearance:none}.datepicker-months .datepicker-months__list button[data-v-5591e484]:active,.datepicker-months .datepicker-months__list button[data-v-5591e484]:focus,.datepicker-months .datepicker-quarters__list button[data-v-5591e484]:active,.datepicker-months .datepicker-quarters__list button[data-v-5591e484]:focus,.datepicker-years ul li button[data-v-5591e484]:active,.datepicker-years ul li button[data-v-5591e484]:focus{outline:0;box-shadow:0}.datepicker-months .datepicker-months__list button[role=button][data-v-5591e484],.datepicker-months .datepicker-months__list button[type=button][data-v-5591e484],.datepicker-months .datepicker-months__list button[type=reset][data-v-5591e484],.datepicker-months .datepicker-months__list button[type=submit][data-v-5591e484],.datepicker-months .datepicker-quarters__list button[role=button][data-v-5591e484],.datepicker-months .datepicker-quarters__list button[type=button][data-v-5591e484],.datepicker-months .datepicker-quarters__list button[type=reset][data-v-5591e484],.datepicker-months .datepicker-quarters__list button[type=submit][data-v-5591e484],.datepicker-years ul li button[role=button][data-v-5591e484],.datepicker-years ul li button[type=button][data-v-5591e484],.datepicker-years ul li button[type=reset][data-v-5591e484],.datepicker-years ul li button[type=submit][data-v-5591e484]{cursor:pointer}.slide-h-next-enter-active[data-v-5591e484],.slide-h-next-leave-active[data-v-5591e484],.slide-h-prev-enter-active[data-v-5591e484],.slide-h-prev-leave-active[data-v-5591e484]{position:absolute;transition:transform .3s,opacity .3s}.slide-h-next-enter[data-v-5591e484],.slide-h-prev-leave-to[data-v-5591e484]{transform:translateX(100%);opacity:0}.slide-h-next-leave-to[data-v-5591e484],.slide-h-prev-enter[data-v-5591e484]{transform:translateX(-100%);opacity:0}.slide-v-next-enter-active[data-v-5591e484],.slide-v-next-leave-active[data-v-5591e484],.slide-v-prev-enter-active[data-v-5591e484],.slide-v-prev-leave-active[data-v-5591e484]{position:absolute;transition:transform .3s,opacity .3s}.slide-v-next-enter[data-v-5591e484],.slide-v-prev-leave-to[data-v-5591e484]{transform:translateY(100%);opacity:0}.slide-v-next-leave-to[data-v-5591e484],.slide-v-prev-enter[data-v-5591e484]{transform:translateY(-100%);opacity:0}.yearMonth-enter-active[data-v-5591e484],.yearMonth-leave-active[data-v-5591e484]{position:absolute;transition:opacity .3s}.yearMonth-enter[data-v-5591e484],.yearMonth-leave-to[data-v-5591e484]{opacity:0}.datepicker-year-month[data-v-5591e484]{position:absolute;top:0;left:0;right:0;bottom:0;background:#fff}@supports (padding-bottom:constant(safe-area-inset-bottom)){.datepicker-year-month[data-v-5591e484]{--safe-area-inset-bottom:constant(safe-area-inset-bottom);padding-bottom:var(--safe-area-inset-bottom)}}@supports (padding-bottom:env(safe-area-inset-bottom)){.datepicker-year-month[data-v-5591e484]{--safe-area-inset-bottom:env(safe-area-inset-bottom);padding-bottom:var(--safe-area-inset-bottom)}}.datepicker-years[data-v-5591e484]{height:auto;position:relative;z-index:0;flex:1 0 auto;display:flex;flex-direction:column;align-items:center;height:100%}.datepicker-years ul[data-v-5591e484]{width:100%;font-size:16px;font-weight:400;list-style-type:none;overflow-y:scroll;-webkit-overflow-scrolling:touch;padding:0;margin:0;text-align:center}.datepicker-years ul li[data-v-5591e484]{cursor:pointer;transition:none}.datepicker-years ul li[data-v-5591e484]:focus,.datepicker-years ul li[data-v-5591e484]:hover{background-color:#eef1f8}.datepicker-years ul li button[data-v-5591e484]{position:relative;width:100%;padding:8px 0}.datepicker-years ul li.active button[data-v-5591e484]{font-size:26px;font-weight:500;padding:8px 0}.datepicker-years ul li.disabled button[data-v-5591e484]{cursor:default;color:rgba(0,0,0,.26)}.datepicker-months[data-v-5591e484]{height:auto;overflow:hidden;position:relative;z-index:0;flex:1 0 auto;display:flex;flex-direction:column;align-items:center;height:100%}.datepicker-months .datepicker-months__wrapper[data-v-5591e484]{position:relative;display:flex;width:100%;height:100%;padding:0 8px 8px}.datepicker-months .datepicker-months__list[data-v-5591e484],.datepicker-months .datepicker-quarters__list[data-v-5591e484]{position:absolute;top:0;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(4,1fr);grid-gap:8px;width:100%;height:100%;justify-items:center;align-items:center}.datepicker-months .datepicker-months__list button[data-v-5591e484],.datepicker-months .datepicker-quarters__list button[data-v-5591e484]{position:relative;display:flex;justify-content:center;align-items:center;font-size:12px;padding:0 20px;height:30px;font-size:15px;font-weight:500;border-radius:2px;outline:0;transition:background-color .3s}.datepicker-months .datepicker-months__list button[data-v-5591e484]:hover,.datepicker-months .datepicker-quarters__list button[data-v-5591e484]:hover{background-color:#eef1f8}.datepicker-months .datepicker-months__list button[data-v-5591e484]:disabled,.datepicker-months .datepicker-months__list button[disabled][data-v-5591e484],.datepicker-months .datepicker-quarters__list button[data-v-5591e484]:disabled,.datepicker-months .datepicker-quarters__list button[disabled][data-v-5591e484]{cursor:default;color:rgba(0,0,0,.26)}.datepicker-months .datepicker-months__list button .datepicker-month--current[data-v-5591e484],.datepicker-months .datepicker-quarters__list button .datepicker-month--current[data-v-5591e484]{position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;width:100%;height:30px;background-color:currentColor}.datepicker-months .datepicker-quarters__list[data-v-5591e484]{grid-template-columns:1fr;grid-template-rows:repeat(4,1fr)}.datepicker-months .datepicker-quarters__list button[data-v-5591e484]{height:100%;width:100%}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__$5 = "data-v-5591e484";
+  var __vue_scope_id__$5 = "data-v-5591e484";
   /* module identifier */
-  const __vue_module_identifier__$5 = undefined;
+  var __vue_module_identifier__$5 = undefined;
   /* functional template */
-  const __vue_is_functional_template__$5 = false;
+  var __vue_is_functional_template__$5 = false;
   /* component normalizer */
   function __vue_normalize__$5(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
   ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
+    var component = (typeof script === 'function' ? script.options : script) || {};
 
     // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerYearMonth.vue";
+    component.__file = "DatePickerYearMonth.vue";
 
     if (!component.render) {
       component.render = template.render;
       component.staticRenderFns = template.staticRenderFns;
       component._compiled = true;
 
-      if (functional) component.functional = true;
+      if (functional) { component.functional = true; }
     }
 
     component._scopeId = scope;
 
     {
-      let hook;
+      var hook;
       if (style) {
         hook = function(context) {
           style.call(this, createInjector(context));
@@ -3227,14 +2794,14 @@ __vue_render__$5._withStripped = true;
       if (hook !== undefined) {
         if (component.functional) {
           // register for functional component in vue file
-          const originalRender = component.render;
+          var originalRender = component.render;
           component.render = function renderWithStyleInjection(h, context) {
             hook.call(context);
             return originalRender(h, context)
           };
         } else {
           // inject component registration as beforeCreate hook
-          const existing = component.beforeCreate;
+          var existing = component.beforeCreate;
           component.beforeCreate = existing ? [].concat(existing, hook) : [hook];
         }
       }
@@ -3244,33 +2811,44 @@ __vue_render__$5._withStripped = true;
   }
   /* style inject */
   function __vue_create_injector__$5() {
-    const head = document.head || document.getElementsByTagName('head')[0];
-    const styles = __vue_create_injector__$5.styles || (__vue_create_injector__$5.styles = {});
-    const isOldIE =
+    var head = document.head || document.getElementsByTagName('head')[0];
+    var styles = __vue_create_injector__$5.styles || (__vue_create_injector__$5.styles = {});
+    var isOldIE =
       typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
     return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) return // SSR styles are present.
+      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-      const group = isOldIE ? css.media || 'default' : id;
-      const style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+      var group = isOldIE ? css.media || 'default' : id;
+      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
       if (!style.ids.includes(id)) {
-        let code = css.source;
-        let index = style.ids.length;
+        var code = css.source;
+        var index = style.ids.length;
 
         style.ids.push(id);
+
+        if ( css.map) {
+          // https://developer.chrome.com/devtools/docs/javascript-debugging
+          // this makes source maps inside style tags work properly in Chrome
+          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+          // http://stackoverflow.com/a/26603875
+          code +=
+            '\n/*# sourceMappingURL=data:application/json;base64,' +
+            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+            ' */';
+        }
 
         if (isOldIE) {
           style.element = style.element || document.querySelector('style[data-group=' + group + ']');
         }
 
         if (!style.element) {
-          const el = style.element = document.createElement('style');
+          var el = style.element = document.createElement('style');
           el.type = 'text/css';
 
-          if (css.media) el.setAttribute('media', css.media);
+          if (css.media) { el.setAttribute('media', css.media); }
           if (isOldIE) {
             el.setAttribute('data-group', group);
             el.setAttribute('data-next-index', '0');
@@ -3290,11 +2868,11 @@ __vue_render__$5._withStripped = true;
             .filter(Boolean)
             .join('\n');
         } else {
-          const textNode = document.createTextNode(code);
-          const nodes = style.element.childNodes;
-          if (nodes[index]) style.element.removeChild(nodes[index]);
-          if (nodes.length) style.element.insertBefore(textNode, nodes[index]);
-          else style.element.appendChild(textNode);
+          var textNode = document.createTextNode(code);
+          var nodes = style.element.childNodes;
+          if (nodes[index]) { style.element.removeChild(nodes[index]); }
+          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+          else { style.element.appendChild(textNode); }
         }
       }
     }
@@ -3312,9 +2890,11 @@ __vue_render__$5._withStripped = true;
     __vue_module_identifier__$5,
     __vue_create_injector__$5);
 
-function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) { keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } return keys; }
 
-function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$1(source, true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$1(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$1(target) {
+var arguments$1 = arguments;
+ for (var i = 1; i < arguments.length; i++) { var source = arguments$1[i] != null ? arguments$1[i] : {}; if (i % 2) { ownKeys$1(source, true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$1(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 var script$6 = {
   name: 'DatePickerPresets',
   mixins: [colorable],
@@ -3342,7 +2922,7 @@ var script$6 = {
     presetsFormatted: function presetsFormatted() {
       var _this = this;
 
-      if (!this.rangePresets) return;
+      if (!this.rangePresets) { return; }
       return this.rangePresets.map(function (preset) {
         return _objectSpread$1({}, preset, {
           availableDates: generateDateRangeWithoutDisabled(preset.dates, _this.minDate, _this.endDate)
@@ -3356,7 +2936,7 @@ var script$6 = {
           _ref$availableDates = _ref.availableDates,
           availableDates = _ref$availableDates === void 0 ? [] : _ref$availableDates;
 
-      if (availableDates.length === 0 || !this.mutableDate) return false;
+      if (availableDates.length === 0 || !this.mutableDate) { return false; }
       return areSameDates(availableDates[0], this.mutableDate.start) && areSameDates(availableDates[availableDates.length - 1], this.mutableDate.end);
     },
     isPresetValid: function isPresetValid() {
@@ -3364,14 +2944,14 @@ var script$6 = {
           _ref2$availableDates = _ref2.availableDates,
           availableDates = _ref2$availableDates === void 0 ? [] : _ref2$availableDates;
 
-      if (!this.mutableDate) return false;
+      if (!this.mutableDate) { return false; }
       return availableDates.length > 0;
     },
     setPresetDates: function setPresetDates(_ref3) {
       var availableDates = _ref3.availableDates;
       if (this.isPresetSelected({
         availableDates: availableDates
-      })) return;
+      })) { return; }
       this.$emit('updateRange', {
         start: availableDates[0],
         end: availableDates[availableDates.length - 1]
@@ -3381,90 +2961,50 @@ var script$6 = {
 };
 
 /* script */
-            const __vue_script__$6 = script$6;
+            var __vue_script__$6 = script$6;
             
 /* template */
-var __vue_render__$6 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _vm.rangePresets
-    ? _c("div", { staticClass: "datepicker-presets" }, [
-        _c(
-          "div",
-          { staticClass: "datepicker-presets__wrapper" },
-          _vm._l(_vm.presetsFormatted, function(preset, index) {
-            return _c(
-              "button",
-              {
-                key: index,
-                staticClass: "datepicker-preset",
-                class: {
-                  "datepicker-preset--selected": _vm.isPresetSelected(preset),
-                  "datepicker-preset--disabled": !_vm.isPresetValid(preset)
-                },
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    return _vm.setPresetDates(preset)
-                  }
-                }
-              },
-              [
-                _c("div", {
-                  staticClass: "datepicker-preset__effect",
-                  style: _vm.setBackgroundColor(_vm.color)
-                }),
-                _vm._v(" "),
-                _c("div", { staticClass: "datepicker-preset__name" }, [
-                  _vm._v(_vm._s(preset.name))
-                ])
-              ]
-            )
-          }),
-          0
-        )
-      ])
-    : _vm._e()
-};
+var __vue_render__$6 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.rangePresets)?_c('div',{staticClass:"datepicker-presets"},[_c('div',{staticClass:"datepicker-presets__wrapper"},_vm._l((_vm.presetsFormatted),function(preset,index){return _c('button',{key:index,staticClass:"datepicker-preset",class:{
+        'datepicker-preset--selected': _vm.isPresetSelected(preset),
+        'datepicker-preset--disabled': !_vm.isPresetValid(preset),
+      },attrs:{"type":"button"},on:{"click":function($event){return _vm.setPresetDates(preset)}}},[_c('div',{staticClass:"datepicker-preset__effect",style:(_vm.setBackgroundColor(_vm.color))}),_vm._v(" "),_c('div',{staticClass:"datepicker-preset__name"},[_vm._v(_vm._s(preset.name))])])}),0)]):_vm._e()};
 var __vue_staticRenderFns__$6 = [];
-__vue_render__$6._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__$6 = function (inject) {
-    if (!inject) return
-    inject("data-v-06d6790e_0", { source: "/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-preset[data-v-06d6790e] {\n  border: none;\n  margin: 0;\n  padding: 0;\n  width: auto;\n  overflow: visible;\n  background: transparent;\n  /* inherit font & color from ancestor */\n  color: inherit;\n  font: inherit;\n  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n  line-height: normal;\n  /* Corrects font smoothing for webkit */\n  -webkit-font-smoothing: inherit;\n  -moz-osx-font-smoothing: inherit;\n  /* Corrects inability to style clickable `input` types in iOS */\n  -webkit-appearance: none;\n}\n.datepicker-preset[data-v-06d6790e]:focus, .datepicker-preset[data-v-06d6790e]:active {\n    outline: 0;\n    box-shadow: 0;\n}\n.datepicker-preset[type=\"button\"][data-v-06d6790e], .datepicker-preset[type=\"reset\"][data-v-06d6790e], .datepicker-preset[type=\"submit\"][data-v-06d6790e], .datepicker-preset[role=\"button\"][data-v-06d6790e] {\n    cursor: pointer;\n}\n.datepicker-presets[data-v-06d6790e] {\n  position: relative;\n  display: flex;\n  padding: 16px 24px;\n}\n@media only screen and (min-width: 480px) {\n.datepicker-presets[data-v-06d6790e] {\n      padding: 16px 16px 8px;\n}\n}\n.datepicker-presets__wrapper[data-v-06d6790e] {\n    position: relative;\n    display: grid;\n    grid-template-columns: repeat(2, 1fr);\n    grid-auto-rows: 32px;\n    width: 100%;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-presets__wrapper[data-v-06d6790e] {\n        grid-auto-rows: 32px;\n}\n}\n.datepicker-preset[data-v-06d6790e] {\n  position: relative;\n  padding: 0 8px;\n  transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);\n  font-size: 14px;\n  line-height: 14px;\n  overflow: hidden;\n  border-color: #eef1f8;\n  border-style: solid;\n  border-width: 0;\n}\n.datepicker-preset[data-v-06d6790e]:nth-child(odd) {\n    border-width: 0 1px 1px 1px;\n}\n.datepicker-preset[data-v-06d6790e]:nth-child(odd):first-child {\n      border-width: 1px;\n}\n.datepicker-preset[data-v-06d6790e]:nth-child(even) {\n    border-width: 0 1px 1px 0;\n}\n.datepicker-preset[data-v-06d6790e]:nth-child(even):nth-child(2) {\n      border-width: 1px 1px 1px 0;\n}\n.datepicker-preset__effect[data-v-06d6790e] {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    opacity: 0;\n    transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);\n    z-index: -1;\n}\n.datepicker-preset[data-v-06d6790e]:hover:not(.datepicker-preset--disabled) {\n    color: white;\n}\n.datepicker-preset:hover:not(.datepicker-preset--disabled) .datepicker-preset__effect[data-v-06d6790e] {\n      opacity: 1;\n}\n.datepicker-preset--selected[data-v-06d6790e] {\n    color: white;\n    pointer-events: none;\n}\n.datepicker-preset--selected .datepicker-preset__effect[data-v-06d6790e] {\n      opacity: 1;\n}\n.datepicker-preset--disabled[data-v-06d6790e] {\n    color: rgba(93, 106, 137, 0.2);\n    cursor: not-allowed;\n    pointer-events: none;\n}\n\n/*# sourceMappingURL=DatePickerPresets.vue.map */", map: {"version":3,"sources":["DatePickerPresets.vue","/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerPresets.vue"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;CAgBC;AC0FD;EAbA,YAAA;EACA,SAAA;EACA,UAAA;EACA,WAAA;EACA,iBAAA;ED1EE,uBAAuB;EC8EzB,uCAAA;EACA,cAAA;EACA,aAAA;ED5EE,4EAA4E;EC+E9E,mBAAA;EAEA,uCAAA;EACA,+BAAA;EACA,gCAAA;EAEA,+DAAA;EACA,wBAAA;AAAA;AAPA;IDvEI,UAAU;ICmFd,aAAA;AAAA;AAZA;IAmBA,eAAA;AAAA;AAzCA;EACA,kBAAA;EACA,aAAA;EACA,kBAAA;AAAA;AD3CE;ACwCF;MAMA,sBAAA;AAAA;AAcA;AAXA;IACA,kBAAA;IACA,aAAA;IACA,qCAAA;IACA,oBAAA;IACA,WAAA;AAAA;AD7CI;ACwCJ;QAQA,oBAAA;AAAA;AAEA;AAGA;EACA,kBAAA;EAEA,cAAA;EACA,wDAAA;EACA,eAAA;EACA,iBAAA;EACA,gBAAA;EACA,qBAAA;EACA,mBAAA;EACA,eAAA;AAAA;AAVA;IAgBA,2BAAA;AAAA;AAhBA;MAcA,iBAAA;AAAA;AAdA;IAsBA,yBAAA;AAAA;AAtBA;MAoBA,2BAAA;AAAA;AAKA;IACA,kBAAA;IACA,MAAA;IACA,OAAA;IACA,QAAA;IACA,SAAA;IACA,UAAA;IACA,wDAAA;IACA,WAAA;AAAA;AAjCA;IAqCA,YAAA;AAAA;AArCA;MAwCA,UAAA;AAAA;AAIA;IACA,YAAA;IACA,oBAAA;AAAA;AAFA;MAKA,UAAA;AAAA;AAbA;IAkBA,8BAAA;IACA,mBAAA;IACA,oBAAA;AAAA;;ADhEA,gDAAgD","file":"DatePickerPresets.vue","sourcesContent":["/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-preset {\n  border: none;\n  margin: 0;\n  padding: 0;\n  width: auto;\n  overflow: visible;\n  background: transparent;\n  /* inherit font & color from ancestor */\n  color: inherit;\n  font: inherit;\n  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n  line-height: normal;\n  /* Corrects font smoothing for webkit */\n  -webkit-font-smoothing: inherit;\n  -moz-osx-font-smoothing: inherit;\n  /* Corrects inability to style clickable `input` types in iOS */\n  -webkit-appearance: none; }\n  .datepicker-preset:focus, .datepicker-preset:active {\n    outline: 0;\n    box-shadow: 0; }\n  .datepicker-preset[type=\"button\"], .datepicker-preset[type=\"reset\"], .datepicker-preset[type=\"submit\"], .datepicker-preset[role=\"button\"] {\n    cursor: pointer; }\n\n.datepicker-presets {\n  position: relative;\n  display: flex;\n  padding: 16px 24px; }\n  @media only screen and (min-width: 480px) {\n    .datepicker-presets {\n      padding: 16px 16px 8px; } }\n  .datepicker-presets__wrapper {\n    position: relative;\n    display: grid;\n    grid-template-columns: repeat(2, 1fr);\n    grid-auto-rows: 32px;\n    width: 100%; }\n    @media only screen and (min-width: 768px) {\n      .datepicker-presets__wrapper {\n        grid-auto-rows: 32px; } }\n\n.datepicker-preset {\n  position: relative;\n  padding: 0 8px;\n  transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);\n  font-size: 14px;\n  line-height: 14px;\n  overflow: hidden;\n  border-color: #eef1f8;\n  border-style: solid;\n  border-width: 0; }\n  .datepicker-preset:nth-child(odd) {\n    border-width: 0 1px 1px 1px; }\n    .datepicker-preset:nth-child(odd):first-child {\n      border-width: 1px; }\n  .datepicker-preset:nth-child(even) {\n    border-width: 0 1px 1px 0; }\n    .datepicker-preset:nth-child(even):nth-child(2) {\n      border-width: 1px 1px 1px 0; }\n  .datepicker-preset__effect {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    opacity: 0;\n    transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);\n    z-index: -1; }\n  .datepicker-preset:hover:not(.datepicker-preset--disabled) {\n    color: white; }\n    .datepicker-preset:hover:not(.datepicker-preset--disabled) .datepicker-preset__effect {\n      opacity: 1; }\n  .datepicker-preset--selected {\n    color: white;\n    pointer-events: none; }\n    .datepicker-preset--selected .datepicker-preset__effect {\n      opacity: 1; }\n  .datepicker-preset--disabled {\n    color: rgba(93, 106, 137, 0.2);\n    cursor: not-allowed;\n    pointer-events: none; }\n\n/*# sourceMappingURL=DatePickerPresets.vue.map */",null]}, media: undefined });
+  var __vue_inject_styles__$6 = function (inject) {
+    if (!inject) { return }
+    inject("data-v-06d6790e_0", { source: ".datepicker-preset[data-v-06d6790e]{border:none;margin:0;padding:0;width:auto;overflow:visible;background:0 0;color:inherit;font:inherit;line-height:normal;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-appearance:none}.datepicker-preset[data-v-06d6790e]:active,.datepicker-preset[data-v-06d6790e]:focus{outline:0;box-shadow:0}.datepicker-preset[role=button][data-v-06d6790e],.datepicker-preset[type=button][data-v-06d6790e],.datepicker-preset[type=reset][data-v-06d6790e],.datepicker-preset[type=submit][data-v-06d6790e]{cursor:pointer}.datepicker-presets[data-v-06d6790e]{position:relative;display:flex;padding:16px 24px}@media only screen and (min-width:480px){.datepicker-presets[data-v-06d6790e]{padding:16px 16px 8px}}.datepicker-presets__wrapper[data-v-06d6790e]{position:relative;display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:32px;width:100%}@media only screen and (min-width:768px){.datepicker-presets__wrapper[data-v-06d6790e]{grid-auto-rows:32px}}.datepicker-preset[data-v-06d6790e]{position:relative;padding:0 8px;transition:opacity 450ms cubic-bezier(.23,1,.32,1);font-size:14px;line-height:14px;overflow:hidden;border-color:#eef1f8;border-style:solid;border-width:0}.datepicker-preset[data-v-06d6790e]:nth-child(odd){border-width:0 1px 1px 1px}.datepicker-preset[data-v-06d6790e]:nth-child(odd):first-child{border-width:1px}.datepicker-preset[data-v-06d6790e]:nth-child(even){border-width:0 1px 1px 0}.datepicker-preset[data-v-06d6790e]:nth-child(even):nth-child(2){border-width:1px 1px 1px 0}.datepicker-preset__effect[data-v-06d6790e]{position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity 450ms cubic-bezier(.23,1,.32,1);z-index:-1}.datepicker-preset[data-v-06d6790e]:hover:not(.datepicker-preset--disabled){color:#fff}.datepicker-preset:hover:not(.datepicker-preset--disabled) .datepicker-preset__effect[data-v-06d6790e]{opacity:1}.datepicker-preset--selected[data-v-06d6790e]{color:#fff;pointer-events:none}.datepicker-preset--selected .datepicker-preset__effect[data-v-06d6790e]{opacity:1}.datepicker-preset--disabled[data-v-06d6790e]{color:rgba(93,106,137,.2);cursor:not-allowed;pointer-events:none}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__$6 = "data-v-06d6790e";
+  var __vue_scope_id__$6 = "data-v-06d6790e";
   /* module identifier */
-  const __vue_module_identifier__$6 = undefined;
+  var __vue_module_identifier__$6 = undefined;
   /* functional template */
-  const __vue_is_functional_template__$6 = false;
+  var __vue_is_functional_template__$6 = false;
   /* component normalizer */
   function __vue_normalize__$6(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
   ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
+    var component = (typeof script === 'function' ? script.options : script) || {};
 
     // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerPresets.vue";
+    component.__file = "DatePickerPresets.vue";
 
     if (!component.render) {
       component.render = template.render;
       component.staticRenderFns = template.staticRenderFns;
       component._compiled = true;
 
-      if (functional) component.functional = true;
+      if (functional) { component.functional = true; }
     }
 
     component._scopeId = scope;
 
     {
-      let hook;
+      var hook;
       if (style) {
         hook = function(context) {
           style.call(this, createInjector(context));
@@ -3474,14 +3014,14 @@ __vue_render__$6._withStripped = true;
       if (hook !== undefined) {
         if (component.functional) {
           // register for functional component in vue file
-          const originalRender = component.render;
+          var originalRender = component.render;
           component.render = function renderWithStyleInjection(h, context) {
             hook.call(context);
             return originalRender(h, context)
           };
         } else {
           // inject component registration as beforeCreate hook
-          const existing = component.beforeCreate;
+          var existing = component.beforeCreate;
           component.beforeCreate = existing ? [].concat(existing, hook) : [hook];
         }
       }
@@ -3491,33 +3031,44 @@ __vue_render__$6._withStripped = true;
   }
   /* style inject */
   function __vue_create_injector__$6() {
-    const head = document.head || document.getElementsByTagName('head')[0];
-    const styles = __vue_create_injector__$6.styles || (__vue_create_injector__$6.styles = {});
-    const isOldIE =
+    var head = document.head || document.getElementsByTagName('head')[0];
+    var styles = __vue_create_injector__$6.styles || (__vue_create_injector__$6.styles = {});
+    var isOldIE =
       typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
     return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) return // SSR styles are present.
+      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-      const group = isOldIE ? css.media || 'default' : id;
-      const style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+      var group = isOldIE ? css.media || 'default' : id;
+      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
       if (!style.ids.includes(id)) {
-        let code = css.source;
-        let index = style.ids.length;
+        var code = css.source;
+        var index = style.ids.length;
 
         style.ids.push(id);
+
+        if ( css.map) {
+          // https://developer.chrome.com/devtools/docs/javascript-debugging
+          // this makes source maps inside style tags work properly in Chrome
+          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+          // http://stackoverflow.com/a/26603875
+          code +=
+            '\n/*# sourceMappingURL=data:application/json;base64,' +
+            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+            ' */';
+        }
 
         if (isOldIE) {
           style.element = style.element || document.querySelector('style[data-group=' + group + ']');
         }
 
         if (!style.element) {
-          const el = style.element = document.createElement('style');
+          var el = style.element = document.createElement('style');
           el.type = 'text/css';
 
-          if (css.media) el.setAttribute('media', css.media);
+          if (css.media) { el.setAttribute('media', css.media); }
           if (isOldIE) {
             el.setAttribute('data-group', group);
             el.setAttribute('data-next-index', '0');
@@ -3537,11 +3088,11 @@ __vue_render__$6._withStripped = true;
             .filter(Boolean)
             .join('\n');
         } else {
-          const textNode = document.createTextNode(code);
-          const nodes = style.element.childNodes;
-          if (nodes[index]) style.element.removeChild(nodes[index]);
-          if (nodes.length) style.element.insertBefore(textNode, nodes[index]);
-          else style.element.appendChild(textNode);
+          var textNode = document.createTextNode(code);
+          var nodes = style.element.childNodes;
+          if (nodes[index]) { style.element.removeChild(nodes[index]); }
+          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+          else { style.element.appendChild(textNode); }
         }
       }
     }
@@ -3577,100 +3128,47 @@ var script$7 = {
 };
 
 /* script */
-            const __vue_script__$7 = script$7;
+            var __vue_script__$7 = script$7;
             
 /* template */
-var __vue_render__$7 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c("div", { staticClass: "datepicker-validate" }, [
-    _c(
-      "button",
-      {
-        staticClass: "datepicker-validate__button",
-        attrs: { type: "button" },
-        on: {
-          click: function($event) {
-            return _vm.$emit("cancel")
-          }
-        }
-      },
-      [
-        _c("div", {
-          staticClass: "datepicker-validate__effect",
-          style: _vm.setBackgroundColor(_vm.color)
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "datepicker-validate__name" }, [
-          _vm._v(_vm._s(_vm.buttonCancel))
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "datepicker-validate__button",
-        style: _vm.setTextColor(_vm.color),
-        attrs: { type: "button" },
-        on: {
-          click: function($event) {
-            return _vm.$emit("validate")
-          }
-        }
-      },
-      [
-        _c("div", {
-          staticClass: "datepicker-validate__effect",
-          style: _vm.setBackgroundColor(_vm.color)
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "datepicker-validate__name" }, [
-          _vm._v(_vm._s(_vm.buttonValidate))
-        ])
-      ]
-    )
-  ])
-};
+var __vue_render__$7 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker-validate"},[_c('button',{staticClass:"datepicker-validate__button",attrs:{"type":"button"},on:{"click":function($event){return _vm.$emit('cancel')}}},[_c('div',{staticClass:"datepicker-validate__effect",style:(_vm.setBackgroundColor(_vm.color))}),_vm._v(" "),_c('div',{staticClass:"datepicker-validate__name"},[_vm._v(_vm._s(_vm.buttonCancel))])]),_vm._v(" "),_c('button',{staticClass:"datepicker-validate__button",style:(_vm.setTextColor(_vm.color)),attrs:{"type":"button"},on:{"click":function($event){return _vm.$emit('validate')}}},[_c('div',{staticClass:"datepicker-validate__effect",style:(_vm.setBackgroundColor(_vm.color))}),_vm._v(" "),_c('div',{staticClass:"datepicker-validate__name"},[_vm._v(_vm._s(_vm.buttonValidate))])])])};
 var __vue_staticRenderFns__$7 = [];
-__vue_render__$7._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__$7 = function (inject) {
-    if (!inject) return
-    inject("data-v-67c4c000_0", { source: "/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-validate__button[data-v-67c4c000] {\n  border: none;\n  margin: 0;\n  padding: 0;\n  width: auto;\n  overflow: visible;\n  background: transparent;\n  /* inherit font & color from ancestor */\n  color: inherit;\n  font: inherit;\n  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n  line-height: normal;\n  /* Corrects font smoothing for webkit */\n  -webkit-font-smoothing: inherit;\n  -moz-osx-font-smoothing: inherit;\n  /* Corrects inability to style clickable `input` types in iOS */\n  -webkit-appearance: none;\n}\n.datepicker-validate__button[data-v-67c4c000]:focus, .datepicker-validate__button[data-v-67c4c000]:active {\n    outline: 0;\n    box-shadow: 0;\n}\n.datepicker-validate__button[type=\"button\"][data-v-67c4c000], .datepicker-validate__button[type=\"reset\"][data-v-67c4c000], .datepicker-validate__button[type=\"submit\"][data-v-67c4c000], .datepicker-validate__button[role=\"button\"][data-v-67c4c000] {\n    cursor: pointer;\n}\n.datepicker-validate[data-v-67c4c000] {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  padding: 0 24px 8px 24px;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-validate[data-v-67c4c000] {\n      padding: 8px 16px;\n}\n}\n.datepicker-validate__button[data-v-67c4c000] {\n    position: relative;\n    display: inline-flex;\n    flex: 0 0 auto;\n    align-items: center;\n    justify-content: center;\n    height: 36px;\n    min-width: 44px;\n    font-size: 14px;\n    font-weight: 500;\n    border-radius: 4px;\n    padding: 6px 8px;\n    outline: 0;\n    text-transform: uppercase;\n    text-decoration: none;\n    overflow: hidden;\n}\n.datepicker-validate__button + .datepicker-validate__button[data-v-67c4c000] {\n      margin-left: 8px;\n}\n.datepicker-validate__button:hover .datepicker-validate__effect[data-v-67c4c000] {\n      opacity: .1;\n}\n.datepicker-validate__effect[data-v-67c4c000] {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    opacity: 0;\n    transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);\n    z-index: -1;\n}\n\n/*# sourceMappingURL=DatePickerValidate.vue.map */", map: {"version":3,"sources":["DatePickerValidate.vue","/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerValidate.vue"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;CAgBC;ACyCD;EAoCA,YAAA;EACA,SAAA;EACA,UAAA;EACA,WAAA;ED1EE,iBAAiB;EACjB,uBAAuB;EACvB,uCAAuC;EACvC,cAAc;EACd,aAAa;EACb,4EAA4E;EAC5E,mBAAmB;EACnB,uCAAuC;EACvC,+BAA+B;EAC/B,gCAAgC;EAChC,+DAA+D;EAC/D,wBAAwB;AAAE;ACwB5B;IDtBI,UAAU;IACV,aAAa;AAAE;ACqBnB;IDnBI,eAAe;AAAE;ACQrB;EACA,kBAAA;EACA,aAAA;EACA,mBAAA;EACA,yBAAA;EACA,wBAAA;AAAA;AAsBA;AA3BA;MAQA,iBAAA;AAAA;AA0CA;AAvCA;IAEA,kBAAA;IACA,oBAAA;IACA,cAAA;IACA,mBAAA;IACA,uBAAA;IACA,YAAA;IACA,eAAA;IACA,eAAA;IACA,gBAAA;IACA,kBApBA;IAqBA,gBAAA;IACA,UAAA;IACA,yBAAA;IACA,qBAAA;IACA,gBAAA;AAAA;AAhBA;MAmBA,gBAAA;AAAA;AAnBA;MAwBA,WAAA;AAAA;AAKA;IACA,kBAAA;IACA,MAAA;IACA,OAAA;IACA,QAAA;IACA,SAAA;IACA,UAAA;IACA,wDAAA;IACA,WAAA;AAAA;;ADfA,iDAAiD","file":"DatePickerValidate.vue","sourcesContent":["/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-validate__button {\n  border: none;\n  margin: 0;\n  padding: 0;\n  width: auto;\n  overflow: visible;\n  background: transparent;\n  /* inherit font & color from ancestor */\n  color: inherit;\n  font: inherit;\n  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n  line-height: normal;\n  /* Corrects font smoothing for webkit */\n  -webkit-font-smoothing: inherit;\n  -moz-osx-font-smoothing: inherit;\n  /* Corrects inability to style clickable `input` types in iOS */\n  -webkit-appearance: none; }\n  .datepicker-validate__button:focus, .datepicker-validate__button:active {\n    outline: 0;\n    box-shadow: 0; }\n  .datepicker-validate__button[type=\"button\"], .datepicker-validate__button[type=\"reset\"], .datepicker-validate__button[type=\"submit\"], .datepicker-validate__button[role=\"button\"] {\n    cursor: pointer; }\n\n.datepicker-validate {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  padding: 0 24px 8px 24px; }\n  @media only screen and (min-width: 768px) {\n    .datepicker-validate {\n      padding: 8px 16px; } }\n  .datepicker-validate__button {\n    position: relative;\n    display: inline-flex;\n    flex: 0 0 auto;\n    align-items: center;\n    justify-content: center;\n    height: 36px;\n    min-width: 44px;\n    font-size: 14px;\n    font-weight: 500;\n    border-radius: 4px;\n    padding: 6px 8px;\n    outline: 0;\n    text-transform: uppercase;\n    text-decoration: none;\n    overflow: hidden; }\n    .datepicker-validate__button + .datepicker-validate__button {\n      margin-left: 8px; }\n    .datepicker-validate__button:hover .datepicker-validate__effect {\n      opacity: .1; }\n  .datepicker-validate__effect {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    opacity: 0;\n    transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);\n    z-index: -1; }\n\n/*# sourceMappingURL=DatePickerValidate.vue.map */",null]}, media: undefined });
+  var __vue_inject_styles__$7 = function (inject) {
+    if (!inject) { return }
+    inject("data-v-67c4c000_0", { source: ".datepicker-validate__button[data-v-67c4c000]{border:none;margin:0;padding:0;width:auto;overflow:visible;background:0 0;color:inherit;font:inherit;line-height:normal;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-appearance:none}.datepicker-validate__button[data-v-67c4c000]:active,.datepicker-validate__button[data-v-67c4c000]:focus{outline:0;box-shadow:0}.datepicker-validate__button[role=button][data-v-67c4c000],.datepicker-validate__button[type=button][data-v-67c4c000],.datepicker-validate__button[type=reset][data-v-67c4c000],.datepicker-validate__button[type=submit][data-v-67c4c000]{cursor:pointer}.datepicker-validate[data-v-67c4c000]{position:relative;display:flex;align-items:center;justify-content:flex-end;padding:0 24px 8px 24px}@media only screen and (min-width:768px){.datepicker-validate[data-v-67c4c000]{padding:8px 16px}}.datepicker-validate__button[data-v-67c4c000]{position:relative;display:inline-flex;flex:0 0 auto;align-items:center;justify-content:center;height:36px;min-width:44px;font-size:14px;font-weight:500;border-radius:4px;padding:6px 8px;outline:0;text-transform:uppercase;text-decoration:none;overflow:hidden}.datepicker-validate__button+.datepicker-validate__button[data-v-67c4c000]{margin-left:8px}.datepicker-validate__button:hover .datepicker-validate__effect[data-v-67c4c000]{opacity:.1}.datepicker-validate__effect[data-v-67c4c000]{position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity 450ms cubic-bezier(.23,1,.32,1);z-index:-1}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__$7 = "data-v-67c4c000";
+  var __vue_scope_id__$7 = "data-v-67c4c000";
   /* module identifier */
-  const __vue_module_identifier__$7 = undefined;
+  var __vue_module_identifier__$7 = undefined;
   /* functional template */
-  const __vue_is_functional_template__$7 = false;
+  var __vue_is_functional_template__$7 = false;
   /* component normalizer */
   function __vue_normalize__$7(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
   ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
+    var component = (typeof script === 'function' ? script.options : script) || {};
 
     // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerValidate.vue";
+    component.__file = "DatePickerValidate.vue";
 
     if (!component.render) {
       component.render = template.render;
       component.staticRenderFns = template.staticRenderFns;
       component._compiled = true;
 
-      if (functional) component.functional = true;
+      if (functional) { component.functional = true; }
     }
 
     component._scopeId = scope;
 
     {
-      let hook;
+      var hook;
       if (style) {
         hook = function(context) {
           style.call(this, createInjector(context));
@@ -3680,14 +3178,14 @@ __vue_render__$7._withStripped = true;
       if (hook !== undefined) {
         if (component.functional) {
           // register for functional component in vue file
-          const originalRender = component.render;
+          var originalRender = component.render;
           component.render = function renderWithStyleInjection(h, context) {
             hook.call(context);
             return originalRender(h, context)
           };
         } else {
           // inject component registration as beforeCreate hook
-          const existing = component.beforeCreate;
+          var existing = component.beforeCreate;
           component.beforeCreate = existing ? [].concat(existing, hook) : [hook];
         }
       }
@@ -3697,33 +3195,44 @@ __vue_render__$7._withStripped = true;
   }
   /* style inject */
   function __vue_create_injector__$7() {
-    const head = document.head || document.getElementsByTagName('head')[0];
-    const styles = __vue_create_injector__$7.styles || (__vue_create_injector__$7.styles = {});
-    const isOldIE =
+    var head = document.head || document.getElementsByTagName('head')[0];
+    var styles = __vue_create_injector__$7.styles || (__vue_create_injector__$7.styles = {});
+    var isOldIE =
       typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
     return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) return // SSR styles are present.
+      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-      const group = isOldIE ? css.media || 'default' : id;
-      const style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+      var group = isOldIE ? css.media || 'default' : id;
+      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
       if (!style.ids.includes(id)) {
-        let code = css.source;
-        let index = style.ids.length;
+        var code = css.source;
+        var index = style.ids.length;
 
         style.ids.push(id);
+
+        if ( css.map) {
+          // https://developer.chrome.com/devtools/docs/javascript-debugging
+          // this makes source maps inside style tags work properly in Chrome
+          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+          // http://stackoverflow.com/a/26603875
+          code +=
+            '\n/*# sourceMappingURL=data:application/json;base64,' +
+            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+            ' */';
+        }
 
         if (isOldIE) {
           style.element = style.element || document.querySelector('style[data-group=' + group + ']');
         }
 
         if (!style.element) {
-          const el = style.element = document.createElement('style');
+          var el = style.element = document.createElement('style');
           el.type = 'text/css';
 
-          if (css.media) el.setAttribute('media', css.media);
+          if (css.media) { el.setAttribute('media', css.media); }
           if (isOldIE) {
             el.setAttribute('data-group', group);
             el.setAttribute('data-next-index', '0');
@@ -3743,11 +3252,11 @@ __vue_render__$7._withStripped = true;
             .filter(Boolean)
             .join('\n');
         } else {
-          const textNode = document.createTextNode(code);
-          const nodes = style.element.childNodes;
-          if (nodes[index]) style.element.removeChild(nodes[index]);
-          if (nodes.length) style.element.insertBefore(textNode, nodes[index]);
-          else style.element.appendChild(textNode);
+          var textNode = document.createTextNode(code);
+          var nodes = style.element.childNodes;
+          if (nodes[index]) { style.element.removeChild(nodes[index]); }
+          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+          else { style.element.appendChild(textNode); }
         }
       }
     }
@@ -3765,9 +3274,11 @@ __vue_render__$7._withStripped = true;
     __vue_module_identifier__$7,
     __vue_create_injector__$7);
 
-function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) { keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } return keys; }
 
-function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2(source, true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$2(target) {
+var arguments$1 = arguments;
+ for (var i = 1; i < arguments.length; i++) { var source = arguments$1[i] != null ? arguments$1[i] : {}; if (i % 2) { ownKeys$2(source, true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 var script$8 = {
   name: 'DatepickerAgenda',
   mixins: [detachable, colorable, dynamicPosition],
@@ -3891,7 +3402,7 @@ var script$8 = {
     },
     classWeeks: function classWeeks() {
       // if yearMonth selector is opened, stop changing class
-      if (this.shouldShowYearMonthSelector) return;
+      if (this.shouldShowYearMonthSelector) { return; }
 
       if (this.currentDate.getDays().length + this.currentDate.start.weekday() > 35) {
         return "has-6-weeks";
@@ -3906,7 +3417,7 @@ var script$8 = {
       return this.innerWidth < 480 && this.fullscreenMobile && this.isVisible;
     },
     isRangeSelected: function isRangeSelected() {
-      if (!this.range) return false;
+      if (!this.range) { return false; }
       return Object.values(this.mutableDate).every(function (date) {
         return Boolean(date);
       });
@@ -4055,11 +3566,11 @@ var script$8 = {
       return this.mutableDate && this.mutableDate.startOf('day').unix() === day.unix();
     },
     isBetween: function isBetween(day) {
-      if (!this.mutableDate.start && !this.mutableDate.end) return false;
+      if (!this.mutableDate.start && !this.mutableDate.end) { return false; }
       return isBetweenDates(day, this.mutableDate.start, this.mutableDate.end);
     },
     isInRange: function isInRange(day) {
-      if (!this.rangeCurrentHoveredDay) return;
+      if (!this.rangeCurrentHoveredDay) { return; }
 
       if (isBeforeDate(this.rangeCurrentHoveredDay, this.mutableDate.end)) {
         return isBetweenDates(day, this.rangeCurrentHoveredDay, this.mutableDate.end);
@@ -4179,11 +3690,11 @@ var script$8 = {
       // Should handle mouse move if :
       // -> not a range mode
       // -> range already selected
-      if (!this.range || this.isRangeSelected) return;
+      if (!this.range || this.isRangeSelected) { return; }
       var target = event.target; // Should handle mouse move only on those classes
 
       var CLASSES = ['datepicker-day', 'datepicker-day__effect'];
-      if (typeof target.className === 'string' && !CLASSES.includes(target.className.split(' ')[0])) return; // If tagName is SPAN, it means we should select parent
+      if (typeof target.className === 'string' && !CLASSES.includes(target.className.split(' ')[0])) { return; } // If tagName is SPAN, it means we should select parent
 
       if (target.tagName === 'SPAN') {
         target = event.target.parentNode;
@@ -4192,7 +3703,7 @@ var script$8 = {
 
       var isADate = target.dataset.date;
       var isCurrentHoveredDay = target.dataset.date === this.rangeCurrentHoveredDay;
-      if (!isADate || isCurrentHoveredDay) return;
+      if (!isADate || isCurrentHoveredDay) { return; }
       this.rangeCurrentHoveredDay = target.dataset.date; // Should update mutableDate if
       // -> hovered day is before or after current selected date
 
@@ -4212,322 +3723,56 @@ var script$8 = {
 };
 
 /* script */
-            const __vue_script__$8 = script$8;
+            var __vue_script__$8 = script$8;
             
 /* template */
-var __vue_render__$8 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c(
-    "transition",
-    {
-      attrs: { name: "datepicker-transition", appear: "" },
-      on: { "after-enter": _vm.setActive }
-    },
-    [
-      _vm.shouldShowAgenda
-        ? _c(
-            "div",
-            {
-              directives: [
-                {
-                  name: "click-outside",
-                  rawName: "v-click-outside",
-                  value: {
-                    handler: function() {
-                      return _vm.$emit("close")
-                    },
-                    isActive: !_vm.inline && _vm.isActive
-                  },
-                  expression:
-                    "{ handler : () => $emit('close'), isActive: !inline && isActive }"
-                }
-              ],
-              ref: "content",
-              staticClass: "datepicker",
-              class: _vm.classes,
-              style: _vm.styles,
-              attrs: { name: "datepicker-slide" },
-              on: {
-                mousemove: _vm.handleMouseMove,
-                click: function($event) {
-                  $event.stopPropagation();
-                }
-              }
-            },
-            [
-              _vm.fullscreenMobile
-                ? _c("div", { staticClass: "datepicker-title" }, [
-                    _c("p", [_vm._v(_vm._s(_vm.name))]),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.$emit("close")
-                          }
-                        }
-                      },
-                      [
-                        _c(
-                          "svg",
-                          {
-                            attrs: {
-                              "aria-hidden": "true",
-                              focusable: "false",
-                              "data-prefix": "fal",
-                              "data-icon": "times",
-                              role: "img",
-                              xmlns: "http://www.w3.org/2000/svg",
-                              viewBox: "0 0 320 512"
-                            }
-                          },
-                          [
-                            _c("path", {
-                              attrs: {
-                                fill: "currentColor",
-                                d:
-                                  "M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"
-                              }
-                            })
-                          ]
-                        )
-                      ]
-                    )
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              !_vm.noHeader
-                ? _c("DatePickerHeader", {
-                    attrs: {
-                      "mutable-date": _vm.mutableDate,
-                      "transition-name": _vm.transitionLabelName,
-                      color: _vm.color,
-                      locale: _vm.locale,
-                      "format-header": _vm.formatHeader,
-                      mode: _vm.yearMonthMode,
-                      range: _vm.range,
-                      "range-header-text": _vm.rangeHeaderText
-                    }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.range
-                ? _c("DatePickerPresets", {
-                    attrs: {
-                      "range-presets": _vm.rangePresets,
-                      "mutable-date": _vm.mutableDate,
-                      "min-date": _vm.minDate,
-                      "end-date": _vm.endDate,
-                      color: _vm.color,
-                      locale: _vm.locale
-                    },
-                    on: { updateRange: _vm.emitSelectedDate }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "datepicker-content" },
-                [
-                  _c("DatePickerControls", {
-                    attrs: {
-                      "current-date": _vm.currentDate,
-                      "transition-name": _vm.transitionLabelName,
-                      locale: _vm.locale,
-                      mode: "month"
-                    },
-                    on: {
-                      changeVisibleDate: _vm.changeMonth,
-                      showYearMonthSelector: _vm.showYearMonthSelector
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "datepicker-week" },
-                    _vm._l(_vm.weekDays, function(day, index) {
-                      return _c(
-                        "div",
-                        { key: index, staticClass: "datepicker-weekday" },
-                        [_vm._v("\n          " + _vm._s(day) + "\n        ")]
-                      )
-                    }),
-                    0
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "TransitionGroup",
-                    {
-                      staticClass: "datepicker-days__wrapper",
-                      class: _vm.classWeeks,
-                      attrs: { tag: "div", name: _vm.transitionDaysName }
-                    },
-                    _vm._l([_vm.currentDate], function(dates) {
-                      return _c(
-                        "div",
-                        { key: dates.month, staticClass: "datepicker-days" },
-                        [
-                          _vm._l(_vm.spaceBeforeFirstDay, function(day) {
-                            return _c("div", {
-                              key: "space-" + day,
-                              staticClass: "datepicker-day"
-                            })
-                          }),
-                          _vm._v(" "),
-                          _vm._l(_vm.currentDate.getDays(), function(
-                            day,
-                            index
-                          ) {
-                            return _c(
-                              "button",
-                              {
-                                key: index,
-                                staticClass: "datepicker-day",
-                                class: {
-                                  selected:
-                                    _vm.isSelected(day) && !_vm.isDisabled(day),
-                                  between: _vm.range && _vm.isBetween(day),
-                                  "in-range": _vm.range && _vm.isInRange(day),
-                                  first: _vm.range && _vm.firstInRange(day),
-                                  last:
-                                    _vm.range &&
-                                    _vm.lastInRange(day) &&
-                                    Boolean(_vm.mutableDate.end),
-                                  "select-start":
-                                    _vm.range && !_vm.mutableDate.start,
-                                  "select-end":
-                                    _vm.range &&
-                                    _vm.mutableDate.start &&
-                                    !_vm.mutableDate.end,
-                                  disabled: _vm.isDisabled(day)
-                                },
-                                attrs: {
-                                  disabled: _vm.isDisabled(day),
-                                  "data-date": day.format("YYYY-MM-DD"),
-                                  type: "button"
-                                },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.selectDate(day)
-                                  }
-                                }
-                              },
-                              [
-                                _vm.isToday(day)
-                                  ? _c("span", {
-                                      staticClass: "datepicker-day--current"
-                                    })
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                _c("span", {
-                                  staticClass: "datepicker-day__effect",
-                                  style: _vm.setBackgroundColor(_vm.color)
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "datepicker-day__text" },
-                                  [_vm._v(_vm._s(day.format("D")))]
-                                )
-                              ]
-                            )
-                          })
-                        ],
-                        2
-                      )
-                    }),
-                    0
-                  ),
-                  _vm._v(" "),
-                  _vm.shouldShowYearMonthSelector
-                    ? _c("DatePickerYearMonth", {
-                        attrs: {
-                          mode: _vm.yearMonthMode,
-                          range: _vm.range,
-                          "current-date": _vm.currentDate,
-                          "mutable-date": _vm.mutableDate,
-                          "transition-name": _vm.transitionDaysName,
-                          "show-year-month-selector": _vm.showYearMonthSelector,
-                          color: _vm.color,
-                          "min-date": _vm.minDate,
-                          "end-date": _vm.endDate
-                        },
-                        on: {
-                          changeYear: _vm.changeYear,
-                          selectedYearMonth: _vm.selectedYearMonth
-                        }
-                      })
-                    : _vm._e()
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _vm.validate
-                ? _c("DatePickerValidate", {
-                    attrs: {
-                      "button-validate": _vm.buttonValidate,
-                      "button-cancel": _vm.buttonCancel,
-                      color: _vm.color
-                    },
-                    on: {
-                      cancel: function($event) {
-                        return _vm.$emit("close")
-                      },
-                      validate: function($event) {
-                        return _vm.$emit("validateDate")
-                      }
-                    }
-                  })
-                : _vm._e()
-            ],
-            1
-          )
-        : _vm._e()
-    ]
-  )
-};
+var __vue_render__$8 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"datepicker-transition","appear":""},on:{"after-enter":_vm.setActive}},[(_vm.shouldShowAgenda)?_c('div',{directives:[{name:"click-outside",rawName:"v-click-outside",value:({ handler : function () { return _vm.$emit('close'); }, isActive: !_vm.inline && _vm.isActive }),expression:"{ handler : () => $emit('close'), isActive: !inline && isActive }"}],ref:"content",staticClass:"datepicker",class:_vm.classes,style:(_vm.styles),attrs:{"name":"datepicker-slide"},on:{"mousemove":_vm.handleMouseMove,"click":function($event){$event.stopPropagation();}}},[(_vm.fullscreenMobile)?_c('div',{staticClass:"datepicker-title"},[_c('p',[_vm._v(_vm._s(_vm.name))]),_vm._v(" "),_c('button',{attrs:{"type":"button"},on:{"click":function($event){return _vm.$emit('close')}}},[_c('svg',{attrs:{"aria-hidden":"true","focusable":"false","data-prefix":"fal","data-icon":"times","role":"img","xmlns":"http://www.w3.org/2000/svg","viewBox":"0 0 320 512"}},[_c('path',{attrs:{"fill":"currentColor","d":"M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"}})])])]):_vm._e(),_vm._v(" "),(!_vm.noHeader)?_c('DatePickerHeader',{attrs:{"mutable-date":_vm.mutableDate,"transition-name":_vm.transitionLabelName,"color":_vm.color,"locale":_vm.locale,"format-header":_vm.formatHeader,"mode":_vm.yearMonthMode,"range":_vm.range,"range-header-text":_vm.rangeHeaderText}}):_vm._e(),_vm._v(" "),(_vm.range)?_c('DatePickerPresets',{attrs:{"range-presets":_vm.rangePresets,"mutable-date":_vm.mutableDate,"min-date":_vm.minDate,"end-date":_vm.endDate,"color":_vm.color,"locale":_vm.locale},on:{"updateRange":_vm.emitSelectedDate}}):_vm._e(),_vm._v(" "),_c('div',{staticClass:"datepicker-content"},[_c('DatePickerControls',{attrs:{"current-date":_vm.currentDate,"transition-name":_vm.transitionLabelName,"locale":_vm.locale,"mode":"month"},on:{"changeVisibleDate":_vm.changeMonth,"showYearMonthSelector":_vm.showYearMonthSelector}}),_vm._v(" "),_c('div',{staticClass:"datepicker-week"},_vm._l((_vm.weekDays),function(day,index){return _c('div',{key:index,staticClass:"datepicker-weekday"},[_vm._v("\n          "+_vm._s(day)+"\n        ")])}),0),_vm._v(" "),_c('TransitionGroup',{staticClass:"datepicker-days__wrapper",class:_vm.classWeeks,attrs:{"tag":"div","name":_vm.transitionDaysName}},_vm._l(([_vm.currentDate]),function(dates){return _c('div',{key:dates.month,staticClass:"datepicker-days"},[_vm._l((_vm.spaceBeforeFirstDay),function(day){return _c('div',{key:("space-" + day),staticClass:"datepicker-day"})}),_vm._v(" "),_vm._l((_vm.currentDate.getDays()),function(day,index){return _c('button',{key:index,staticClass:"datepicker-day",class:{
+              'selected' : _vm.isSelected(day) && !_vm.isDisabled(day),
+              'between': _vm.range && _vm.isBetween(day),
+              'in-range': _vm.range && _vm.isInRange(day),
+              'first': _vm.range && _vm.firstInRange(day),
+              'last': _vm.range && _vm.lastInRange(day) && Boolean(_vm.mutableDate.end),
+              'select-start': _vm.range && !_vm.mutableDate.start,
+              'select-end': _vm.range && _vm.mutableDate.start && !_vm.mutableDate.end,
+              'disabled': _vm.isDisabled(day),
+            },attrs:{"disabled":_vm.isDisabled(day),"data-date":day.format('YYYY-MM-DD'),"type":"button"},on:{"click":function($event){return _vm.selectDate(day)}}},[(_vm.isToday(day))?_c('span',{staticClass:"datepicker-day--current"}):_vm._e(),_vm._v(" "),_c('span',{staticClass:"datepicker-day__effect",style:(_vm.setBackgroundColor(_vm.color))}),_vm._v(" "),_c('span',{staticClass:"datepicker-day__text"},[_vm._v(_vm._s(day.format('D')))])])})],2)}),0),_vm._v(" "),(_vm.shouldShowYearMonthSelector)?_c('DatePickerYearMonth',{attrs:{"mode":_vm.yearMonthMode,"range":_vm.range,"current-date":_vm.currentDate,"mutable-date":_vm.mutableDate,"transition-name":_vm.transitionDaysName,"show-year-month-selector":_vm.showYearMonthSelector,"color":_vm.color,"min-date":_vm.minDate,"end-date":_vm.endDate},on:{"changeYear":_vm.changeYear,"selectedYearMonth":_vm.selectedYearMonth}}):_vm._e()],1),_vm._v(" "),(_vm.validate)?_c('DatePickerValidate',{attrs:{"button-validate":_vm.buttonValidate,"button-cancel":_vm.buttonCancel,"color":_vm.color},on:{"cancel":function($event){return _vm.$emit('close')},"validate":function($event){return _vm.$emit('validateDate')}}}):_vm._e()],1):_vm._e()])};
 var __vue_staticRenderFns__$8 = [];
-__vue_render__$8._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__$8 = function (inject) {
-    if (!inject) return
-    inject("data-v-458f8232_0", { source: "/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-days .datepicker-day[data-v-458f8232] {\n  border: none;\n  margin: 0;\n  padding: 0;\n  width: auto;\n  overflow: visible;\n  background: transparent;\n  /* inherit font & color from ancestor */\n  color: inherit;\n  font: inherit;\n  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n  line-height: normal;\n  /* Corrects font smoothing for webkit */\n  -webkit-font-smoothing: inherit;\n  -moz-osx-font-smoothing: inherit;\n  /* Corrects inability to style clickable `input` types in iOS */\n  -webkit-appearance: none;\n}\n.datepicker-days .datepicker-day[data-v-458f8232]:focus, .datepicker-days .datepicker-day[data-v-458f8232]:active {\n    outline: 0;\n    box-shadow: 0;\n}\n.datepicker-days .datepicker-day[type=\"button\"][data-v-458f8232], .datepicker-days .datepicker-day[type=\"reset\"][data-v-458f8232], .datepicker-days .datepicker-day[type=\"submit\"][data-v-458f8232], .datepicker-days .datepicker-day[role=\"button\"][data-v-458f8232] {\n    cursor: pointer;\n}\n.slide-h-next-leave-active[data-v-458f8232],\n.slide-h-next-enter-active[data-v-458f8232],\n.slide-h-prev-leave-active[data-v-458f8232],\n.slide-h-prev-enter-active[data-v-458f8232] {\n  position: absolute;\n  transition: transform .3s, opacity .3s;\n}\n.slide-h-next-enter[data-v-458f8232], .slide-h-prev-leave-to[data-v-458f8232] {\n  transform: translateX(100%);\n  opacity: 0;\n}\n.slide-h-next-leave-to[data-v-458f8232], .slide-h-prev-enter[data-v-458f8232] {\n  transform: translateX(-100%);\n  opacity: 0;\n}\n.slide-v-next-leave-active[data-v-458f8232],\n.slide-v-next-enter-active[data-v-458f8232],\n.slide-v-prev-leave-active[data-v-458f8232],\n.slide-v-prev-enter-active[data-v-458f8232] {\n  position: absolute;\n  transition: transform .3s, opacity .3s;\n}\n.slide-v-next-enter[data-v-458f8232], .slide-v-prev-leave-to[data-v-458f8232] {\n  transform: translateY(100%);\n  opacity: 0;\n}\n.slide-v-next-leave-to[data-v-458f8232], .slide-v-prev-enter[data-v-458f8232] {\n  transform: translateY(-100%);\n  opacity: 0;\n}\n.yearMonth-leave-active[data-v-458f8232], .yearMonth-enter-active[data-v-458f8232] {\n  position: absolute;\n  transition: opacity .3s;\n}\n.yearMonth-enter[data-v-458f8232], .yearMonth-leave-to[data-v-458f8232] {\n  opacity: 0;\n}\n.datepicker[data-v-458f8232] {\n  position: absolute;\n  display: flex;\n  flex-direction: column;\n  width: 290px;\n  left: 0;\n  top: 100%;\n  will-change: transform;\n  background-color: white;\n  border-radius: 6px;\n  box-shadow: 0 2px 8px rgba(50, 50, 93, 0.2);\n  /* Title\n  ---------------------- */\n  /* Contsnt\n  ---------------------- */\n  /* Week\n  ---------------------- */\n  /* Days\n  ---------------------- */\n}\n.datepicker[data-v-458f8232]:focus, .datepicker[data-v-458f8232]:active {\n    outline: 0;\n}\n@media only screen and (min-width: 768px) {\n.datepicker[data-v-458f8232] {\n      width: 315px;\n}\n}\n.datepicker--inline[data-v-458f8232] {\n    position: relative;\n    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n}\n@media only screen and (max-width: 479px) {\n.datepicker--fullscreen-mobile[data-v-458f8232] {\n      position: fixed;\n      top: auto !important;\n      bottom: 0 !important;\n      left: 0 !important;\n      right: 0 !important;\n      width: 100%;\n      border-radius: 12px 12px 0 0;\n}\n@supports (padding-bottom: constant(safe-area-inset-bottom)) {\n.datepicker--fullscreen-mobile[data-v-458f8232] {\n          --safe-area-inset-bottom: constant(safe-area-inset-bottom);\n          padding-bottom: var(--safe-area-inset-bottom);\n}\n}\n@supports (padding-bottom: env(safe-area-inset-bottom)) {\n.datepicker--fullscreen-mobile[data-v-458f8232] {\n          --safe-area-inset-bottom: env(safe-area-inset-bottom);\n          padding-bottom: var(--safe-area-inset-bottom);\n}\n}\n.datepicker--fullscreen-mobile .datepicker-header[data-v-458f8232] {\n        border-radius: 0;\n}\n}\n.datepicker-title[data-v-458f8232] {\n    position: relative;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    min-height: 48px;\n    padding: 0 0 0 24px;\n    border-radius: 12px 12px 0 0;\n}\n@media only screen and (min-width: 480px) {\n.datepicker-title[data-v-458f8232] {\n        display: none;\n}\n}\n.datepicker-title p[data-v-458f8232] {\n      margin: 0;\n}\n.datepicker-title button[data-v-458f8232] {\n      position: relative;\n      flex: 0 0 40px;\n      height: 48px;\n      width: 48px;\n      padding: 0 16px 0 8px;\n      border: none;\n      outline: none;\n      background-color: transparent;\n      user-select: none;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-title button[data-v-458f8232] {\n          height: 56px;\n          width: 56px;\n}\n}\n.datepicker-title button svg[data-v-458f8232] {\n        width: 24px;\n        height: 24px;\n}\n.datepicker-content[data-v-458f8232] {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    flex: 1 1 auto;\n}\n.datepicker-week[data-v-458f8232] {\n    font-size: 12px;\n    line-height: 12px;\n    font-weight: 500;\n    margin: 8px 24px;\n    color: rgba(0, 0, 0, 0.38);\n}\n@media only screen and (min-width: 768px) {\n.datepicker-week[data-v-458f8232] {\n        margin: 8px 16px;\n}\n}\n.datepicker-week .datepicker-weekday[data-v-458f8232] {\n      float: left;\n      width: calc(100% / 7);\n      text-align: center;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-week .datepicker-weekday[data-v-458f8232] {\n          width: 40px;\n}\n}\n.datepicker-days__wrapper[data-v-458f8232] {\n    position: relative;\n    height: 180px;\n    margin: 0 24px 8px;\n    overflow: hidden;\n    transition: height 0.3s cubic-bezier(0.23, 1, 0.32, 1);\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days__wrapper[data-v-458f8232] {\n        margin: 0 16px 8px;\n        height: 200px;\n}\n}\n.datepicker-days__wrapper.has-6-weeks[data-v-458f8232] {\n      height: 216px;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days__wrapper.has-6-weeks[data-v-458f8232] {\n          height: 240px;\n}\n}\n.datepicker--validate .datepicker-days__wrapper[data-v-458f8232] {\n      margin: 0 24px;\n}\n@media only screen and (min-width: 768px) {\n.datepicker--validate .datepicker-days__wrapper[data-v-458f8232] {\n          margin: 0 16px;\n}\n}\n.datepicker-days[data-v-458f8232] {\n    display: flex;\n    flex-wrap: wrap;\n    overflow: hidden;\n    width: 100%;\n}\n.datepicker-days .datepicker-day[data-v-458f8232] {\n      position: relative;\n      width: calc(100% / 7);\n      height: 36px;\n      line-height: 1;\n      font-size: 12px;\n      float: left;\n      text-align: center;\n      color: rgba(0, 0, 0, 0.87);\n      font-weight: 500;\n      transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);\n      overflow: hidden;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days .datepicker-day[data-v-458f8232] {\n          width: calc(100% / 7);\n          height: 40px;\n}\n}\n.datepicker-days .datepicker-day[data-v-458f8232]:hover:not(.disabled) {\n        color: white;\n}\n.datepicker-days .datepicker-day:hover:not(.disabled) .datepicker-day__effect[data-v-458f8232] {\n          transform: translateX(-50%) scale(1);\n          opacity: .5;\n}\n.datepicker-days .datepicker-day.in-range[data-v-458f8232]:not(.disabled), .datepicker-days .datepicker-day.between[data-v-458f8232]:not(.disabled) {\n        color: white;\n}\n.datepicker-days .datepicker-day.in-range:not(.disabled) .datepicker-day__effect[data-v-458f8232], .datepicker-days .datepicker-day.between:not(.disabled) .datepicker-day__effect[data-v-458f8232] {\n          transform: translateX(-50%);\n          opacity: 1;\n          left: 0;\n          width: calc(100% + 1px);\n          border-radius: 0;\n          opacity: .5;\n}\n.datepicker-days .datepicker-day.in-range:not(.disabled) .datepicker-day__effect[data-v-458f8232]:before, .datepicker-days .datepicker-day.between:not(.disabled) .datepicker-day__effect[data-v-458f8232]:before {\n            opacity: 1;\n            left: 50%;\n}\n.datepicker-days .datepicker-day.selected[data-v-458f8232] {\n        color: white;\n}\n.datepicker-days .datepicker-day.selected:hover:not(.disabled) .datepicker-day__effect[data-v-458f8232] {\n          opacity: 1;\n}\n.datepicker-days .datepicker-day.selected .datepicker-day__effect[data-v-458f8232] {\n          transform: translateX(-50%);\n          opacity: 1;\n}\n.datepicker-days .datepicker-day.first .datepicker-day__effect[data-v-458f8232], .datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect[data-v-458f8232] {\n        opacity: 1;\n}\n.datepicker-days .datepicker-day.first .datepicker-day__effect[data-v-458f8232]:before, .datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect[data-v-458f8232]:before {\n          opacity: .5;\n          left: 50%;\n}\n.datepicker-days .datepicker-day.last .datepicker-day__effect[data-v-458f8232], .datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect[data-v-458f8232] {\n        opacity: 1;\n}\n.datepicker-days .datepicker-day.last .datepicker-day__effect[data-v-458f8232]:before, .datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect[data-v-458f8232]:before {\n          opacity: .5;\n          left: -50%;\n}\n.datepicker-days .datepicker-day.first.last .datepicker-day__effect[data-v-458f8232]:before {\n        opacity: 0;\n}\n.datepicker-days .datepicker-day.disabled[data-v-458f8232] {\n        cursor: default;\n        color: rgba(0, 0, 0, 0.26);\n}\n.datepicker-days .datepicker-day.disabled:hover .datepicker-day__effect[data-v-458f8232],\n        .datepicker-days .datepicker-day.disabled:hover .datepicker-day__effect[data-v-458f8232]:before {\n          opacity: 0 !important;\n}\n.datepicker-days .datepicker-day--current[data-v-458f8232] {\n      position: absolute;\n      top: 1px;\n      left: 50%;\n      transform: translateX(-50%);\n      width: 34px;\n      height: 34px;\n      border-radius: 50%;\n      border: 1px solid currentColor;\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days .datepicker-day--current[data-v-458f8232] {\n          top: 4px;\n          width: 36px;\n          height: 36px;\n}\n}\n.datepicker-days .datepicker-day__effect[data-v-458f8232] {\n      position: absolute;\n      top: 1px;\n      left: 50%;\n      width: 34px;\n      height: 34px;\n      border-radius: 50%;\n      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);\n      transition-property: transform, opacity;\n      transform: translateX(-50%) scale(0);\n}\n@media only screen and (min-width: 768px) {\n.datepicker-days .datepicker-day__effect[data-v-458f8232] {\n          top: 4px;\n          width: 36px;\n          height: 36px;\n}\n}\n.datepicker--range .datepicker-days .datepicker-day__effect[data-v-458f8232]:before {\n        content: \"\";\n        position: absolute;\n        top: 0;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        background-color: inherit;\n        opacity: 0;\n}\n.datepicker--range-selecting .datepicker-days .datepicker-day__effect[data-v-458f8232] {\n        transform: translateX(-50%) scale(0);\n        opacity: 0;\n        transition: none;\n}\n.datepicker-days .datepicker-day__text[data-v-458f8232] {\n      position: relative;\n      vertical-align: sub;\n}\n.datepicker-transition-enter-active[data-v-458f8232], .datepicker-transition-leave-active[data-v-458f8232] {\n  opacity: 1;\n  transition: all 300ms;\n  transition-property: transform, opacity;\n  transform: scale(1);\n}\n@media only screen and (max-width: 479px) {\n.datepicker-transition-enter-active.datepicker--fullscreen-mobile[data-v-458f8232], .datepicker-transition-leave-active.datepicker--fullscreen-mobile[data-v-458f8232] {\n      transform: translateY(0);\n}\n}\n.datepicker-transition-leave-to[data-v-458f8232], .datepicker-transition-enter[data-v-458f8232] {\n  opacity: 0;\n  transform: scale(0);\n}\n@media only screen and (max-width: 479px) {\n.datepicker-transition-leave-to.datepicker--fullscreen-mobile[data-v-458f8232], .datepicker-transition-enter.datepicker--fullscreen-mobile[data-v-458f8232] {\n      transform: translateY(100%);\n}\n}\n\n/*# sourceMappingURL=DatePickerAgenda.vue.map */", map: {"version":3,"sources":["DatePickerAgenda.vue","/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerAgenda.vue"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;CAgBC;ACqpBD;EDnpBE,YAAY;EACZ,SAAS;EACT,UAAU;EACV,WAAW;EACX,iBAAiB;EACjB,uBAAuB;EACvB,uCAAuC;EACvC,cAAc;EACd,aAAa;EACb,4EAA4E;EAC5E,mBAAmB;EACnB,uCAAuC;EACvC,+BAA+B;EAC/B,gCAAgC;EAChC,+DAA+D;EAC/D,wBAAwB;AAAE;ACooB5B;IDloBI,UAAU;IACV,aAAa;AAAE;ACioBnB;ID/nBI,eAAe;AAAE;AAErB;;;;EAIE,kBAAkB;EAClB,sCAAsC;AAAE;AAE1C;EACE,2BAA2B;EAC3B,UAAU;AAAE;AAEd;EACE,4BAA4B;EAC5B,UAAU;AAAE;AAEd;;;;EAIE,kBAAkB;EAClB,sCAAsC;AAAE;AAE1C;EACE,2BAA2B;EAC3B,UAAU;AAAE;AAEd;EACE,4BAA4B;EAC5B,UAAU;AAAE;AAEd;EACE,kBAAkB;EAClB,uBAAuB;AAAE;AAE3B;EACE,UAAU;AAAE;ACwbd;EACA,kBAAA;EACA,aAAA;EACA,sBAAA;EACA,YAAA;EACA,OAAA;EACA,SAAA;EACA,sBAAA;EACA,uBAAA;EACA,kBAAA;EACA,2CAAA;EA8CA;0BDle0B;EC4gB1B;0BD1gB0B;ECmhB1B;0BDjhB0B;ECyiB1B;0BDviB0B;ACwiB1B;AApIA;IAcA,UAAA;AAAA;AD/aE;ACiaF;MAkBA,YAAA;AAAA;AAuTA;AApTA;IACA,kBAAA;IACA,yHAEA;AAAA;ADpbE;ACubF;MAEA,eAAA;MACA,oBAAA;MACA,oBAAA;MACA,kBAAA;MACA,mBAAA;MACA,WAAA;MACA,4BAAA;AAAA;AAGA;AAXA;UAYA,0DAAA;UACA,6CAAA;AAAA;AAaA;AATA;AAjBA;UAkBA,qDAAA;UACA,6CAAA;AAAA;AAOA;AA1BA;QAuBA,gBAAA;AAAA;AACA;AAMA;IACA,kBAAA;IACA,aAAA;IACA,8BAAA;IACA,mBAAA;IACA,gBAAA;IACA,mBAAA;IACA,4BAAA;AAAA;ADjcI;AC0bJ;QAUA,aAAA;AAAA;AA4BA;AAtCA;MAcA,SAAA;AAAA;AAdA;MAkBA,kBAAA;MACA,cAAA;MACA,YAAA;MACA,WAAA;MACA,qBAAA;MACA,YAAA;MACA,aAAA;MACA,6BAAA;MACA,iBAAA;AAAA;ADrcM;AC2aN;UA6BA,YAAA;UACA,WAAA;AAAA;AAOA;AArCA;QAkCA,WAAA;QACA,YAAA;AAAA;AAOA;IACA,kBAAA;IACA,aAAA;IACA,sBAAA;IACA,cAAA;AAAA;AAKA;IACA,eAAA;IACA,iBAAA;IACA,gBAAA;IACA,gBAAA;IACA,0BAAA;AAAA;ADjdI;AC4cJ;QAQA,gBAAA;AAAA;AAYA;AApBA;MAYA,WAAA;MACA,qBAAA;MACA,kBAAA;AAAA;ADndM;ACqcN;UAiBA,WAAA;AAAA;AAEA;AAKA;IACA,kBAAA;IACA,aAAA;IACA,kBAAA;IACA,gBAAA;IACA,sDAAA;AAAA;ADzdI;ACodJ;QAQA,kBAAA;QACA,aAAA;AAAA;AAkBA;AA3BA;MAaA,aAAA;AAAA;AD3dM;AC8cN;UAgBA,aAAA;AAAA;AAEA;AAEA;MACA,cAAA;AAAA;AD9dM;AC6dN;UAIA,cAAA;AAAA;AAEA;AAGA;IACA,aAAA;IACA,eAAA;IACA,gBAAA;IACA,WAAA;AAAA;AAJA;MAQA,kBAAA;MACA,qBAAA;MACA,YAAA;MACA,cAAA;MACA,eAAA;MACA,WAAA;MACA,kBAAA;MACA,0BAAA;MACA,gBAAA;MACA,sDAAA;MACA,gBAAA;AAAA;ADpeM;ACkdN;UAqBA,qBAAA;UACA,YAAA;AAAA;AAmFA;AAzGA;QA0BA,YAAA;AAAA;AA1BA;UA6BA,oCAAA;UACA,WAAA;AAAA;AA9BA;QAmCA,YAAA;AAAA;AAnCA;UAsCA,2BAAA;UACA,UAAA;UACA,OAAA;UACA,uBAAA;UACA,gBAAA;UACA,WAAA;AAAA;AA3CA;YA8CA,UAAA;YACA,SAAA;AAAA;AA/CA;QAoDA,YAAA;AAAA;AApDA;UAwDA,UAAA;AAAA;AAxDA;UA6DA,2BAAA;UACA,UAAA;AAAA;AA9DA;QAoEA,UAAA;AAAA;AApEA;UAuEA,WAAA;UACA,SAAA;AAAA;AAxEA;QA+EA,UAAA;AAAA;AA/EA;UAkFA,WAAA;UACA,UAAA;AAAA;AAnFA;QA0FA,UAAA;AAAA;AA1FA;QA+FA,eAAA;QACA,0BAAA;AAAA;AAhGA;;UAqGA,qBAAA;AAAA;AArGA;MA4GA,kBAAA;MACA,QAAA;MACA,SAAA;MACA,2BAAA;MACA,WAAA;MACA,YAAA;MACA,kBAAA;MACA,8BAAA;AAAA;AD9gBM;AC2ZN;UAsHA,QAAA;UACA,WAAA;UACA,YAAA;AAAA;AAEA;AA1HA;MA6HA,kBAAA;MACA,QAAA;MACA,SAAA;MACA,WAAA;MACA,YAAA;MACA,kBAAA;MACA,oDAAA;MACA,uCAAA;MACA,oCAAA;AAAA;ADjhBM;AC4YN;UAwIA,QAAA;UACA,WAAA;UACA,YAAA;AAAA;AAqBA;AAlBA;QAEA,WAAA;QACA,kBAAA;QACA,MAAA;QACA,OAAA;QACA,WAAA;QACA,YAAA;QACA,yBAAA;QACA,UAAA;AAAA;AAIA;QACA,oCAAA;QACA,UAAA;QACA,gBAAA;AAAA;AA7JA;MAkKA,kBAAA;MACA,mBAAA;AAAA;AASA;EAEA,UAAA;EACA,qBAAA;EACA,uCAAA;EACA,mBAAA;AAAA;ADliBE;AC6hBF;MASA,wBAAA;AAAA;AACA;AAIA;EAEA,UAAA;EACA,mBAAA;AAAA;ADviBE;ACoiBF;MAOA,2BAAA;AAAA;AACA;;ADxiBA,+CAA+C","file":"DatePickerAgenda.vue","sourcesContent":["/*\n  Media Query mixin\n  @example scss\n\n  @include mq($from: mobile) {\n    color: red;\n  }\n  @include mq($to: tablet) {\n    color: blue;\n  }\n  @include mq(mobile, tablet) {\n    color: green;\n  }\n  @include mq($from: tablet, $and: '(orientation: landscape)') {\n    color: teal;\n  }\n*/\n.datepicker-days .datepicker-day {\n  border: none;\n  margin: 0;\n  padding: 0;\n  width: auto;\n  overflow: visible;\n  background: transparent;\n  /* inherit font & color from ancestor */\n  color: inherit;\n  font: inherit;\n  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */\n  line-height: normal;\n  /* Corrects font smoothing for webkit */\n  -webkit-font-smoothing: inherit;\n  -moz-osx-font-smoothing: inherit;\n  /* Corrects inability to style clickable `input` types in iOS */\n  -webkit-appearance: none; }\n  .datepicker-days .datepicker-day:focus, .datepicker-days .datepicker-day:active {\n    outline: 0;\n    box-shadow: 0; }\n  .datepicker-days .datepicker-day[type=\"button\"], .datepicker-days .datepicker-day[type=\"reset\"], .datepicker-days .datepicker-day[type=\"submit\"], .datepicker-days .datepicker-day[role=\"button\"] {\n    cursor: pointer; }\n\n.slide-h-next-leave-active,\n.slide-h-next-enter-active,\n.slide-h-prev-leave-active,\n.slide-h-prev-enter-active {\n  position: absolute;\n  transition: transform .3s, opacity .3s; }\n\n.slide-h-next-enter, .slide-h-prev-leave-to {\n  transform: translateX(100%);\n  opacity: 0; }\n\n.slide-h-next-leave-to, .slide-h-prev-enter {\n  transform: translateX(-100%);\n  opacity: 0; }\n\n.slide-v-next-leave-active,\n.slide-v-next-enter-active,\n.slide-v-prev-leave-active,\n.slide-v-prev-enter-active {\n  position: absolute;\n  transition: transform .3s, opacity .3s; }\n\n.slide-v-next-enter, .slide-v-prev-leave-to {\n  transform: translateY(100%);\n  opacity: 0; }\n\n.slide-v-next-leave-to, .slide-v-prev-enter {\n  transform: translateY(-100%);\n  opacity: 0; }\n\n.yearMonth-leave-active, .yearMonth-enter-active {\n  position: absolute;\n  transition: opacity .3s; }\n\n.yearMonth-enter, .yearMonth-leave-to {\n  opacity: 0; }\n\n.datepicker {\n  position: absolute;\n  display: flex;\n  flex-direction: column;\n  width: 290px;\n  left: 0;\n  top: 100%;\n  will-change: transform;\n  background-color: white;\n  border-radius: 6px;\n  box-shadow: 0 2px 8px rgba(50, 50, 93, 0.2);\n  /* Title\n  ---------------------- */\n  /* Contsnt\n  ---------------------- */\n  /* Week\n  ---------------------- */\n  /* Days\n  ---------------------- */ }\n  .datepicker:focus, .datepicker:active {\n    outline: 0; }\n  @media only screen and (min-width: 768px) {\n    .datepicker {\n      width: 315px; } }\n  .datepicker--inline {\n    position: relative;\n    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12); }\n  @media only screen and (max-width: 479px) {\n    .datepicker--fullscreen-mobile {\n      position: fixed;\n      top: auto !important;\n      bottom: 0 !important;\n      left: 0 !important;\n      right: 0 !important;\n      width: 100%;\n      border-radius: 12px 12px 0 0; }\n      @supports (padding-bottom: constant(safe-area-inset-bottom)) {\n        .datepicker--fullscreen-mobile {\n          --safe-area-inset-bottom: constant(safe-area-inset-bottom);\n          padding-bottom: var(--safe-area-inset-bottom); } }\n      @supports (padding-bottom: env(safe-area-inset-bottom)) {\n        .datepicker--fullscreen-mobile {\n          --safe-area-inset-bottom: env(safe-area-inset-bottom);\n          padding-bottom: var(--safe-area-inset-bottom); } }\n      .datepicker--fullscreen-mobile .datepicker-header {\n        border-radius: 0; } }\n  .datepicker-title {\n    position: relative;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    min-height: 48px;\n    padding: 0 0 0 24px;\n    border-radius: 12px 12px 0 0; }\n    @media only screen and (min-width: 480px) {\n      .datepicker-title {\n        display: none; } }\n    .datepicker-title p {\n      margin: 0; }\n    .datepicker-title button {\n      position: relative;\n      flex: 0 0 40px;\n      height: 48px;\n      width: 48px;\n      padding: 0 16px 0 8px;\n      border: none;\n      outline: none;\n      background-color: transparent;\n      user-select: none; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-title button {\n          height: 56px;\n          width: 56px; } }\n      .datepicker-title button svg {\n        width: 24px;\n        height: 24px; }\n  .datepicker-content {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    flex: 1 1 auto; }\n  .datepicker-week {\n    font-size: 12px;\n    line-height: 12px;\n    font-weight: 500;\n    margin: 8px 24px;\n    color: rgba(0, 0, 0, 0.38); }\n    @media only screen and (min-width: 768px) {\n      .datepicker-week {\n        margin: 8px 16px; } }\n    .datepicker-week .datepicker-weekday {\n      float: left;\n      width: calc(100% / 7);\n      text-align: center; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-week .datepicker-weekday {\n          width: 40px; } }\n  .datepicker-days__wrapper {\n    position: relative;\n    height: 180px;\n    margin: 0 24px 8px;\n    overflow: hidden;\n    transition: height 0.3s cubic-bezier(0.23, 1, 0.32, 1); }\n    @media only screen and (min-width: 768px) {\n      .datepicker-days__wrapper {\n        margin: 0 16px 8px;\n        height: 200px; } }\n    .datepicker-days__wrapper.has-6-weeks {\n      height: 216px; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-days__wrapper.has-6-weeks {\n          height: 240px; } }\n    .datepicker--validate .datepicker-days__wrapper {\n      margin: 0 24px; }\n      @media only screen and (min-width: 768px) {\n        .datepicker--validate .datepicker-days__wrapper {\n          margin: 0 16px; } }\n  .datepicker-days {\n    display: flex;\n    flex-wrap: wrap;\n    overflow: hidden;\n    width: 100%; }\n    .datepicker-days .datepicker-day {\n      position: relative;\n      width: calc(100% / 7);\n      height: 36px;\n      line-height: 1;\n      font-size: 12px;\n      float: left;\n      text-align: center;\n      color: rgba(0, 0, 0, 0.87);\n      font-weight: 500;\n      transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);\n      overflow: hidden; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-days .datepicker-day {\n          width: calc(100% / 7);\n          height: 40px; } }\n      .datepicker-days .datepicker-day:hover:not(.disabled) {\n        color: white; }\n        .datepicker-days .datepicker-day:hover:not(.disabled) .datepicker-day__effect {\n          transform: translateX(-50%) scale(1);\n          opacity: .5; }\n      .datepicker-days .datepicker-day.in-range:not(.disabled), .datepicker-days .datepicker-day.between:not(.disabled) {\n        color: white; }\n        .datepicker-days .datepicker-day.in-range:not(.disabled) .datepicker-day__effect, .datepicker-days .datepicker-day.between:not(.disabled) .datepicker-day__effect {\n          transform: translateX(-50%);\n          opacity: 1;\n          left: 0;\n          width: calc(100% + 1px);\n          border-radius: 0;\n          opacity: .5; }\n          .datepicker-days .datepicker-day.in-range:not(.disabled) .datepicker-day__effect:before, .datepicker-days .datepicker-day.between:not(.disabled) .datepicker-day__effect:before {\n            opacity: 1;\n            left: 50%; }\n      .datepicker-days .datepicker-day.selected {\n        color: white; }\n        .datepicker-days .datepicker-day.selected:hover:not(.disabled) .datepicker-day__effect {\n          opacity: 1; }\n        .datepicker-days .datepicker-day.selected .datepicker-day__effect {\n          transform: translateX(-50%);\n          opacity: 1; }\n      .datepicker-days .datepicker-day.first .datepicker-day__effect, .datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect {\n        opacity: 1; }\n        .datepicker-days .datepicker-day.first .datepicker-day__effect:before, .datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect:before {\n          opacity: .5;\n          left: 50%; }\n      .datepicker-days .datepicker-day.last .datepicker-day__effect, .datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect {\n        opacity: 1; }\n        .datepicker-days .datepicker-day.last .datepicker-day__effect:before, .datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect:before {\n          opacity: .5;\n          left: -50%; }\n      .datepicker-days .datepicker-day.first.last .datepicker-day__effect:before {\n        opacity: 0; }\n      .datepicker-days .datepicker-day.disabled {\n        cursor: default;\n        color: rgba(0, 0, 0, 0.26); }\n        .datepicker-days .datepicker-day.disabled:hover .datepicker-day__effect,\n        .datepicker-days .datepicker-day.disabled:hover .datepicker-day__effect:before {\n          opacity: 0 !important; }\n    .datepicker-days .datepicker-day--current {\n      position: absolute;\n      top: 1px;\n      left: 50%;\n      transform: translateX(-50%);\n      width: 34px;\n      height: 34px;\n      border-radius: 50%;\n      border: 1px solid currentColor; }\n      @media only screen and (min-width: 768px) {\n        .datepicker-days .datepicker-day--current {\n          top: 4px;\n          width: 36px;\n          height: 36px; } }\n    .datepicker-days .datepicker-day__effect {\n      position: absolute;\n      top: 1px;\n      left: 50%;\n      width: 34px;\n      height: 34px;\n      border-radius: 50%;\n      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);\n      transition-property: transform, opacity;\n      transform: translateX(-50%) scale(0); }\n      @media only screen and (min-width: 768px) {\n        .datepicker-days .datepicker-day__effect {\n          top: 4px;\n          width: 36px;\n          height: 36px; } }\n      .datepicker--range .datepicker-days .datepicker-day__effect:before {\n        content: \"\";\n        position: absolute;\n        top: 0;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        background-color: inherit;\n        opacity: 0; }\n      .datepicker--range-selecting .datepicker-days .datepicker-day__effect {\n        transform: translateX(-50%) scale(0);\n        opacity: 0;\n        transition: none; }\n    .datepicker-days .datepicker-day__text {\n      position: relative;\n      vertical-align: sub; }\n\n.datepicker-transition-enter-active, .datepicker-transition-leave-active {\n  opacity: 1;\n  transition: all 300ms;\n  transition-property: transform, opacity;\n  transform: scale(1); }\n  @media only screen and (max-width: 479px) {\n    .datepicker-transition-enter-active.datepicker--fullscreen-mobile, .datepicker-transition-leave-active.datepicker--fullscreen-mobile {\n      transform: translateY(0); } }\n\n.datepicker-transition-leave-to, .datepicker-transition-enter {\n  opacity: 0;\n  transform: scale(0); }\n  @media only screen and (max-width: 479px) {\n    .datepicker-transition-leave-to.datepicker--fullscreen-mobile, .datepicker-transition-enter.datepicker--fullscreen-mobile {\n      transform: translateY(100%); } }\n\n/*# sourceMappingURL=DatePickerAgenda.vue.map */",null]}, media: undefined });
+  var __vue_inject_styles__$8 = function (inject) {
+    if (!inject) { return }
+    inject("data-v-48e3c608_0", { source: ".datepicker-days .datepicker-day[data-v-48e3c608]{border:none;margin:0;padding:0;width:auto;overflow:visible;background:0 0;color:inherit;font:inherit;line-height:normal;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-appearance:none}.datepicker-days .datepicker-day[data-v-48e3c608]:active,.datepicker-days .datepicker-day[data-v-48e3c608]:focus{outline:0;box-shadow:0}.datepicker-days .datepicker-day[role=button][data-v-48e3c608],.datepicker-days .datepicker-day[type=button][data-v-48e3c608],.datepicker-days .datepicker-day[type=reset][data-v-48e3c608],.datepicker-days .datepicker-day[type=submit][data-v-48e3c608]{cursor:pointer}.slide-h-next-enter-active[data-v-48e3c608],.slide-h-next-leave-active[data-v-48e3c608],.slide-h-prev-enter-active[data-v-48e3c608],.slide-h-prev-leave-active[data-v-48e3c608]{position:absolute;transition:transform .3s,opacity .3s}.slide-h-next-enter[data-v-48e3c608],.slide-h-prev-leave-to[data-v-48e3c608]{transform:translateX(100%);opacity:0}.slide-h-next-leave-to[data-v-48e3c608],.slide-h-prev-enter[data-v-48e3c608]{transform:translateX(-100%);opacity:0}.slide-v-next-enter-active[data-v-48e3c608],.slide-v-next-leave-active[data-v-48e3c608],.slide-v-prev-enter-active[data-v-48e3c608],.slide-v-prev-leave-active[data-v-48e3c608]{position:absolute;transition:transform .3s,opacity .3s}.slide-v-next-enter[data-v-48e3c608],.slide-v-prev-leave-to[data-v-48e3c608]{transform:translateY(100%);opacity:0}.slide-v-next-leave-to[data-v-48e3c608],.slide-v-prev-enter[data-v-48e3c608]{transform:translateY(-100%);opacity:0}.yearMonth-enter-active[data-v-48e3c608],.yearMonth-leave-active[data-v-48e3c608]{position:absolute;transition:opacity .3s}.yearMonth-enter[data-v-48e3c608],.yearMonth-leave-to[data-v-48e3c608]{opacity:0}.datepicker[data-v-48e3c608]{position:absolute;display:flex;flex-direction:column;width:290px;left:0;top:100%;will-change:transform;background-color:#fff;border-radius:6px;box-shadow:0 2px 8px rgba(50,50,93,.2)}.datepicker[data-v-48e3c608]:active,.datepicker[data-v-48e3c608]:focus{outline:0}@media only screen and (min-width:768px){.datepicker[data-v-48e3c608]{width:315px}}.datepicker--inline[data-v-48e3c608]{position:relative;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12)}@media only screen and (max-width:479px){.datepicker--fullscreen-mobile[data-v-48e3c608]{position:fixed;top:auto!important;bottom:0!important;left:0!important;right:0!important;width:100%;border-radius:12px 12px 0 0}@supports (padding-bottom:constant(safe-area-inset-bottom)){.datepicker--fullscreen-mobile[data-v-48e3c608]{--safe-area-inset-bottom:constant(safe-area-inset-bottom);padding-bottom:var(--safe-area-inset-bottom)}}@supports (padding-bottom:env(safe-area-inset-bottom)){.datepicker--fullscreen-mobile[data-v-48e3c608]{--safe-area-inset-bottom:env(safe-area-inset-bottom);padding-bottom:var(--safe-area-inset-bottom)}}.datepicker--fullscreen-mobile .datepicker-header[data-v-48e3c608]{border-radius:0}}.datepicker-title[data-v-48e3c608]{position:relative;display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 0 0 24px;border-radius:12px 12px 0 0}@media only screen and (min-width:480px){.datepicker-title[data-v-48e3c608]{display:none}}.datepicker-title p[data-v-48e3c608]{margin:0}.datepicker-title button[data-v-48e3c608]{position:relative;flex:0 0 40px;height:48px;width:48px;padding:0 16px 0 8px;border:none;outline:0;background-color:transparent;user-select:none}@media only screen and (min-width:768px){.datepicker-title button[data-v-48e3c608]{height:56px;width:56px}}.datepicker-title button svg[data-v-48e3c608]{width:24px;height:24px}.datepicker-content[data-v-48e3c608]{position:relative;display:flex;flex-direction:column;flex:1 1 auto}.datepicker-week[data-v-48e3c608]{font-size:12px;line-height:12px;font-weight:500;margin:8px 24px;color:rgba(0,0,0,.38)}@media only screen and (min-width:768px){.datepicker-week[data-v-48e3c608]{margin:8px 16px}}.datepicker-week .datepicker-weekday[data-v-48e3c608]{float:left;width:calc((100% / 7) - .1px);text-align:center}@media only screen and (min-width:768px){.datepicker-week .datepicker-weekday[data-v-48e3c608]{width:40px}}.datepicker-days__wrapper[data-v-48e3c608]{position:relative;height:180px;margin:0 24px 8px;overflow:hidden;transition:height .3s cubic-bezier(.23,1,.32,1)}@media only screen and (min-width:768px){.datepicker-days__wrapper[data-v-48e3c608]{margin:0 16px 8px;height:200px}}.datepicker-days__wrapper.has-6-weeks[data-v-48e3c608]{height:216px}@media only screen and (min-width:768px){.datepicker-days__wrapper.has-6-weeks[data-v-48e3c608]{height:240px}}.datepicker--validate .datepicker-days__wrapper[data-v-48e3c608]{margin:0 24px}@media only screen and (min-width:768px){.datepicker--validate .datepicker-days__wrapper[data-v-48e3c608]{margin:0 16px}}.datepicker-days[data-v-48e3c608]{display:flex;flex-wrap:wrap;overflow:hidden;width:100%}.datepicker-days .datepicker-day[data-v-48e3c608]{position:relative;width:calc((100% / 7) - .1px);height:36px;line-height:1;font-size:12px;float:left;text-align:center;color:rgba(0,0,0,.87);font-weight:500;transition:color 450ms cubic-bezier(.23,1,.32,1);overflow:hidden}@media only screen and (min-width:768px){.datepicker-days .datepicker-day[data-v-48e3c608]{width:calc((100% / 7) - .1px);height:40px}}.datepicker-days .datepicker-day[data-v-48e3c608]:hover:not(.disabled){color:#fff}.datepicker-days .datepicker-day:hover:not(.disabled) .datepicker-day__effect[data-v-48e3c608]{transform:translateX(-50%) scale(1);opacity:.5}.datepicker-days .datepicker-day.between[data-v-48e3c608]:not(.disabled),.datepicker-days .datepicker-day.in-range[data-v-48e3c608]:not(.disabled){color:#fff}.datepicker-days .datepicker-day.between:not(.disabled) .datepicker-day__effect[data-v-48e3c608],.datepicker-days .datepicker-day.in-range:not(.disabled) .datepicker-day__effect[data-v-48e3c608]{transform:translateX(-50%);opacity:1;left:0;width:calc(100% + 1px);border-radius:0;opacity:.5}.datepicker-days .datepicker-day.between:not(.disabled) .datepicker-day__effect[data-v-48e3c608]:before,.datepicker-days .datepicker-day.in-range:not(.disabled) .datepicker-day__effect[data-v-48e3c608]:before{opacity:1;left:50%}.datepicker-days .datepicker-day.selected[data-v-48e3c608]{color:#fff}.datepicker-days .datepicker-day.selected:hover:not(.disabled) .datepicker-day__effect[data-v-48e3c608]{opacity:1}.datepicker-days .datepicker-day.selected .datepicker-day__effect[data-v-48e3c608]{transform:translateX(-50%);opacity:1}.datepicker-days .datepicker-day.first .datepicker-day__effect[data-v-48e3c608],.datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect[data-v-48e3c608]{opacity:1}.datepicker-days .datepicker-day.first .datepicker-day__effect[data-v-48e3c608]:before,.datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect[data-v-48e3c608]:before{opacity:.5;left:50%}.datepicker-days .datepicker-day.last .datepicker-day__effect[data-v-48e3c608],.datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect[data-v-48e3c608]{opacity:1}.datepicker-days .datepicker-day.last .datepicker-day__effect[data-v-48e3c608]:before,.datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect[data-v-48e3c608]:before{opacity:.5;left:-50%}.datepicker-days .datepicker-day.first.last .datepicker-day__effect[data-v-48e3c608]:before{opacity:0}.datepicker-days .datepicker-day.disabled[data-v-48e3c608]{cursor:default;color:rgba(0,0,0,.26)}.datepicker-days .datepicker-day.disabled:hover .datepicker-day__effect[data-v-48e3c608],.datepicker-days .datepicker-day.disabled:hover .datepicker-day__effect[data-v-48e3c608]:before{opacity:0!important}.datepicker-days .datepicker-day--current[data-v-48e3c608]{position:absolute;top:1px;left:50%;transform:translateX(-50%);width:34px;height:34px;border-radius:50%;border:1px solid currentColor}@media only screen and (min-width:768px){.datepicker-days .datepicker-day--current[data-v-48e3c608]{top:4px;width:36px;height:36px}}.datepicker-days .datepicker-day__effect[data-v-48e3c608]{position:absolute;top:1px;left:50%;width:34px;height:34px;border-radius:50%;transition:all 450ms cubic-bezier(.23,1,.32,1);transition-property:transform,opacity;transform:translateX(-50%) scale(0)}@media only screen and (min-width:768px){.datepicker-days .datepicker-day__effect[data-v-48e3c608]{top:4px;width:36px;height:36px}}.datepicker--range .datepicker-days .datepicker-day__effect[data-v-48e3c608]:before{content:\"\";position:absolute;top:0;left:0;width:100%;height:100%;background-color:inherit;opacity:0}.datepicker--range-selecting .datepicker-days .datepicker-day__effect[data-v-48e3c608]{transform:translateX(-50%) scale(0);opacity:0;transition:none}.datepicker-days .datepicker-day__text[data-v-48e3c608]{position:relative;vertical-align:sub}.datepicker-transition-enter-active[data-v-48e3c608],.datepicker-transition-leave-active[data-v-48e3c608]{opacity:1;transition:all .3s;transition-property:transform,opacity;transform:scale(1)}@media only screen and (max-width:479px){.datepicker-transition-enter-active.datepicker--fullscreen-mobile[data-v-48e3c608],.datepicker-transition-leave-active.datepicker--fullscreen-mobile[data-v-48e3c608]{transform:translateY(0)}}.datepicker-transition-enter[data-v-48e3c608],.datepicker-transition-leave-to[data-v-48e3c608]{opacity:0;transform:scale(0)}@media only screen and (max-width:479px){.datepicker-transition-enter.datepicker--fullscreen-mobile[data-v-48e3c608],.datepicker-transition-leave-to.datepicker--fullscreen-mobile[data-v-48e3c608]{transform:translateY(100%)}}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__$8 = "data-v-458f8232";
+  var __vue_scope_id__$8 = "data-v-48e3c608";
   /* module identifier */
-  const __vue_module_identifier__$8 = undefined;
+  var __vue_module_identifier__$8 = undefined;
   /* functional template */
-  const __vue_is_functional_template__$8 = false;
+  var __vue_is_functional_template__$8 = false;
   /* component normalizer */
   function __vue_normalize__$8(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
   ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
+    var component = (typeof script === 'function' ? script.options : script) || {};
 
     // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePickerAgenda.vue";
+    component.__file = "DatePickerAgenda.vue";
 
     if (!component.render) {
       component.render = template.render;
       component.staticRenderFns = template.staticRenderFns;
       component._compiled = true;
 
-      if (functional) component.functional = true;
+      if (functional) { component.functional = true; }
     }
 
     component._scopeId = scope;
 
     {
-      let hook;
+      var hook;
       if (style) {
         hook = function(context) {
           style.call(this, createInjector(context));
@@ -4537,14 +3782,14 @@ __vue_render__$8._withStripped = true;
       if (hook !== undefined) {
         if (component.functional) {
           // register for functional component in vue file
-          const originalRender = component.render;
+          var originalRender = component.render;
           component.render = function renderWithStyleInjection(h, context) {
             hook.call(context);
             return originalRender(h, context)
           };
         } else {
           // inject component registration as beforeCreate hook
-          const existing = component.beforeCreate;
+          var existing = component.beforeCreate;
           component.beforeCreate = existing ? [].concat(existing, hook) : [hook];
         }
       }
@@ -4554,33 +3799,44 @@ __vue_render__$8._withStripped = true;
   }
   /* style inject */
   function __vue_create_injector__$8() {
-    const head = document.head || document.getElementsByTagName('head')[0];
-    const styles = __vue_create_injector__$8.styles || (__vue_create_injector__$8.styles = {});
-    const isOldIE =
+    var head = document.head || document.getElementsByTagName('head')[0];
+    var styles = __vue_create_injector__$8.styles || (__vue_create_injector__$8.styles = {});
+    var isOldIE =
       typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
     return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) return // SSR styles are present.
+      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-      const group = isOldIE ? css.media || 'default' : id;
-      const style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+      var group = isOldIE ? css.media || 'default' : id;
+      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
       if (!style.ids.includes(id)) {
-        let code = css.source;
-        let index = style.ids.length;
+        var code = css.source;
+        var index = style.ids.length;
 
         style.ids.push(id);
+
+        if ( css.map) {
+          // https://developer.chrome.com/devtools/docs/javascript-debugging
+          // this makes source maps inside style tags work properly in Chrome
+          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+          // http://stackoverflow.com/a/26603875
+          code +=
+            '\n/*# sourceMappingURL=data:application/json;base64,' +
+            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+            ' */';
+        }
 
         if (isOldIE) {
           style.element = style.element || document.querySelector('style[data-group=' + group + ']');
         }
 
         if (!style.element) {
-          const el = style.element = document.createElement('style');
+          var el = style.element = document.createElement('style');
           el.type = 'text/css';
 
-          if (css.media) el.setAttribute('media', css.media);
+          if (css.media) { el.setAttribute('media', css.media); }
           if (isOldIE) {
             el.setAttribute('data-group', group);
             el.setAttribute('data-next-index', '0');
@@ -4600,11 +3856,11 @@ __vue_render__$8._withStripped = true;
             .filter(Boolean)
             .join('\n');
         } else {
-          const textNode = document.createTextNode(code);
-          const nodes = style.element.childNodes;
-          if (nodes[index]) style.element.removeChild(nodes[index]);
-          if (nodes.length) style.element.insertBefore(textNode, nodes[index]);
-          else style.element.appendChild(textNode);
+          var textNode = document.createTextNode(code);
+          var nodes = style.element.childNodes;
+          if (nodes[index]) { style.element.removeChild(nodes[index]); }
+          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+          else { style.element.appendChild(textNode); }
         }
       }
     }
@@ -4770,15 +4026,15 @@ var script$9 = {
     },
     // If format isnt specificed, select default format from type
     inputFormat: function inputFormat() {
-      if (!this.format) return getDefaultInputFormat(this.range ? 'range' : this.type);
+      if (!this.format) { return getDefaultInputFormat(this.range ? 'range' : this.type); }
       return this.format;
     },
     headerFormat: function headerFormat() {
-      if (!this.formatHeader) return getDefaultHeaderFormat(this.range ? 'range' : this.type);
+      if (!this.formatHeader) { return getDefaultHeaderFormat(this.range ? 'range' : this.type); }
       return this.formatHeader;
     },
     outputFormat: function outputFormat() {
-      if (!this.formatOutput) return getDefaultOutputFormat(this.range ? 'range' : this.type);
+      if (!this.formatOutput) { return getDefaultOutputFormat(this.range ? 'range' : this.type); }
       return this.formatOutput;
     }
   },
@@ -4814,13 +4070,13 @@ var script$9 = {
       this.showDatePicker();
     },
     showDatePicker: function showDatePicker() {
-      if (this.disabled) return;
+      if (this.disabled) { return; }
       this.initDate(this.value);
       this.isVisible = true;
       this.$emit('onOpen');
     },
     hideDatePicker: function hideDatePicker() {
-      if (!this.isVisible) return;
+      if (!this.isVisible) { return; }
       this.isVisible = false;
       clearAllBodyScrollLocks();
       this.$emit('onClose');
@@ -4838,7 +4094,7 @@ var script$9 = {
     },
     changeDate: function changeDate(date) {
       this.date = date;
-      if (this.validate) return;
+      if (this.validate) { return; }
       this.validateDate(date);
     },
     validateDate: function validateDate() {
@@ -4850,124 +4106,48 @@ var script$9 = {
 };
 
 /* script */
-            const __vue_script__$9 = script$9;
+            var __vue_script__$9 = script$9;
             
 /* template */
-var __vue_render__$9 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c(
-    "div",
-    {
-      staticClass: "datepicker-container",
-      class: { "datepicker-container--active": _vm.isVisible }
-    },
-    [
-      !_vm.inline
-        ? _c("DatePickerCustomInput", {
-            attrs: {
-              id: _vm.componentId,
-              name: _vm.name,
-              date: _vm.value,
-              type: _vm.type,
-              range: _vm.range,
-              format: _vm.inputFormat,
-              locale: _vm.locale,
-              placeholder: _vm.placeholder,
-              color: _vm.color,
-              disabled: _vm.disabled,
-              tabindex: _vm.tabindex
-            },
-            on: {
-              toggleDatepicker: _vm.toggleDatepicker,
-              focus: _vm.showDatePicker
-            }
-          })
-        : _vm._e(),
-      _vm._v(" "),
-      _c("DatePickerOverlay", {
-        attrs: {
-          isVisible: _vm.isVisible,
-          "fullscreen-mobile": _vm.fullscreenMobile,
-          "attach-to": _vm.attachTo,
-          "z-index": _vm.zIndex
-        },
-        on: { close: _vm.hideDatePicker }
-      }),
-      _vm._v(" "),
-      _c("DatepickerAgenda", {
-        attrs: {
-          name: _vm.name,
-          isVisible: _vm.isVisible,
-          date: _vm.date,
-          type: _vm.type,
-          validate: _vm.validate,
-          "button-cancel": _vm.buttonCancel,
-          "button-validate": _vm.buttonValidate,
-          range: _vm.range,
-          "range-header-text": _vm.rangeHeaderText,
-          "range-presets": _vm.rangePresets,
-          "format-header": _vm.headerFormat,
-          locale: _vm.locale,
-          "no-header": _vm.noHeader,
-          inline: _vm.inline,
-          "fullscreen-mobile": _vm.fullscreenMobile,
-          color: _vm.color,
-          "min-date": _vm.minDate,
-          "end-date": _vm.endDate,
-          "attach-to": _vm.attachTo,
-          "z-index": _vm.zIndex + 1
-        },
-        on: {
-          selectDate: _vm.changeDate,
-          validateDate: _vm.validateDate,
-          close: _vm.hideDatePicker
-        }
-      })
-    ],
-    1
-  )
-};
+var __vue_render__$9 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker-container",class:{ 'datepicker-container--active' : _vm.isVisible }},[(!_vm.inline)?_c('DatePickerCustomInput',{attrs:{"id":_vm.componentId,"name":_vm.name,"date":_vm.value,"type":_vm.type,"range":_vm.range,"format":_vm.inputFormat,"locale":_vm.locale,"placeholder":_vm.placeholder,"color":_vm.color,"disabled":_vm.disabled,"tabindex":_vm.tabindex},on:{"toggleDatepicker":_vm.toggleDatepicker,"focus":_vm.showDatePicker}}):_vm._e(),_vm._v(" "),_c('DatePickerOverlay',{attrs:{"isVisible":_vm.isVisible,"fullscreen-mobile":_vm.fullscreenMobile,"attach-to":_vm.attachTo,"z-index":_vm.zIndex},on:{"close":_vm.hideDatePicker}}),_vm._v(" "),_c('DatepickerAgenda',{attrs:{"name":_vm.name,"isVisible":_vm.isVisible,"date":_vm.date,"type":_vm.type,"validate":_vm.validate,"button-cancel":_vm.buttonCancel,"button-validate":_vm.buttonValidate,"range":_vm.range,"range-header-text":_vm.rangeHeaderText,"range-presets":_vm.rangePresets,"format-header":_vm.headerFormat,"locale":_vm.locale,"no-header":_vm.noHeader,"inline":_vm.inline,"fullscreen-mobile":_vm.fullscreenMobile,"color":_vm.color,"min-date":_vm.minDate,"end-date":_vm.endDate,"attach-to":_vm.attachTo,"z-index":_vm.zIndex + 1},on:{"selectDate":_vm.changeDate,"validateDate":_vm.validateDate,"close":_vm.hideDatePicker}})],1)};
 var __vue_staticRenderFns__$9 = [];
-__vue_render__$9._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__$9 = function (inject) {
-    if (!inject) return
-    inject("data-v-4e55a92a_0", { source: "\n*, ::before, ::after {\n  box-sizing: border-box;\n}\n", map: {"version":3,"sources":["/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePicker.vue"],"names":[],"mappings":";AAsNA;EACA,sBAAA;AACA","file":"DatePicker.vue","sourcesContent":["<template>\n  <div\n    :class=\"{ 'datepicker-container--active' : isVisible }\"\n    class=\"datepicker-container\">\n    <DatePickerCustomInput\n      v-if=\"!inline\"\n      :id=\"componentId\"\n      :name=\"name\"\n      :date=\"value\"\n      :type=\"type\"\n      :range=\"range\"\n      :format=\"inputFormat\"\n      :locale=\"locale\"\n      :placeholder=\"placeholder\"\n      :color=\"color\"\n      :disabled=\"disabled\"\n      :tabindex=\"tabindex\"\n      @toggleDatepicker=\"toggleDatepicker\"\n      @focus=\"showDatePicker\"\n    />\n    <DatePickerOverlay\n      :isVisible=\"isVisible\"\n      :fullscreen-mobile=\"fullscreenMobile\"\n      :attach-to=\"attachTo\"\n      :z-index=\"zIndex\"\n      @close=\"hideDatePicker\"\n    />\n    <DatepickerAgenda\n      :name=\"name\"\n      :isVisible=\"isVisible\"\n      :date=\"date\"\n      :type=\"type\"\n      :validate=\"validate\"\n      :button-cancel=\"buttonCancel\"\n      :button-validate=\"buttonValidate\"\n      :range=\"range\"\n      :range-header-text=\"rangeHeaderText\"\n      :range-presets=\"rangePresets\"\n      :format-header=\"headerFormat\"\n      :locale=\"locale\"\n      :no-header=\"noHeader\"\n      :inline=\"inline\"\n      :fullscreen-mobile=\"fullscreenMobile\"\n      :color=\"color\"\n      :min-date=\"minDate\"\n      :end-date=\"endDate\"\n      :attach-to=\"attachTo\"\n      :z-index=\"zIndex + 1\"\n      @selectDate=\"changeDate\"\n      @validateDate=\"validateDate\"\n      @close=\"hideDatePicker\"\n    />\n  </div>\n</template>\n\n<script>\nimport dayjs from 'dayjs';\nimport { clearAllBodyScrollLocks } from 'body-scroll-lock';\nimport DatePickerCustomInput from './DatePickerCustomInput.vue';\nimport DatePickerOverlay from './DatePickerOverlay.vue';\nimport DatepickerAgenda from './DatePickerAgenda.vue';\nimport { generateRandomId } from '../../utils/helpers';\nimport {\n  getDefaultLocale,\n  setLocaleLang,\n  getDefaultInputFormat,\n  getDefaultHeaderFormat,\n  getDefaultOutputFormat,\n  formatDate,\n  formatDateToSend,\n} from '../../utils/Dates';\n\nexport default {\n  name: 'DatePicker',\n  components: { DatePickerCustomInput, DatePickerOverlay, DatepickerAgenda },\n  props: {\n    id: { type: String, default: 'datepicker' },\n    name: { type: String, default: 'datepicker' },\n    // Validation Buttons\n    validate: { type: Boolean, default: false },\n    buttonValidate: { type: String, default: 'Ok' },\n    buttonCancel: { type: String, default: 'Cancel' },\n    // type (date, month, quarter, year picker)\n    type: { type: String, default: 'date' },\n    // Range\n    range: { type: Boolean, default: false },\n    rangeHeaderText: { type: String, default: 'From %d To %d' },\n    rangePresets: { type: Array, default: undefined },\n    // Current Value from v-model\n    value: { type: [String, Object, Number, Date] },\n    // Format\n    format: { type: String, default: undefined },\n    formatHeader: { type: String, default: undefined },\n    formatOutput: { type: String, default: undefined },\n    // Show/hide datepicker\n    visible: { type: Boolean, default: false },\n    // Sets the locale.\n    locale: {\n      type: Object,\n      default: () => ({ lang: getDefaultLocale() }),\n    },\n    placeholder: { type: String, default: 'YYYY-MM-DD' },\n    // Applies specified color to the control\n    color: { type: String, default: '#4f88ff' },\n    // Allowed dates\n    minDate: { type: [String, Number, Date] },\n    endDate: { type: [String, Number, Date] },\n    // Disabled all datepicker\n    disabled: { type: Boolean, default: false },\n    // Inline\n    inline: { type: Boolean, default: false },\n    // Set if header in agenda should be visible\n    noHeader: { type: Boolean, default: false },\n    // Responsive bottom sheet\n    fullscreenMobile: { type: Boolean, default: false },\n    // tabindex\n    tabindex: { type: [String, Number], default: '0' },\n    // Specificy a z-index for agenda & overlay\n    zIndex: { type: Number, default: 1 },\n    // attachTo\n    attachTo: { type: String, default: '#app' },\n  },\n  data: () => ({\n    date: undefined,\n    isVisible: undefined,\n  }),\n  computed: {\n    // use a computed to have a dynamicId for each instance\n    componentId () {\n      return `${this.id}${generateRandomId()}`;\n    },\n    // If format isnt specificed, select default format from type\n    inputFormat () {\n      if (!this.format) return getDefaultInputFormat(this.range ? 'range' : this.type);\n      return this.format;\n    },\n    headerFormat () {\n      if (!this.formatHeader) return getDefaultHeaderFormat(this.range ? 'range' : this.type);\n      return this.formatHeader;\n    },\n    outputFormat () {\n      if (!this.formatOutput) return getDefaultOutputFormat(this.range ? 'range' : this.type);\n      return this.formatOutput;\n    },\n  },\n  watch: {\n    value: {\n      handler: 'initDate',\n      immediate: true,\n    },\n    visible: {\n      handler (isVisible) {\n        this.isVisible = isVisible;\n      },\n      immediate: true,\n    },\n    locale: {\n      handler (newLocale) {\n        setLocaleLang(newLocale);\n      },\n      immediate: true,\n    },\n  },\n  beforeDestroy () {\n    this.hideDatePicker();\n    this.$emit('onDestroy');\n  },\n  methods: {\n    toggleDatepicker () {\n      if (this.isVisible) {\n        this.hideDatePicker();\n        return;\n      }\n      this.showDatePicker();\n    },\n    showDatePicker () {\n      if (this.disabled) return;\n\n      this.initDate(this.value);\n      this.isVisible = true;\n      this.$emit('onOpen');\n    },\n    hideDatePicker () {\n      if (!this.isVisible) return;\n\n      this.isVisible = false;\n      clearAllBodyScrollLocks();\n      this.$emit('onClose');\n    },\n    initDate (date) {\n      if (this.range) {\n        this.date = {\n          start: date && date.start && formatDate(date.start, this.locale),\n          end: date && date.end && formatDate(date.end, this.locale),\n        };\n        return;\n      }\n      this.date = date && dayjs(date, this.outputFormat);\n    },\n    changeDate (date) {\n      this.date = date;\n      if (this.validate) return;\n      this.validateDate(date);\n    },\n    validateDate () {\n      this.$emit('input', formatDateToSend(this.date, this.outputFormat, this.range));\n      this.$emit('onChange');\n      this.hideDatePicker();\n    },\n  },\n};\n</script>\n\n<style>\n  *, ::before, ::after {\n    box-sizing: border-box;\n  }\n</style>\n\n<style lang=\"scss\" scoped>\n  .datepicker-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    width: auto;\n    cursor: pointer;\n\n    &:focus,\n    &:active {\n      outline: 0;\n    }\n  }\n</style>\n"]}, media: undefined })
-,inject("data-v-4e55a92a_1", { source: ".datepicker-container[data-v-4e55a92a] {\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  width: auto;\n  cursor: pointer;\n}\n.datepicker-container[data-v-4e55a92a]:focus, .datepicker-container[data-v-4e55a92a]:active {\n    outline: 0;\n}\n\n/*# sourceMappingURL=DatePicker.vue.map */", map: {"version":3,"sources":["/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePicker.vue","DatePicker.vue"],"names":[],"mappings":"AA4NA;EACA,kBAAA;EACA,aAAA;EACA,mBAAA;EACA,mBAAA;EACA,WAAA;EACA,eAAA;AAAA;AANA;IAUA,UAAA;AAAA;;AC5NA,yCAAyC","file":"DatePicker.vue","sourcesContent":[null,".datepicker-container {\n  position: relative;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  width: auto;\n  cursor: pointer; }\n  .datepicker-container:focus, .datepicker-container:active {\n    outline: 0; }\n\n/*# sourceMappingURL=DatePicker.vue.map */"]}, media: undefined });
+  var __vue_inject_styles__$9 = function (inject) {
+    if (!inject) { return }
+    inject("data-v-4e55a92a_0", { source: "*,::after,::before{box-sizing:border-box}", map: undefined, media: undefined })
+,inject("data-v-4e55a92a_1", { source: ".datepicker-container[data-v-4e55a92a]{position:relative;display:flex;flex-direction:row;align-items:center;width:auto;cursor:pointer}.datepicker-container[data-v-4e55a92a]:active,.datepicker-container[data-v-4e55a92a]:focus{outline:0}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__$9 = "data-v-4e55a92a";
+  var __vue_scope_id__$9 = "data-v-4e55a92a";
   /* module identifier */
-  const __vue_module_identifier__$9 = undefined;
+  var __vue_module_identifier__$9 = undefined;
   /* functional template */
-  const __vue_is_functional_template__$9 = false;
+  var __vue_is_functional_template__$9 = false;
   /* component normalizer */
   function __vue_normalize__$9(
     template, style, script,
     scope, functional, moduleIdentifier,
     createInjector, createInjectorSSR
   ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
+    var component = (typeof script === 'function' ? script.options : script) || {};
 
     // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/stan/Web/Github/vue-datepicker/src/components/datepicker/DatePicker.vue";
+    component.__file = "DatePicker.vue";
 
     if (!component.render) {
       component.render = template.render;
       component.staticRenderFns = template.staticRenderFns;
       component._compiled = true;
 
-      if (functional) component.functional = true;
+      if (functional) { component.functional = true; }
     }
 
     component._scopeId = scope;
 
     {
-      let hook;
+      var hook;
       if (style) {
         hook = function(context) {
           style.call(this, createInjector(context));
@@ -4977,14 +4157,14 @@ __vue_render__$9._withStripped = true;
       if (hook !== undefined) {
         if (component.functional) {
           // register for functional component in vue file
-          const originalRender = component.render;
+          var originalRender = component.render;
           component.render = function renderWithStyleInjection(h, context) {
             hook.call(context);
             return originalRender(h, context)
           };
         } else {
           // inject component registration as beforeCreate hook
-          const existing = component.beforeCreate;
+          var existing = component.beforeCreate;
           component.beforeCreate = existing ? [].concat(existing, hook) : [hook];
         }
       }
@@ -4994,33 +4174,44 @@ __vue_render__$9._withStripped = true;
   }
   /* style inject */
   function __vue_create_injector__$9() {
-    const head = document.head || document.getElementsByTagName('head')[0];
-    const styles = __vue_create_injector__$9.styles || (__vue_create_injector__$9.styles = {});
-    const isOldIE =
+    var head = document.head || document.getElementsByTagName('head')[0];
+    var styles = __vue_create_injector__$9.styles || (__vue_create_injector__$9.styles = {});
+    var isOldIE =
       typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
 
     return function addStyle(id, css) {
-      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) return // SSR styles are present.
+      if (document.querySelector('style[data-vue-ssr-id~="' + id + '"]')) { return } // SSR styles are present.
 
-      const group = isOldIE ? css.media || 'default' : id;
-      const style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
+      var group = isOldIE ? css.media || 'default' : id;
+      var style = styles[group] || (styles[group] = { ids: [], parts: [], element: undefined });
 
       if (!style.ids.includes(id)) {
-        let code = css.source;
-        let index = style.ids.length;
+        var code = css.source;
+        var index = style.ids.length;
 
         style.ids.push(id);
+
+        if ( css.map) {
+          // https://developer.chrome.com/devtools/docs/javascript-debugging
+          // this makes source maps inside style tags work properly in Chrome
+          code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+          // http://stackoverflow.com/a/26603875
+          code +=
+            '\n/*# sourceMappingURL=data:application/json;base64,' +
+            btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+            ' */';
+        }
 
         if (isOldIE) {
           style.element = style.element || document.querySelector('style[data-group=' + group + ']');
         }
 
         if (!style.element) {
-          const el = style.element = document.createElement('style');
+          var el = style.element = document.createElement('style');
           el.type = 'text/css';
 
-          if (css.media) el.setAttribute('media', css.media);
+          if (css.media) { el.setAttribute('media', css.media); }
           if (isOldIE) {
             el.setAttribute('data-group', group);
             el.setAttribute('data-next-index', '0');
@@ -5040,11 +4231,11 @@ __vue_render__$9._withStripped = true;
             .filter(Boolean)
             .join('\n');
         } else {
-          const textNode = document.createTextNode(code);
-          const nodes = style.element.childNodes;
-          if (nodes[index]) style.element.removeChild(nodes[index]);
-          if (nodes.length) style.element.insertBefore(textNode, nodes[index]);
-          else style.element.appendChild(textNode);
+          var textNode = document.createTextNode(code);
+          var nodes = style.element.childNodes;
+          if (nodes[index]) { style.element.removeChild(nodes[index]); }
+          if (nodes.length) { style.element.insertBefore(textNode, nodes[index]); }
+          else { style.element.appendChild(textNode); }
         }
       }
     }
@@ -5070,7 +4261,7 @@ var install = function install(Vue) {
 
 var plugin = {
   // eslint-disable-next-line no-undef
-  version: "0.1.7",
+  version: "0.1.8-rc.1",
   install: install
 };
 

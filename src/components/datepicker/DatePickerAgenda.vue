@@ -635,7 +635,7 @@ export default {
 
       .datepicker-weekday {
         float: left;
-        width: calc(100% / 7);
+        width: calc((100% / 7) - 0.1px);
         text-align: center;
 
         @include mq(tablet) {
@@ -684,7 +684,7 @@ export default {
       .datepicker-day {
         @extend %reset-button;
         position: relative;
-        width: calc(100% / 7);
+        width: calc((100% / 7) - 0.1px);
         height: get-size(mobile, day-height);
         line-height: 1;
         font-size: 12px;
@@ -696,7 +696,7 @@ export default {
         overflow: hidden;
 
         @include mq(tablet) {
-          width: calc(100% / 7);
+          width: calc((100% / 7) - 0.1px);
           height: get-size(desktop, day-height);
         }
 
