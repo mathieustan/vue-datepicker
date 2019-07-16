@@ -74,7 +74,7 @@ export default {
   name: 'DatePicker',
   components: { DatePickerCustomInput, DatePickerOverlay, DatepickerAgenda },
   props: {
-    id: { type: String, default: 'datepicker' },
+    id: { type: String, default: undefined },
     name: { type: String, default: 'datepicker' },
     // Validation Buttons
     validate: { type: Boolean, default: false },
@@ -127,7 +127,7 @@ export default {
   computed: {
     // use a computed to have a dynamicId for each instance
     componentId () {
-      return `${this.id}${generateRandomId()}`;
+      return this.id || `datepicker_${generateRandomId()}`;
     },
     // If format isnt specificed, select default format from type
     inputFormat () {

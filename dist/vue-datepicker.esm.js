@@ -732,17 +732,17 @@ var script$1 = {
             var __vue_script__$1 = script$1;
             
 /* template */
-var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker-input",class:_vm.classes,on:{"mousedown":function($event){return _vm.$emit('toggleDatepicker')}}},[_c('DatePickerCalendarIcon',{attrs:{"id":_vm.id,"color":_vm.isDateDefined && !_vm.disabled ? _vm.color : 'rgba(93, 106, 137, 0.5)',"disabled":_vm.disabled}}),_vm._v(" "),_c('input',{style:(_vm.setTextColor(!_vm.disabled ? _vm.color : 'rgba(93, 106, 137, 0.5)')),attrs:{"id":_vm.id,"name":_vm.id,"disabled":_vm.disabled,"placeholder":_vm.placeholder,"tabindex":_vm.tabindex,"type":"text","readonly":""},domProps:{"value":_vm.dateFormatted},on:{"focus":function($event){return _vm.$emit('focus')}}})],1)};
+var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker-input",class:_vm.classes,on:{"mousedown":function($event){return _vm.$emit('toggleDatepicker')}}},[_c('DatePickerCalendarIcon',{attrs:{"id":_vm.id,"color":_vm.isDateDefined && !_vm.disabled ? _vm.color : 'rgba(93, 106, 137, 0.5)',"disabled":_vm.disabled}}),_vm._v(" "),_c('input',{style:(_vm.setTextColor(!_vm.disabled ? _vm.color : 'rgba(93, 106, 137, 0.5)')),attrs:{"id":_vm.id,"name":_vm.name,"disabled":_vm.disabled,"placeholder":_vm.placeholder,"tabindex":_vm.tabindex,"type":"text","readonly":""},domProps:{"value":_vm.dateFormatted},on:{"focus":function($event){return _vm.$emit('focus')}}})],1)};
 var __vue_staticRenderFns__$1 = [];
 
   /* style */
   var __vue_inject_styles__$1 = function (inject) {
     if (!inject) { return }
-    inject("data-v-43dda096_0", { source: ".datepicker-input[data-v-43dda096]{position:relative;display:flex;flex-direction:row;justify-content:flex-start;align-items:center}.datepicker-input--disabled[data-v-43dda096]{cursor:not-allowed}input[type=hidden][data-v-43dda096]{position:absolute;bottom:0;left:50%;height:1px;width:1px;border:0;clip:rect(0 0 0 0);margin:-1px;padding:0;outline:0;-webkit-appearance:none;overflow:hidden}input[type=text][data-v-43dda096]{cursor:pointer;border:none;box-shadow:none;outline:0;font-size:16px;line-height:19px;margin-left:8px}input[type=text][data-v-43dda096]:active,input[type=text][data-v-43dda096]:focus{outline:0;box-shadow:none}input[type=text][data-v-43dda096]:disabled,input[type=text][disabled][data-v-43dda096]{cursor:not-allowed}input[type=text].placeholder[data-v-43dda096]{color:rgba(0,0,0,.4)}input[type=text][data-v-43dda096]::placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-43dda096]:-moz-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-43dda096]::-moz-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-43dda096]:-ms-input-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-43dda096]::-webkit-input-placeholder{color:rgba(0,0,0,.4)}.datepicker-input--range input[type=text][data-v-43dda096]{min-width:310px}", map: undefined, media: undefined });
+    inject("data-v-7dfc1065_0", { source: ".datepicker-input[data-v-7dfc1065]{position:relative;display:flex;flex-direction:row;justify-content:flex-start;align-items:center}.datepicker-input--disabled[data-v-7dfc1065]{cursor:not-allowed}input[type=hidden][data-v-7dfc1065]{position:absolute;bottom:0;left:50%;height:1px;width:1px;border:0;clip:rect(0 0 0 0);margin:-1px;padding:0;outline:0;-webkit-appearance:none;overflow:hidden}input[type=text][data-v-7dfc1065]{cursor:pointer;border:none;box-shadow:none;outline:0;font-size:16px;line-height:19px;margin-left:8px}input[type=text][data-v-7dfc1065]:active,input[type=text][data-v-7dfc1065]:focus{outline:0;box-shadow:none}input[type=text][data-v-7dfc1065]:disabled,input[type=text][disabled][data-v-7dfc1065]{cursor:not-allowed}input[type=text].placeholder[data-v-7dfc1065]{color:rgba(0,0,0,.4)}input[type=text][data-v-7dfc1065]::placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-7dfc1065]:-moz-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-7dfc1065]::-moz-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-7dfc1065]:-ms-input-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-7dfc1065]::-webkit-input-placeholder{color:rgba(0,0,0,.4)}.datepicker-input--range input[type=text][data-v-7dfc1065]{min-width:310px}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  var __vue_scope_id__$1 = "data-v-43dda096";
+  var __vue_scope_id__$1 = "data-v-7dfc1065";
   /* module identifier */
   var __vue_module_identifier__$1 = undefined;
   /* functional template */
@@ -3893,7 +3893,7 @@ var script$9 = {
   props: {
     id: {
       type: String,
-      default: 'datepicker'
+      default: undefined
     },
     name: {
       type: String,
@@ -4022,7 +4022,7 @@ var script$9 = {
   computed: {
     // use a computed to have a dynamicId for each instance
     componentId: function componentId() {
-      return "".concat(this.id).concat(generateRandomId());
+      return this.id || "datepicker_".concat(generateRandomId());
     },
     // If format isnt specificed, select default format from type
     inputFormat: function inputFormat() {
@@ -4115,12 +4115,12 @@ var __vue_staticRenderFns__$9 = [];
   /* style */
   var __vue_inject_styles__$9 = function (inject) {
     if (!inject) { return }
-    inject("data-v-4e55a92a_0", { source: "*,::after,::before{box-sizing:border-box}", map: undefined, media: undefined })
-,inject("data-v-4e55a92a_1", { source: ".datepicker-container[data-v-4e55a92a]{position:relative;display:flex;flex-direction:row;align-items:center;width:auto;cursor:pointer}.datepicker-container[data-v-4e55a92a]:active,.datepicker-container[data-v-4e55a92a]:focus{outline:0}", map: undefined, media: undefined });
+    inject("data-v-9ed9dc5c_0", { source: "*,::after,::before{box-sizing:border-box}", map: undefined, media: undefined })
+,inject("data-v-9ed9dc5c_1", { source: ".datepicker-container[data-v-9ed9dc5c]{position:relative;display:flex;flex-direction:row;align-items:center;width:auto;cursor:pointer}.datepicker-container[data-v-9ed9dc5c]:active,.datepicker-container[data-v-9ed9dc5c]:focus{outline:0}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  var __vue_scope_id__$9 = "data-v-4e55a92a";
+  var __vue_scope_id__$9 = "data-v-9ed9dc5c";
   /* module identifier */
   var __vue_module_identifier__$9 = undefined;
   /* functional template */
@@ -4261,7 +4261,7 @@ var install = function install(Vue) {
 
 var plugin = {
   // eslint-disable-next-line no-undef
-  version: "0.1.8-rc.1",
+  version: "0.1.8-rc.2",
   install: install
 };
 

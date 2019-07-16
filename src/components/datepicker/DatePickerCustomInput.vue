@@ -9,7 +9,7 @@
       :disabled="disabled" />
     <input
       :id="id"
-      :name="id"
+      :name="name"
       :style="setTextColor(!disabled ? color : 'rgba(93, 106, 137, 0.5)')"
       :value="dateFormatted"
       :disabled="disabled"

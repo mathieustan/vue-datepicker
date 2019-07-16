@@ -4,6 +4,7 @@ import mockDate from 'mockdate';
 import { shallowMount } from '@vue/test-utils';
 import DatePicker from '@/components/datepicker/DatePicker.vue';
 
+import * as helpersFunction from '@/utils/helpers';
 import {
   DEFAULT_INPUT_DATE_FORMAT,
   DEFAULT_HEADER_DATE_FORMAT,
@@ -28,7 +29,9 @@ describe('DatePicker', () => {
   const dummyDateEnd = new Date([2019, 5, 17]);
 
   beforeEach(() => {
+    jest.spyOn(helpersFunction, 'generateRandomId').mockReturnValue('randomId');
     mountComponent = ({
+      id,
       date,
       disabled = false,
       format,
@@ -40,6 +43,7 @@ describe('DatePicker', () => {
     } = {}) =>
       shallowMount(DatePicker, {
         propsData: {
+          id,
           value: date,
           disabled,
           format,
@@ -72,6 +76,16 @@ describe('DatePicker', () => {
   });
 
   describe('computed', () => {
+    describe('componentId', () => {
+      it.each([
+        [undefined, 'datepicker_randomId'],
+        ['datepicker', 'datepicker'],
+      ])('when id = %p, should return %p', (id, expectedResult) => {
+        const wrapper = mountComponent({ id });
+        expect(wrapper.vm.componentId).toEqual(expectedResult);
+      });
+    });
+
     describe('inputFormat', () => {
       it.each([
         [undefined, DEFAULT_INPUT_DATE_FORMAT.date],
