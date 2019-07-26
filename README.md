@@ -115,6 +115,7 @@ Using `v-model`
 | inline           | Boolean              | false            | Inline datepicker                                                                                                                                   |
 | type             | String               | 'date'           | Determines the type of the picker - date/month/quarter                                                                                              |
 | range            | Boolean              | false            | Enable/disable Date range (actually only available for date )                                                                                       |
+| rangeInputText   | String               | '%d ~ %d'        | When range is enabled, Allow to customize date text in input                                                                                        |
 | rangeHeaderText  | String               | 'From %d To %d ' | When range is enabled, set text before date in datepicker header                                                                                    |
 | rangePresets     | Array                |                  | Allow to add custom range presets to range datepicker. (Max custom presets = 6) Example: `[{ name: 'This year', dates: { start: ..., end: ... } }]` |
 | tabindex         | String\|Number       | '0'              | Specify input tabindex                                                                                                                              |

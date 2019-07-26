@@ -8,8 +8,9 @@
       :name="name"
       :date="value"
       :type="type"
-      :range="range"
       :format="inputFormat"
+      :range="range"
+      :range-input-text="rangeInputText"
       :locale="locale"
       :placeholder="placeholder"
       :color="color"
@@ -84,6 +85,7 @@ export default {
     type: { type: String, default: 'date' },
     // Range
     range: { type: Boolean, default: false },
+    rangeInputText: { type: String, default: '%d ~ %d' },
     rangeHeaderText: { type: String, default: 'From %d To %d' },
     rangePresets: { type: Array, default: undefined },
     // Current Value from v-model

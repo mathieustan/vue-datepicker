@@ -707,6 +707,7 @@
               :min-date="examples.range.min"
               :end-date="examples.range.end"
               :range-presets="examples.range.presets"
+              :range-input-text="examples.range.inputText"
               placeholder="Start - End"
               validate
               range
@@ -725,6 +726,7 @@
     <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
     <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
     <span class="token attr-name">:range-presets</span>="{{ examples.range.presets }}"
+    <span class="token attr-name">:range-input-text</span>="{{ examples.range.inputText }}"
     <span class="token attr-name">placeholder</span>="Start - End"
     <span class="token attr-name">validate </span>
     <span class="token attr-name">range </span>
@@ -902,6 +904,7 @@ export default {
         dates: undefined,
         min: '2018-02-12',
         end: '2019-08-12',
+        inputText: 'From %d to %d',
         presets: [{
           name: 'This year',
           dates: {

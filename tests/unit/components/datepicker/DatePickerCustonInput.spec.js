@@ -9,7 +9,7 @@ describe('DatePickerCustomInput', () => {
   const dummyDate = dayjs(new Date([2019, 5, 16]));
 
   beforeEach(() => {
-    mountComponent = ({ date, range, disabled = false } = {}) =>
+    mountComponent = ({ date, range, rangeInputText = '%d ~ %d', disabled = false } = {}) =>
       shallowMount(DatePickerCustomInput, {
         propsData: {
           name: 'datepicker',
@@ -19,6 +19,7 @@ describe('DatePickerCustomInput', () => {
           color: 'color',
           disabled,
           range,
+          rangeInputText,
         },
       });
   });
@@ -83,12 +84,38 @@ describe('DatePickerCustomInput', () => {
         [{ date: dayjs('2019-4-12') }, '12 April 2019'],
         [{ date: dayjs('2019-4-12') }, '12 April 2019'],
         [
-          { range: true, date: { start: dayjs('2018-5-16'), end: undefined }, formatHeader: 'YYYY-MM-DD' },
+          {
+            range: true,
+            date: { start: dayjs('2018-5-16'), end: undefined },
+            formatHeader: 'YYYY-MM-DD',
+          },
           undefined,
         ],
         [
-          { range: true, date: { start: dayjs('2018-5-16'), end: dayjs('2019-5-16') }, formatHeader: 'YYYY~MM-DD' },
+          {
+            range: true,
+            date: { start: dayjs('2018-5-16'), end: dayjs('2019-5-16') },
+            formatHeader: 'YYYY~MM-DD',
+          },
           '16 May 2018 ~ 16 May 2019',
+        ],
+        [
+          {
+            range: true,
+            rangeInputText: 'From %d to %d',
+            date: { start: dayjs('2018-5-16'), end: dayjs('2019-5-16') },
+            formatHeader: 'YYYY~MM-DD',
+          },
+          'From 16 May 2018 to 16 May 2019',
+        ],
+        [
+          {
+            range: true,
+            rangeInputText: '%d to %d',
+            date: { start: dayjs('2018-5-16'), end: dayjs('2019-5-16') },
+            formatHeader: 'YYYY~MM-DD',
+          },
+          '16 May 2018 to 16 May 2019',
         ],
       ])('When props equal %p, should return %p', (props, expectedResult) => {
         const wrapper = mountComponent(props);

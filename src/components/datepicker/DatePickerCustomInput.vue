@@ -43,6 +43,7 @@ export default {
     format: { type: String },
     type: { type: String },
     range: { type: Boolean },
+    rangeInputText: { type: String },
     locale: { type: Object },
     placeholder: { type: String },
     color: { type: String },
@@ -64,8 +65,14 @@ export default {
     // Displayed Date
     dateFormatted () {
       if (!this.isDateDefined) return;
-      if (this.range) {
-        return getRangeDatesFormatted(this.date, this.locale, this.format);
+      if (this.range && this.rangeInputText) {
+        const textSplitted = this.rangeInputText.split('%d').reduce((texts, text, index) => ({
+          ...texts,
+          ...(index === 0 && { start: text.trim() }),
+          ...(index === 1 && { end: text.trim() }),
+        }), {});
+        const datesSplitted = getRangeDatesFormatted(this.date, this.locale, this.format).split(' ~ ');
+        return `${textSplitted.start} ${datesSplitted[0]} ${textSplitted.end} ${datesSplitted[1]}`.trim();
       }
       return formatDateWithLocale(this.date, this.locale, this.format);
     },
