@@ -507,6 +507,14 @@ export default {
 };
 </script>
 
+<style>
+  .datepicker  *,
+  .datepicker ::before,
+  .datepicker ::after {
+    box-sizing: border-box;
+  }
+</style>
+
 <style lang="scss" scoped>
   @import   '../../styles/abstracts/functions',
             '../../styles/abstracts/variables',
@@ -524,6 +532,7 @@ export default {
     background-color: white;
     border-radius: get-border-radius(2);
     box-shadow: 0 2px 8px rgba(50, 50, 93, 0.2);
+    box-sizing: border-box;
 
     &:focus,
     &:active {

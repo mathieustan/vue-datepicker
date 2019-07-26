@@ -212,7 +212,9 @@ export default {
 </script>
 
 <style>
-  *, ::before, ::after {
+  .datepicker-container  *,
+  .datepicker-container ::before,
+  .datepicker-container ::after {
     box-sizing: border-box;
   }
 </style>
@@ -225,6 +227,7 @@ export default {
     align-items: center;
     width: auto;
     cursor: pointer;
+    box-sizing: border-box;
 
     &:focus,
     &:active {
