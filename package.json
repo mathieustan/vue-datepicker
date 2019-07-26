@@ -1,7 +1,7 @@
 {
   "name": "@mathieustan/vue-datepicker",
   "description": "A clean datepicker made with VueJs",
-  "version": "0.1.8-rc.2",
+  "version": "0.1.8-rc.3",
   "author": "Mathieu Stanowski <mathieu.stan@gmail.com>",
   "keywords": [
     "vue",
@@ -84,7 +84,7 @@
     "sass": "^1.18.0",
     "sass-loader": "^7.1.0",
     "vue": "^2.6.10",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.6.10"
   },
   "directories": {
     "test": "tests"
