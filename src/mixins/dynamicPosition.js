@@ -22,7 +22,13 @@ const dynamicPosition = {
     updatePosition () {
       this.innerWidth = window.innerWidth;
 
-      const target = document.querySelector(this.attachTo);
+      let target;
+      if (typeof this.attachTo === 'string') {
+        target = document.querySelector(this.attachTo); // CSS selector
+      } else {
+        target = this.attachTo; // DOM Element
+      }
+
       if (!target) {
         console.error(`Unable to locate target '${this.attachTo}'`, this);
         return;

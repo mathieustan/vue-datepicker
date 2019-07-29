@@ -1,6 +1,8 @@
+import { validateAttachTarget } from '../utils/helpers';
+
 const detachable = {
   props: {
-    attachTo: { type: String, default: 'body' },
+    attachTo: { validator: validateAttachTarget, default: 'body' },
   },
   data: () => ({
     hasDetached: false,
@@ -14,7 +16,13 @@ const detachable = {
     initDetach () {
       if (!this.$refs.content || this.hasDetached) return;
 
-      const target = document.querySelector(this.attachTo);
+      let target;
+      if (typeof this.attachTo === 'string') {
+        target = document.querySelector(this.attachTo); // CSS selector
+      } else {
+        target = this.attachTo; // DOM Element
+      }
+
       if (!target) {
         console.error(`Unable to locate target '${this.attachTo}'`, this);
         return;

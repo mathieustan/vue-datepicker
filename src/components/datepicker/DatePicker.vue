@@ -60,7 +60,7 @@ import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import DatePickerCustomInput from './DatePickerCustomInput.vue';
 import DatePickerOverlay from './DatePickerOverlay.vue';
 import DatepickerAgenda from './DatePickerAgenda.vue';
-import { generateRandomId } from '../../utils/helpers';
+import { generateRandomId, validateAttachTarget } from '../../utils/helpers';
 import {
   getDefaultLocale,
   setLocaleLang,
@@ -120,7 +120,7 @@ export default {
     // Specificy a z-index for agenda & overlay
     zIndex: { type: Number, default: 1 },
     // attachTo
-    attachTo: { type: String, default: 'body' },
+    attachTo: { validator: validateAttachTarget, default: 'body' },
   },
   data: () => ({
     date: undefined,

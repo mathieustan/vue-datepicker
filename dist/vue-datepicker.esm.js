@@ -1689,10 +1689,41 @@ function _asyncToGenerator(fn) {
 
 var asyncToGenerator = _asyncToGenerator;
 
+var _typeof_1 = createCommonjsModule(function (module) {
+function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
+
+function _typeof(obj) {
+  if (typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol") {
+    module.exports = _typeof = function _typeof(obj) {
+      return _typeof2(obj);
+    };
+  } else {
+    module.exports = _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof2(obj);
+    };
+  }
+
+  return _typeof(obj);
+}
+
+module.exports = _typeof;
+});
+
+function generateRandomId() {
+  return "_".concat(Math.random().toString(36).substr(2, 9));
+}
+
+function validateAttachTarget(value) {
+  var type = _typeof_1(value);
+
+  if (type === 'string') { return true; }
+  return value.nodeType === Node.ELEMENT_NODE;
+}
+
 var detachable = {
   props: {
     attachTo: {
-      type: String,
+      validator: validateAttachTarget,
       default: 'body'
     }
   },
@@ -1709,7 +1740,13 @@ var detachable = {
   methods: {
     initDetach: function initDetach() {
       if (!this.$refs.content || this.hasDetached) { return; }
-      var target = document.querySelector(this.attachTo);
+      var target;
+
+      if (typeof this.attachTo === 'string') {
+        target = document.querySelector(this.attachTo); // CSS selector
+      } else {
+        target = this.attachTo; // DOM Element
+      }
 
       if (!target) {
         console.error("Unable to locate target '".concat(this.attachTo, "'"), this);
@@ -1937,26 +1974,6 @@ var __vue_staticRenderFns__$2 = [];
     __vue_is_functional_template__$2,
     __vue_module_identifier__$2,
     __vue_create_injector__$2);
-
-var _typeof_1 = createCommonjsModule(function (module) {
-function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
-
-function _typeof(obj) {
-  if (typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol") {
-    module.exports = _typeof = function _typeof(obj) {
-      return _typeof2(obj);
-    };
-  } else {
-    module.exports = _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof2(obj);
-    };
-  }
-
-  return _typeof(obj);
-}
-
-module.exports = _typeof;
-});
 
 // https://github.com/simplesmiler/vue-clickaway
 // https://github.com/ndelvalle/v-click-outside/blob/master/lib/v-click-outside.js
@@ -2229,7 +2246,13 @@ var dynamicPosition = {
     },
     updatePosition: function updatePosition() {
       this.innerWidth = window.innerWidth;
-      var target = document.querySelector(this.attachTo);
+      var target;
+
+      if (typeof this.attachTo === 'string') {
+        target = document.querySelector(this.attachTo); // CSS selector
+      } else {
+        target = this.attachTo; // DOM Element
+      }
 
       if (!target) {
         console.error("Unable to locate target '".concat(this.attachTo, "'"), this);
@@ -3927,10 +3950,6 @@ var __vue_staticRenderFns__$8 = [];
     __vue_module_identifier__$8,
     __vue_create_injector__$8);
 
-function generateRandomId() {
-  return "_".concat(Math.random().toString(36).substr(2, 9));
-}
-
 //
 var script$9 = {
   name: 'DatePicker',
@@ -4062,7 +4081,7 @@ var script$9 = {
     },
     // attachTo
     attachTo: {
-      type: String,
+      validator: validateAttachTarget,
       default: 'body'
     }
   },
@@ -4168,12 +4187,12 @@ var __vue_staticRenderFns__$9 = [];
   /* style */
   var __vue_inject_styles__$9 = function (inject) {
     if (!inject) { return }
-    inject("data-v-45137ce0_0", { source: ".datepicker-container *,.datepicker-container ::after,.datepicker-container ::before{box-sizing:border-box}", map: undefined, media: undefined })
-,inject("data-v-45137ce0_1", { source: ".datepicker-container[data-v-45137ce0]{position:relative;display:flex;flex-direction:row;align-items:center;width:auto;cursor:pointer;box-sizing:border-box}.datepicker-container[data-v-45137ce0]:active,.datepicker-container[data-v-45137ce0]:focus{outline:0}", map: undefined, media: undefined });
+    inject("data-v-3c7adbae_0", { source: ".datepicker-container *,.datepicker-container ::after,.datepicker-container ::before{box-sizing:border-box}", map: undefined, media: undefined })
+,inject("data-v-3c7adbae_1", { source: ".datepicker-container[data-v-3c7adbae]{position:relative;display:flex;flex-direction:row;align-items:center;width:auto;cursor:pointer;box-sizing:border-box}.datepicker-container[data-v-3c7adbae]:active,.datepicker-container[data-v-3c7adbae]:focus{outline:0}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  var __vue_scope_id__$9 = "data-v-45137ce0";
+  var __vue_scope_id__$9 = "data-v-3c7adbae";
   /* module identifier */
   var __vue_module_identifier__$9 = undefined;
   /* functional template */

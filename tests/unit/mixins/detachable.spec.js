@@ -13,8 +13,8 @@ describe('detachable', () => {
   });
 
   beforeEach(() => {
-    mountComponent = () => shallowMount(EmptyComponent, {
-      propsData: { attachTo: '#app' },
+    mountComponent = ({ attachTo = '#app' } = {}) => shallowMount(EmptyComponent, {
+      propsData: { attachTo },
     });
   });
 
@@ -59,14 +59,27 @@ describe('detachable', () => {
         expect(wrapper.vm.hasDetached).toEqual(false);
       });
 
-      it('should detach if $refs.content is defined, and insert content into #app', () => {
-        const wrapper = mountComponent();
-
+      it('When $refs.content is defined, Should insert content into body', () => {
         const body = document.querySelector('body');
         const divApp = document.createElement('div');
         divApp.setAttribute('id', 'app');
         body.appendChild(divApp);
 
+        const wrapper = mountComponent();
+
+        wrapper.vm.$refs = { content: wrapper.element };
+
+        wrapper.vm.initDetach();
+        expect(wrapper.vm.hasDetached).toEqual(true);
+      });
+
+      it('When $refs.content is defined, Should insert content into specified div', () => {
+        const body = document.querySelector('body');
+        const divApp = document.createElement('div');
+        divApp.setAttribute('id', 'app');
+        body.appendChild(divApp);
+
+        const wrapper = mountComponent({ attachTo: divApp });
         wrapper.vm.$refs = { content: wrapper.element };
 
         wrapper.vm.initDetach();

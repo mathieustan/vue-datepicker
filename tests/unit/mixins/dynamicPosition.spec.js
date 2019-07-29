@@ -81,6 +81,20 @@ describe('dynamicPosition', () => {
         expect(wrapper.vm.innerWidth).toEqual(479);
         expect(utilsFunctions.getDynamicPosition).toHaveBeenCalled();
       });
+
+      it('Should allow DOM element in attachTo', () => {
+        const body = document.querySelector('body');
+        const divApp = document.createElement('div');
+        divApp.setAttribute('id', 'app');
+        body.appendChild(divApp);
+
+        const wrapper = mountComponent({ attachTo: divApp });
+        global.innerWidth = 479;
+
+        wrapper.vm.updatePosition();
+        expect(wrapper.vm.innerWidth).toEqual(479);
+        expect(utilsFunctions.getDynamicPosition).toHaveBeenCalled();
+      });
     });
   });
 });

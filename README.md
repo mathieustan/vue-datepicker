@@ -92,35 +92,35 @@ Using `v-model`
 
 ## Available props
 
-| Prop             | Type                 | Default          | Description                                                                                                                                         |
-| ---------------- | -------------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| id               | String               | 'datepicker'     | Input id                                                                                                                                            |
-| value            | Date\|String\|Number |                  | Date value of the datepicker                                                                                                                        |
-| name             | String               | 'datepicker'     | Input name property & datepicker title in fullscreenMobile                                                                                          |
-| validate         | Boolean              | false            | Show validations button to select date                                                                                                              |
-| buttonValidate   | String               | 'Ok'             | Text for validation button                                                                                                                          |
-| buttonCancel     | String               | 'Cancel'         | Text for cancel button                                                                                                                              |
-| format           | String               | DD MMMM YYYY     | Date formatting for input                                                                                                                           |
-| formatHeader     | String               | dddd DD MMM      | Allows you to customize the format of the month string that appears in the header of the calendar.                                                  |
-| formatOutput     | String               | YYYY-MM-DD       | Allows you to customize the format of date when selected                                                                                            |
-| placeholder      | String               | 'YYYY-MM-DD'     | Allow you to change input placeholder                                                                                                               |
-| visible          | Boolean              | false            | Allow you to trigger datepicker                                                                                                                     |
-| disabled         | Boolean              | false            | Datepicker disabled or not                                                                                                                          |
-| color            | String               | #4f88ff          | Applies specified color                                                                                                                             |
-| noHeader         | Boolean              |                  | Allow to hide header                                                                                                                                |
-| fullscreenMobile | Boolean              | false            | Datepicker will appear in a bottom sheet in mobile view                                                                                             |
-| minDate          | String\|Number\|Date |                  | Date are available FROM this date                                                                                                                   |
-| endDate          | String\|Number\|Date |                  | Date are disabled AFTER this date                                                                                                                   |
-| locale           | Object               | {lang: 'en'}     | More informations here [Translations](#translations)                                                                                                |
-| inline           | Boolean              | false            | Inline datepicker                                                                                                                                   |
-| type             | String               | 'date'           | Determines the type of the picker - date/month/quarter                                                                                              |
-| range            | Boolean              | false            | Enable/disable Date range (actually only available for date )                                                                                       |
-| rangeInputText   | String               | '%d ~ %d'        | When range is enabled, Allow to customize date text in input                                                                                        |
-| rangeHeaderText  | String               | 'From %d To %d ' | When range is enabled, set text before date in datepicker header                                                                                    |
-| rangePresets     | Array                |                  | Allow to add custom range presets to range datepicker. (Max custom presets = 6) Example: `[{ name: 'This year', dates: { start: ..., end: ... } }]` |
-| tabindex         | String\|Number       | '0'              | Specify input tabindex                                                                                                                              |
-| zIndex           | Number               |                  | Specify a z-index to datepicker & overlay                                                                                                           |
-| attachTo         | String               | '#app'           | It will mount datepicker popup into this element as a child                                                                                         |
+| Prop             | Type                 | Default          | Description                                                                                                                                                    |
+| ---------------- | -------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id               | String               | 'datepicker'     | Input id                                                                                                                                                       |
+| value            | Date\|String\|Number |                  | Date value of the datepicker                                                                                                                                   |
+| name             | String               | 'datepicker'     | Input name property & datepicker title in fullscreenMobile                                                                                                     |
+| validate         | Boolean              | false            | Show validations button to select date                                                                                                                         |
+| buttonValidate   | String               | 'Ok'             | Text for validation button                                                                                                                                     |
+| buttonCancel     | String               | 'Cancel'         | Text for cancel button                                                                                                                                         |
+| format           | String               | DD MMMM YYYY     | Date formatting for input                                                                                                                                      |
+| formatHeader     | String               | dddd DD MMM      | Allows you to customize the format of the month string that appears in the header of the calendar.                                                             |
+| formatOutput     | String               | YYYY-MM-DD       | Allows you to customize the format of date when selected                                                                                                       |
+| placeholder      | String               | 'YYYY-MM-DD'     | Allow you to change input placeholder                                                                                                                          |
+| visible          | Boolean              | false            | Allow you to trigger datepicker                                                                                                                                |
+| disabled         | Boolean              | false            | Datepicker disabled or not                                                                                                                                     |
+| color            | String               | #4f88ff          | Applies specified color                                                                                                                                        |
+| noHeader         | Boolean              |                  | Allow to hide header                                                                                                                                           |
+| fullscreenMobile | Boolean              | false            | Datepicker will appear in a bottom sheet in mobile view                                                                                                        |
+| minDate          | String\|Number\|Date |                  | Date are available FROM this date                                                                                                                              |
+| endDate          | String\|Number\|Date |                  | Date are disabled AFTER this date                                                                                                                              |
+| locale           | Object               | {lang: 'en'}     | More informations here [Translations](#translations)                                                                                                           |
+| inline           | Boolean              | false            | Inline datepicker                                                                                                                                              |
+| type             | String               | 'date'           | Determines the type of the picker - date/month/quarter                                                                                                         |
+| range            | Boolean              | false            | Enable/disable Date range (actually only available for date )                                                                                                  |
+| rangeInputText   | String               | '%d ~ %d'        | When range is enabled, Allow to customize date text in input                                                                                                   |
+| rangeHeaderText  | String               | 'From %d To %d ' | When range is enabled, set text before date in datepicker header                                                                                               |
+| rangePresets     | Array                |                  | Allow to add custom range presets to range datepicker. (Max custom presets = 6) Example: `[{ name: 'This year', dates: { start: ..., end: ... } }]`            |
+| tabindex         | String\|Number       | '0'              | Specify input tabindex                                                                                                                                         |
+| zIndex           | Number               |                  | Specify a z-index to datepicker & overlay                                                                                                                      |
+| attachTo         | String\|DOM Element  | '#app'           | It will mount datepicker popup into this element as a child ( /!\\ Important /!\\ If datepicker is inside a fixed parent, you should set attachTo this parent) |
 
 ## Events
 
