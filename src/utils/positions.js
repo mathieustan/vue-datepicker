@@ -29,8 +29,8 @@ function getDynamicPosition (element, activator, target) {
   const placesAvailable = detectPlacesAvailable(element, spacesAroundParent);
   const {
     isThereEnoughSpaceBelow,
-    isThereEnoughtSpaceLeft,
-    isThereEnoughtSpaceRight,
+    isThereEnoughSpaceLeft,
+    isThereEnoughSpaceRight,
     isThereEnoughSpaceAbove,
   } = placesAvailable;
   // -------------------------------
@@ -38,9 +38,9 @@ function getDynamicPosition (element, activator, target) {
   // placement => MIDDLE
   // -------------------------------
   if (!isThereEnoughSpaceBelow &&
-    !isThereEnoughtSpaceLeft &&
+    !isThereEnoughSpaceLeft &&
     !isThereEnoughSpaceAbove &&
-    !isThereEnoughtSpaceRight) {
+    !isThereEnoughSpaceRight) {
     return getElementCenteredPosition(element);
   }
 
@@ -97,8 +97,8 @@ function getSpacesAroundActivator (activatorRect, target) {
 function detectPlacesAvailable (element, { spaceBelow, spaceAbove, spaceLeft, spaceRight }) {
   return {
     isThereEnoughSpaceBelow: (spaceBelow - element.offsetHeight) > 0,
-    isThereEnoughtSpaceLeft: (spaceLeft - element.offsetWidth) > 0,
-    isThereEnoughtSpaceRight: (spaceRight - element.offsetWidth) > 0,
+    isThereEnoughSpaceLeft: (spaceLeft - element.offsetWidth) > 0,
+    isThereEnoughSpaceRight: (spaceRight - element.offsetWidth) > 0,
     isThereEnoughSpaceAbove: (spaceAbove - element.offsetHeight) > 0,
   };
 }
@@ -125,14 +125,14 @@ function getElementPosition (
   const { spaceAbove } = spacesAroundParent;
   const {
     isThereEnoughSpaceBelow,
-    isThereEnoughtSpaceLeft,
-    isThereEnoughtSpaceRight,
+    isThereEnoughSpaceLeft,
+    isThereEnoughSpaceRight,
     isThereEnoughSpaceAbove,
   } = placesAvailable;
   const missingSpaceToShowAbove = Math.abs(spaceAbove - elementHeight);
   const couldBeShowBelowOrAbove = isThereEnoughSpaceBelow || isThereEnoughSpaceAbove;
 
-  if (!couldBeShowBelowOrAbove && isThereEnoughtSpaceRight) {
+  if (!couldBeShowBelowOrAbove && isThereEnoughSpaceRight) {
     return {
       top: activatorOffsetTop + (missingSpaceToShowAbove + activatorRect.height) - elementHeight,
       left: activatorOffsetLeft + activatorRect.width,
@@ -140,7 +140,7 @@ function getElementPosition (
     };
   }
 
-  if (!couldBeShowBelowOrAbove && isThereEnoughtSpaceLeft) {
+  if (!couldBeShowBelowOrAbove && isThereEnoughSpaceLeft) {
     return {
       top: activatorOffsetTop + (missingSpaceToShowAbove + activatorRect.height) - elementHeight,
       left: activatorOffsetLeft - elementWidth,
@@ -148,7 +148,7 @@ function getElementPosition (
     };
   }
 
-  if (couldBeShowBelowOrAbove && isThereEnoughtSpaceLeft && !isThereEnoughtSpaceRight) {
+  if (couldBeShowBelowOrAbove && isThereEnoughSpaceLeft && !isThereEnoughSpaceRight) {
     return {
       top: activatorOffsetTop + (isThereEnoughSpaceBelow ? activatorRect.height : -elementHeight),
       left: activatorOffsetLeft + activatorRect.width - elementWidth,
@@ -156,7 +156,7 @@ function getElementPosition (
     };
   }
 
-  if (couldBeShowBelowOrAbove && !isThereEnoughtSpaceLeft && !isThereEnoughtSpaceRight) {
+  if (couldBeShowBelowOrAbove && !isThereEnoughSpaceLeft && !isThereEnoughSpaceRight) {
     return {
       top: activatorOffsetTop + (isThereEnoughSpaceBelow ? activatorRect.height : -elementHeight),
       left: activatorOffsetLeft - target.offsetLeft,
