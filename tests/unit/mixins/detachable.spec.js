@@ -37,7 +37,7 @@ describe('detachable', () => {
       expect(wrapper.vm.$refs.content).toEqual(undefined);
     });
 
-    it('should remove element from Dom ONLY OF $refs.content is defined', () => {
+    it('should remove element from Dom ONLY IF $refs.content is defined', () => {
       const wrapper = mountComponent();
       wrapper.vm.$refs = {
         content: {

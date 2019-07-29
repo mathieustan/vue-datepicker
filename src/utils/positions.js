@@ -60,7 +60,7 @@ function getDynamicPosition (element, activator, target) {
 
 function checkActivatorFixed (activator) {
   let element = activator;
-  let activatorFixed;
+  let activatorFixed = false;
   while (element) {
     if (window.getComputedStyle(element).position === 'fixed') {
       activatorFixed = true;
