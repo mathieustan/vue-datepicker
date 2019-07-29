@@ -456,14 +456,15 @@
         <Wrapper background-color="white" class="column justify-center align-center">
           <template v-slot:description>
             <h3> Locale (lang & weekDays) </h3>
-            <p><small> Translations (actually, only 'en', 'fr', 'es' & 'de' available) </small></p>
+            <p><small> Translations </small></p>
           </template>
 
           <template v-slot:example>
             <VueDatePicker
               v-model="currentDate"
               :locale="{
-                lang: 'fr', weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D']
+                lang: 'fr',
+                weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
               }" />
           </template>
 
@@ -490,8 +491,8 @@
         <!---------------------------------------------------------->
         <Wrapper background-color="white" class="column justify-center align-center">
           <template v-slot:description>
-            <h3> Locale (only lang selectable lang) </h3>
-            <p><small> Translations (actually, only 'en', 'fr', 'es' & 'de' available) </small></p>
+            <h3> Locale (selectable lang available in package) </h3>
+            <p><small> Translations (actually, only 'en', 'fr', 'es' & 'de' available in package) </small></p>
           </template>
 
           <template v-slot:inputs>
@@ -520,6 +521,39 @@
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
     <span class="token attr-name">:locale</span>="{ lang: {{ examples.locale.selectedLang }} }"
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+  </CodeWrapper>
+          </template>
+
+          <template v-slot:result>
+            v-model="{{ currentDate }}"
+          </template>
+        </Wrapper>
+
+        <!---------------------------------------------------------->
+        <!-- EXAMPLE : Locale with custom lang -->
+        <!---------------------------------------------------------->
+        <Wrapper background-color="white" class="column justify-center align-center">
+          <template v-slot:description>
+            <h3> Locale (with custom lang object) </h3>
+            <p><small> You can use a custom lang object </small></p>
+          </template>
+
+          <template v-slot:example>
+            <VueDatePicker
+              v-model="currentDate"
+              :locale="{ lang: examples.locale.customLang }" />
+          </template>
+
+          <template v-slot:code>
+            <CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">:locale</span>="{ lang: {{ examples.locale.customLang }} }"
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
@@ -889,6 +923,23 @@ export default {
       locale: {
         selectedLang: 'de',
         langs: ['es', 'en', 'fr', 'de'],
+        customLang: {
+          name: 'it',
+          weekdays: 'domenica_lunedì_martedì_mercoledì_giovedì_venerdì_sabato'.split('_'),
+          weekdaysShort: 'dom_lun_mar_mer_gio_ven_sab'.split('_'),
+          weekStart: 1,
+          months: 'gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre'.split('_'),
+          monthsShort: 'gen_feb_mar_apr_mag_giu_lug_ago_set_ott_nov_dic'.split('_'),
+          formats: {
+            LT: 'HH:mm',
+            LTS: 'HH:mm:ss',
+            L: 'DD/MM/YYYY',
+            LL: 'D MMMM YYYY',
+            LLL: 'D MMMM YYYY HH:mm',
+            LLLL: 'dddd D MMMM YYYY HH:mm',
+          },
+          ordinal: n => `${n}º`,
+        },
       },
       month: {
         currentDate: new Date().toISOString().substr(0, 7),

@@ -8,6 +8,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
 import * as locales from '../locale';
 import {
+  DEFAULT_LOCALE_PROPERTIES,
   DEFAULT_INPUT_DATE_FORMAT,
   DEFAULT_HEADER_DATE_FORMAT,
   DEFAULT_OUTPUT_DATE_FORMAT,
@@ -22,7 +23,7 @@ dayjs.extend(isSameOrBefore);
 
 export default class PickerDate {
   constructor (month, year, { lang = getDefaultLocale() } = {}) {
-    const locale = locales[lang] || locales.en;
+    const locale = getLocale(lang);
     dayjs.locale(locale);
     this.start = dayjs().year(year).month(month).startOf('month');
     this.end = this.start.endOf('month');
@@ -64,17 +65,27 @@ export default class PickerDate {
 // - setLocaleLang : Init lang from arg
 // - getWeekDays : Return week days from lang
 // -----------------------------------------
+function isValidLocale (lang = {}) {
+  const properties = Object.keys(lang);
+  return properties.length > 0 &&
+    properties.every(property => DEFAULT_LOCALE_PROPERTIES.includes(property));
+}
+
+function getLocale (lang) {
+  return isValidLocale(lang) ? lang : locales[lang] || locales.en;
+}
+
 export function getDefaultLocale () {
   return (window.navigator.userLanguage || window.navigator.language || 'en').substr(0, 2);
 }
 
 export function setLocaleLang ({ lang }) {
-  const locale = locales[lang] || locales.en;
+  const locale = getLocale(lang);
   dayjs.locale(locale);
 }
 
 export function getWeekDays ({ lang, weekDays }) {
-  const locale = locales[lang] || locales.en;
+  const locale = getLocale(lang);
   let weekDaysShort = [...locale.weekdaysShort];
 
   // If weekStart at 1, should move first index at the end
@@ -108,12 +119,12 @@ export function getDefaultOutputFormat (type = 'date') {
 }
 
 export function formatDateWithLocale (date, { lang }, format) {
-  const locale = locales[lang] || locales.en;
+  const locale = getLocale(lang);
   return dayjs(date).locale(locale).format(format);
 }
 
 export function formatDate (date, { lang }) {
-  const locale = locales[lang] || locales.en;
+  const locale = getLocale(lang);
   return dayjs(date).locale(locale);
 }
 
@@ -122,7 +133,7 @@ export function formatDateWithYearAndMonth (year, month) {
 }
 
 export function getRangeDatesFormatted ({ start, end } = {}, { lang }, format) {
-  const locale = locales[lang] || locales.en;
+  const locale = getLocale(lang);
 
   if (!start && !end) {
     return `${format} ~ ${format}`;

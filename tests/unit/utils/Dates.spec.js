@@ -156,7 +156,19 @@ describe('Transactions: Functions', () => {
     });
 
     describe('setLocaleLang', () => {
+      const cutomLang = {
+        name: 'it',
+        weekdays: 'weekdays',
+        weekdaysShort: 'weekdaysShort',
+        weekStart: 1,
+        months: 'months',
+        monthsShort: 'monthsShort',
+        formats: {},
+        ordinal: n => `${n}º`,
+      };
+
       it.each([
+        [{ lang: cutomLang }, cutomLang],
         [{ lang: 'fr' }, fr],
         [{ lang: 'toto' }, en],
       ])(

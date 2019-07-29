@@ -1,3 +1,15 @@
+export const DEFAULT_LOCALE_PROPERTIES = [
+  'name',
+  'weekdays',
+  'weekdaysShort',
+  'weekdaysMin',
+  'weekStart',
+  'months',
+  'monthsShort',
+  'ordinal',
+  'formats',
+];
+
 export const DEFAULT_INPUT_DATE_FORMAT = {
   date: 'DD MMMM YYYY',
   month: 'MMMM YYYY',

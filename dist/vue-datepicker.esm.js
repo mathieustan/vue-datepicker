@@ -405,6 +405,7 @@ var locales = /*#__PURE__*/Object.freeze({
   de: localeObject$3
 });
 
+var DEFAULT_LOCALE_PROPERTIES = ['name', 'weekdays', 'weekdaysShort', 'weekdaysMin', 'weekStart', 'months', 'monthsShort', 'ordinal', 'formats'];
 var DEFAULT_INPUT_DATE_FORMAT = {
   date: 'DD MMMM YYYY',
   month: 'MMMM YYYY',
@@ -443,7 +444,7 @@ function () {
 
     classCallCheck(this, PickerDate);
 
-    var locale = locales[lang] || localeObject;
+    var locale = getLocale(lang);
     dayjs.locale(locale);
     this.start = dayjs().year(year).month(month).startOf('month');
     this.end = this.start.endOf('month');
@@ -500,18 +501,31 @@ function () {
 
   return PickerDate;
 }(); // -----------------------------------------
+
+function isValidLocale() {
+  var lang = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var properties = Object.keys(lang);
+  return properties.length > 0 && properties.every(function (property) {
+    return DEFAULT_LOCALE_PROPERTIES.includes(property);
+  });
+}
+
+function getLocale(lang) {
+  return isValidLocale(lang) ? lang : locales[lang] || localeObject;
+}
+
 function getDefaultLocale() {
   return (window.navigator.userLanguage || window.navigator.language || 'en').substr(0, 2);
 }
 function setLocaleLang(_ref2) {
   var lang = _ref2.lang;
-  var locale = locales[lang] || localeObject;
+  var locale = getLocale(lang);
   dayjs.locale(locale);
 }
 function getWeekDays(_ref3) {
   var lang = _ref3.lang,
       weekDays = _ref3.weekDays;
-  var locale = locales[lang] || localeObject;
+  var locale = getLocale(lang);
 
   var weekDaysShort = toConsumableArray(locale.weekdaysShort); // If weekStart at 1, should move first index at the end
 
@@ -545,12 +559,12 @@ function getDefaultOutputFormat() {
 }
 function formatDateWithLocale(date, _ref4, format) {
   var lang = _ref4.lang;
-  var locale = locales[lang] || localeObject;
+  var locale = getLocale(lang);
   return dayjs(date).locale(locale).format(format);
 }
 function formatDate(date, _ref5) {
   var lang = _ref5.lang;
-  var locale = locales[lang] || localeObject;
+  var locale = getLocale(lang);
   return dayjs(date).locale(locale);
 }
 function formatDateWithYearAndMonth(year, month) {
@@ -565,7 +579,7 @@ function getRangeDatesFormatted() {
       lang = _ref7.lang;
 
   var format = arguments.length > 2 ? arguments[2] : undefined;
-  var locale = locales[lang] || localeObject;
+  var locale = getLocale(lang);
 
   if (!start && !end) {
     return "".concat(format, " ~ ").concat(format);
