@@ -206,7 +206,7 @@ You should have those properties to make it works :
 'name', 'weekdays', 'weekdaysShort', 'weekdaysMin', 'weekStart', 'months', 'monthsShort', 'ordinal', 'formats',
 
 If you need exemples, you can go to this link to find language :
- -> [locales](https://github.com/iamkun/dayjs/tree/dev/src/locale)
+ \-> [locales](https://github.com/iamkun/dayjs/tree/dev/src/locale)
 
 exemple :
 
