@@ -120,7 +120,7 @@ export default {
     // Specificy a z-index for agenda & overlay
     zIndex: { type: Number, default: 1 },
     // attachTo
-    attachTo: { type: String, default: '#app' },
+    attachTo: { type: String, default: 'body' },
   },
   data: () => ({
     date: undefined,

@@ -5,26 +5,31 @@ import {
 } from '@/utils/positions';
 
 describe('Utils: Functions', () => {
-  const createDivParentWithChildren = ({
-    childrenWidth = '100px',
-    childrenHeight = '100px',
-  } = {}) => {
-    const target = document.createElement('body');
-    const parentElement = document.createElement('div');
-    parentElement.setAttribute('class', 'parent');
-    const childrenElement = document.createElement('div');
-    childrenElement.setAttribute('class', 'children');
+  const createDivParentWithChildren = (position = 'relative') => {
+    const body = document.createElement('body');
+    body.style.position = position;
+    const activatorElement = document.createElement('div');
+    activatorElement.setAttribute('class', 'activator');
+    const element = document.createElement('div');
+    element.setAttribute('class', 'element');
+    Object.defineProperties(element, {
+      offsetParent: { get: () => activatorElement },
+    }, { writable: true });
 
-    parentElement.appendChild(childrenElement);
-    childrenElement.style.height = childrenWidth;
-    childrenElement.style.width = childrenHeight;
+    activatorElement.appendChild(element);
+    element.style.height = '100px';
+    element.style.width = '100px';
 
-    target.appendChild(parentElement);
+    document.body.appendChild(activatorElement);
+    Object.defineProperties(activatorElement, {
+      offsetParent: { get: () => body },
+    }, { writable: true });
+    document.documentElement.appendChild(body);
 
     return {
-      target,
-      parent: parentElement,
-      element: childrenElement,
+      body,
+      activator: activatorElement,
+      element,
     };
   };
 
@@ -58,87 +63,97 @@ describe('Utils: Functions', () => {
     it.each([
       // Should place ABOVE
       [
-        { width: 800, height: 800 },
-        { top: 700, left: 0, bottom: 700, width: 300, height: 50 },
-        { offsetTop: 0, offsetLeft: 0 },
-        { width: 100, height: 400 },
-        { top: 300, left: 0, origin: 'bottom left' },
+        { width: 800, height: 800 }, // windowSize
+        { offsetTop: 0, offsetLeft: 0 }, // target
+        { width: 800, left: 0, bottom: 800 }, // targetRect
+        { top: 700, left: 0, bottom: 700, width: 300, height: 50 }, // activatorRect
+        { width: 100, height: 400 }, // elementSize
+        { top: 300, left: 0, origin: 'bottom left' }, // result
       ],
       // Should place BELOW
       [
-        { width: 800, height: 800 },
-        { top: 100, left: 0, bottom: 100, width: 300, height: 50 },
-        { offsetTop: 0, offsetLeft: 0 },
-        { width: 100, height: 100 },
-        { top: 150, left: 0, origin: 'top left' },
+        { width: 800, height: 800 }, // windowSize
+        { offsetTop: 0, offsetLeft: 0 }, // target
+        { width: 800, left: 0, bottom: 800 }, // targetRect
+        { top: 100, left: 0, bottom: 100, width: 300, height: 50 }, // activatorRect
+        { width: 100, height: 100 }, // elementSize
+        { top: 150, left: 0, origin: 'top left' }, // result
       ],
       // Should place BELOW in SPECIFIC TARGET
       [
-        { width: 800, height: 800 },
-        { top: 100, left: 100, bottom: 100, width: 300, height: 50 },
-        { offsetTop: 0, offsetLeft: 100 },
-        { width: 100, height: 100 },
-        { top: 150, left: 0, origin: 'top left' },
+        { width: 800, height: 800 }, // windowSize
+        { offsetTop: 0, offsetLeft: 400 }, // target
+        { width: 400, left: 400, bottom: 600 }, // targetRect
+        { top: 100, left: 450, bottom: 100, width: 300, height: 50 }, // activatorRect
+        { width: 100, height: 100 }, // elementSize
+        { top: 150, left: 50, origin: 'top left' }, // result
       ],
       // Should place BELOW and LEFT if there is not enought place on right
       [
-        { width: 800, height: 800 },
-        { top: 100, left: 500, bottom: 100, width: 300, height: 50 },
-        { offsetTop: 0, offsetLeft: 0 },
-        { width: 100, height: 100 },
-        { top: 150, left: 700, origin: 'top right' },
+        { width: 800, height: 800 }, // windowSize
+        { offsetTop: 0, offsetLeft: 0 }, // target
+        { width: 800, left: 0, bottom: 800 }, // targetRect
+        { top: 100, left: 500, bottom: 100, width: 300, height: 50 }, // activatorRect
+        { width: 100, height: 100 }, // elementSize
+        { top: 150, left: 700, origin: 'top right' }, // result
       ],
       // Should place ABOVE and LEFT if there is not enought place on right
       [
-        { width: 800, height: 800 },
-        { top: 700, left: 500, bottom: 700, width: 300, height: 50 },
-        { offsetTop: 0, offsetLeft: 0 },
-        { width: 100, height: 100 },
-        { top: 600, left: 700, origin: 'bottom right' },
+        { width: 800, height: 800 }, // windowSize
+        { offsetTop: 0, offsetLeft: 0 }, // target
+        { width: 800, left: 0, bottom: 800 }, // targetRect
+        { top: 700, left: 500, bottom: 700, width: 300, height: 50 }, // activatorRect
+        { width: 100, height: 100 }, // elementSize
+        { top: 600, left: 700, origin: 'bottom right' }, // result
       ],
-      // Should place BELOW and CENTER if there is not enought place on right and on left
+      // Should place BELOW and LEFT if there is not enought place on right and on left
       [
-        { width: 800, height: 800 },
-        { top: 100, left: 300, bottom: 100, width: 300, height: 50 },
-        { offsetTop: 0, offsetLeft: 0 },
-        { width: 300, height: 100 },
-        { top: 150, left: 250, origin: 'top center' },
+        { width: 800, height: 800 }, // windowSize
+        { offsetTop: 0, offsetLeft: 0 }, // target
+        { width: 800, left: 0, bottom: 800 }, // targetRect
+        { top: 100, left: 300, bottom: 100, width: 300, height: 50 }, // activatorRect
+        { width: 300, height: 100 }, // elementSize
+        { top: 150, left: 300, origin: 'top left' }, // result
       ],
-      // Should place ABOVE and CENTER if there is not enought place on right and on left
+      // Should place ABOVE and LEFT if there is not enought place on right and on left
       [
-        { width: 800, height: 800 },
-        { top: 700, left: 300, bottom: 700, width: 300, height: 50 },
-        { offsetTop: 0, offsetLeft: 0 },
-        { width: 300, height: 100 },
-        { top: 600, left: 250, origin: 'bottom center' },
+        { width: 800, height: 800 }, // windowSize
+        { offsetTop: 0, offsetLeft: 0 }, // target
+        { width: 800, left: 0, bottom: 800 }, // targetRect
+        { top: 700, left: 300, bottom: 700, width: 300, height: 50 }, // activatorRect
+        { width: 300, height: 100 }, // elementSize
+        { top: 600, left: 300, origin: 'bottom left' }, // result
       ],
       // Should place on LEFT
       [
-        { width: 800, height: 500 },
-        { top: 250, left: 500, bottom: 250, width: 300, height: 50 },
-        { offsetTop: 0, offsetLeft: 0 },
-        { width: 400, height: 400 },
-        { top: 50, left: 100, origin: 'right center' },
+        { width: 800, height: 500 }, // windowSize
+        { offsetTop: 0, offsetLeft: 0 }, // target
+        { width: 800, left: 0, bottom: 500 }, // targetRect
+        { top: 250, left: 500, bottom: 250, width: 300, height: 50 }, // activatorRect
+        { width: 400, height: 400 }, // elementSize
+        { top: 50, left: 100, origin: 'right center' }, // result
       ],
       // Should place on RIGHT
       [
-        { width: 800, height: 400 },
-        { top: 200, left: 50, bottom: 200, width: 300, height: 50 },
-        { offsetTop: 0, offsetLeft: 0 },
-        { width: 300, height: 300 },
-        { top: 50, left: 350, origin: 'left center' },
+        { width: 800, height: 400 }, // windowSize
+        { offsetTop: 0, offsetLeft: 0 }, // target
+        { width: 800, left: 0, bottom: 400 }, // targetRect
+        { top: 200, left: 50, bottom: 200, width: 300, height: 50 }, // activatorRect
+        { width: 300, height: 300 }, // elementSize
+        { top: 50, left: 350, origin: 'left center' }, // result
       ],
       // Should place MIDDLE
       [
-        { width: 400, height: 400 },
-        { top: 200, left: 150, bottom: 200, width: 300, height: 50 },
-        { offsetTop: 0, offsetLeft: 0 },
-        { width: 300, height: 300 },
-        { top: 50, left: 50, origin: 'center center' },
+        { width: 400, height: 400 }, // windowSize
+        { offsetTop: 0, offsetLeft: 0 }, // target
+        { width: 400, left: 0, bottom: 400 }, // targetRect
+        { top: 200, left: 150, bottom: 200, width: 300, height: 50 }, // activatorRect
+        { width: 300, height: 300 }, // elementSize
+        { top: 50, left: 50, origin: 'center center' }, // result
       ],
     ])(
-      'should compute position to an element from parent and window',
-      (windowSize, parentRect, targetRect, elementSize, expectedResult) => {
+      'When windowSize = %p, target = %p, targetRect = %p, activator = %p, element = %p, should return %p',
+      (windowSize, target, targetRect, activatorRect, elementSize, expectedResult) => {
         Object.defineProperties(window.HTMLElement.prototype, {
           offsetHeight: { get: () => elementSize.height },
           offsetWidth: { get: () => elementSize.width },
@@ -149,10 +164,44 @@ describe('Utils: Functions', () => {
         global.innerWidth = windowSize.width;
         global.innerHeight = windowSize.height;
 
-        const { parent, element } = createDivParentWithChildren();
-        jest.spyOn(parent, 'getBoundingClientRect').mockReturnValue(parentRect);
-        expect(getDynamicPosition(element, parent, targetRect)).toEqual(expectedResult);
+        const { activator, element, body } = createDivParentWithChildren();
+        Object.defineProperties(body, {
+          offsetTop: { get: () => target.offsetTop },
+          offsetLeft: { get: () => target.offsetLeft },
+        }, { writable: true });
+        jest.spyOn(body, 'getBoundingClientRect').mockReturnValue(targetRect);
+        jest.spyOn(activator, 'getBoundingClientRect').mockReturnValue(activatorRect);
+        expect(getDynamicPosition(element, activator, body)).toEqual(expectedResult);
       },
     );
+
+    it('should not add scrolltop if element parent is fixed', () => {
+      const windowSize = { width: 800, height: 800 };
+      const target = { offsetTop: 100, offsetLeft: 400 };
+      const targetRect = { width: 400, left: 400, bottom: 700 };
+      const activatorRect = { top: 200, left: 450, bottom: 250, width: 400, height: 50 };
+      const elementSize = { width: 100, height: 100 };
+      const expectedResult = { top: 250, left: 50, origin: 'top left' };
+
+      Object.defineProperties(window.HTMLElement.prototype, {
+        offsetHeight: { get: () => elementSize.height },
+        offsetWidth: { get: () => elementSize.width },
+      }, { writable: true });
+
+      global.pageXOffset = 0;
+      global.pageYOffset = 500;
+      global.innerWidth = windowSize.width;
+      global.innerHeight = windowSize.height;
+
+      const { activator, element, body } = createDivParentWithChildren('fixed');
+      Object.defineProperties(body, {
+        offsetTop: { get: () => target.offsetTop },
+        offsetLeft: { get: () => target.offsetLeft },
+      }, { writable: true });
+      jest.spyOn(body, 'getBoundingClientRect').mockReturnValue(targetRect);
+      jest.spyOn(activator, 'getBoundingClientRect').mockReturnValue(activatorRect);
+
+      expect(getDynamicPosition(element, activator, body)).toEqual(expectedResult);
+    });
   });
 });

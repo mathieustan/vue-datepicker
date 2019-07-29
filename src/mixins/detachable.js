@@ -1,6 +1,6 @@
 const detachable = {
   props: {
-    attachTo: { type: String, default: '#app' },
+    attachTo: { type: String, default: 'body' },
   },
   data: () => ({
     hasDetached: false,

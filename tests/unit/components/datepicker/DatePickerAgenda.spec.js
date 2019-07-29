@@ -62,6 +62,7 @@ describe('DatePickerAgenda', () => {
           fullscreenMobile,
           noHeader,
           zIndex: 1,
+          attachTo: '#app',
         },
         attachToDocument: true,
       });

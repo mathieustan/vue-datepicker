@@ -13,7 +13,9 @@ describe('detachable', () => {
   });
 
   beforeEach(() => {
-    mountComponent = () => shallowMount(EmptyComponent);
+    mountComponent = () => shallowMount(EmptyComponent, {
+      propsData: { attachTo: '#app' },
+    });
   });
 
   afterEach(() => {

@@ -1679,7 +1679,7 @@ var detachable = {
   props: {
     attachTo: {
       type: String,
-      default: '#app'
+      default: 'body'
     }
   },
   data: function data() {
@@ -2046,13 +2046,14 @@ function computeAgendaHeight(agenda, classWeeks) {
   return agenda.offsetHeight + 36; // height of a day's row;
 }
 
-function getDynamicPosition(element, parent, target) {
+function getDynamicPosition(element, activator, target) {
   // -------------------------------
-  // Select parent (datepicker container) to get position
+  // Select activator to get position
   // -------------------------------
-  var parentRect = parent.getBoundingClientRect();
-  var parentOffsets = getParentOffset(parentRect, target);
-  var spacesAroundParent = getSpacesAroundParent(parentRect); // -------------------------------
+  var isFixedActivator = checkActivatorFixed(activator);
+  var activatorRect = activator.getBoundingClientRect();
+  var activatorOffsets = getActivatorOffset(activatorRect, isFixedActivator);
+  var spacesAroundParent = getSpacesAroundActivator(activatorRect, target); // -------------------------------
   // Detect space around element
   // -------------------------------
 
@@ -2069,27 +2070,45 @@ function getDynamicPosition(element, parent, target) {
     return getElementCenteredPosition(element);
   }
 
-  return getElementPosition(element, parentRect, parentOffsets, spacesAroundParent, placesAvailable);
+  return getElementPosition(element, target, activatorRect, activatorOffsets, spacesAroundParent, placesAvailable);
 } // -------------------------------
 // HELPERS
 // -------------------------------
 
 
-function getParentOffset(parentRect, target) {
+function checkActivatorFixed(activator) {
+  var element = activator;
+  var activatorFixed;
+
+  while (element) {
+    if (window.getComputedStyle(element).position === 'fixed') {
+      activatorFixed = true;
+      return activatorFixed;
+    }
+
+    element = element.offsetParent;
+  }
+
+  activatorFixed = false;
+  return activatorFixed;
+}
+
+function getActivatorOffset(activatorRect, isFixedActivator) {
   var scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
   var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
   return {
-    parentOffsetTop: parentRect.top + scrollTop - target.offsetTop,
-    parentOffsetLeft: parentRect.left + scrollLeft - target.offsetLeft
+    activatorOffsetTop: activatorRect.top + (isFixedActivator ? 0 : scrollTop),
+    activatorOffsetLeft: activatorRect.left + (isFixedActivator ? 0 : scrollLeft)
   };
 }
 
-function getSpacesAroundParent(parentRect) {
+function getSpacesAroundActivator(activatorRect, target) {
+  var targetRect = target.getBoundingClientRect();
   return {
-    spaceBelow: window.innerHeight - parentRect.bottom,
-    spaceAbove: parentRect.top,
-    spaceLeft: parentRect.left,
-    spaceRight: window.innerWidth - parentRect.left - parentRect.width
+    spaceBelow: window.innerHeight - activatorRect.bottom - (window.innerHeight - targetRect.bottom),
+    spaceAbove: activatorRect.top - target.offsetTop,
+    spaceLeft: activatorRect.left - target.offsetLeft,
+    spaceRight: window.innerWidth - activatorRect.left - activatorRect.width - (window.innerWidth - targetRect.left - targetRect.width)
   };
 }
 
@@ -2117,11 +2136,11 @@ function getElementCenteredPosition(_ref2) {
   };
 }
 
-function getElementPosition(element, parentRect, parentOffsets, spacesAroundParent, placesAvailable) {
+function getElementPosition(element, target, activatorRect, activatorOffsets, spacesAroundParent, placesAvailable) {
   var elementHeight = element.offsetHeight;
   var elementWidth = element.offsetWidth;
-  var parentOffsetTop = parentOffsets.parentOffsetTop,
-      parentOffsetLeft = parentOffsets.parentOffsetLeft;
+  var activatorOffsetTop = activatorOffsets.activatorOffsetTop,
+      activatorOffsetLeft = activatorOffsets.activatorOffsetLeft;
   var spaceAbove = spacesAroundParent.spaceAbove;
   var isThereEnoughSpaceBelow = placesAvailable.isThereEnoughSpaceBelow,
       isThereEnoughtSpaceLeft = placesAvailable.isThereEnoughtSpaceLeft,
@@ -2132,39 +2151,39 @@ function getElementPosition(element, parentRect, parentOffsets, spacesAroundPare
 
   if (!couldBeShowBelowOrAbove && isThereEnoughtSpaceRight) {
     return {
-      top: parentOffsetTop + (missingSpaceToShowAbove + parentRect.height) - elementHeight,
-      left: parentOffsetLeft + parentRect.width,
+      top: activatorOffsetTop + (missingSpaceToShowAbove + activatorRect.height) - elementHeight,
+      left: activatorOffsetLeft + activatorRect.width,
       origin: 'left center'
     };
   }
 
   if (!couldBeShowBelowOrAbove && isThereEnoughtSpaceLeft) {
     return {
-      top: parentOffsetTop + (missingSpaceToShowAbove + parentRect.height) - elementHeight,
-      left: parentOffsetLeft - elementWidth,
+      top: activatorOffsetTop + (missingSpaceToShowAbove + activatorRect.height) - elementHeight,
+      left: activatorOffsetLeft - elementWidth,
       origin: 'right center'
     };
   }
 
   if (couldBeShowBelowOrAbove && isThereEnoughtSpaceLeft && !isThereEnoughtSpaceRight) {
     return {
-      top: parentOffsetTop + (isThereEnoughSpaceBelow ? parentRect.height : -elementHeight),
-      left: parentOffsetLeft + parentRect.width - elementWidth,
+      top: activatorOffsetTop + (isThereEnoughSpaceBelow ? activatorRect.height : -elementHeight),
+      left: activatorOffsetLeft + activatorRect.width - elementWidth,
       origin: isThereEnoughSpaceBelow ? 'top right' : 'bottom right'
     };
   }
 
   if (couldBeShowBelowOrAbove && !isThereEnoughtSpaceLeft && !isThereEnoughtSpaceRight) {
     return {
-      top: parentOffsetTop + (isThereEnoughSpaceBelow ? parentRect.height : -elementHeight),
-      left: window.pageXOffset + (window.innerWidth - element.offsetWidth) / 2,
-      origin: isThereEnoughSpaceBelow ? 'top center' : 'bottom center'
+      top: activatorOffsetTop + (isThereEnoughSpaceBelow ? activatorRect.height : -elementHeight),
+      left: activatorOffsetLeft - target.offsetLeft,
+      origin: isThereEnoughSpaceBelow ? 'top left' : 'bottom left'
     };
   }
 
   return {
-    top: parentOffsetTop + (isThereEnoughSpaceBelow ? parentRect.height : -elementHeight),
-    left: parentOffsetLeft,
+    top: activatorOffsetTop + (isThereEnoughSpaceBelow ? activatorRect.height : -elementHeight),
+    left: activatorOffsetLeft - target.offsetLeft,
     origin: isThereEnoughSpaceBelow ? 'top left' : 'bottom left'
   };
 }
@@ -4030,7 +4049,7 @@ var script$9 = {
     // attachTo
     attachTo: {
       type: String,
-      default: '#app'
+      default: 'body'
     }
   },
   data: function data() {
@@ -4135,12 +4154,12 @@ var __vue_staticRenderFns__$9 = [];
   /* style */
   var __vue_inject_styles__$9 = function (inject) {
     if (!inject) { return }
-    inject("data-v-07a59694_0", { source: ".datepicker-container *,.datepicker-container ::after,.datepicker-container ::before{box-sizing:border-box}", map: undefined, media: undefined })
-,inject("data-v-07a59694_1", { source: ".datepicker-container[data-v-07a59694]{position:relative;display:flex;flex-direction:row;align-items:center;width:auto;cursor:pointer;box-sizing:border-box}.datepicker-container[data-v-07a59694]:active,.datepicker-container[data-v-07a59694]:focus{outline:0}", map: undefined, media: undefined });
+    inject("data-v-45137ce0_0", { source: ".datepicker-container *,.datepicker-container ::after,.datepicker-container ::before{box-sizing:border-box}", map: undefined, media: undefined })
+,inject("data-v-45137ce0_1", { source: ".datepicker-container[data-v-45137ce0]{position:relative;display:flex;flex-direction:row;align-items:center;width:auto;cursor:pointer;box-sizing:border-box}.datepicker-container[data-v-45137ce0]:active,.datepicker-container[data-v-45137ce0]:focus{outline:0}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  var __vue_scope_id__$9 = "data-v-07a59694";
+  var __vue_scope_id__$9 = "data-v-45137ce0";
   /* module identifier */
   var __vue_module_identifier__$9 = undefined;
   /* functional template */
