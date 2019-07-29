@@ -84,13 +84,9 @@ export default {
     },
     dateFormatted () {
       if (this.range && this.rangeHeaderText) {
-        const textSplitted = this.rangeHeaderText.split('%d').reduce((texts, text, index) => ({
-          ...texts,
-          ...(index === 0 && { start: text.trim() }),
-          ...(index === 1 && { end: text.trim() }),
-        }), {});
-        const datesSplitted = getRangeDatesFormatted(this.mutableDate, this.locale, this.formatHeader).split(' ~ ');
-        return [`${textSplitted.start} ${datesSplitted[0]}`, `${textSplitted.end} ${datesSplitted[1]}`];
+        const [startText, endText] = this.rangeHeaderText.split('%d');
+        const [startDate, endDate] = getRangeDatesFormatted(this.mutableDate, this.locale, this.formatHeader).split(' ~ ');
+        return [`${startText.trim()} ${startDate}`, `${endText.trim()} ${endDate}`.trim()];
       }
       if (!this.mutableDate) return '--';
       return formatDateWithLocale(this.mutableDate, this.locale, this.formatHeader);

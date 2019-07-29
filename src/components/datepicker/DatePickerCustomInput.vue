@@ -66,13 +66,9 @@ export default {
     dateFormatted () {
       if (!this.isDateDefined) return;
       if (this.range && this.rangeInputText) {
-        const textSplitted = this.rangeInputText.split('%d').reduce((texts, text, index) => ({
-          ...texts,
-          ...(index === 0 && { start: text.trim() }),
-          ...(index === 1 && { end: text.trim() }),
-        }), {});
-        const datesSplitted = getRangeDatesFormatted(this.date, this.locale, this.format).split(' ~ ');
-        return `${textSplitted.start} ${datesSplitted[0]} ${textSplitted.end} ${datesSplitted[1]}`.trim();
+        const [startText, endText] = this.rangeInputText.split('%d');
+        const [startDate, endDate] = getRangeDatesFormatted(this.date, this.locale, this.format).split(' ~ ');
+        return `${startText.trim()} ${startDate} ${endText.trim()} ${endDate}`.trim();
       }
       return formatDateWithLocale(this.date, this.locale, this.format);
     },
