@@ -219,7 +219,7 @@ export function generateDateRangeWithoutDisabled ({ start, end }, minDate, endDa
 // Generate Dates
 // - generateDateRange : Return an array of dates
 // - generateMonthAndYear : Return month & year for modes (date, month, quarter)
-// - convertMonthToQuarter : Return a number for quarter
+// - convertQuarterToMonth : Transform quarter to a month number
 // -----------------------------------------
 
 export function generateDateRange (startDate, endDate, interval = 'day') {
@@ -235,12 +235,12 @@ export function generateMonthAndYear (value, currentDate, mode) {
   }
 
   if (mode === 'quarter') {
-    return { year: currentDate.year, month: convertMonthToQuarter(value) };
+    return { year: currentDate.year, month: convertQuarterToMonth(value) };
   }
 
   return { year: currentDate.year, month: value };
 }
 
-export function convertMonthToQuarter (month) {
+export function convertQuarterToMonth (month) {
   return month * 3;
 }

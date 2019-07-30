@@ -611,7 +611,7 @@
               type="month"
               :min-date="examples.month.min"
               :end-date="examples.month.end"
-              :inline="true" />
+              inline />
           </template>
 
           <template v-slot:code>
@@ -650,7 +650,8 @@
               type="quarter"
               :min-date="examples.quarter.min"
               :end-date="examples.quarter.end"
-              :inline="true" />
+              inline
+            />
           </template>
 
           <template v-slot:code>

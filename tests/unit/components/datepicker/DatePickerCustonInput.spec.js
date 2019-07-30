@@ -2,6 +2,8 @@ import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
 import DatePickerCustomInput from '@/components/datepicker/DatePickerCustomInput.vue';
 
+import { DEFAULT_INPUT_DATE_FORMAT } from '@/constants';
+
 jest.useFakeTimers();
 
 describe('DatePickerCustomInput', () => {
@@ -9,12 +11,19 @@ describe('DatePickerCustomInput', () => {
   const dummyDate = dayjs(new Date([2019, 5, 16]));
 
   beforeEach(() => {
-    mountComponent = ({ date, range, rangeInputText = '%d ~ %d', disabled = false } = {}) =>
+    mountComponent = ({
+      date,
+      type = 'date',
+      range,
+      rangeInputText = '%d ~ %d',
+      disabled = false,
+    } = {}) =>
       shallowMount(DatePickerCustomInput, {
         propsData: {
           name: 'datepicker',
           date,
-          format: 'DD MMMM YYYY',
+          type,
+          format: DEFAULT_INPUT_DATE_FORMAT[type],
           locale: { lang: 'en' },
           color: 'color',
           disabled,
@@ -80,9 +89,11 @@ describe('DatePickerCustomInput', () => {
     describe('dateFormatted', () => {
       it.each([
         [undefined, undefined],
-        [{ date: dayjs('2019-5-16') }, '16 May 2019'],
-        [{ date: dayjs('2019-4-12') }, '12 April 2019'],
-        [{ date: dayjs('2019-4-12') }, '12 April 2019'],
+        [{ date: dayjs('2019-2-12') }, '12 February 2019'],
+        [{ date: dayjs('2019-2-12'), type: 'month', format: '' }, 'February 2019'],
+        [{ date: dayjs('2019-2'), type: 'month', format: '' }, 'February 2019'],
+        [{ date: dayjs('2019-2-12'), type: 'quarter', format: '' }, '2019-Q2'],
+        [{ date: dayjs('2019-2'), type: 'quarter', format: '' }, '2019-Q2'],
         [
           {
             range: true,

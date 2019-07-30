@@ -6,7 +6,7 @@
       v-if="!inline"
       :id="componentId"
       :name="name"
-      :date="value"
+      :date="date"
       :type="type"
       :format="inputFormat"
       :range="range"

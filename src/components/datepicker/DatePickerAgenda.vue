@@ -180,7 +180,7 @@ import Dates, {
   formatDate,
   generateMonthAndYear,
   isBetweenDates,
-  convertMonthToQuarter,
+  convertQuarterToMonth,
 } from '../../utils/Dates';
 import { computeAgendaHeight } from '../../utils/positions';
 
@@ -420,7 +420,7 @@ export default {
         return;
       }
 
-      let month = this.type === 'quarter' ? convertMonthToQuarter(newDate.month()) : newDate.month();
+      let month = this.type === 'quarter' ? convertQuarterToMonth(newDate.month()) : newDate.month();
       this.currentDate = new Dates(month, newDate.year(), this.locale);
       this.mutableDate = date && date.month(month).clone();
     },

@@ -30,7 +30,11 @@ import colorable from '../../mixins/colorable';
 import DatePickerCalendarIcon from './DatePickerCalendarIcon.vue';
 
 // functions
-import { formatDateWithLocale, getRangeDatesFormatted } from '../../utils/Dates';
+import {
+  formatDateWithLocale,
+  getRangeDatesFormatted,
+  convertQuarterToMonth,
+} from '../../utils/Dates';
 
 export default {
   name: 'DatePickerCustomInput',
@@ -70,7 +74,14 @@ export default {
         const [startDate, endDate] = getRangeDatesFormatted(this.date, this.locale, this.format).split(' ~ ');
         return `${startText.trim()} ${startDate} ${endText.trim()} ${endDate}`.trim();
       }
-      return formatDateWithLocale(this.date, this.locale, this.format);
+
+      // If type is quarter,
+      // We need to convert this quarter date, to a monthly date
+      // because dayjs will transform a monthly date to quarter date only
+      // Exemple => '2019-2' => should be converted to date : 2019-06-01
+      const currentMonth = this.date.month();
+      const newMonth = this.type === 'quarter' ? convertQuarterToMonth(currentMonth) : currentMonth;
+      return formatDateWithLocale(this.date.month(newMonth), this.locale, this.format);
     },
   },
 };
