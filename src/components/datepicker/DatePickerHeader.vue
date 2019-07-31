@@ -6,30 +6,26 @@
 
     <div
       v-if="!range"
+      :class="{ 'datepicker-header__year--active' : mode === 'year' }"
       class="datepicker-header__year">
-      <button
-        :class="{ 'active' : mode === 'year' }"
-        type="button"
-        @click="$emit('showYearMonthSelector', 'year')"
-      >
+      <span @click="$emit('showYearMonthSelector', 'year')">
         {{ year }}
-      </button>
+      </span>
     </div>
 
     <div v-if="!range" class="datepicker-header__wrap">
       <TransitionGroup
         tag="div"
         :name="transitionName"
+        :class="{ 'datepicker-header__date--active' : mode !== 'year' }"
         class="datepicker-header__date">
-        <button
+        <span
           v-for="dateFormatted in [dateFormatted]"
           :key="dateFormatted"
-          :class="{ 'active' : mode !== 'year' }"
-          type="button"
           @click="$emit('hideYearMonthSelector')"
         >
           {{ dateFormatted }}
-        </button>
+        </span>
       </TransitionGroup>
     </div>
 
@@ -148,19 +144,18 @@ export default {
       display: inline-flex;
       font-size: 14px;
       margin-bottom: $gutter;
+      opacity: 0.6;
+      transition: opacity .3s;
 
-      button {
-        @extend %reset-button;
-        opacity: 0.6;
-        transition: opacity .3s;
+      &:hover:not(&--active),
+      &:focus:not(&--active) {
+        cursor: pointer;
+        opacity: 1;
+      }
 
-        &:hover, &:focus, &.active {
-          opacity: 1;
-        }
-
-        &.active {
-          cursor: default;
-        }
+      &--active {
+        opacity: 1;
+        cursor: default;
       }
     }
 
@@ -180,19 +175,18 @@ export default {
       overflow: hidden;
       padding-bottom: $gutter;
       margin-bottom: -#{$gutter};
+      opacity: 0.6;
+      transition: opacity .3s;
 
-      button {
-        @extend %reset-button;
-        opacity: 0.6;
-        transition: opacity .3s;
+      &:hover:not(&--active),
+      &:focus:not(&--active) {
+        cursor: pointer;
+        opacity: 1;
+      }
 
-        &:hover, &:focus, &.active {
-          opacity: 1;
-        }
-
-        &.active {
-          cursor: default;
-        }
+      &--active {
+        opacity: 1;
+        cursor: default;
       }
 
       @include mq(tablet) {
