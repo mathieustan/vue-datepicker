@@ -147,7 +147,7 @@ export default {
       align-items: center;
       display: inline-flex;
       font-size: 14px;
-      margin-bottom: 8px;
+      margin-bottom: $gutter;
 
       button {
         @extend %reset-button;

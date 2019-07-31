@@ -383,6 +383,37 @@
         </Wrapper>
 
         <!---------------------------------------------------------->
+        <!-- EXAMPLE : NoInput -->
+        <!---------------------------------------------------------->
+        <Wrapper background-color="white" class="column justify-center align-center">
+          <template v-slot:description>
+            <h3> NoInput </h3>
+            <p><small> Allow to use a button instead of an input (better width management) </small></p>
+          </template>
+
+          <template v-slot:example>
+            <VueDatePicker v-model="currentDate" no-input />
+          </template>
+
+          <template v-slot:code>
+            <CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">no-header</span>
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+  </CodeWrapper>
+          </template>
+
+          <template v-slot:result>
+            v-model="{{ currentDate }}"
+          </template>
+        </Wrapper>
+
+        <!---------------------------------------------------------->
         <!-- EXAMPLE : FullscreenMobile -->
         <!---------------------------------------------------------->
         <Wrapper background-color="white" class="column justify-center align-center">

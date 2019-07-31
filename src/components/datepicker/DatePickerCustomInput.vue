@@ -8,6 +8,7 @@
       :color="isDateDefined && !disabled ? color : 'rgba(93, 106, 137, 0.5)'"
       :disabled="disabled" />
     <input
+      v-if="!noInput"
       :id="id"
       :name="name"
       :style="setTextColor(!disabled ? color : 'rgba(93, 106, 137, 0.5)')"
@@ -19,6 +20,14 @@
       readonly
       @focus="$emit('focus')"
     >
+    <button
+      v-else
+      type="button"
+      :style="setTextColor(!disabled && isDateDefined ? color : 'rgba(93, 106, 137, 0.5)')"
+      :disabled="disabled"
+    >
+      {{ isDateDefined ? dateFormatted : placeholder }}
+    </button>
   </div>
 </template>
 
@@ -53,6 +62,7 @@ export default {
     color: { type: String },
     disabled: { type: Boolean },
     tabindex: { type: [String, Number] },
+    noInput: { type: Boolean },
   },
   computed: {
     classes () {
@@ -126,6 +136,8 @@ export default {
     font-size: 16px;
     line-height: 19px;
     margin-left: $gutter;
+    font-family: inherit;
+    background: transparent;
 
     &:focus,
     &:active {
@@ -145,5 +157,12 @@ export default {
     .datepicker-input--range & {
       min-width: 310px;
     }
+  }
+
+  button {
+    @extend %reset-button;
+    font-size: 16px;
+    line-height: 19px;
+    margin-left: $gutter;
   }
 </style>

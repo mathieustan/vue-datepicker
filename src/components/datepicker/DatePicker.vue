@@ -16,6 +16,7 @@
       :color="color"
       :disabled="disabled"
       :tabindex="tabindex"
+      :no-input="noInput"
       @toggleDatepicker="toggleDatepicker"
       @focus="showDatePicker"
     />
@@ -113,6 +114,8 @@ export default {
     inline: { type: Boolean, default: false },
     // Set if header in agenda should be visible
     noHeader: { type: Boolean, default: false },
+    // Allow to hide input (to use a button instead)
+    noInput: { type: Boolean, default: false },
     // Responsive bottom sheet
     fullscreenMobile: { type: Boolean, default: false },
     // tabindex

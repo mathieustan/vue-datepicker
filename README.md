@@ -108,6 +108,7 @@ Using `v-model`
 | disabled         | Boolean              | false            | Datepicker disabled or not                                                                                                                                     |
 | color            | String               | #4f88ff          | Applies specified color                                                                                                                                        |
 | noHeader         | Boolean              |                  | Allow to hide header                                                                                                                                           |
+| noInput          | Boolean              |                  | Hide input to show a button instead (better when width needs to be dynamic)                                                                                    |
 | fullscreenMobile | Boolean              | false            | Datepicker will appear in a bottom sheet in mobile view                                                                                                        |
 | minDate          | String\|Number\|Date |                  | Date are available FROM this date                                                                                                                              |
 | endDate          | String\|Number\|Date |                  | Date are disabled AFTER this date                                                                                                                              |
@@ -201,14 +202,14 @@ export default {
 </script>
 ```
 
-** NEW !! Now, you can use your own language object 😃**
+:rocket: **Now, you can use your own language object**
+
+Below, an exemple for `it` language :
 You should have those properties to make it works :
+
+```javascript
 'name', 'weekdays', 'weekdaysShort', 'weekdaysMin', 'weekStart', 'months', 'monthsShort', 'ordinal', 'formats',
-
-If you need exemples, you can go to this link to find language :
- \-> [locales](https://github.com/iamkun/dayjs/tree/dev/src/locale)
-
-exemple :
+```
 
 ```html
 <template>
@@ -218,34 +219,39 @@ exemple :
 
 ```javascript
 <script>
+const locale = {
+  lang: {
+    name: 'it',
+    weekdays: 'domenica_lunedì_martedì_mercoledì_giovedì_venerdì_sabato'.split('_'),
+    weekdaysShort: 'dom_lun_mar_mer_gio_ven_sab'.split('_'),
+    weekStart: 1,
+    months: 'gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre'.split('_'),
+    monthsShort: 'gen_feb_mar_apr_mag_giu_lug_ago_set_ott_nov_dic'.split('_'),
+    formats: {
+      LT: 'HH:mm',
+      LTS: 'HH:mm:ss',
+      L: 'DD/MM/YYYY',
+      LL: 'D MMMM YYYY',
+      LLL: 'D MMMM YYYY HH:mm',
+      LLLL: 'dddd D MMMM YYYY HH:mm',
+    },
+    ordinal: n => `${n}º`,
+  },
+};
+
 export default {
   // ...
   components: {
     VueDatePicker
   },
   data: () => ({
-      date: new Date([2019, 5, 16]),
-      locale: {
-        lang: {
-          name: 'it',
-          weekdays: 'domenica_lunedì_martedì_mercoledì_giovedì_venerdì_sabato'.split('_'),
-          weekdaysShort: 'dom_lun_mar_mer_gio_ven_sab'.split('_'),
-          weekStart: 1,
-          months: 'gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre'.split('_'),
-          monthsShort: 'gen_feb_mar_apr_mag_giu_lug_ago_set_ott_nov_dic'.split('_'),
-          formats: {
-            LT: 'HH:mm',
-            LTS: 'HH:mm:ss',
-            L: 'DD/MM/YYYY',
-            LL: 'D MMMM YYYY',
-            LLL: 'D MMMM YYYY HH:mm',
-            LLLL: 'dddd D MMMM YYYY HH:mm',
-          },
-          ordinal: n => `${n}º`,
-        }
-      },
-  }),,
+    date: new Date([2019, 5, 16]),
+    locale,
+  }),
   // ...
-}
+};
 </script>
 ```
+
+If you need more exemples, you can go to this link to find your language :
+ \-> [locales](https://github.com/iamkun/dayjs/tree/dev/src/locale)
