@@ -6,22 +6,30 @@
 
     <div
       v-if="!range"
-      :class="{ 'datepicker-header__year--active' : mode === 'year' }"
       class="datepicker-header__year">
-      {{ year }}
+      <button
+        :class="{ 'active' : mode === 'year' }"
+        type="button"
+        @click="$emit('showYearMonthSelector', 'year')"
+      >
+        {{ year }}
+      </button>
     </div>
 
     <div v-if="!range" class="datepicker-header__wrap">
       <TransitionGroup
         tag="div"
         :name="transitionName"
-        :class="{ 'datepicker-header__date--active' : mode !== 'year' }"
         class="datepicker-header__date">
-        <span
+        <button
           v-for="dateFormatted in [dateFormatted]"
-          :key="dateFormatted">
+          :key="dateFormatted"
+          :class="{ 'active' : mode !== 'year' }"
+          type="button"
+          @click="$emit('hideYearMonthSelector')"
+        >
           {{ dateFormatted }}
-        </span>
+        </button>
       </TransitionGroup>
     </div>
 
@@ -140,11 +148,19 @@ export default {
       display: inline-flex;
       font-size: 14px;
       margin-bottom: 8px;
-      opacity: 0.6;
-      transition: opacity .3s;
 
-      &.datepicker-header__year--active {
-        opacity: 1;
+      button {
+        @extend %reset-button;
+        opacity: 0.6;
+        transition: opacity .3s;
+
+        &:hover, &:focus, &.active {
+          opacity: 1;
+        }
+
+        &.active {
+          cursor: default;
+        }
       }
     }
 
@@ -164,12 +180,19 @@ export default {
       overflow: hidden;
       padding-bottom: $gutter;
       margin-bottom: -#{$gutter};
-      opacity: 0.6;
-      transition: opacity .3s;
 
-      &:hover,
-      &.datepicker-header__date--active {
-        opacity: 1;
+      button {
+        @extend %reset-button;
+        opacity: 0.6;
+        transition: opacity .3s;
+
+        &:hover, &:focus, &.active {
+          opacity: 1;
+        }
+
+        &.active {
+          cursor: default;
+        }
       }
 
       @include mq(tablet) {

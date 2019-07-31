@@ -44,6 +44,8 @@
         :mode="yearMonthMode"
         :range="range"
         :range-header-text="rangeHeaderText"
+        @showYearMonthSelector="showYearMonthSelector"
+        @hideYearMonthSelector="hideYearMonthSelector"
       />
 
       <!-- Presets -->
@@ -63,7 +65,7 @@
         <DatePickerControls
           :current-date="currentDate"
           :transition-name="transitionLabelName"
-          :locale="locale"
+          :color="color"
           mode="month"
           @changeVisibleDate="changeMonth"
           @showYearMonthSelector="showYearMonthSelector"

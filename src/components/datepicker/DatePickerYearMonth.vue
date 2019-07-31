@@ -8,6 +8,9 @@
           <li
             v-for="year in getYears"
             :key="year"
+            :style="{
+              ...(isSelectedYear(year) && setTextColor(color)),
+            }"
             :class="{
               'active' : isSelectedYear(year),
               'disabled' : isYearDisabled(year)
@@ -30,6 +33,7 @@
           :transition-name="transitionName"
           :min-date="minDate"
           :end-date="endDate"
+          :color="color"
           mode="year"
           @changeVisibleDate="changeYear"
           @showYearMonthSelector="showYearMonthSelector"

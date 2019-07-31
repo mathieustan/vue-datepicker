@@ -20,6 +20,7 @@
         <div
           v-for="month in [currentDate.month]"
           :key="month"
+          :style="setTextColor(color)"
           class="datepicker-controls__label">
           <button
             type="button"
@@ -36,6 +37,7 @@
         <div
           v-for="year in [currentDate.year]"
           :key="year"
+          :style="setTextColor(color)"
           class="datepicker-controls__label">
           <button
             :disabled="isYearDisabled"
@@ -61,13 +63,19 @@
 </template>
 
 <script>
+// mixins
+import colorable from '../../mixins/colorable';
+
+// functions
 import { isBeforeDate, isAfterDate } from '../../utils/Dates';
 
 export default {
   name: 'DatePickerControls',
+  mixins: [colorable],
   props: {
-    transitionName: { type: String },
     currentDate: { type: Object, required: true },
+    transitionName: { type: String },
+    color: { type: String },
     mode: { type: String, default: 'month' },
     minDate: { type: [String, Number, Date] },
     endDate: { type: [String, Number, Date] },
@@ -163,6 +171,11 @@ export default {
         padding: 0;
         border: none;
         outline: none;
+        transition: color 300ms;
+
+        &:not(:hover):not(:focus) {
+          color: rgba(0,0,0,.87);
+        }
 
         &:disabled,
         &[disabled] {
