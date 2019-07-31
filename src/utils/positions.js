@@ -59,10 +59,11 @@ function getDynamicPosition (element, activator, target) {
 // -------------------------------
 
 function checkActivatorFixed (activator) {
+  const POSITIONS = ['fixed', 'sticky'];
   let element = activator;
   let activatorFixed = false;
   while (element) {
-    if (window.getComputedStyle(element).position === 'fixed') {
+    if (POSITIONS.includes(window.getComputedStyle(element).position)) {
       activatorFixed = true;
       return activatorFixed;
     }
