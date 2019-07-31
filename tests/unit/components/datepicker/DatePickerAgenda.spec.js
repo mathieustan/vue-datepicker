@@ -42,6 +42,7 @@ describe('DatePickerAgenda', () => {
       fullscreenMobile = false,
       noHeader = false,
       inline = false,
+      fixed = false,
       type = 'date',
       validate,
       range,
@@ -53,6 +54,7 @@ describe('DatePickerAgenda', () => {
           endDate,
           isVisible,
           inline,
+          fixed,
           locale,
           color: 'color',
           close: jest.fn(),
@@ -106,10 +108,11 @@ describe('DatePickerAgenda', () => {
     describe('classes', () => {
       it.each([
         [
-          { fullscreenMobile: true, inline: false, noHeader: true, validate: true },
+          { fullscreenMobile: true, inline: false, fixed: true, noHeader: true, validate: true },
           {
             'datepicker--fullscreen-mobile': true,
             'datepicker--inline': false,
+            'datepicker--fixed': true,
             'datepicker--no-header': true,
             'datepicker--validate': true,
             'datepicker--range': false,
@@ -127,6 +130,7 @@ describe('DatePickerAgenda', () => {
           {
             'datepicker--fullscreen-mobile': false,
             'datepicker--inline': true,
+            'datepicker--fixed': false,
             'datepicker--no-header': false,
             'datepicker--validate': false,
             'datepicker--range': true,

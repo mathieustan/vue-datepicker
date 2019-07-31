@@ -215,6 +215,7 @@ export default {
     locale: { type: Object },
     noHeader: { type: Boolean, default: false },
     inline: { type: Boolean, default: false },
+    fixed: { type: Boolean },
     fullscreenMobile: { type: Boolean, default: false },
     color: { type: String },
     minDate: { type: [String, Number, Date] },
@@ -246,6 +247,7 @@ export default {
     classes () {
       return {
         'datepicker--inline': this.inline,
+        'datepicker--fixed': this.fixed,
         'datepicker--fullscreen-mobile': this.fullscreenMobile,
         'datepicker--no-header': this.noHeader,
         'datepicker--validate': this.validate,
@@ -550,6 +552,10 @@ export default {
       box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),
         0px 2px 2px 0px rgba(0,0,0,0.14),
         0px 1px 5px 0px rgba(0,0,0,0.12);
+    }
+
+    &--fixed {
+      position: fixed;
     }
 
     &--fullscreen-mobile {
@@ -858,8 +864,8 @@ export default {
   // Transition
   // ----------------------
   .datepicker-transition {
-    &-enter-active,
-    &-leave-active {
+    &-enter-active:not(.datepicker--inline),
+    &-leave-active:not(.datepicker--inline) {
       opacity: 1;
       transition: all 300ms;
       transition-property: transform, opacity;
@@ -872,8 +878,8 @@ export default {
       }
     }
 
-    &-leave-to,
-    &-enter{
+    &-leave-to:not(.datepicker--inline) ,
+    &-enter:not(.datepicker--inline) {
       opacity: 0;
       transform: scale(0);
 

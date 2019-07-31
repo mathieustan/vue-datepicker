@@ -42,6 +42,7 @@
       :locale="locale"
       :no-header="noHeader"
       :inline="inline"
+      :fixed="fixed"
       :fullscreen-mobile="fullscreenMobile"
       :color="color"
       :min-date="minDate"
@@ -112,6 +113,8 @@ export default {
     disabled: { type: Boolean, default: false },
     // Inline
     inline: { type: Boolean, default: false },
+    // fixed
+    fixed: { type: Boolean, default: false },
     // Set if header in agenda should be visible
     noHeader: { type: Boolean, default: false },
     // Allow to hide input (to use a button instead)

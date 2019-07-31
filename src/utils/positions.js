@@ -21,7 +21,7 @@ function getDynamicPosition (element, activator, target) {
   // -------------------------------
   const isFixedActivator = checkActivatorFixed(activator);
   const activatorRect = activator.getBoundingClientRect();
-  const activatorOffsets = getActivatorOffset(activatorRect, isFixedActivator);
+  const activatorOffsets = getActivatorOffset(activatorRect, target, isFixedActivator);
   const spacesAroundParent = getSpacesAroundActivator(activatorRect, target);
   // -------------------------------
   // Detect space around element
@@ -74,13 +74,13 @@ function checkActivatorFixed (activator) {
   return activatorFixed;
 }
 
-function getActivatorOffset (activatorRect, isFixedActivator) {
+function getActivatorOffset (activatorRect, target, isFixedActivator) {
   const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
   return {
-    activatorOffsetTop: activatorRect.top + (isFixedActivator ? 0 : scrollTop),
-    activatorOffsetLeft: activatorRect.left + (isFixedActivator ? 0 : scrollLeft),
+    activatorOffsetTop: activatorRect.top + (isFixedActivator ? target.scrollTop : scrollTop),
+    activatorOffsetLeft: activatorRect.left + (isFixedActivator ? target.scrollLeft : scrollLeft),
   };
 }
 

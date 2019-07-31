@@ -4,6 +4,14 @@
   <div id="app">
     <div class="header">
       <h1>Vue DatePicker</h1>
+      <VueDatePicker
+        v-model="currentDate"
+        color="#9f4fff"
+        no-input
+        fullscreen-mobile
+        fixed
+        :z-index="1000"
+      />
     </div>
 
     <div class="content">
@@ -58,7 +66,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Default -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Default </h3>
             <p><small> Default use of datepicker </small></p>
@@ -86,7 +94,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Validate -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Validate </h3>
             <p><small> Need to validate to change date (Add buttons) </small></p>
@@ -117,7 +125,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Format -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Format </h3>
             <p><small> Allow to format input date </small></p>
@@ -148,7 +156,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Format Header  -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> FormatHeader </h3>
             <p><small> Allow to format header date </small></p>
@@ -179,7 +187,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Format Output  -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> FormatOutput </h3>
             <p><small> Allow to format output when date has been selected </small></p>
@@ -210,7 +218,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Placeholder  -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Placeholder </h3>
             <p><small> Allow to set placeholder for input </small></p>
@@ -244,7 +252,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Visible -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3>
               Visible
@@ -278,7 +286,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Disabled -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Disabled </h3>
             <p><small> Set datepicker disabled </small></p>
@@ -309,7 +317,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Color -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Color </h3>
             <p><small> Allow to set datepicker color </small></p>
@@ -354,7 +362,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : NoHeader -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> NoHeader </h3>
             <p><small> Boolean to hide datepicker header </small></p>
@@ -385,7 +393,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : NoInput -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> NoInput </h3>
             <p><small> Allow to use a button instead of an input (better width management) </small></p>
@@ -416,14 +424,14 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : FullscreenMobile -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper id="FullscreenMobile" background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> FullscreenMobile </h3>
             <p><small> Datepicker will appear in a bottom sheet when screen width is less than 480px </small></p>
           </template>
 
           <template v-slot:example>
-            <VueDatePicker v-model="currentDate" fullscreen-mobile no-header />
+            <VueDatePicker v-model="currentDate" fullscreen-mobile no-header attach-to="#FullscreenMobile" />
           </template>
 
           <template v-slot:code>
@@ -448,7 +456,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : MinDate -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> minDate & endDate </h3>
             <p><small> Specify min & end date for datepicker </small></p>
@@ -484,7 +492,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Locale -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Locale (lang & weekDays) </h3>
             <p><small> Translations </small></p>
@@ -520,7 +528,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Locale with lang selectable -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Locale (selectable lang available in package) </h3>
             <p><small> Translations (actually, only 'en', 'fr', 'es' & 'de' available in package) </small></p>
@@ -566,7 +574,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Locale with custom lang -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Locale (with custom lang object) </h3>
             <p><small> You can use a custom lang object </small></p>
@@ -599,14 +607,14 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Inline -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Inline </h3>
             <p><small> Allow you to show datepicker inline (without input) </small></p>
           </template>
 
           <template v-slot:example>
-            <VueDatePicker v-model="currentDate" :inline="true" />
+            <VueDatePicker v-model="currentDate" inline />
           </template>
 
           <template v-slot:code>
@@ -615,7 +623,41 @@
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="{{currentDate}}"
-    <span class="token attr-name">:inline</span>="true"
+    <span class="token attr-name">inline</span>
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+  </CodeWrapper>
+          </template>
+
+          <template v-slot:result>
+            v-model="{{ currentDate }}"
+          </template>
+        </Wrapper>
+
+        <!---------------------------------------------------------->
+        <!-- EXAMPLE : Fixed -->
+        <!---------------------------------------------------------->
+        <Wrapper background-color="white" class="column justify-start align-center">
+          <template v-slot:description>
+            <h3> Fixed </h3>
+            <p><small> Set datepicker to fixed position </small></p>
+          </template>
+
+          <template v-slot:example>
+            <p>See datepicker in page header ☝️</p>
+          </template>
+
+          <template v-slot:code>
+            <CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="{{currentDate}}"
+    <span class="token attr-name">:color</span>="#9f4fff"
+    <span class="token attr-name">:z-index</span>="1000"
+    <span class="token attr-name">fullscreen-mobile </span>
+    <span class="token attr-name">fixed </span>
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
@@ -630,7 +672,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Type: Month -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Type = 'month' </h3>
             <p><small> A month datepicker </small></p>
@@ -669,7 +711,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Type: Quarter -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Type = 'quarter' </h3>
             <p><small> A quarter datepicker </small></p>
@@ -709,7 +751,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Range Picker -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Range </h3>
             <p><small> Enable/disable Date range (actually only available for date) </small></p>
@@ -755,7 +797,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : Range Picker with PRESETS -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Range (with rangePresets) </h3>
             <p>
@@ -816,7 +858,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : onOpen -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> onOpen <span style="color: red">{{ examples.onOpen.message }}</span> </h3>
             <p><small> Event emitted when datepicker is opened </small></p>
@@ -850,7 +892,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : onClose -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> onClose <span style="color: red">{{ examples.onClose.message }}</span> </h3>
             <p><small> Event emitted when datepicker is closed </small></p>
@@ -884,7 +926,7 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : onChange -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-center align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> onChange <span style="color: red">{{ examples.onChange.message }}</span> </h3>
             <p><small> Event emitted when date changed </small></p>
@@ -1091,13 +1133,36 @@ export default {
   }
 
   .header {
-    position: relative;
+    position: sticky;
+    top: 0;
+    left: 0;
     display: flex;
-    height: 100px;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
     width: 100%;
     background-color: color(other, blue);
     color: #fff;
     padding: $gutter*2;
+    z-index: 999;
+
+    @include mq(tablet) {
+      height: 100px;
+    }
+
+    h1 {
+      font-size: 1.5em;
+
+      @include mq(tablet) {
+        font-size: 2em;
+      }
+    }
+
+    .datepicker-container {
+      background-color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+    }
   }
 
   .content {
