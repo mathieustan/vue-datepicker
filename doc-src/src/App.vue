@@ -424,14 +424,14 @@
         <!---------------------------------------------------------->
         <!-- EXAMPLE : FullscreenMobile -->
         <!---------------------------------------------------------->
-        <Wrapper id="FullscreenMobile" background-color="white" class="column justify-start align-center">
+        <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> FullscreenMobile </h3>
             <p><small> Datepicker will appear in a bottom sheet when screen width is less than 480px </small></p>
           </template>
 
           <template v-slot:example>
-            <VueDatePicker v-model="currentDate" fullscreen-mobile no-header attach-to="#FullscreenMobile" />
+            <VueDatePicker v-model="currentDate" fullscreen-mobile no-header />
           </template>
 
           <template v-slot:code>
