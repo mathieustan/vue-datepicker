@@ -6,7 +6,7 @@
       v-if="!inline"
       :id="componentId"
       :name="name"
-      :date="date"
+      :date="dateFormatted"
       :type="type"
       :format="inputFormat"
       :range="range"
@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import dayjs from 'dayjs';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import DatePickerCustomInput from './DatePickerCustomInput.vue';
 import DatePickerOverlay from './DatePickerOverlay.vue';
@@ -69,8 +68,8 @@ import {
   getDefaultInputFormat,
   getDefaultHeaderFormat,
   getDefaultOutputFormat,
-  formatDate,
   formatDateToSend,
+  initDate,
 } from '../../utils/Dates';
 
 export default {
@@ -150,6 +149,13 @@ export default {
       if (!this.formatOutput) return getDefaultOutputFormat(this.range ? 'range' : this.type);
       return this.formatOutput;
     },
+    dateFormatted () {
+      return initDate(this.value, {
+        isRange: this.range,
+        locale: this.locale,
+        format: this.outPutFormat,
+      });
+    },
   },
   watch: {
     value: {
@@ -196,14 +202,11 @@ export default {
       this.$emit('onClose');
     },
     initDate (date) {
-      if (this.range) {
-        this.date = {
-          start: date && date.start && formatDate(date.start, this.locale),
-          end: date && date.end && formatDate(date.end, this.locale),
-        };
-        return;
-      }
-      this.date = date && dayjs(date, this.outputFormat);
+      this.date = initDate(date, {
+        isRange: this.range,
+        locale: this.locale,
+        format: this.outPutFormat,
+      });
     },
     changeDate (date) {
       this.date = date;

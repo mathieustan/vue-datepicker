@@ -222,6 +222,16 @@ export function generateDateRangeWithoutDisabled ({ start, end }, minDate, endDa
 // - convertQuarterToMonth : Transform quarter to a month number
 // -----------------------------------------
 
+export function initDate (date, { isRange, locale, format }) {
+  if (isRange) {
+    return {
+      start: date && date.start && formatDate(date.start, locale),
+      end: date && date.end && formatDate(date.end, locale),
+    };
+  }
+  return date && dayjs(date, format);
+}
+
 export function generateDateRange (startDate, endDate, interval = 'day') {
   const start = dayjs.isDayjs(startDate) ? startDate : dayjs(startDate);
   const end = dayjs.isDayjs(endDate) ? endDate : dayjs(endDate);

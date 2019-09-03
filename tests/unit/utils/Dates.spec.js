@@ -28,6 +28,7 @@ import Dates, {
   isAfterDate,
   isBetweenDates,
   isDateAfter,
+  initDate,
   generateDateRangeWithoutDisabled,
   generateDateRange,
   generateMonthAndYear,
@@ -35,8 +36,15 @@ import Dates, {
 } from '@/utils/Dates';
 
 describe('Transactions: Functions', () => {
+  let todaysDate;
+  let dummyDate;
+  let newDate;
+
   beforeEach(() => {
-    mockDate.set(new Date([2019, 5, 16]));
+    todaysDate = new Date([2019, 5, 16]);
+    mockDate.set(todaysDate);
+    dummyDate = dayjs(todaysDate);
+    newDate = new Dates(dummyDate.month(), dummyDate.year(), { lang: 'en' });
   });
 
   afterEach(() => {
@@ -46,14 +54,6 @@ describe('Transactions: Functions', () => {
   });
 
   describe('Dates', () => {
-    let dummyDate;
-    let newDate;
-
-    beforeEach(() => {
-      dummyDate = dayjs(new Date([2019, 5, 16]));
-      newDate = new Dates(dummyDate.month(), dummyDate.year(), { lang: 'en' });
-    });
-
     it('should init Dates class with a date', () => {
       expect(newDate).toEqual({
         start: dummyDate.startOf('month'),
@@ -400,6 +400,41 @@ describe('Transactions: Functions', () => {
         (date, anotherDate, expectedResult) => {
           expect(isDateAfter(date, anotherDate)).toEqual(expectedResult);
         }
+      );
+    });
+
+    describe('initDate', () => {
+      it.each([
+        [
+          { start: new Date([2019, 5, 16]), end: undefined },
+          { isRange: true, locale: { lang: 'en' }, format: DEFAULT_OUTPUT_DATE_FORMAT.date },
+          { start: dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date), end: undefined },
+        ],
+        [
+          { start: new Date([2019, 5, 16]), end: new Date([2019, 5, 17]) },
+          { isRange: true, locale: { lang: 'en' }, format: DEFAULT_OUTPUT_DATE_FORMAT.date },
+          {
+            start: dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date),
+            end: dayjs(new Date([2019, 5, 17]), DEFAULT_OUTPUT_DATE_FORMAT.date),
+          },
+        ],
+        [
+          new Date([2019, 5, 16]),
+          { isRange: false, locale: { lang: 'en' }, format: DEFAULT_OUTPUT_DATE_FORMAT.date },
+          dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date),
+        ],
+        [
+          undefined,
+          { isRange: false, locale: { lang: 'en' }, format: DEFAULT_OUTPUT_DATE_FORMAT.date },
+          undefined,
+        ],
+      ])(
+        'when date equal %p && params = %p, should return %p',
+        (date, params, expectedResult) => {
+          console.log(date);
+          const result = initDate(date, params);
+          expect(result).toEqual(expectedResult);
+        },
       );
     });
 

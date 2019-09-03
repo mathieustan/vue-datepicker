@@ -32,7 +32,7 @@ describe('DatePicker', () => {
     jest.spyOn(helpersFunction, 'generateRandomId').mockReturnValue('randomId');
     mountComponent = ({
       id,
-      date,
+      value,
       disabled = false,
       format,
       formatHeader,
@@ -44,7 +44,7 @@ describe('DatePicker', () => {
       shallowMount(DatePicker, {
         propsData: {
           id,
-          value: date,
+          value,
           disabled,
           format,
           formatHeader,
@@ -121,18 +121,18 @@ describe('DatePicker', () => {
     describe('value', () => {
       it.each([
         [
-          { date: { start: dummyDate, end: undefined }, range: true },
+          { value: { start: dummyDate, end: undefined }, range: true },
           { start: dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date), end: undefined },
         ],
         [
-          { date: { start: dummyDate, end: dummyDateEnd }, range: true },
+          { value: { start: dummyDate, end: dummyDateEnd }, range: true },
           {
             start: dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date),
             end: dayjs(dummyDateEnd, DEFAULT_OUTPUT_DATE_FORMAT.date),
           },
         ],
-        [{ date: dummyDate }, dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
-        [{ date: undefined }, undefined],
+        [{ value: dummyDate }, dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
+        [{ value: undefined }, undefined],
       ])('when props equal %p, date should be equal to %p', (props, expectedResult) => {
         const wrapper = mountComponent(props);
         expect(wrapper.vm.date).toEqual(expectedResult);
@@ -179,16 +179,25 @@ describe('DatePicker', () => {
     });
 
     describe('showDatePicker', () => {
+      it('should do nothing if disabled', () => {
+        const wrapper = mountComponent({ disabled: true });
+        wrapper.setData({ isVisible: false });
+
+        wrapper.vm.showDatePicker();
+        expect(wrapper.vm.isVisible).toEqual(false);
+        expect(wrapper.emitted().onOpen).toBeFalsy();
+      });
+
       it.each([
         [
-          { date: { start: dummyDate, end: undefined }, range: true },
-          { date: { start: dayjs('2019-02-01'), end: dayjs('2019-03-01') } },
+          { value: { start: dummyDate, end: undefined }, range: true },
+          { start: dayjs('2019-02-01'), end: dayjs('2019-03-01') },
           { start: dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date), end: undefined },
         ],
-        [{ date: dummyDate }, dayjs('2019-02-01'), dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
-        [{ date: undefined }, dayjs('2019-02-01'), undefined],
+        [{ value: dummyDate }, dayjs('2019-02-01'), dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
+        [{ value: undefined }, dayjs('2019-02-01'), undefined],
       ])(
-        'when props = %p, current date = %p, should reset date to %p & close',
+        'when props = %p, date = %p, should reset date to %p & close',
         (props, currentDate, expectedResult) => {
           const wrapper = mountComponent(props);
           wrapper.setData({ date: currentDate });
@@ -200,24 +209,6 @@ describe('DatePicker', () => {
           expect(wrapper.emitted().onOpen).toBeTruthy();
         },
       );
-
-      it('should set isVisible to true', () => {
-        const wrapper = mountComponent();
-        wrapper.setData({ isVisible: false });
-
-        wrapper.vm.showDatePicker();
-        expect(wrapper.vm.isVisible).toEqual(true);
-        expect(wrapper.emitted().onOpen).toBeTruthy();
-      });
-
-      it('should do nothing if disabled', () => {
-        const wrapper = mountComponent({ disabled: true });
-        wrapper.setData({ isVisible: false });
-
-        wrapper.vm.showDatePicker();
-        expect(wrapper.vm.isVisible).toEqual(false);
-        expect(wrapper.emitted().onOpen).toBeFalsy();
-      });
     });
 
     describe('hideDatePicker', () => {
