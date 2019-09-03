@@ -520,9 +520,7 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-  @import   '../../styles/abstracts/functions',
-            '../../styles/abstracts/variables',
-            '../../styles/abstracts/mixins',
+  @import   '../../styles/abstracts/_index.scss',
             '../../styles/base/animations.scss';
 
   .datepicker {

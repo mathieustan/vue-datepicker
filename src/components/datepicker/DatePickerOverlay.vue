@@ -45,8 +45,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import   '../../styles/abstracts/variables',
-            '../../styles/abstracts/mixins';
+  @import '../../styles/abstracts/_index.scss';
 
   .datepicker-overlay {
     position: fixed;

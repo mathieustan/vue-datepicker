@@ -100,9 +100,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import   '../../styles/abstracts/functions',
-            '../../styles/abstracts/variables',
-            '../../styles/abstracts/mixins',
+  @import   '../../styles/abstracts/_index.scss',
             '../../styles/base/_animations.scss';
 
   .datepicker-header {
@@ -190,8 +188,8 @@ export default {
       }
 
       @include mq(tablet) {
-        font-size: 28px;
-        height: calc(28px + #{$gutter});
+        font-size: 24px;
+        height: calc(24px + #{$gutter});
       }
     }
   }

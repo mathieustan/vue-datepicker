@@ -112,9 +112,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import   '../../styles/abstracts/functions',
-            '../../styles/abstracts/variables',
-            '../../styles/abstracts/mixins',
+  @import   '../../styles/abstracts/_index.scss',
             '../../styles/base/_animations.scss';
 
   .datepicker-controls {
