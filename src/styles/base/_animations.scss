@@ -14,6 +14,15 @@
   opacity: 0;
 }
 
+.datepicker--rtl {
+  .slide-h-next-enter, .slide-h-prev-leave-to {
+    transform: translateX(-100%);
+  }
+  .slide-h-next-leave-to, .slide-h-prev-enter {
+    transform: translateX(100%);
+  }
+}
+
 .slide-v-next-leave-active,
 .slide-v-next-enter-active,
 .slide-v-prev-leave-active,

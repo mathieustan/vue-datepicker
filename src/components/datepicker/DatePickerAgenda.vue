@@ -63,6 +63,7 @@
       <div class="datepicker-content">
         <!-- Controls -->
         <DatePickerControls
+          :rtl="rtl"
           :current-date="currentDate"
           :transition-name="transitionLabelName"
           :color="color"
@@ -212,6 +213,7 @@ export default {
     rangePresets: { type: Array, default: undefined },
     rangeHeaderText: { type: String, default: String },
     formatHeader: { type: String },
+    rtl: { type: Boolean, default: false },
     locale: { type: Object },
     noHeader: { type: Boolean, default: false },
     inline: { type: Boolean, default: false },
@@ -246,6 +248,7 @@ export default {
     },
     classes () {
       return {
+        'datepicker--rtl': this.rtl,
         'datepicker--inline': this.inline,
         'datepicker--fixed': this.fixed,
         'datepicker--fullscreen-mobile': this.fullscreenMobile,
@@ -545,6 +548,20 @@ export default {
       width: get-size(desktop, width);
     }
 
+    &--rtl {
+      .datepicker-days .datepicker-day.first .datepicker-day__effect:before,
+      .datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect:before {
+          left: auto;
+          right: 50%;
+        }
+
+      .datepicker-days .datepicker-day.last .datepicker-day__effect:before,
+      .datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect:before {
+        left: auto;
+        right: -50%;
+      }
+    }
+
     &--inline {
       position: relative;
       box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),
@@ -638,6 +655,7 @@ export default {
     /* Week
     ---------------------- */
     &-week {
+      display: flex;
       font-size: 12px;
       line-height: 12px;
       font-weight: get-font-weight(medium);
@@ -649,7 +667,6 @@ export default {
       }
 
       .datepicker-weekday {
-        float: left;
         width: calc((100% / 7) - 0.1px);
         text-align: center;
 
@@ -729,7 +746,6 @@ export default {
 
           .datepicker-day__effect {
             transform: translateX(-50%);
-            opacity: 1;
             left: 0;
             width: calc(100% + 1px); // 1 extra pixel to fix weird spaces;
             border-radius: 0;
