@@ -1,0 +1,41 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/@mathieustan/vue-datepicker
+    docker:
+    - image: circleci/node:10.9
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: run -> install dependencies
+          command: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # run Lint
+      - run:
+          name: run -> code lint
+          command: yarn lint
+      # run Tests
+      - run:
+          name: run -> code test
+          command: yarn test:client
+
+      # Store result
+      - store_test_results:
+          path: ./tests/junit/
+      - store_artifacts:
+          path: ./tests/coverage/
+          destination: units
