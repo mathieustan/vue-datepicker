@@ -115,6 +115,10 @@ export default {
     max-height: get-size(mobile, header);
     border-radius: get-border-radius(2) get-border-radius(2) 0 0;
 
+    .datepicker--rtl & {
+      direction: rtl;
+    }
+
     @include mq(tablet) {
       min-height: get-size(desktop, header);
       max-height: get-size(desktop, header);

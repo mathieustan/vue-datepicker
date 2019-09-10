@@ -124,7 +124,6 @@ export default {
     transitionName: { type: String, default: String },
     showYearMonthSelector: { type: Function },
     color: { type: String, default: String },
-    rtl: { type: Boolean, default: false },
     minDate: { type: [String, Date, Object] },
     endDate: { type: [String, Date, Object] },
   },

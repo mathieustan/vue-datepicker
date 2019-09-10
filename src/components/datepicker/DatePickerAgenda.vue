@@ -134,7 +134,6 @@
           :transition-name="transitionDaysName"
           :show-year-month-selector="showYearMonthSelector"
           :color="color"
-          :rtl="rtl"
           :min-date="minDate"
           :end-date="endDate"
           @changeYear="changeYear"
@@ -148,7 +147,6 @@
         :button-validate="buttonValidate"
         :button-cancel="buttonCancel"
         :color="color"
-        :rtl="rtl"
         @cancel="$emit('close')"
         @validate="$emit('validateDate')"
       />

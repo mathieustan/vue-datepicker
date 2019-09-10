@@ -35,7 +35,6 @@ export default {
     buttonValidate: { type: String },
     buttonCancel: { type: String },
     color: { type: String },
-    rtl: { type: Boolean, default: false },
   },
 };
 </script>

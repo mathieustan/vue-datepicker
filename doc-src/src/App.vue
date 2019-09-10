@@ -605,37 +605,6 @@
         </Wrapper>
 
         <!---------------------------------------------------------->
-        <!-- EXAMPLE : Inline -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Inline </h3>
-            <p><small> Allow you to show datepicker inline (without input) </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker v-model="currentDate" inline />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="{{currentDate}}"
-    <span class="token attr-name">inline</span>
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
         <!-- EXAMPLE : Fixed -->
         <!---------------------------------------------------------->
         <Wrapper background-color="white" class="column justify-start align-center">
@@ -658,6 +627,68 @@
     <span class="token attr-name">:z-index</span>="1000"
     <span class="token attr-name">fullscreen-mobile </span>
     <span class="token attr-name">fixed </span>
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+  </CodeWrapper>
+          </template>
+
+          <template v-slot:result>
+            v-model="{{ currentDate }}"
+          </template>
+        </Wrapper>
+
+        <!---------------------------------------------------------->
+        <!-- EXAMPLE : Rtl -->
+        <!---------------------------------------------------------->
+        <Wrapper background-color="white" class="column justify-start align-center">
+          <template v-slot:description>
+            <h3> Rtl </h3>
+            <p><small> Allow Right-to-Left mode </small></p>
+          </template>
+
+          <template v-slot:example>
+            <VueDatePicker v-model="currentDate" rtl />
+          </template>
+
+          <template v-slot:code>
+            <CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="{{currentDate}}"
+    <span class="token attr-name">rtl </span>
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+  </CodeWrapper>
+          </template>
+
+          <template v-slot:result>
+            v-model="{{ currentDate }}"
+          </template>
+        </Wrapper>
+
+        <!---------------------------------------------------------->
+        <!-- EXAMPLE : Inline -->
+        <!---------------------------------------------------------->
+        <Wrapper background-color="white" class="column justify-start align-center">
+          <template v-slot:description>
+            <h3> Inline </h3>
+            <p><small> Allow you to show datepicker inline (without input) </small></p>
+          </template>
+
+          <template v-slot:example>
+            <VueDatePicker v-model="currentDate" inline />
+          </template>
+
+          <template v-slot:code>
+            <CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="{{currentDate}}"
+    <span class="token attr-name">inline</span>
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
