@@ -46,6 +46,7 @@ describe('DatePickerAgenda', () => {
       type = 'date',
       validate,
       range,
+      rtl,
     } = {}) =>
       shallowMount(DatePickerAgenda, {
         propsData: {
@@ -61,6 +62,7 @@ describe('DatePickerAgenda', () => {
           type,
           validate,
           range,
+          rtl,
           fullscreenMobile,
           noHeader,
           zIndex: 1,
@@ -111,6 +113,7 @@ describe('DatePickerAgenda', () => {
           { fullscreenMobile: true, inline: false, fixed: true, noHeader: true, validate: true },
           {
             'datepicker--fullscreen-mobile': true,
+            'datepicker--rtl': false,
             'datepicker--inline': false,
             'datepicker--fixed': true,
             'datepicker--no-header': true,
@@ -126,9 +129,11 @@ describe('DatePickerAgenda', () => {
             noHeader: false,
             range: true,
             date: { start: dayjs('2018-01-01'), end: dayjs('2018-02-01') },
+            rtl: true,
           },
           {
             'datepicker--fullscreen-mobile': false,
+            'datepicker--rtl': true,
             'datepicker--inline': true,
             'datepicker--fixed': false,
             'datepicker--no-header': false,
