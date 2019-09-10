@@ -134,6 +134,7 @@
           :transition-name="transitionDaysName"
           :show-year-month-selector="showYearMonthSelector"
           :color="color"
+          :rtl="rtl"
           :min-date="minDate"
           :end-date="endDate"
           @changeYear="changeYear"
@@ -147,6 +148,7 @@
         :button-validate="buttonValidate"
         :button-cancel="buttonCancel"
         :color="color"
+        :rtl="rtl"
         @cancel="$emit('close')"
         @validate="$emit('validateDate')"
       />
@@ -548,20 +550,6 @@ export default {
       width: get-size(desktop, width);
     }
 
-    &--rtl {
-      .datepicker-days .datepicker-day.first .datepicker-day__effect:before,
-      .datepicker-days .datepicker-day.select-start:hover:not(.selected) .datepicker-day__effect:before {
-          left: auto;
-          right: 50%;
-        }
-
-      .datepicker-days .datepicker-day.last .datepicker-day__effect:before,
-      .datepicker-days .datepicker-day.select-end:hover:not(.selected) .datepicker-day__effect:before {
-        left: auto;
-        right: -50%;
-      }
-    }
-
     &--inline {
       position: relative;
       box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),
@@ -666,6 +654,10 @@ export default {
         margin: $gutter $gutter*2;
       }
 
+      .datepicker--rtl & {
+        direction: rtl;
+      }
+
       .datepicker-weekday {
         width: calc((100% / 7) - 0.1px);
         text-align: center;
@@ -712,6 +704,10 @@ export default {
       flex-wrap: wrap;
       overflow: hidden;
       width: 100%;
+
+      .datepicker--rtl & {
+        direction: rtl;
+      }
 
       .datepicker-day {
         @extend %reset-button;
@@ -779,6 +775,10 @@ export default {
             &:before {
               opacity: .5;
               left: 50%;
+
+              .datepicker--rtl & {
+                left: -50%;
+              }
             }
           }
         }
@@ -790,6 +790,10 @@ export default {
             &:before {
               opacity: .5;
               left: -50%;
+
+              .datepicker--rtl & {
+                left: 50%;
+              }
             }
           }
         }

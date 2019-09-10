@@ -35,6 +35,7 @@ export default {
     buttonValidate: { type: String },
     buttonCancel: { type: String },
     color: { type: String },
+    rtl: { type: Boolean, default: false },
   },
 };
 </script>
@@ -51,6 +52,10 @@ export default {
 
     @include mq(tablet) {
       padding: $gutter $gutter*2;
+    }
+
+    .datepicker--rtl & {
+      direction: rtl;
     }
 
     &__button {

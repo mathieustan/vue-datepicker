@@ -124,6 +124,7 @@ export default {
     transitionName: { type: String, default: String },
     showYearMonthSelector: { type: Function },
     color: { type: String, default: String },
+    rtl: { type: Boolean, default: false },
     minDate: { type: [String, Date, Object] },
     endDate: { type: [String, Date, Object] },
   },
@@ -302,6 +303,10 @@ export default {
       height: 100%;
       justify-items: center;
       align-items: center;
+
+      .datepicker--rtl & {
+        direction: rtl;
+      }
 
       button {
         position: relative;
