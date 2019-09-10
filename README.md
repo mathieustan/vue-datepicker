@@ -123,6 +123,7 @@ Using `v-model`
 | rangeHeaderText  | String               | 'From %d To %d ' | When range is enabled, set text before date in datepicker header                                                                                                                                                        |
 | rangePresets     | Array                |                  | Allow to add custom range presets to range datepicker. (Max custom presets = 6) Example: `[{ name: 'This year', dates: { start: ..., end: ... } }]`                                                                     |
 | tabindex         | String\|Number       | '0'              | Specify input tabindex                                                                                                                                                                                                  |
+| rtl              | Boolean              | false            | Allow to use datepicker with rtl mode                                                                                                                                                                                   |
 | zIndex           | Number               |                  | Specify a z-index to datepicker & overlay                                                                                                                                                                               |
 
 ## Events

@@ -851,6 +851,62 @@
           </template>
         </Wrapper>
 
+        <!---------------------------------------------------------->
+        <!-- EXAMPLE : Range Picker with RTL -->
+        <!---------------------------------------------------------->
+        <Wrapper background-color="white" class="column justify-start align-center">
+          <template v-slot:description>
+            <h3> Range with rtl mode </h3>
+            <p>
+              <small>
+                Using range picker in RTL mode
+              </small>
+            </p>
+          </template>
+
+          <template v-slot:example>
+            <VueDatePicker
+              v-model="examples.range.dates"
+              :name="`Choose dates`"
+              :min-date="examples.range.min"
+              :end-date="examples.range.end"
+              :range-input-text="examples.range.inputText"
+              placeholder="Start - End"
+              validate
+              range
+              no-header
+              rtl
+              fullscreen-mobile
+            />
+          </template>
+
+          <template v-slot:code>
+            <CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="rangeDates"
+    <span class="token attr-name">:name</span>="`Choose dates`"
+    <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
+    <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
+    <span class="token attr-name">:range-input-text</span>="{{ examples.range.inputText }}"
+    <span class="token attr-name">placeholder</span>="Start - End"
+    <span class="token attr-name">validate </span>
+    <span class="token attr-name">range </span>
+    <span class="token attr-name">no-header </span>
+    <span class="token attr-name">rtl </span>
+    <span class="token attr-name">fullscreen-mobile </span>
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+  </CodeWrapper>
+          </template>
+
+          <template v-slot:result>
+            v-model="{{ examples.range.dates }}"
+          </template>
+        </Wrapper>
+
         <div class="title">
           <h2> Events </h2>
         </div>
