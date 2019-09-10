@@ -39,6 +39,7 @@
       :range-header-text="rangeHeaderText"
       :range-presets="rangePresets"
       :format-header="headerFormat"
+      :rtl="rtl"
       :locale="locale"
       :no-header="noHeader"
       :inline="inline"
@@ -97,6 +98,8 @@ export default {
     formatOutput: { type: String, default: undefined },
     // Show/hide datepicker
     visible: { type: Boolean, default: false },
+    // Right-to-Left
+    rtl: { type: Boolean, default: false },
     // Sets the locale.
     locale: {
       type: Object,
