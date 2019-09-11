@@ -136,7 +136,6 @@ export default {
     outline: 0;
     font-size: 16px;
     line-height: 19px;
-    margin-left: $gutter;
     font-family: inherit;
     background: transparent;
 
