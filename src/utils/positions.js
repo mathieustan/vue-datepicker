@@ -169,9 +169,10 @@ function getElementPosition (
   }
 
   const horizontalOrigin = isRtl ? 'right' : 'left';
+  const activatorRtlOffsetLeft = isRtl ? activatorRect.width - elementWidth : 0;
   return {
     top: activatorOffsetTop + (isThereEnoughSpaceBelow ? activatorRect.height : -elementHeight),
-    left: activatorOffsetLeft - target.offsetLeft,
+    left: activatorOffsetLeft + activatorRtlOffsetLeft - target.offsetLeft,
     origin: isThereEnoughSpaceBelow ? 'top ' + horizontalOrigin : 'bottom ' + horizontalOrigin,
   };
 }
