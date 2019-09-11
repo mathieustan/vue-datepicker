@@ -598,6 +598,10 @@ export default {
       padding: 0 0 0 $gutter*3;
       border-radius: get-border-radius(4) get-border-radius(4) 0 0;
 
+      .datepicker--rtl & {
+        padding: 0 $gutter*3 0 0;
+      }
+
       @include mq(phone) {
         display: none;
       }

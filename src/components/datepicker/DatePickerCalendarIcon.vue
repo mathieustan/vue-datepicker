@@ -28,8 +28,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '../../styles/abstracts/_index.scss';
+
   label {
     cursor: inherit;
+    margin-right: $gutter;
+
+    .datepicker-container--rtl & {
+      margin-right: unset;
+      margin-left: $gutter;
+    }
   }
   svg {
     display: flex;

@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="{ 'datepicker-container--active' : isVisible }"
+    :class="{ 'datepicker-container--active' : isVisible, 'datepicker-container--rtl': rtl }"
     class="datepicker-container">
     <DatePickerCustomInput
       v-if="!inline"
@@ -16,6 +16,7 @@
       :color="color"
       :disabled="disabled"
       :tabindex="tabindex"
+      :no-calendar-icon="noCalendarIcon"
       :no-input="noInput"
       @toggleDatepicker="toggleDatepicker"
       @focus="showDatePicker"
@@ -117,6 +118,8 @@ export default {
     inline: { type: Boolean, default: false },
     // fixed
     fixed: { type: Boolean, default: false },
+    // Allow to hide the calendar icon on the custom input.
+    noCalendarIcon: { type: Boolean, default: false },
     // Set if header in agenda should be visible
     noHeader: { type: Boolean, default: false },
     // Allow to hide input (to use a button instead)

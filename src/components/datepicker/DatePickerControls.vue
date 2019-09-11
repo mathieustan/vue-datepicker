@@ -121,7 +121,6 @@ export default {
     display: flex;
     height: get-size(mobile, controls);
     text-align: center;
-    position: relative;
     width: 100%;
 
     @include mq(tablet) {
@@ -135,6 +134,7 @@ export default {
       justify-content: center;
       align-items: center;
       flex: 1;
+      order: 2;
     }
 
     &__month,
@@ -212,8 +212,21 @@ export default {
       }
     }
 
+    button.datepicker-controls__prev {
+      order: 1;
+
+      .datepicker--rtl & {
+        order: 3;
+      }
+    }
+
     button.datepicker-controls__next {
       padding: 0 $gutter*3 0 0;
+      order: 3;
+
+      .datepicker--rtl & {
+        order: 1;
+      }
 
       @include mq(tablet) {
         padding: 0 $gutter 0 $gutter;

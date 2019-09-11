@@ -77,6 +77,11 @@ export default {
 
       & + & {
         margin-left: $gutter;
+
+        .datepicker--rtl & {
+          margin-left: unset;
+          margin-right: $gutter;
+        }
       }
 
       &:hover {

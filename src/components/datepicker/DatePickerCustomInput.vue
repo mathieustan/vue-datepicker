@@ -4,6 +4,7 @@
     class="datepicker-input"
     @mousedown="$emit('toggleDatepicker')">
     <DatePickerCalendarIcon
+      v-if="!noCalendarIcon"
       :id="id"
       :color="isDateDefined && !disabled ? color : 'rgba(93, 106, 137, 0.5)'"
       :disabled="disabled" />
@@ -62,6 +63,7 @@ export default {
     color: { type: String },
     disabled: { type: Boolean },
     tabindex: { type: [String, Number] },
+    noCalendarIcon: { type: Boolean, default: false },
     noInput: { type: Boolean },
   },
   computed: {
@@ -162,6 +164,5 @@ export default {
     @extend %reset-button;
     font-size: 16px;
     line-height: 19px;
-    margin-left: $gutter;
   }
 </style>
