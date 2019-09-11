@@ -38,6 +38,7 @@ const dynamicPosition = {
         this.$refs.content, // element to show
         document.querySelector('.datepicker-container--active'), // datepicker container
         target, // where datepicker will be shown
+        this.rtl, // whether we are in RTL mode or not
 
       );
       this.top = top;

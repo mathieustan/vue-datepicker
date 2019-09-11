@@ -2185,6 +2185,7 @@ function computeAgendaHeight(agenda, classWeeks) {
 }
 
 function getDynamicPosition(element, activator, target) {
+  var isRtl = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
   // -------------------------------
   // Select activator to get position
   // -------------------------------
@@ -2208,7 +2209,7 @@ function getDynamicPosition(element, activator, target) {
     return getElementCenteredPosition(element);
   }
 
-  return getElementPosition(element, target, activatorRect, activatorOffsets, spacesAroundParent, placesAvailable);
+  return getElementPosition(element, target, activatorRect, activatorOffsets, spacesAroundParent, placesAvailable, isRtl);
 } // -------------------------------
 // HELPERS
 // -------------------------------
@@ -2275,7 +2276,7 @@ function getElementCenteredPosition(_ref2) {
   };
 }
 
-function getElementPosition(element, target, activatorRect, activatorOffsets, spacesAroundParent, placesAvailable) {
+function getElementPosition(element, target, activatorRect, activatorOffsets, spacesAroundParent, placesAvailable, isRtl) {
   var elementHeight = element.offsetHeight;
   var elementWidth = element.offsetWidth;
   var activatorOffsetTop = activatorOffsets.activatorOffsetTop,
@@ -2320,10 +2321,11 @@ function getElementPosition(element, target, activatorRect, activatorOffsets, sp
     };
   }
 
+  var horizontalOrigin = isRtl ? 'right' : 'left';
   return {
     top: activatorOffsetTop + (isThereEnoughSpaceBelow ? activatorRect.height : -elementHeight),
     left: activatorOffsetLeft - target.offsetLeft,
-    origin: isThereEnoughSpaceBelow ? 'top left' : 'bottom left'
+    origin: isThereEnoughSpaceBelow ? 'top ' + horizontalOrigin : 'bottom ' + horizontalOrigin
   };
 }
 
@@ -2369,7 +2371,8 @@ var dynamicPosition = {
 
       var _getDynamicPosition = getDynamicPosition(this.$refs.content, // element to show
       document.querySelector('.datepicker-container--active'), // datepicker container
-      target // where datepicker will be shown
+      target, // where datepicker will be shown
+      this.rtl // whether we are in RTL mode or not
       ),
           top = _getDynamicPosition.top,
           left = _getDynamicPosition.left,

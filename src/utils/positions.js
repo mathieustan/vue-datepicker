@@ -15,7 +15,7 @@ function computeAgendaHeight (agenda, classWeeks) {
   return agenda.offsetHeight + 36; // height of a day's row;
 }
 
-function getDynamicPosition (element, activator, target) {
+function getDynamicPosition (element, activator, target, isRtl = false) {
   // -------------------------------
   // Select activator to get position
   // -------------------------------
@@ -50,7 +50,8 @@ function getDynamicPosition (element, activator, target) {
     activatorRect,
     activatorOffsets,
     spacesAroundParent,
-    placesAvailable
+    placesAvailable,
+    isRtl,
   );
 }
 
@@ -87,7 +88,8 @@ function getActivatorOffset (activatorRect, target, isFixedActivator) {
 function getSpacesAroundActivator (activatorRect, target) {
   const targetRect = target.getBoundingClientRect();
   return {
-    spaceBelow: (window.innerHeight - activatorRect.bottom) - (window.innerHeight - targetRect.bottom),
+    spaceBelow: (window.innerHeight - activatorRect.bottom) -
+      (window.innerHeight - targetRect.bottom),
     spaceAbove: activatorRect.top - target.offsetTop,
     spaceLeft: activatorRect.left - target.offsetLeft,
     spaceRight: (window.innerWidth - activatorRect.left - activatorRect.width) -
@@ -118,7 +120,8 @@ function getElementPosition (
   activatorRect,
   activatorOffsets,
   spacesAroundParent,
-  placesAvailable
+  placesAvailable,
+  isRtl,
 ) {
   const elementHeight = element.offsetHeight;
   const elementWidth = element.offsetWidth;
@@ -165,9 +168,10 @@ function getElementPosition (
     };
   }
 
+  const horizontalOrigin = isRtl ? 'right' : 'left';
   return {
     top: activatorOffsetTop + (isThereEnoughSpaceBelow ? activatorRect.height : -elementHeight),
     left: activatorOffsetLeft - target.offsetLeft,
-    origin: isThereEnoughSpaceBelow ? 'top left' : 'bottom left',
+    origin: isThereEnoughSpaceBelow ? 'top ' + horizontalOrigin : 'bottom ' + horizontalOrigin,
   };
 }
