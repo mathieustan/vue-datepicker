@@ -12,6 +12,7 @@ import {
   DEFAULT_INPUT_DATE_FORMAT,
   DEFAULT_HEADER_DATE_FORMAT,
   DEFAULT_OUTPUT_DATE_FORMAT,
+  AVAILABLE_YEARS,
 } from '../constants';
 
 dayjs.extend(weekDay);
@@ -209,10 +210,12 @@ export function isDateAfter (newDate, oldDate) {
 }
 
 export function generateDateRangeWithoutDisabled ({ start, end }, minDate, maxDate) {
-  return generateDateRange(start, end)
-    .filter(date =>
-      date.isSameOrAfter(minDate, 'day') &&
-      date.isSameOrBefore(dayjs(maxDate, 'day')));
+  const validMinDate = minDate || dayjs().year(AVAILABLE_YEARS.min);
+  const validMaxDate = maxDate || dayjs().year(AVAILABLE_YEARS.max);
+
+  return generateDateRange(start, end).filter(date =>
+    date.isSameOrAfter(validMinDate, 'day') &&
+    date.isSameOrBefore(dayjs(validMaxDate, 'day')));
 }
 
 // -----------------------------------------

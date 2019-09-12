@@ -490,6 +490,10 @@ var DEFAULT_HEADER_DATE_FORMAT = {
   quarter: '[Q]Q',
   range: 'DD MMMM YYYY'
 };
+var AVAILABLE_YEARS = {
+  min: 1900,
+  max: 3000
+};
 var yearMonthSelectorTypes = ['month', 'quarter', 'year'];
 var MAX_PRESETS_NUMBER = 6;
 
@@ -715,8 +719,10 @@ function isDateAfter(newDate, oldDate) {
 function generateDateRangeWithoutDisabled(_ref8, minDate, maxDate) {
   var start = _ref8.start,
       end = _ref8.end;
+  var validMinDate = minDate || dayjs().year(AVAILABLE_YEARS.min);
+  var validMaxDate = maxDate || dayjs().year(AVAILABLE_YEARS.max);
   return generateDateRange(start, end).filter(function (date) {
-    return date.isSameOrAfter(minDate, 'day') && date.isSameOrBefore(dayjs(maxDate, 'day'));
+    return date.isSameOrAfter(validMinDate, 'day') && date.isSameOrBefore(dayjs(validMaxDate, 'day'));
   });
 } // -----------------------------------------
 // Generate Dates

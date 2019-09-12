@@ -431,7 +431,6 @@ describe('Transactions: Functions', () => {
       ])(
         'when date equal %p && params = %p, should return %p',
         (date, params, expectedResult) => {
-          console.log(date);
           const result = initDate(date, params);
           expect(result).toEqual(expectedResult);
         },
@@ -440,6 +439,9 @@ describe('Transactions: Functions', () => {
 
     describe('generateDateRangeWithoutDisabled', () => {
       it.each([
+        [{ start: '2018-01-01', end: '2018-01-31' }, undefined, undefined, 31],
+        [{ start: '2018-01-01', end: '2018-01-31' }, '2018-01-20', undefined, 12],
+        [{ start: '2018-01-01', end: '2018-01-31' }, undefined, '2018-01-30', 30],
         [{ start: '2018-01-01', end: '2018-01-31' }, '2018-01-20', '2018-02-05', 12],
         [{ start: '2018-01-01', end: '2018-01-31' }, '2017-12-01', '2018-01-10', 10],
         [{ start: '2018-01-01', end: '2018-01-31' }, '2019-01-01', '2019-01-31', 0],

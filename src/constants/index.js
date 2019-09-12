@@ -31,6 +31,10 @@ export const DEFAULT_HEADER_DATE_FORMAT = {
   range: 'DD MMMM YYYY',
 };
 
+export const AVAILABLE_YEARS = {
+  min: 1900,
+  max: 3000,
+};
 export const yearMonthSelectorTypes = ['month', 'quarter', 'year'];
 
 export const MAX_PRESETS_NUMBER = 6;
