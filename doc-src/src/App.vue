@@ -648,7 +648,11 @@
           </template>
 
           <template v-slot:example>
-            <VueDatePicker v-model="currentDate" rtl />
+            <VueDatePicker
+              v-model="currentDate"
+              rtl
+              fullscreen-mobile
+            />
           </template>
 
           <template v-slot:code>
@@ -658,6 +662,7 @@
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="{{currentDate}}"
     <span class="token attr-name">rtl </span>
+    <span class="token attr-name">fullscreen-mobile </span>
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>

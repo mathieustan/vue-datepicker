@@ -110,6 +110,15 @@ export default {
     &--disabled {
       cursor: not-allowed;
     }
+
+    .datepicker-container--rtl & {
+      direction: rtl;
+
+      input[type="text"],
+      button {
+        margin: 0 $gutter 0 0;
+      }
+    }
   }
 
   input[type='hidden'] {

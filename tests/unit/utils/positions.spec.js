@@ -203,5 +203,35 @@ describe('Utils: Functions', () => {
 
       expect(getDynamicPosition(element, activator, body)).toEqual(expectedResult);
     });
+
+    it('RTL: should place it correcly for RTL mode', () => {
+      const windowSize = { width: 800, height: 800 };
+      const target = { offsetTop: 0, offsetLeft: 0 };
+      const targetRect = { width: 800, left: 0, bottom: 800 };
+      const activatorRect = { top: 200, left: 100, bottom: 250, width: 300, height: 50 };
+      const elementSize = { width: 100, height: 400 };
+      const expectedResult = { top: 250, left: 300, origin: 'top right' };
+      const isRtl = true;
+
+      Object.defineProperties(window.HTMLElement.prototype, {
+        offsetHeight: { get: () => elementSize.height },
+        offsetWidth: { get: () => elementSize.width },
+      }, { writable: true });
+
+      global.pageXOffset = 0;
+      global.pageYOffset = 500;
+      global.innerWidth = windowSize.width;
+      global.innerHeight = windowSize.height;
+
+      const { activator, element, body } = createDivParentWithChildren('fixed');
+      Object.defineProperties(body, {
+        offsetTop: { get: () => target.offsetTop },
+        offsetLeft: { get: () => target.offsetLeft },
+      }, { writable: true });
+      jest.spyOn(body, 'getBoundingClientRect').mockReturnValue(targetRect);
+      jest.spyOn(activator, 'getBoundingClientRect').mockReturnValue(activatorRect);
+
+      expect(getDynamicPosition(element, activator, body, isRtl)).toEqual(expectedResult);
+    });
   });
 });

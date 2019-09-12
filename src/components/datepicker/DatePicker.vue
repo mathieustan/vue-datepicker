@@ -1,6 +1,9 @@
 <template>
   <div
-    :class="{ 'datepicker-container--active' : isVisible }"
+    :class="{
+      'datepicker-container--active': isVisible,
+      'datepicker-container--rtl': rtl,
+    }"
     class="datepicker-container">
     <DatePickerCustomInput
       v-if="!inline"

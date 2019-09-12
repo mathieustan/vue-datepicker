@@ -15,7 +15,7 @@ function computeAgendaHeight (agenda, classWeeks) {
   return agenda.offsetHeight + 36; // height of a day's row;
 }
 
-function getDynamicPosition (element, activator, target) {
+function getDynamicPosition (element, activator, target, isRtl) {
   // -------------------------------
   // Select activator to get position
   // -------------------------------
@@ -50,7 +50,8 @@ function getDynamicPosition (element, activator, target) {
     activatorRect,
     activatorOffsets,
     spacesAroundParent,
-    placesAvailable
+    placesAvailable,
+    isRtl,
   );
 }
 
@@ -118,7 +119,8 @@ function getElementPosition (
   activatorRect,
   activatorOffsets,
   spacesAroundParent,
-  placesAvailable
+  placesAvailable,
+  isRtl,
 ) {
   const elementHeight = element.offsetHeight;
   const elementWidth = element.offsetWidth;
@@ -157,17 +159,21 @@ function getElementPosition (
     };
   }
 
+  const activatorRtlOffsetLeft = isRtl ? (activatorRect.width - elementWidth) : 0;
+  const defaultTopOrigin = isRtl ? 'top right' : 'top left';
+  const defaultBottomOrigin = isRtl ? 'bottom right' : 'bottom left';
+
   if (couldBeShowBelowOrAbove && !isThereEnoughSpaceLeft && !isThereEnoughSpaceRight) {
     return {
       top: activatorOffsetTop + (isThereEnoughSpaceBelow ? activatorRect.height : -elementHeight),
-      left: activatorOffsetLeft - target.offsetLeft,
-      origin: isThereEnoughSpaceBelow ? 'top left' : 'bottom left',
+      left: activatorOffsetLeft + activatorRtlOffsetLeft - target.offsetLeft,
+      origin: isThereEnoughSpaceBelow ? defaultTopOrigin : defaultBottomOrigin,
     };
   }
 
   return {
     top: activatorOffsetTop + (isThereEnoughSpaceBelow ? activatorRect.height : -elementHeight),
-    left: activatorOffsetLeft - target.offsetLeft,
-    origin: isThereEnoughSpaceBelow ? 'top left' : 'bottom left',
+    left: activatorOffsetLeft + activatorRtlOffsetLeft - target.offsetLeft,
+    origin: isThereEnoughSpaceBelow ? defaultTopOrigin : defaultBottomOrigin,
   };
 }

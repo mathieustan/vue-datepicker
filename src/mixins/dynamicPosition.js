@@ -38,7 +38,7 @@ const dynamicPosition = {
         this.$refs.content, // element to show
         document.querySelector('.datepicker-container--active'), // datepicker container
         target, // where datepicker will be shown
-
+        this.rtl,
       );
       this.top = top;
       this.left = left;
