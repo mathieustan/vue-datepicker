@@ -78,7 +78,7 @@ describe('DatePickerHeader', () => {
         [{ mutableDate: dummyDate }, 'Thursday 16 May'],
         [
           { range: true, mutableDate: { start: dummyDate, end: undefined }, formatHeader: 'YYYY-MM-DD' },
-          ['From 2019-05-16', 'To YYYY-MM-DD'],
+          ['From 2019-05-16', 'To __'],
         ],
         [
           { range: true, mutableDate: { start: dummyDate, end: dayjs(new Date([2019, 5, 16])) }, formatHeader: 'YYYY-MM-DD' },

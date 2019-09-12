@@ -281,10 +281,10 @@ describe('Transactions: Functions', () => {
 
     describe('getRangeDatesFormatted', () => {
       it.each([
-        [undefined, {}, 'YYYY-MM-DD', 'YYYY-MM-DD ~ YYYY-MM-DD'],
-        [{ start: '2019-5-15', end: undefined }, {}, 'YYYY-MM-DD', '2019-05-15 ~ YYYY-MM-DD'],
-        [{ start: undefined, end: '2019-5-15' }, {}, 'YYYY-MM-DD', 'YYYY-MM-DD ~ 2019-05-15'],
-        [{ start: '2019-5-15', end: undefined }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 ~ YYYY-MM-DD'],
+        [undefined, {}, 'YYYY-MM-DD', '__ ~ __'],
+        [{ start: '2019-5-15', end: undefined }, {}, 'YYYY-MM-DD', '2019-05-15 ~ __'],
+        [{ start: undefined, end: '2019-5-15' }, {}, 'YYYY-MM-DD', '__ ~ 2019-05-15'],
+        [{ start: '2019-5-15', end: undefined }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 ~ __'],
         [{ start: '2019-5-15', end: '2019-5-17' }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 ~ 2019-05-17'],
       ])(
         'when year = %p, month = %p should return %p when formatted with YYYY-MM',

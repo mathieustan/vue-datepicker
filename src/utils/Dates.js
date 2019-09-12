@@ -137,15 +137,15 @@ export function getRangeDatesFormatted ({ start, end } = {}, { lang }, format) {
   const locale = getLocale(lang);
 
   if (!start && !end) {
-    return `${format} ~ ${format}`;
+    return `__ ~ __`;
   }
 
   if (!start && end) {
-    return `${format} ~ ${dayjs(end).locale(locale).startOf('day').format(format)}`;
+    return `__ ~ ${dayjs(end).locale(locale).startOf('day').format(format)}`;
   }
 
   if (start && !end) {
-    return `${dayjs(start).locale(locale).startOf('day').format(format)} ~ ${format}`;
+    return `${dayjs(start).locale(locale).startOf('day').format(format)} ~ __`;
   }
 
   return `\

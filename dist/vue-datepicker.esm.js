@@ -652,15 +652,15 @@ function getRangeDatesFormatted() {
   var locale = getLocale(lang);
 
   if (!start && !end) {
-    return "".concat(format, " ~ ").concat(format);
+    return "__ ~ __";
   }
 
   if (!start && end) {
-    return "".concat(format, " ~ ").concat(dayjs(end).locale(locale).startOf('day').format(format));
+    return "__ ~ ".concat(dayjs(end).locale(locale).startOf('day').format(format));
   }
 
   if (start && !end) {
-    return "".concat(dayjs(start).locale(locale).startOf('day').format(format), " ~ ").concat(format);
+    return "".concat(dayjs(start).locale(locale).startOf('day').format(format), " ~ __");
   }
 
   return "".concat(dayjs(start).locale(locale).startOf('day').format(format), " ~ ").concat(dayjs(end).locale(locale).startOf('day').format(format));
