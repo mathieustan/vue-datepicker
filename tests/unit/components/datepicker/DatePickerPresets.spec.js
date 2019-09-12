@@ -10,7 +10,7 @@ describe('DatePickerPresets', () => {
       rangePresets,
       mutableDate,
       minDate,
-      endDate,
+      maxDate,
       locale = { lang: 'en' },
     } = {}) =>
       shallowMount(DatePickerPresets, {
@@ -18,7 +18,7 @@ describe('DatePickerPresets', () => {
           rangePresets,
           mutableDate,
           minDate,
-          endDate,
+          maxDate,
           color: 'color',
           locale,
         },
@@ -35,7 +35,7 @@ describe('DatePickerPresets', () => {
     expect(wrapper.vm.rangePresets).toEqual(undefined);
     expect(wrapper.vm.mutableDate).toEqual(undefined);
     expect(wrapper.vm.minDate).toEqual(undefined);
-    expect(wrapper.vm.endDate).toEqual(undefined);
+    expect(wrapper.vm.maxDate).toEqual(undefined);
     expect(wrapper.vm.color).toEqual('color');
     expect(wrapper.vm.locale).toEqual({ lang: 'en' });
   });
@@ -47,7 +47,7 @@ describe('DatePickerPresets', () => {
         [{
           rangePresets: [{ name: 'month', dates: { start: '2018-01-01', end: '2018-01-31' } }],
           minDate: '2018-01-29',
-          endDate: '2018-02-05',
+          maxDate: '2018-02-05',
         }, [{
           name: 'month',
           dates: { start: '2018-01-01', end: '2018-01-31' },

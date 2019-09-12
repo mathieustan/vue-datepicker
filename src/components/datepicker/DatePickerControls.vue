@@ -78,7 +78,7 @@ export default {
     color: { type: String },
     mode: { type: String, default: 'month' },
     minDate: { type: [String, Number, Date] },
-    endDate: { type: [String, Number, Date] },
+    maxDate: { type: [String, Number, Date] },
     rtl: { type: Boolean, default: false },
   },
   computed: {
@@ -90,7 +90,7 @@ export default {
     },
     isYearDisabled () {
       return isBeforeDate(this.yearFormatted, this.minDate, 'year') ||
-        isAfterDate(this.yearFormatted, this.endDate, 'year');
+        isAfterDate(this.yearFormatted, this.maxDate, 'year');
     },
     isPreviousDateDisabled () {
       if (this.mode !== 'year') return false;
@@ -98,7 +98,7 @@ export default {
     },
     isNextDateDisabled () {
       if (this.mode !== 'year') return false;
-      return isAfterDate(Number(this.yearFormatted) + 1, this.endDate, 'year');
+      return isAfterDate(Number(this.yearFormatted) + 1, this.maxDate, 'year');
     },
   },
   methods: {

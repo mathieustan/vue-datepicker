@@ -54,7 +54,7 @@
         :range-presets="rangePresets"
         :mutable-date="mutableDate"
         :min-date="minDate"
-        :end-date="endDate"
+        :max-date="maxDate"
         :color="color"
         :locale="locale"
         @updateRange="emitSelectedDate"
@@ -135,7 +135,7 @@
           :show-year-month-selector="showYearMonthSelector"
           :color="color"
           :min-date="minDate"
-          :end-date="endDate"
+          :max-date="maxDate"
           @changeYear="changeYear"
           @selectedYearMonth="selectedYearMonth"
         />
@@ -221,7 +221,7 @@ export default {
     fullscreenMobile: { type: Boolean, default: false },
     color: { type: String },
     minDate: { type: [String, Number, Date] },
-    endDate: { type: [String, Number, Date] },
+    maxDate: { type: [String, Number, Date] },
     zIndex: { type: Number },
   },
   data: () => ({
@@ -383,7 +383,7 @@ export default {
       return this.mutableDate.end && this.mutableDate.end.startOf('day').unix() === day.unix();
     },
     isDisabled (day) {
-      return isBeforeDate(day, this.minDate) || isAfterDate(day, this.endDate);
+      return isBeforeDate(day, this.minDate) || isAfterDate(day, this.maxDate);
     },
     isToday (day) {
       return isDateToday(day);
@@ -416,9 +416,9 @@ export default {
     updateDate (date) {
       let newDate = formatDate(this.range ? (date.end || date.start) : date, this.locale);
 
-      // If today's date is after endDate, we should show endDate month
-      if (isAfterDate(newDate, this.endDate)) {
-        newDate = formatDate(this.endDate, this.locale);
+      // If today's date is after maxDate, we should show maxDate month
+      if (isAfterDate(newDate, this.maxDate)) {
+        newDate = formatDate(this.maxDate, this.locale);
       }
 
       if (this.range) {

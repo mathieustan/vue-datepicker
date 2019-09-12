@@ -32,7 +32,7 @@
           :current-date="currentDate"
           :transition-name="transitionName"
           :min-date="minDate"
-          :end-date="endDate"
+          :max-date="maxDate"
           :color="color"
           mode="year"
           @changeVisibleDate="changeYear"
@@ -125,7 +125,7 @@ export default {
     showYearMonthSelector: { type: Function },
     color: { type: String, default: String },
     minDate: { type: [String, Date, Object] },
-    endDate: { type: [String, Date, Object] },
+    maxDate: { type: [String, Date, Object] },
   },
   computed: {
     yearFormatted () {
@@ -171,12 +171,12 @@ export default {
     },
     isYearDisabled (year) {
       return isBeforeDate(year, this.minDate, this.mode) ||
-        isAfterDate(year, this.endDate, this.mode);
+        isAfterDate(year, this.maxDate, this.mode);
     },
     isMonthOrQuarterDisabled (monthIndex) {
       const date = formatDateWithYearAndMonth(this.yearFormatted, monthIndex);
       return isBeforeDate(date, this.minDate, 'month') ||
-        isAfterDate(date, this.endDate, 'month');
+        isAfterDate(date, this.maxDate, 'month');
     },
     changeYear (direction) {
       this.$emit('changeYear', direction);

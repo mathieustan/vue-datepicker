@@ -36,7 +36,7 @@ describe('DatePickerAgenda', () => {
     mountComponent = ({
       date = dummyDate,
       minDate,
-      endDate,
+      maxDate,
       locale = { lang: 'en' },
       isVisible = true,
       fullscreenMobile = false,
@@ -52,7 +52,7 @@ describe('DatePickerAgenda', () => {
         propsData: {
           date,
           minDate,
-          endDate,
+          maxDate,
           isVisible,
           inline,
           fixed,
@@ -526,15 +526,15 @@ describe('DatePickerAgenda', () => {
 
     describe('isDisabled', () => {
       it.each([
-        [{ minDate: undefined, endDate: undefined }, dayjs('2018-5-16'), false],
-        [{ minDate: '2018-5-1', endDate: '2018-5-20' }, dayjs('2018-5-16'), false],
-        [{ minDate: '2018-5-17', endDate: '2018-5-20' }, dayjs('2018-5-16'), true],
-        [{ minDate: '2018-5-1', endDate: '2018-5-15' }, dayjs('2018-5-16'), true],
+        [{ minDate: undefined, maxDate: undefined }, dayjs('2018-5-16'), false],
+        [{ minDate: '2018-5-1', maxDate: '2018-5-20' }, dayjs('2018-5-16'), false],
+        [{ minDate: '2018-5-17', maxDate: '2018-5-20' }, dayjs('2018-5-16'), true],
+        [{ minDate: '2018-5-1', maxDate: '2018-5-15' }, dayjs('2018-5-16'), true],
       ])(
         'when currentDate equal %p, and selected date is %p, should return %p',
         (allowedDates, selectedDate, expectedResult) => {
-          const { minDate, endDate } = allowedDates;
-          const wrapper = mountComponent({ minDate, endDate });
+          const { minDate, maxDate } = allowedDates;
+          const wrapper = mountComponent({ minDate, maxDate });
           expect(wrapper.vm.isDisabled(selectedDate)).toEqual(expectedResult);
         }
       );
@@ -580,10 +580,10 @@ describe('DatePickerAgenda', () => {
 
       it('Range : should update end date if start is already defined', () => {
         const wrapper = mountComponent({ range: true, date: { start: dummyDate, end: undefined } });
-        const endDate = dayjs('2019-9-20');
-        wrapper.vm.selectDate(endDate);
+        const maxDate = dayjs('2019-9-20');
+        wrapper.vm.selectDate(maxDate);
 
-        expect(wrapper.vm.mutableDate).toEqual({ start: dummyDate, end: endDate });
+        expect(wrapper.vm.mutableDate).toEqual({ start: dummyDate, end: maxDate });
         expect(wrapper.emitted().selectDate).toBeTruthy();
       });
 
@@ -826,10 +826,10 @@ describe('DatePickerAgenda', () => {
 
     describe('handleMouseMove', () => {
       let startDate;
-      let endDate;
+      let maxDate;
       beforeEach(() => {
         startDate = dayjs('2019-5-15');
-        endDate = dayjs('2019-5-20');
+        maxDate = dayjs('2019-5-20');
       });
 
       it('should do nothing if range is false', () => {
@@ -839,7 +839,7 @@ describe('DatePickerAgenda', () => {
       });
 
       it('should do nothing if mutableDate.end is already defined', () => {
-        const wrapper = mountComponent({ range: true, date: { start: startDate, end: endDate } });
+        const wrapper = mountComponent({ range: true, date: { start: startDate, end: maxDate } });
         wrapper.vm.handleMouseMove({ target: undefined });
         expect(wrapper.vm.rangeCurrentHoveredDay).toEqual(undefined);
       });

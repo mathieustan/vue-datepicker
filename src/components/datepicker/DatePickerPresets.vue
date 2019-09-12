@@ -42,7 +42,7 @@ export default {
     rangePresets: { type: Array },
     mutableDate: { type: Object },
     minDate: { type: [String, Number, Date] },
-    endDate: { type: [String, Number, Date] },
+    maxDate: { type: [String, Number, Date] },
     color: { type: String },
     locale: { type: Object },
   },
@@ -51,7 +51,7 @@ export default {
       if (!this.rangePresets) return;
       return this.rangePresets.map(preset => ({
         ...preset,
-        availableDates: generateDateRangeWithoutDisabled(preset.dates, this.minDate, this.endDate),
+        availableDates: generateDateRangeWithoutDisabled(preset.dates, this.minDate, this.maxDate),
       })).splice(0, MAX_PRESETS_NUMBER); // Allow a number of presets
     },
   },

@@ -458,7 +458,7 @@
         <!---------------------------------------------------------->
         <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
-            <h3> minDate & endDate </h3>
+            <h3> minDate & maxDate </h3>
             <p><small> Specify min & end date for datepicker </small></p>
           </template>
 
@@ -466,7 +466,7 @@
             <VueDatePicker
               v-model="currentDate"
               :min-date="examples.allowedDates.min"
-              :end-date="examples.allowedDates.max"
+              :max-date="examples.allowedDates.max"
             />
           </template>
 
@@ -477,7 +477,7 @@
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
     <span class="token attr-name">min-date</span>="{{ examples.allowedDates.min }}"
-    <span class="token attr-name">end-date</span>="{{ examples.allowedDates.max }}"
+    <span class="token attr-name">max-date</span>="{{ examples.allowedDates.max }}"
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
@@ -714,7 +714,7 @@
               v-model="examples.month.currentDate"
               type="month"
               :min-date="examples.month.min"
-              :end-date="examples.month.end"
+              :max-date="examples.month.end"
               inline />
           </template>
 
@@ -725,7 +725,7 @@
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="{{ examples.month.currentDate }}"
     <span class="token attr-name">:min-date</span>="{{ examples.month.min }}"
-    <span class="token attr-name">:end-date</span>="{{ examples.month.end }}"
+    <span class="token attr-name">:max-date</span>="{{ examples.month.end }}"
     <span class="token attr-name">type</span>="month"
     <span class="token attr-name">:inline</span>="true"
   <span class="token operator">/></span>
@@ -753,7 +753,7 @@
               v-model="examples.quarter.currentDate"
               type="quarter"
               :min-date="examples.quarter.min"
-              :end-date="examples.quarter.end"
+              :max-date="examples.quarter.end"
               inline
             />
           </template>
@@ -765,7 +765,7 @@
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="{{ examples.quarter.currentDate }}"
     <span class="token attr-name">:min-date</span>="{{ examples.quarter.min }}"
-    <span class="token attr-name">:end-date</span>="{{ examples.quarter.end }}"
+    <span class="token attr-name">:max-date</span>="{{ examples.quarter.end }}"
     <span class="token attr-name">type</span>="quarter"
     <span class="token attr-name">:inline</span>="true"
   <span class="token operator">/></span>
@@ -793,7 +793,7 @@
               v-model="examples.range.dates"
               :name="`Choose dates`"
               :min-date="examples.range.min"
-              :end-date="examples.range.end"
+              :max-date="examples.range.end"
               range
               no-header
               placeholder="Start - End"
@@ -809,7 +809,7 @@
     <span class="token attr-name">v-model</span>="rangeDates"
     <span class="token attr-name">:name</span>="`Choose dates`"
     <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
-    <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
+    <span class="token attr-name">:max-date</span>="{{ examples.range.end }}"
     <span class="token attr-name">placeholder</span>="Start - End"
     <span class="token attr-name">range </span>
     <span class="token attr-name">no-header </span>
@@ -844,7 +844,7 @@
               v-model="examples.range.dates"
               :name="`Choose dates`"
               :min-date="examples.range.min"
-              :end-date="examples.range.end"
+              :max-date="examples.range.end"
               :range-presets="examples.range.presets"
               :range-input-text="examples.range.inputText"
               placeholder="Start - End"
@@ -863,7 +863,7 @@
     <span class="token attr-name">v-model</span>="rangeDates"
     <span class="token attr-name">:name</span>="`Choose dates`"
     <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
-    <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
+    <span class="token attr-name">:max-date</span>="{{ examples.range.end }}"
     <span class="token attr-name">:range-presets</span>="{{ examples.range.presets }}"
     <span class="token attr-name">:range-input-text</span>="{{ examples.range.inputText }}"
     <span class="token attr-name">placeholder</span>="Start - End"
@@ -900,7 +900,7 @@
               v-model="examples.range.dates"
               :name="`Choose dates`"
               :min-date="examples.range.min"
-              :end-date="examples.range.end"
+              :max-date="examples.range.end"
               :range-input-text="examples.range.inputText"
               placeholder="Start - End"
               validate
@@ -919,7 +919,7 @@
     <span class="token attr-name">v-model</span>="rangeDates"
     <span class="token attr-name">:name</span>="`Choose dates`"
     <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
-    <span class="token attr-name">:end-date</span>="{{ examples.range.end }}"
+    <span class="token attr-name">:max-date</span>="{{ examples.range.end }}"
     <span class="token attr-name">:range-input-text</span>="{{ examples.range.inputText }}"
     <span class="token attr-name">placeholder</span>="Start - End"
     <span class="token attr-name">validate </span>
@@ -1174,7 +1174,7 @@ export default {
     },
     onStartDateChange () {
       this.examples.range.showEndDate = true;
-      this.examples.range.endDate = this.examples.range.startDate;
+      this.examples.range.maxDate = this.examples.range.startDate;
     },
   },
 };

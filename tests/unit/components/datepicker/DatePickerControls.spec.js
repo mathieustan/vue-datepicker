@@ -16,7 +16,7 @@ describe('DatePickerControls', () => {
       mode = 'month',
       locale = { lang: 'en' },
       minDate,
-      endDate,
+      maxDate,
     } = {}) =>
       shallowMount(DatePickerControls, {
         propsData: {
@@ -24,7 +24,7 @@ describe('DatePickerControls', () => {
           mode,
           locale,
           minDate,
-          endDate,
+          maxDate,
         },
       });
   });
@@ -62,15 +62,15 @@ describe('DatePickerControls', () => {
     describe('isYearDisabled', () => {
       // current date = dayjs(new Date([2019, 5, 16]))
       it.each([
-        [{ minDate: undefined, endDate: undefined }, false],
-        [{ minDate: '2018-1-1', endDate: '2020-12-31' }, false],
-        [{ minDate: '2020-1-1', endDate: '2020-12-31' }, true],
-        [{ minDate: '2018-1-1', endDate: '2018-12-31' }, true],
+        [{ minDate: undefined, maxDate: undefined }, false],
+        [{ minDate: '2018-1-1', maxDate: '2020-12-31' }, false],
+        [{ minDate: '2020-1-1', maxDate: '2020-12-31' }, true],
+        [{ minDate: '2018-1-1', maxDate: '2018-12-31' }, true],
       ])(
         'when allowed dates = %p, should return %p',
         (allowedDates, expectedResult) => {
-          const { minDate, endDate } = allowedDates;
-          const wrapper = mountComponent({ minDate, endDate });
+          const { minDate, maxDate } = allowedDates;
+          const wrapper = mountComponent({ minDate, maxDate });
           expect(wrapper.vm.isYearDisabled).toEqual(expectedResult);
         }
       );
@@ -79,15 +79,15 @@ describe('DatePickerControls', () => {
     describe('isPreviousDateDisabled', () => {
       // current date = dayjs(new Date([2019, 5, 16]))
       it.each([
-        [{ minDate: undefined, endDate: undefined }, undefined, false],
-        [{ minDate: '2018-1-1', endDate: '2020-12-31' }, 'year', false],
-        [{ minDate: '2020-1-1', endDate: '2020-12-31' }, 'month', false],
-        [{ minDate: '2020-1-1', endDate: '2020-12-31' }, 'year', true],
+        [{ minDate: undefined, maxDate: undefined }, undefined, false],
+        [{ minDate: '2018-1-1', maxDate: '2020-12-31' }, 'year', false],
+        [{ minDate: '2020-1-1', maxDate: '2020-12-31' }, 'month', false],
+        [{ minDate: '2020-1-1', maxDate: '2020-12-31' }, 'year', true],
       ])(
         'when allowed dates = %p and mode = %p, should return %p',
         (allowedDates, mode, expectedResult) => {
-          const { minDate, endDate } = allowedDates;
-          const wrapper = mountComponent({ minDate, endDate, mode });
+          const { minDate, maxDate } = allowedDates;
+          const wrapper = mountComponent({ minDate, maxDate, mode });
           expect(wrapper.vm.isPreviousDateDisabled).toEqual(expectedResult);
         }
       );
@@ -96,15 +96,15 @@ describe('DatePickerControls', () => {
     describe('isNextDateDisabled', () => {
       // current date = dayjs(new Date([2019, 5, 16]))
       it.each([
-        [{ minDate: undefined, endDate: undefined }, undefined, false],
-        [{ minDate: '2018-1-1', endDate: '2020-12-31' }, 'year', false],
-        [{ minDate: '2018-1-1', endDate: '2018-12-31' }, 'month', false],
-        [{ minDate: '2018-1-1', endDate: '2018-12-31' }, 'year', true],
+        [{ minDate: undefined, maxDate: undefined }, undefined, false],
+        [{ minDate: '2018-1-1', maxDate: '2020-12-31' }, 'year', false],
+        [{ minDate: '2018-1-1', maxDate: '2018-12-31' }, 'month', false],
+        [{ minDate: '2018-1-1', maxDate: '2018-12-31' }, 'year', true],
       ])(
         'when allowed dates = %p and mode = %p, should return %p',
         (allowedDates, mode, expectedResult) => {
-          const { minDate, endDate } = allowedDates;
-          const wrapper = mountComponent({ minDate, endDate, mode });
+          const { minDate, maxDate } = allowedDates;
+          const wrapper = mountComponent({ minDate, maxDate, mode });
           expect(wrapper.vm.isNextDateDisabled).toEqual(expectedResult);
         }
       );

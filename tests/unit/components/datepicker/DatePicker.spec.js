@@ -69,7 +69,7 @@ describe('DatePicker', () => {
     expect(wrapper.vm.placeholder).toEqual('YYYY-MM-DD');
     expect(wrapper.vm.color).toEqual('#4f88ff');
     expect(wrapper.vm.minDate).toEqual(undefined);
-    expect(wrapper.vm.endDate).toEqual(undefined);
+    expect(wrapper.vm.maxDate).toEqual(undefined);
     expect(wrapper.vm.disabled).toEqual(false);
     expect(wrapper.vm.inline).toEqual(false);
     expect(wrapper.vm.fullscreenMobile).toEqual(false);

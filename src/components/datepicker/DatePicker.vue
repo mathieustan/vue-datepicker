@@ -47,7 +47,7 @@
       :fullscreen-mobile="fullscreenMobile"
       :color="color"
       :min-date="minDate"
-      :end-date="endDate"
+      :max-date="maxDate"
       :attach-to="attachTo"
       :z-index="zIndex + 1"
       @selectDate="changeDate"
@@ -110,7 +110,7 @@ export default {
     color: { type: String, default: '#4f88ff' },
     // Allowed dates
     minDate: { type: [String, Number, Date] },
-    endDate: { type: [String, Number, Date] },
+    maxDate: { type: [String, Number, Date] },
     // Disabled all datepicker
     disabled: { type: Boolean, default: false },
     // Inline

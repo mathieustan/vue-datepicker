@@ -89,8 +89,8 @@ export default {
     dateFormatted () {
       if (this.range && this.rangeHeaderText) {
         const [startText, endText] = this.rangeHeaderText.split('%d');
-        const [startDate, endDate] = getRangeDatesFormatted(this.mutableDate, this.locale, this.formatHeader).split(' ~ ');
-        return [`${startText.trim()} ${startDate}`, `${endText.trim()} ${endDate}`.trim()];
+        const [startDate, maxDate] = getRangeDatesFormatted(this.mutableDate, this.locale, this.formatHeader).split(' ~ ');
+        return [`${startText.trim()} ${startDate}`, `${endText.trim()} ${maxDate}`.trim()];
       }
       if (!this.mutableDate) return '--';
       return formatDateWithLocale(this.mutableDate, this.locale, this.formatHeader);

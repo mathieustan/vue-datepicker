@@ -81,8 +81,8 @@ export default {
       if (!this.isDateDefined) return;
       if (this.range && this.rangeInputText) {
         const [startText, endText] = this.rangeInputText.split('%d');
-        const [startDate, endDate] = getRangeDatesFormatted(this.date, this.locale, this.format).split(' ~ ');
-        return `${startText.trim()} ${startDate} ${endText.trim()} ${endDate}`.trim();
+        const [startDate, maxDate] = getRangeDatesFormatted(this.date, this.locale, this.format).split(' ~ ');
+        return `${startText.trim()} ${startDate} ${endText.trim()} ${maxDate}`.trim();
       }
 
       // If type is quarter,

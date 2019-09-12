@@ -15,7 +15,7 @@ describe('DatePickerYearMonth', () => {
       mutableDate,
       mode = 'month',
       minDate,
-      endDate,
+      maxDate,
       range,
     } = {}) =>
       shallowMount(DatePickerYearMonth, {
@@ -28,7 +28,7 @@ describe('DatePickerYearMonth', () => {
           isVisible: true,
           showYearMonthSelector: jest.fn(),
           minDate,
-          endDate,
+          maxDate,
           range,
         },
       });
@@ -154,15 +154,15 @@ describe('DatePickerYearMonth', () => {
 
     describe('isYearDisabled', () => {
       it.each([
-        [{ minDate: undefined, endDate: undefined }, 2019, false],
-        [{ minDate: '2018-1-1', endDate: '2020-12-31' }, 2019, false],
-        [{ minDate: '2020-1-1', endDate: '2020-12-31' }, 2019, true],
-        [{ minDate: '2018-1-1', endDate: '2018-12-31' }, 2019, true],
+        [{ minDate: undefined, maxDate: undefined }, 2019, false],
+        [{ minDate: '2018-1-1', maxDate: '2020-12-31' }, 2019, false],
+        [{ minDate: '2020-1-1', maxDate: '2020-12-31' }, 2019, true],
+        [{ minDate: '2018-1-1', maxDate: '2018-12-31' }, 2019, true],
       ])(
         'when allowed dates = %p and year = %p, should return %p',
         (allowedDates, year, expectedResult) => {
-          const { minDate, endDate } = allowedDates;
-          const wrapper = mountComponent({ minDate, endDate, mode: 'year' });
+          const { minDate, maxDate } = allowedDates;
+          const wrapper = mountComponent({ minDate, maxDate, mode: 'year' });
           expect(wrapper.vm.isYearDisabled(year)).toEqual(expectedResult);
         }
       );
@@ -170,23 +170,23 @@ describe('DatePickerYearMonth', () => {
 
     describe('isMonthOrQuarterDisabled', () => {
       it.each([
-        [{ minDate: undefined, endDate: undefined }, 'month', 4, false],
-        [{ minDate: '2019-1', endDate: '2019-3' }, 'month', 0, false],
-        [{ minDate: '2019-1', endDate: '2019-3' }, 'month', 1, false],
-        [{ minDate: '2019-1', endDate: '2019-3' }, 'month', 2, false],
-        [{ minDate: '2019-1', endDate: '2019-3' }, 'month', 3, true],
-        [{ minDate: '2019-1', endDate: '2019-3' }, 'month', 4, true],
-        [{ minDate: '2019-1', endDate: '2019-3' }, 'quarter', 0, false],
-        [{ minDate: '2019-1', endDate: '2019-3' }, 'quarter', 1, false],
-        [{ minDate: '2019-1', endDate: '2019-3' }, 'quarter', 2, false],
-        [{ minDate: '2019-1', endDate: '2019-3' }, 'quarter', 3, true],
-        [{ minDate: '2019-1', endDate: '2019-3' }, 'quarter', 4, true],
-        [{ minDate: '2019-2', endDate: '2019-3' }, 'quarter', 5, true],
+        [{ minDate: undefined, maxDate: undefined }, 'month', 4, false],
+        [{ minDate: '2019-1', maxDate: '2019-3' }, 'month', 0, false],
+        [{ minDate: '2019-1', maxDate: '2019-3' }, 'month', 1, false],
+        [{ minDate: '2019-1', maxDate: '2019-3' }, 'month', 2, false],
+        [{ minDate: '2019-1', maxDate: '2019-3' }, 'month', 3, true],
+        [{ minDate: '2019-1', maxDate: '2019-3' }, 'month', 4, true],
+        [{ minDate: '2019-1', maxDate: '2019-3' }, 'quarter', 0, false],
+        [{ minDate: '2019-1', maxDate: '2019-3' }, 'quarter', 1, false],
+        [{ minDate: '2019-1', maxDate: '2019-3' }, 'quarter', 2, false],
+        [{ minDate: '2019-1', maxDate: '2019-3' }, 'quarter', 3, true],
+        [{ minDate: '2019-1', maxDate: '2019-3' }, 'quarter', 4, true],
+        [{ minDate: '2019-2', maxDate: '2019-3' }, 'quarter', 5, true],
       ])(
         'when allowed dates = %p and mode = %p and monthIndex = %p, should return %p',
         (allowedDates, mode, monthIndex, expectedResult) => {
-          const { minDate, endDate } = allowedDates;
-          const wrapper = mountComponent({ minDate, endDate, mode });
+          const { minDate, maxDate } = allowedDates;
+          const wrapper = mountComponent({ minDate, maxDate, mode });
           expect(wrapper.vm.isMonthOrQuarterDisabled(monthIndex)).toEqual(expectedResult);
         }
       );

@@ -169,7 +169,7 @@ export function formatDateToSend (date, format, range) {
 // - isDateToday : Return Boolean if date is today
 // - areSameDates : Return Boolean if dates are the same
 // - isBeforeDate : Return Boolean if date is before minDate (from props)
-// - isAfterDate : Return Boolean if date is after endDate (from props)
+// - isAfterDate : Return Boolean if date is after maxDate (from props)
 // - isDateAfter : Return Boolean if date are after a specific date
 // -----------------------------------------
 
@@ -200,19 +200,19 @@ export function isAfterDate (date, afterDate, type = 'day') {
   return Boolean(afterDate) && selectedDate.isAfter(dayjs(afterDate).startOf('day'), type);
 }
 
-export function isBetweenDates (date, startDate, endDate) {
-  return isAfterDate(date, startDate) && isBeforeDate(date, endDate);
+export function isBetweenDates (date, startDate, maxDate) {
+  return isAfterDate(date, startDate) && isBeforeDate(date, maxDate);
 }
 
 export function isDateAfter (newDate, oldDate) {
   return dayjs(newDate).isAfter(dayjs(oldDate));
 }
 
-export function generateDateRangeWithoutDisabled ({ start, end }, minDate, endDate) {
+export function generateDateRangeWithoutDisabled ({ start, end }, minDate, maxDate) {
   return generateDateRange(start, end)
     .filter(date =>
       date.isSameOrAfter(minDate, 'day') &&
-      date.isSameOrBefore(dayjs(endDate, 'day')));
+      date.isSameOrBefore(dayjs(maxDate, 'day')));
 }
 
 // -----------------------------------------
@@ -232,9 +232,9 @@ export function initDate (date, { isRange, locale, format }) {
   return date && dayjs(date, format);
 }
 
-export function generateDateRange (startDate, endDate, interval = 'day') {
+export function generateDateRange (startDate, maxDate, interval = 'day') {
   const start = dayjs.isDayjs(startDate) ? startDate : dayjs(startDate);
-  const end = dayjs.isDayjs(endDate) ? endDate : dayjs(endDate);
+  const end = dayjs.isDayjs(maxDate) ? maxDate : dayjs(maxDate);
   const diffBetweenDates = end.diff(start, interval);
   return [...Array(diffBetweenDates + 1).keys()].map(i => start.add(i, interval));
 }

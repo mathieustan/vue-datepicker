@@ -396,7 +396,7 @@ describe('Transactions: Functions', () => {
         ['2018-05-16', '2018-5-17', false],
         ['2018-05-16', '2018-5-15', true],
       ])(
-        'when date = %p, endDate = %p and type = %p, should return %p',
+        'when date = %p, maxDate = %p and type = %p, should return %p',
         (date, anotherDate, expectedResult) => {
           expect(isDateAfter(date, anotherDate)).toEqual(expectedResult);
         }
@@ -444,9 +444,9 @@ describe('Transactions: Functions', () => {
         [{ start: '2018-01-01', end: '2018-01-31' }, '2017-12-01', '2018-01-10', 10],
         [{ start: '2018-01-01', end: '2018-01-31' }, '2019-01-01', '2019-01-31', 0],
       ])(
-        'when dates = %p, minDate = %p, endDate = %p, should return %p date available',
-        (dates, minDate, endDate, expectedResult) => {
-          const ranges = generateDateRangeWithoutDisabled(dates, minDate, endDate);
+        'when dates = %p, minDate = %p, maxDate = %p, should return %p date available',
+        (dates, minDate, maxDate, expectedResult) => {
+          const ranges = generateDateRangeWithoutDisabled(dates, minDate, maxDate);
           expect(ranges.length).toEqual(expectedResult);
         }
       );
@@ -457,9 +457,9 @@ describe('Transactions: Functions', () => {
         ['2019-5-10', '2019-5-14', [...Array(5).keys()].map(day => dayjs(`2019-5-1${day}`))],
         [dayjs('2019-5-10'), dayjs('2019-5-14'), [...Array(5).keys()].map(day => dayjs(`2019-5-1${day}`))],
       ])(
-        'when startDate = %p, endDate = %p, should return %p',
-        (startDate, endDate, expectedResult) => {
-          expect(generateDateRange(startDate, endDate)).toEqual(expectedResult);
+        'when startDate = %p, maxDate = %p, should return %p',
+        (startDate, maxDate, expectedResult) => {
+          expect(generateDateRange(startDate, maxDate)).toEqual(expectedResult);
         }
       );
     });
