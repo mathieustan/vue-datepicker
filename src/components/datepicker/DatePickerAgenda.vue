@@ -349,6 +349,20 @@ export default {
         disableBodyScroll(this.$el.querySelector('.datepicker-year-month'));
       }
     },
+    // When currentHoveredDay change, we need to check
+    // if hovered day is before/after first selected date
+    // Then we swap start / end date according to the result
+    rangeCurrentHoveredDay (newHoveredDay) {
+      if (!newHoveredDay) return;
+
+      // Should update mutableDate if
+      // -> hovered day is before or after current selected date
+      if (isBeforeDate(newHoveredDay, this.mutableDate.start)) {
+        this.mutableDate = { start: undefined, end: this.mutableDate.start };
+      } else if (isAfterDate(newHoveredDay, this.mutableDate.end)) {
+        this.mutableDate = { start: this.mutableDate.end, end: undefined };
+      }
+    },
   },
   methods: {
     setActive () {
@@ -501,14 +515,6 @@ export default {
       if (!isADate || isCurrentHoveredDay) return;
 
       this.rangeCurrentHoveredDay = target.dataset.date;
-
-      // Should update mutableDate if
-      // -> hovered day is before or after current selected date
-      if (isBeforeDate(this.rangeCurrentHoveredDay, this.mutableDate.start)) {
-        this.mutableDate = { start: undefined, end: this.mutableDate.start };
-      } else if (isAfterDate(this.rangeCurrentHoveredDay, this.mutableDate.end)) {
-        this.mutableDate = { start: this.mutableDate.end, end: undefined };
-      }
     },
   },
 };

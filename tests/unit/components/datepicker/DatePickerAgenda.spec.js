@@ -903,6 +903,22 @@ describe('DatePickerAgenda', () => {
         expect(wrapper.vm.rangeCurrentHoveredDay).toEqual('2019-5-16');
         expect(wrapper.vm.mutableDate).toEqual({ start: startDate, end: undefined });
       });
+
+      it('should not mutableDate when hoveredDay is now undefined', () => {
+        const wrapper = mountComponent({ range: true, date: { start: startDate, end: undefined } });
+        wrapper.vm.handleMouseMove({
+          target: {
+            className: 'datepicker-day',
+            tagName: 'BUTTON',
+            dataset: { date: '2019-5-10' },
+          },
+        });
+        expect(wrapper.vm.rangeCurrentHoveredDay).toEqual('2019-5-10');
+        expect(wrapper.vm.mutableDate).toEqual({ start: undefined, end: startDate });
+
+        wrapper.setData({ rangeCurrentHoveredDay: undefined });
+        expect(wrapper.vm.mutableDate).toEqual({ start: undefined, end: startDate });
+      });
     });
   });
 });
