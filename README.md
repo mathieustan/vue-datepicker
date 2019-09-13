@@ -211,7 +211,7 @@ Below, an exemple for `it` language :
 You should have those properties to make it works :
 
 ```javascript
-'name', 'weekdays', 'weekdaysShort', 'weekdaysMin', 'weekStart', 'months', 'monthsShort', 'ordinal', 'formats',
+'name', 'weekdays', 'weekdaysShort', 'weekdaysMin', 'weekStart', 'months', 'monthsShort', 'ordinal', 'formats', 'buttonCancel', 'buttonValidate', 'rangeHeaderText'
 ```
 
 ```html
@@ -239,6 +239,9 @@ const locale = {
       LLLL: 'dddd D MMMM YYYY HH:mm',
     },
     ordinal: n => `${n}º`,
+    buttonCancel: 'Annulla',
+    buttonValidate: 'Ok',
+    rangeHeaderText: 'Dalle %d Alle 13',
   },
 };
 
