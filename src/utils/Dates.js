@@ -72,7 +72,7 @@ function isValidLocale (lang = {}) {
     properties.every(property => DEFAULT_LOCALE_PROPERTIES.includes(property));
 }
 
-function getLocale (lang) {
+export function getLocale (lang) {
   return isValidLocale(lang) ? lang : locales[lang] || locales.en;
 }
 

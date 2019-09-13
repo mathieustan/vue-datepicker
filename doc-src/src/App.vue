@@ -550,7 +550,9 @@
           <template v-slot:example>
             <VueDatePicker
               v-model="currentDate"
-              :locale="{ lang: examples.locale.selectedLang }" />
+              :locale="{ lang: examples.locale.selectedLang }"
+              validate
+            />
           </template>
 
           <template v-slot:code>
@@ -560,6 +562,7 @@
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
     <span class="token attr-name">:locale</span>="{ lang: {{ examples.locale.selectedLang }} }"
+    <span class="token attr-name">validate </span>
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
@@ -583,7 +586,9 @@
           <template v-slot:example>
             <VueDatePicker
               v-model="currentDate"
-              :locale="{ lang: examples.locale.customLang }" />
+              :locale="{ lang: examples.locale.customLang }"
+              validate
+            />
           </template>
 
           <template v-slot:code>
@@ -593,6 +598,7 @@
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
     <span class="token attr-name">:locale</span>="{ lang: {{ examples.locale.customLang }} }"
+    <span class="token attr-name">validate</span>
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
@@ -800,7 +806,6 @@
               :min-date="examples.range.min"
               :max-date="examples.range.end"
               range
-              no-header
               placeholder="Start - End"
               fullscreen-mobile
             />
@@ -817,7 +822,6 @@
     <span class="token attr-name">:max-date</span>="{{ examples.range.end }}"
     <span class="token attr-name">placeholder</span>="Start - End"
     <span class="token attr-name">range </span>
-    <span class="token attr-name">no-header </span>
     <span class="token attr-name">fullscreen-mobile </span>
   <span class="token operator">/></span>
   ...
@@ -1088,7 +1092,7 @@ export default {
       },
       locale: {
         selectedLang: 'de',
-        langs: ['es', 'en', 'fr', 'de'],
+        langs: ['es', 'en', 'fr', 'de', 'he'],
         customLang: {
           name: 'it',
           weekdays: 'domenica_lunedì_martedì_mercoledì_giovedì_venerdì_sabato'.split('_'),
@@ -1104,6 +1108,9 @@ export default {
             LLL: 'D MMMM YYYY HH:mm',
             LLLL: 'dddd D MMMM YYYY HH:mm',
           },
+          buttonCancel: 'Annulla',
+          buttonValidate: 'Ok',
+          rangeHeaderText: 'Dalle %d Alle 13',
           ordinal: n => `${n}º`,
         },
       },

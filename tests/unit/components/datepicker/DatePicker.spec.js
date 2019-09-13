@@ -34,24 +34,32 @@ describe('DatePicker', () => {
       id,
       value,
       disabled = false,
+      locale,
       format,
       formatHeader,
       formatOutput,
       type = 'date',
       range,
       validate,
+      buttonCancel,
+      buttonValidate,
+      rangeHeaderText,
     } = {}) =>
       shallowMount(DatePicker, {
         propsData: {
           id,
           value,
           disabled,
+          locale,
           format,
           formatHeader,
           formatOutput,
           type,
           range,
           validate,
+          buttonCancel,
+          buttonValidate,
+          rangeHeaderText,
         },
       });
   });
@@ -113,6 +121,34 @@ describe('DatePicker', () => {
       ])('when format equal %p, should return %p', (formatOutput, expectedResult) => {
         const wrapper = mountComponent({ formatOutput });
         expect(wrapper.vm.outputFormat).toEqual(expectedResult);
+      });
+    });
+
+    describe('textsFormat', () => {
+      it.each([
+        [{}, {
+          buttonValidate: 'Ok',
+          buttonCancel: 'Cancel',
+          rangeHeaderText: 'From %d To %d',
+        }],
+        [{ locale: { lang: 'fr' } }, {
+          buttonValidate: 'Ok',
+          buttonCancel: 'Annuler',
+          rangeHeaderText: 'Du %d Au %d',
+        }],
+        [{ buttonValidate: 'Validate', buttonCancel: 'Cancel', rangeHeaderText: 'Test %d Test %d' }, {
+          buttonValidate: 'Validate',
+          buttonCancel: 'Cancel',
+          rangeHeaderText: 'Test %d Test %d',
+        }],
+        [{ locale: { lang: 'toto' } }, {
+          buttonValidate: 'Ok',
+          buttonCancel: 'Cancel',
+          rangeHeaderText: 'From %d To %d',
+        }],
+      ])('when props equal %p, should return %p', (props, expectedResult) => {
+        const wrapper = mountComponent(props);
+        expect(wrapper.vm.textsFormat).toEqual(expectedResult);
       });
     });
   });

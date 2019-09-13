@@ -15,6 +15,9 @@ const localeObject = {
     LLL: 'D MMMM YYYY HH:mm',
     LLLL: 'dddd D MMMM YYYY HH:mm',
   },
+  buttonValidate: 'Ok',
+  buttonCancel: 'Annuler',
+  rangeHeaderText: 'Du %d Au %d',
 };
 
 export default localeObject;

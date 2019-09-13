@@ -19,6 +19,9 @@ const localeObject = {
     const v = n % 100;
     return `[${n}${(s[(v - 20) % 10] || s[v] || s[0])}]`;
   },
+  buttonValidate: 'Ok',
+  buttonCancel: 'Cancel',
+  rangeHeaderText: 'From %d To %d',
 };
 
 export default localeObject;

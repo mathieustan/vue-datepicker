@@ -360,7 +360,10 @@ var localeObject = {
     var s = ['th', 'st', 'nd', 'rd'];
     var v = n % 100;
     return "[".concat(n).concat(s[(v - 20) % 10] || s[v] || s[0], "]");
-  }
+  },
+  buttonValidate: 'Ok',
+  buttonCancel: 'Cancel',
+  rangeHeaderText: 'From %d To %d'
 };
 
 var localeObject$1 = {
@@ -381,7 +384,10 @@ var localeObject$1 = {
     LL: 'D MMMM YYYY',
     LLL: 'D MMMM YYYY HH:mm',
     LLLL: 'dddd D MMMM YYYY HH:mm'
-  }
+  },
+  buttonValidate: 'Ok',
+  buttonCancel: 'Annuler',
+  rangeHeaderText: 'Du %d Au %d'
 };
 
 var localeObject$2 = {
@@ -402,13 +408,16 @@ var localeObject$2 = {
   },
   ordinal: function ordinal(n) {
     return "".concat(n, "\xBA");
-  }
+  },
+  buttonValidate: 'Ok',
+  buttonCancel: 'Anular',
+  rangeHeaderText: 'Del %d Al %d'
 };
 
 var localeObject$3 = {
   name: 'de',
   weekdays: 'Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag'.split('_'),
-  weekdaysShort: 'So_Mo_Di_Mi_Do_Fr_Sa'.split('_'),
+  weekdaysShort: 'So._Mo._Di._Mi._Do._Fr._Sa.'.split('_'),
   months: 'Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember'.split('_'),
   monthsShort: 'Jan._Feb._März_Apr._Mai_Juni_Juli_Aug._Sep._Okt._Nov._Dez.'.split('_'),
   ordinal: function ordinal(n) {
@@ -422,7 +431,10 @@ var localeObject$3 = {
     LL: 'D. MMMM YYYY',
     LLL: 'D. MMMM YYYY HH:mm',
     LLLL: 'dddd, D. MMMM YYYY HH:mm'
-  }
+  },
+  buttonValidate: 'Ok',
+  buttonCancel: 'Abbrechen',
+  rangeHeaderText: 'Vom %d Bis %d'
 };
 
 var localeObject$4 = {
@@ -435,18 +447,6 @@ var localeObject$4 = {
   ordinal: function ordinal(n) {
     return n;
   },
-  format: {
-    LT: 'HH:mm',
-    LTS: 'HH:mm:ss',
-    L: 'DD/MM/YYYY',
-    LL: 'D [ב]MMMM YYYY',
-    LLL: 'D [ב]MMMM YYYY HH:mm',
-    LLLL: 'dddd, D [ב]MMMM YYYY HH:mm',
-    l: 'D/M/YYYY',
-    ll: 'D MMM YYYY',
-    lll: 'D MMM YYYY HH:mm',
-    llll: 'ddd, D MMM YYYY HH:mm'
-  },
   formats: {
     LT: 'HH:mm',
     LTS: 'HH:mm:ss',
@@ -458,7 +458,10 @@ var localeObject$4 = {
     ll: 'D MMM YYYY',
     lll: 'D MMM YYYY HH:mm',
     llll: 'ddd, D MMM YYYY HH:mm'
-  }
+  },
+  buttonValidate: 'אישור',
+  buttonCancel: 'ביטול',
+  rangeHeaderText: 'מתאריך %d עד תאריך %d'
 };
 
 
@@ -471,7 +474,7 @@ var locales = /*#__PURE__*/Object.freeze({
   he: localeObject$4
 });
 
-var DEFAULT_LOCALE_PROPERTIES = ['name', 'weekdays', 'weekdaysShort', 'weekdaysMin', 'weekStart', 'months', 'monthsShort', 'ordinal', 'formats'];
+var DEFAULT_LOCALE_PROPERTIES = ['name', 'weekdays', 'weekdaysShort', 'weekdaysMin', 'weekStart', 'months', 'monthsShort', 'ordinal', 'formats', 'buttonCancel', 'buttonValidate', 'rangeHeaderText'];
 var DEFAULT_INPUT_DATE_FORMAT = {
   date: 'DD MMMM YYYY',
   month: 'MMMM YYYY',
@@ -496,6 +499,7 @@ var AVAILABLE_YEARS = {
 };
 var yearMonthSelectorTypes = ['month', 'quarter', 'year'];
 var MAX_PRESETS_NUMBER = 6;
+var DATE_HEADER_REGEX = /(%d)+/;
 
 dayjs.extend(weekday);
 dayjs.extend(weekOfYear);
@@ -583,7 +587,6 @@ function isValidLocale() {
 function getLocale(lang) {
   return isValidLocale(lang) ? lang : locales[lang] || localeObject;
 }
-
 function getDefaultLocale() {
   return (window.navigator.userLanguage || window.navigator.language || 'en').substr(0, 2);
 }
@@ -842,17 +845,12 @@ var script$1 = {
       if (!this.isDateDefined) { return; }
 
       if (this.range && this.rangeInputText) {
-        var _this$rangeInputText$ = this.rangeInputText.split('%d'),
-            _this$rangeInputText$2 = slicedToArray(_this$rangeInputText$, 2),
-            startText = _this$rangeInputText$2[0],
-            endText = _this$rangeInputText$2[1];
-
         var _getRangeDatesFormatt = getRangeDatesFormatted(this.date, this.locale, this.format).split(' ~ '),
             _getRangeDatesFormatt2 = slicedToArray(_getRangeDatesFormatt, 2),
             startDate = _getRangeDatesFormatt2[0],
-            maxDate = _getRangeDatesFormatt2[1];
+            endDate = _getRangeDatesFormatt2[1];
 
-        return "".concat(startText.trim(), " ").concat(startDate, " ").concat(endText.trim(), " ").concat(maxDate).trim();
+        return this.rangeInputText.replace(DATE_HEADER_REGEX, "".concat(startDate)).replace(DATE_HEADER_REGEX, "".concat(endDate));
       } // If type is quarter,
       // We need to convert this quarter date, to a monthly date
       // because dayjs will transform a monthly date to quarter date only
@@ -876,11 +874,11 @@ var __vue_staticRenderFns__$1 = [];
   /* style */
   var __vue_inject_styles__$1 = function (inject) {
     if (!inject) { return }
-    inject("data-v-2f51fd5a_0", { source: "button[data-v-2f51fd5a]{border:none;margin:0;padding:0;width:auto;overflow:visible;background:0 0;color:inherit;font:inherit;line-height:normal;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-appearance:none}button[data-v-2f51fd5a]:active,button[data-v-2f51fd5a]:focus{outline:0;box-shadow:0}button[role=button][data-v-2f51fd5a],button[type=button][data-v-2f51fd5a],button[type=reset][data-v-2f51fd5a],button[type=submit][data-v-2f51fd5a]{cursor:pointer}.datepicker-input[data-v-2f51fd5a]{position:relative;display:flex;flex-direction:row;justify-content:flex-start;align-items:center}.datepicker-input--disabled[data-v-2f51fd5a]{cursor:not-allowed}.datepicker-container--rtl .datepicker-input[data-v-2f51fd5a]{direction:rtl}.datepicker-container--rtl .datepicker-input button[data-v-2f51fd5a],.datepicker-container--rtl .datepicker-input input[type=text][data-v-2f51fd5a]{margin:0 8px 0 0}input[type=hidden][data-v-2f51fd5a]{position:absolute;bottom:0;left:50%;height:1px;width:1px;border:0;clip:rect(0 0 0 0);margin:-1px;padding:0;outline:0;-webkit-appearance:none;overflow:hidden}input[type=text][data-v-2f51fd5a]{cursor:pointer;border:none;box-shadow:none;outline:0;font-size:16px;line-height:19px;margin-left:8px;font-family:inherit;background:0 0}input[type=text][data-v-2f51fd5a]:active,input[type=text][data-v-2f51fd5a]:focus{outline:0;box-shadow:none}input[type=text][data-v-2f51fd5a]:disabled,input[type=text][disabled][data-v-2f51fd5a]{cursor:not-allowed}input[type=text].placeholder[data-v-2f51fd5a]{color:rgba(0,0,0,.4)}input[type=text][data-v-2f51fd5a]::placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-2f51fd5a]:-moz-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-2f51fd5a]::-moz-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-2f51fd5a]:-ms-input-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-2f51fd5a]::-webkit-input-placeholder{color:rgba(0,0,0,.4)}.datepicker-input--range input[type=text][data-v-2f51fd5a]{min-width:310px}button[data-v-2f51fd5a]{font-size:16px;line-height:19px;margin-left:8px}", map: undefined, media: undefined });
+    inject("data-v-7bd5e3fc_0", { source: "button[data-v-7bd5e3fc]{border:none;margin:0;padding:0;width:auto;overflow:visible;background:0 0;color:inherit;font:inherit;line-height:normal;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-appearance:none}button[data-v-7bd5e3fc]:active,button[data-v-7bd5e3fc]:focus{outline:0;box-shadow:0}button[role=button][data-v-7bd5e3fc],button[type=button][data-v-7bd5e3fc],button[type=reset][data-v-7bd5e3fc],button[type=submit][data-v-7bd5e3fc]{cursor:pointer}.datepicker-input[data-v-7bd5e3fc]{position:relative;display:flex;flex-direction:row;justify-content:flex-start;align-items:center}.datepicker-input--disabled[data-v-7bd5e3fc]{cursor:not-allowed}.datepicker-container--rtl .datepicker-input[data-v-7bd5e3fc]{direction:rtl}.datepicker-container--rtl .datepicker-input button[data-v-7bd5e3fc],.datepicker-container--rtl .datepicker-input input[type=text][data-v-7bd5e3fc]{margin:0 8px 0 0}input[type=hidden][data-v-7bd5e3fc]{position:absolute;bottom:0;left:50%;height:1px;width:1px;border:0;clip:rect(0 0 0 0);margin:-1px;padding:0;outline:0;-webkit-appearance:none;overflow:hidden}input[type=text][data-v-7bd5e3fc]{cursor:pointer;border:none;box-shadow:none;outline:0;font-size:16px;line-height:19px;margin-left:8px;font-family:inherit;background:0 0}input[type=text][data-v-7bd5e3fc]:active,input[type=text][data-v-7bd5e3fc]:focus{outline:0;box-shadow:none}input[type=text][data-v-7bd5e3fc]:disabled,input[type=text][disabled][data-v-7bd5e3fc]{cursor:not-allowed}input[type=text].placeholder[data-v-7bd5e3fc]{color:rgba(0,0,0,.4)}input[type=text][data-v-7bd5e3fc]::placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-7bd5e3fc]:-moz-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-7bd5e3fc]::-moz-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-7bd5e3fc]:-ms-input-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-7bd5e3fc]::-webkit-input-placeholder{color:rgba(0,0,0,.4)}.datepicker-input--range input[type=text][data-v-7bd5e3fc]{min-width:310px}button[data-v-7bd5e3fc]{font-size:16px;line-height:19px;margin-left:8px}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  var __vue_scope_id__$1 = "data-v-2f51fd5a";
+  var __vue_scope_id__$1 = "data-v-7bd5e3fc";
   /* module identifier */
   var __vue_module_identifier__$1 = undefined;
   /* functional template */
@@ -2429,17 +2427,17 @@ var script$3 = {
     },
     dateFormatted: function dateFormatted() {
       if (this.range && this.rangeHeaderText) {
-        var _this$rangeHeaderText = this.rangeHeaderText.split('%d'),
-            _this$rangeHeaderText2 = slicedToArray(_this$rangeHeaderText, 2),
-            startText = _this$rangeHeaderText2[0],
-            endText = _this$rangeHeaderText2[1];
-
         var _getRangeDatesFormatt = getRangeDatesFormatted(this.mutableDate, this.locale, this.formatHeader).split(' ~ '),
             _getRangeDatesFormatt2 = slicedToArray(_getRangeDatesFormatt, 2),
             startDate = _getRangeDatesFormatt2[0],
-            maxDate = _getRangeDatesFormatt2[1];
+            endDate = _getRangeDatesFormatt2[1];
 
-        return ["".concat(startText.trim(), " ").concat(startDate), "".concat(endText.trim(), " ").concat(maxDate).trim()];
+        var _this$rangeHeaderText = this.rangeHeaderText.replace(DATE_HEADER_REGEX, "".concat(startDate, "|")).replace(DATE_HEADER_REGEX, "".concat(endDate, "|")).split('|'),
+            _this$rangeHeaderText2 = slicedToArray(_this$rangeHeaderText, 2),
+            fromText = _this$rangeHeaderText2[0],
+            toText = _this$rangeHeaderText2[1];
+
+        return [fromText.trim(), toText.trim()];
       }
 
       if (!this.mutableDate) { return '--'; }
@@ -2458,11 +2456,11 @@ var __vue_staticRenderFns__$3 = [];
   /* style */
   var __vue_inject_styles__$3 = function (inject) {
     if (!inject) { return }
-    inject("data-v-6cca859e_0", { source: ".slide-h-next-enter-active[data-v-6cca859e],.slide-h-next-leave-active[data-v-6cca859e],.slide-h-prev-enter-active[data-v-6cca859e],.slide-h-prev-leave-active[data-v-6cca859e]{position:absolute;transition:transform .3s,opacity .3s}.slide-h-next-enter[data-v-6cca859e],.slide-h-prev-leave-to[data-v-6cca859e]{transform:translateX(100%);opacity:0}.slide-h-next-leave-to[data-v-6cca859e],.slide-h-prev-enter[data-v-6cca859e]{transform:translateX(-100%);opacity:0}.datepicker--rtl .slide-h-next-enter[data-v-6cca859e],.datepicker--rtl .slide-h-prev-leave-to[data-v-6cca859e]{transform:translateX(-100%)}.datepicker--rtl .slide-h-next-leave-to[data-v-6cca859e],.datepicker--rtl .slide-h-prev-enter[data-v-6cca859e]{transform:translateX(100%)}.slide-v-next-enter-active[data-v-6cca859e],.slide-v-next-leave-active[data-v-6cca859e],.slide-v-prev-enter-active[data-v-6cca859e],.slide-v-prev-leave-active[data-v-6cca859e]{position:absolute;transition:transform .3s,opacity .3s}.slide-v-next-enter[data-v-6cca859e],.slide-v-prev-leave-to[data-v-6cca859e]{transform:translateY(100%);opacity:0}.slide-v-next-leave-to[data-v-6cca859e],.slide-v-prev-enter[data-v-6cca859e]{transform:translateY(-100%);opacity:0}.yearMonth-enter-active[data-v-6cca859e],.yearMonth-leave-active[data-v-6cca859e]{position:absolute;transition:opacity .3s}.yearMonth-enter[data-v-6cca859e],.yearMonth-leave-to[data-v-6cca859e]{opacity:0}.datepicker-header[data-v-6cca859e]{color:#fff;padding:16px;display:flex;justify-content:space-between;flex-direction:column;flex-wrap:wrap;line-height:1;min-height:80px;max-height:80px;border-radius:6px 6px 0 0}.datepicker--rtl .datepicker-header[data-v-6cca859e]{direction:rtl}@media only screen and (min-width:768px){.datepicker-header[data-v-6cca859e]{min-height:85px;max-height:85px}}.datepicker-header--range .datepicker-header__wrap[data-v-6cca859e]{flex:1 1 auto;flex-direction:column;justify-content:space-between}.datepicker-header--range .datepicker-header__date[data-v-6cca859e]{font-size:18px;height:calc(18px + 8px)}@media only screen and (min-width:768px){.datepicker-header--range .datepicker-header__date[data-v-6cca859e]{font-size:22px;height:calc(22px + 8px)}}.datepicker-header__year[data-v-6cca859e]{align-items:center;display:inline-flex;font-size:14px;margin-bottom:8px;opacity:.6;transition:opacity .3s}.datepicker-header__year[data-v-6cca859e]:focus:not(.datepicker-header__year--active),.datepicker-header__year[data-v-6cca859e]:hover:not(.datepicker-header__year--active){cursor:pointer;opacity:1}.datepicker-header__year--active[data-v-6cca859e]{opacity:1;cursor:default}.datepicker-header__wrap[data-v-6cca859e]{position:relative;display:flex;width:100%}.datepicker-header__date[data-v-6cca859e]{position:relative;display:flex;width:100%;font-size:22px;height:calc(22px + 8px);text-align:left;overflow:hidden;padding-bottom:8px;margin-bottom:-8px;opacity:.6;transition:opacity .3s}.datepicker-header__date[data-v-6cca859e]:focus:not(.datepicker-header__date--active),.datepicker-header__date[data-v-6cca859e]:hover:not(.datepicker-header__date--active){cursor:pointer;opacity:1}.datepicker-header__date--active[data-v-6cca859e]{opacity:1;cursor:default}@media only screen and (min-width:768px){.datepicker-header__date[data-v-6cca859e]{font-size:24px;height:calc(24px + 8px)}}", map: undefined, media: undefined });
+    inject("data-v-00cb1311_0", { source: ".slide-h-next-enter-active[data-v-00cb1311],.slide-h-next-leave-active[data-v-00cb1311],.slide-h-prev-enter-active[data-v-00cb1311],.slide-h-prev-leave-active[data-v-00cb1311]{position:absolute;transition:transform .3s,opacity .3s}.slide-h-next-enter[data-v-00cb1311],.slide-h-prev-leave-to[data-v-00cb1311]{transform:translateX(100%);opacity:0}.slide-h-next-leave-to[data-v-00cb1311],.slide-h-prev-enter[data-v-00cb1311]{transform:translateX(-100%);opacity:0}.datepicker--rtl .slide-h-next-enter[data-v-00cb1311],.datepicker--rtl .slide-h-prev-leave-to[data-v-00cb1311]{transform:translateX(-100%)}.datepicker--rtl .slide-h-next-leave-to[data-v-00cb1311],.datepicker--rtl .slide-h-prev-enter[data-v-00cb1311]{transform:translateX(100%)}.slide-v-next-enter-active[data-v-00cb1311],.slide-v-next-leave-active[data-v-00cb1311],.slide-v-prev-enter-active[data-v-00cb1311],.slide-v-prev-leave-active[data-v-00cb1311]{position:absolute;transition:transform .3s,opacity .3s}.slide-v-next-enter[data-v-00cb1311],.slide-v-prev-leave-to[data-v-00cb1311]{transform:translateY(100%);opacity:0}.slide-v-next-leave-to[data-v-00cb1311],.slide-v-prev-enter[data-v-00cb1311]{transform:translateY(-100%);opacity:0}.yearMonth-enter-active[data-v-00cb1311],.yearMonth-leave-active[data-v-00cb1311]{position:absolute;transition:opacity .3s}.yearMonth-enter[data-v-00cb1311],.yearMonth-leave-to[data-v-00cb1311]{opacity:0}.datepicker-header[data-v-00cb1311]{color:#fff;padding:16px;display:flex;justify-content:space-between;flex-direction:column;flex-wrap:wrap;line-height:1;min-height:80px;max-height:80px;border-radius:6px 6px 0 0}.datepicker--rtl .datepicker-header[data-v-00cb1311]{direction:rtl}@media only screen and (min-width:768px){.datepicker-header[data-v-00cb1311]{min-height:85px;max-height:85px}}.datepicker-header--range .datepicker-header__wrap[data-v-00cb1311]{flex:1 1 auto;flex-direction:column;justify-content:space-between}.datepicker-header--range .datepicker-header__date[data-v-00cb1311]{font-size:18px;height:calc(18px + 8px)}@media only screen and (min-width:768px){.datepicker-header--range .datepicker-header__date[data-v-00cb1311]{font-size:22px;height:calc(22px + 8px)}}.datepicker-header__year[data-v-00cb1311]{align-items:center;display:inline-flex;font-size:14px;margin-bottom:8px;opacity:.6;transition:opacity .3s}.datepicker-header__year[data-v-00cb1311]:focus:not(.datepicker-header__year--active),.datepicker-header__year[data-v-00cb1311]:hover:not(.datepicker-header__year--active){cursor:pointer;opacity:1}.datepicker-header__year--active[data-v-00cb1311]{opacity:1;cursor:default}.datepicker-header__wrap[data-v-00cb1311]{position:relative;display:flex;width:100%}.datepicker-header__date[data-v-00cb1311]{position:relative;display:flex;width:100%;font-size:22px;height:calc(22px + 8px);text-align:left;overflow:hidden;padding-bottom:8px;margin-bottom:-8px;opacity:.6;transition:opacity .3s}.datepicker-header__date[data-v-00cb1311]:focus:not(.datepicker-header__date--active),.datepicker-header__date[data-v-00cb1311]:hover:not(.datepicker-header__date--active){cursor:pointer;opacity:1}.datepicker-header__date--active[data-v-00cb1311]{opacity:1;cursor:default}@media only screen and (min-width:768px){.datepicker-header__date[data-v-00cb1311]{font-size:24px;height:calc(24px + 8px)}}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  var __vue_scope_id__$3 = "data-v-6cca859e";
+  var __vue_scope_id__$3 = "data-v-00cb1311";
   /* module identifier */
   var __vue_module_identifier__$3 = undefined;
   /* functional template */
@@ -4108,11 +4106,11 @@ var script$9 = {
     },
     buttonValidate: {
       type: String,
-      default: 'Ok'
+      default: undefined
     },
     buttonCancel: {
       type: String,
-      default: 'Cancel'
+      default: undefined
     },
     // type (date, month, quarter, year picker)
     type: {
@@ -4130,7 +4128,7 @@ var script$9 = {
     },
     rangeHeaderText: {
       type: String,
-      default: 'From %d To %d'
+      default: undefined
     },
     rangePresets: {
       type: Array,
@@ -4258,6 +4256,18 @@ var script$9 = {
       if (!this.formatOutput) { return getDefaultOutputFormat(this.range ? 'range' : this.type); }
       return this.formatOutput;
     },
+    textsFormat: function textsFormat() {
+      var _getLocale = getLocale(this.locale.lang),
+          buttonValidate = _getLocale.buttonValidate,
+          buttonCancel = _getLocale.buttonCancel,
+          rangeHeaderText = _getLocale.rangeHeaderText;
+
+      return {
+        buttonValidate: this.buttonValidate || buttonValidate,
+        buttonCancel: this.buttonCancel || buttonCancel,
+        rangeHeaderText: this.rangeHeaderText || rangeHeaderText
+      };
+    },
     dateFormatted: function dateFormatted() {
       return initDate(this.value, {
         isRange: this.range,
@@ -4336,18 +4346,18 @@ var script$9 = {
 var __vue_render__$9 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker-container",class:{
     'datepicker-container--active': _vm.isVisible,
     'datepicker-container--rtl': _vm.rtl,
-  }},[(!_vm.inline)?_c('DatePickerCustomInput',{attrs:{"id":_vm.componentId,"name":_vm.name,"date":_vm.dateFormatted,"type":_vm.type,"format":_vm.inputFormat,"range":_vm.range,"range-input-text":_vm.rangeInputText,"locale":_vm.locale,"placeholder":_vm.placeholder,"color":_vm.color,"disabled":_vm.disabled,"tabindex":_vm.tabindex,"no-input":_vm.noInput},on:{"toggleDatepicker":_vm.toggleDatepicker,"focus":_vm.showDatePicker}}):_vm._e(),_vm._v(" "),_c('DatePickerOverlay',{attrs:{"isVisible":_vm.isVisible,"fullscreen-mobile":_vm.fullscreenMobile,"attach-to":_vm.attachTo,"z-index":_vm.zIndex},on:{"close":_vm.hideDatePicker}}),_vm._v(" "),_c('DatepickerAgenda',{attrs:{"name":_vm.name,"isVisible":_vm.isVisible,"date":_vm.date,"type":_vm.type,"validate":_vm.validate,"button-cancel":_vm.buttonCancel,"button-validate":_vm.buttonValidate,"range":_vm.range,"range-header-text":_vm.rangeHeaderText,"range-presets":_vm.rangePresets,"format-header":_vm.headerFormat,"rtl":_vm.rtl,"locale":_vm.locale,"no-header":_vm.noHeader,"inline":_vm.inline,"fixed":_vm.fixed,"fullscreen-mobile":_vm.fullscreenMobile,"color":_vm.color,"min-date":_vm.minDate,"max-date":_vm.maxDate,"attach-to":_vm.attachTo,"z-index":_vm.zIndex + 1},on:{"selectDate":_vm.changeDate,"validateDate":_vm.validateDate,"close":_vm.hideDatePicker}})],1)};
+  }},[(!_vm.inline)?_c('DatePickerCustomInput',{attrs:{"id":_vm.componentId,"name":_vm.name,"date":_vm.dateFormatted,"type":_vm.type,"format":_vm.inputFormat,"range":_vm.range,"range-input-text":_vm.rangeInputText,"locale":_vm.locale,"placeholder":_vm.placeholder,"color":_vm.color,"disabled":_vm.disabled,"tabindex":_vm.tabindex,"no-input":_vm.noInput},on:{"toggleDatepicker":_vm.toggleDatepicker,"focus":_vm.showDatePicker}}):_vm._e(),_vm._v(" "),_c('DatePickerOverlay',{attrs:{"isVisible":_vm.isVisible,"fullscreen-mobile":_vm.fullscreenMobile,"attach-to":_vm.attachTo,"z-index":_vm.zIndex},on:{"close":_vm.hideDatePicker}}),_vm._v(" "),_c('DatepickerAgenda',{attrs:{"name":_vm.name,"isVisible":_vm.isVisible,"date":_vm.date,"type":_vm.type,"validate":_vm.validate,"button-cancel":_vm.textsFormat.buttonCancel,"button-validate":_vm.textsFormat.buttonValidate,"range":_vm.range,"range-header-text":_vm.textsFormat.rangeHeaderText,"range-presets":_vm.rangePresets,"format-header":_vm.headerFormat,"rtl":_vm.rtl,"locale":_vm.locale,"no-header":_vm.noHeader,"inline":_vm.inline,"fixed":_vm.fixed,"fullscreen-mobile":_vm.fullscreenMobile,"color":_vm.color,"min-date":_vm.minDate,"max-date":_vm.maxDate,"attach-to":_vm.attachTo,"z-index":_vm.zIndex + 1},on:{"selectDate":_vm.changeDate,"validateDate":_vm.validateDate,"close":_vm.hideDatePicker}})],1)};
 var __vue_staticRenderFns__$9 = [];
 
   /* style */
   var __vue_inject_styles__$9 = function (inject) {
     if (!inject) { return }
-    inject("data-v-18722d26_0", { source: ".datepicker-container *,.datepicker-container ::after,.datepicker-container ::before{box-sizing:border-box}", map: undefined, media: undefined })
-,inject("data-v-18722d26_1", { source: ".datepicker-container[data-v-18722d26]{position:relative;display:flex;flex-direction:row;align-items:center;width:auto;cursor:pointer;box-sizing:border-box}.datepicker-container[data-v-18722d26]:active,.datepicker-container[data-v-18722d26]:focus{outline:0}", map: undefined, media: undefined });
+    inject("data-v-4e50e478_0", { source: ".datepicker-container *,.datepicker-container ::after,.datepicker-container ::before{box-sizing:border-box}", map: undefined, media: undefined })
+,inject("data-v-4e50e478_1", { source: ".datepicker-container[data-v-4e50e478]{position:relative;display:flex;flex-direction:row;align-items:center;width:auto;cursor:pointer;box-sizing:border-box}.datepicker-container[data-v-4e50e478]:active,.datepicker-container[data-v-4e50e478]:focus{outline:0}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  var __vue_scope_id__$9 = "data-v-18722d26";
+  var __vue_scope_id__$9 = "data-v-4e50e478";
   /* module identifier */
   var __vue_module_identifier__$9 = undefined;
   /* functional template */

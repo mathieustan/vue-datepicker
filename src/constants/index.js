@@ -8,6 +8,9 @@ export const DEFAULT_LOCALE_PROPERTIES = [
   'monthsShort',
   'ordinal',
   'formats',
+  'buttonCancel',
+  'buttonValidate',
+  'rangeHeaderText',
 ];
 
 export const DEFAULT_INPUT_DATE_FORMAT = {
@@ -35,6 +38,9 @@ export const AVAILABLE_YEARS = {
   min: 1900,
   max: 3000,
 };
+
 export const yearMonthSelectorTypes = ['month', 'quarter', 'year'];
 
 export const MAX_PRESETS_NUMBER = 6;
+
+export const DATE_HEADER_REGEX = /(%d)+/;

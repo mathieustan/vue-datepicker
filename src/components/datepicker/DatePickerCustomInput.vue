@@ -45,6 +45,9 @@ import {
   convertQuarterToMonth,
 } from '../../utils/Dates';
 
+// constants
+import { DATE_HEADER_REGEX } from '../../constants';
+
 export default {
   name: 'DatePickerCustomInput',
   mixins: [colorable],
@@ -80,9 +83,10 @@ export default {
     dateFormatted () {
       if (!this.isDateDefined) return;
       if (this.range && this.rangeInputText) {
-        const [startText, endText] = this.rangeInputText.split('%d');
-        const [startDate, maxDate] = getRangeDatesFormatted(this.date, this.locale, this.format).split(' ~ ');
-        return `${startText.trim()} ${startDate} ${endText.trim()} ${maxDate}`.trim();
+        const [startDate, endDate] = getRangeDatesFormatted(this.date, this.locale, this.format).split(' ~ ');
+        return this.rangeInputText
+          .replace(DATE_HEADER_REGEX, `${startDate}`)
+          .replace(DATE_HEADER_REGEX, `${endDate}`);
       }
 
       // If type is quarter,

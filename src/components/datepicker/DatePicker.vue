@@ -36,10 +36,10 @@
       :date="date"
       :type="type"
       :validate="validate"
-      :button-cancel="buttonCancel"
-      :button-validate="buttonValidate"
+      :button-cancel="textsFormat.buttonCancel"
+      :button-validate="textsFormat.buttonValidate"
       :range="range"
-      :range-header-text="rangeHeaderText"
+      :range-header-text="textsFormat.rangeHeaderText"
       :range-presets="rangePresets"
       :format-header="headerFormat"
       :rtl="rtl"
@@ -67,6 +67,7 @@ import DatePickerOverlay from './DatePickerOverlay.vue';
 import DatepickerAgenda from './DatePickerAgenda.vue';
 import { generateRandomId, validateAttachTarget } from '../../utils/helpers';
 import {
+  getLocale,
   getDefaultLocale,
   setLocaleLang,
   getDefaultInputFormat,
@@ -84,14 +85,14 @@ export default {
     name: { type: String, default: 'datepicker' },
     // Validation Buttons
     validate: { type: Boolean, default: false },
-    buttonValidate: { type: String, default: 'Ok' },
-    buttonCancel: { type: String, default: 'Cancel' },
+    buttonValidate: { type: String, default: undefined },
+    buttonCancel: { type: String, default: undefined },
     // type (date, month, quarter, year picker)
     type: { type: String, default: 'date' },
     // Range
     range: { type: Boolean, default: false },
     rangeInputText: { type: String, default: '%d ~ %d' },
-    rangeHeaderText: { type: String, default: 'From %d To %d' },
+    rangeHeaderText: { type: String, default: undefined },
     rangePresets: { type: Array, default: undefined },
     // Current Value from v-model
     value: { type: [String, Object, Number, Date] },
@@ -154,6 +155,14 @@ export default {
     outputFormat () {
       if (!this.formatOutput) return getDefaultOutputFormat(this.range ? 'range' : this.type);
       return this.formatOutput;
+    },
+    textsFormat () {
+      const { buttonValidate, buttonCancel, rangeHeaderText } = getLocale(this.locale.lang);
+      return {
+        buttonValidate: this.buttonValidate || buttonValidate,
+        buttonCancel: this.buttonCancel || buttonCancel,
+        rangeHeaderText: this.rangeHeaderText || rangeHeaderText,
+      };
     },
     dateFormatted () {
       return initDate(this.value, {

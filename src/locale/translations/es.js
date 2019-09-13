@@ -15,6 +15,9 @@ const localeObject = {
     LLLL: 'dddd, D [de] MMMM [de] YYYY H:mm',
   },
   ordinal: n => `${n}º`,
+  buttonValidate: 'Ok',
+  buttonCancel: 'Anular',
+  rangeHeaderText: 'Del %d Al %d',
 };
 
 export default localeObject;

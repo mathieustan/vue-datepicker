@@ -63,6 +63,9 @@ import colorable from '../../mixins/colorable';
 // functions
 import { formatDateWithLocale, getRangeDatesFormatted } from '../../utils/Dates';
 
+// constants
+import { DATE_HEADER_REGEX } from '../../constants';
+
 export default {
   name: 'DatePickerHeader',
   mixins: [colorable],
@@ -88,9 +91,12 @@ export default {
     },
     dateFormatted () {
       if (this.range && this.rangeHeaderText) {
-        const [startText, endText] = this.rangeHeaderText.split('%d');
-        const [startDate, maxDate] = getRangeDatesFormatted(this.mutableDate, this.locale, this.formatHeader).split(' ~ ');
-        return [`${startText.trim()} ${startDate}`, `${endText.trim()} ${maxDate}`.trim()];
+        const [startDate, endDate] = getRangeDatesFormatted(this.mutableDate, this.locale, this.formatHeader).split(' ~ ');
+        const [fromText, toText] = this.rangeHeaderText
+          .replace(DATE_HEADER_REGEX, `${startDate}|`)
+          .replace(DATE_HEADER_REGEX, `${endDate}|`)
+          .split('|');
+        return [fromText.trim(), toText.trim()];
       }
       if (!this.mutableDate) return '--';
       return formatDateWithLocale(this.mutableDate, this.locale, this.formatHeader);
