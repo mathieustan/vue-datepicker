@@ -20,6 +20,7 @@
       :disabled="disabled"
       :tabindex="tabindex"
       :no-input="noInput"
+      :no-calendar-icon="noCalendarIcon"
       @toggleDatepicker="toggleDatepicker"
       @focus="showDatePicker"
     />
@@ -125,6 +126,8 @@ export default {
     noHeader: { type: Boolean, default: false },
     // Allow to hide input (to use a button instead)
     noInput: { type: Boolean, default: false },
+    // Allow to hide calendar icon
+    noCalendarIcon: { type: Boolean, default: false },
     // Responsive bottom sheet
     fullscreenMobile: { type: Boolean, default: false },
     // tabindex

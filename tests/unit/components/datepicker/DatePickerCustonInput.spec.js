@@ -17,6 +17,7 @@ describe('DatePickerCustomInput', () => {
       range,
       rangeInputText = '%d ~ %d',
       disabled = false,
+      noCalendarIcon,
     } = {}) =>
       shallowMount(DatePickerCustomInput, {
         propsData: {
@@ -29,6 +30,7 @@ describe('DatePickerCustomInput', () => {
           disabled,
           range,
           rangeInputText,
+          noCalendarIcon,
         },
       });
   });
@@ -53,17 +55,19 @@ describe('DatePickerCustomInput', () => {
     describe('classes', () => {
       it.each([
         [
-          { disabled: false, range: true },
+          { disabled: false, range: true, noCalendarIcon: false },
           {
             'datepicker-input--disabled': false,
             'datepicker-input--range': true,
+            'datepicker-input--no-calendar-icon': false,
           },
         ],
         [
-          { disabled: true, range: false },
+          { disabled: true, range: false, noCalendarIcon: true },
           {
             'datepicker-input--disabled': true,
             'datepicker-input--range': false,
+            'datepicker-input--no-calendar-icon': true,
           },
         ],
       ])('when props = %p, should return %p', (props, expectedResult) => {

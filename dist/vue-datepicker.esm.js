@@ -826,13 +826,17 @@ var script$1 = {
     },
     noInput: {
       type: Boolean
+    },
+    noCalendarIcon: {
+      type: Boolean
     }
   },
   computed: {
     classes: function classes() {
       return {
         'datepicker-input--disabled': this.disabled,
-        'datepicker-input--range': this.range
+        'datepicker-input--range': this.range,
+        'datepicker-input--no-calendar-icon': this.noCalendarIcon
       };
     },
     isDateDefined: function isDateDefined() {
@@ -868,17 +872,17 @@ var script$1 = {
             var __vue_script__$1 = script$1;
             
 /* template */
-var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker-input",class:_vm.classes,on:{"mousedown":function($event){return _vm.$emit('toggleDatepicker')}}},[_c('DatePickerCalendarIcon',{attrs:{"id":_vm.id,"color":_vm.isDateDefined && !_vm.disabled ? _vm.color : 'rgba(93, 106, 137, 0.5)',"disabled":_vm.disabled}}),_vm._v(" "),(!_vm.noInput)?_c('input',{style:(_vm.setTextColor(!_vm.disabled ? _vm.color : 'rgba(93, 106, 137, 0.5)')),attrs:{"id":_vm.id,"name":_vm.name,"disabled":_vm.disabled,"placeholder":_vm.placeholder,"tabindex":_vm.tabindex,"type":"text","readonly":""},domProps:{"value":_vm.dateFormatted},on:{"focus":function($event){return _vm.$emit('focus')}}}):_c('button',{style:(_vm.setTextColor(!_vm.disabled && _vm.isDateDefined ? _vm.color : 'rgba(93, 106, 137, 0.5)')),attrs:{"type":"button","disabled":_vm.disabled}},[_vm._v("\n    "+_vm._s(_vm.isDateDefined ? _vm.dateFormatted : _vm.placeholder)+"\n  ")])],1)};
+var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker-input",class:_vm.classes,on:{"mousedown":function($event){return _vm.$emit('toggleDatepicker')}}},[(!_vm.noCalendarIcon)?_c('DatePickerCalendarIcon',{attrs:{"id":_vm.id,"color":_vm.isDateDefined && !_vm.disabled ? _vm.color : 'rgba(93, 106, 137, 0.5)',"disabled":_vm.disabled}}):_vm._e(),_vm._v(" "),(!_vm.noInput)?_c('input',{style:(_vm.setTextColor(!_vm.disabled ? _vm.color : 'rgba(93, 106, 137, 0.5)')),attrs:{"id":_vm.id,"name":_vm.name,"disabled":_vm.disabled,"placeholder":_vm.placeholder,"tabindex":_vm.tabindex,"type":"text","readonly":""},domProps:{"value":_vm.dateFormatted},on:{"focus":function($event){return _vm.$emit('focus')}}}):_c('button',{style:(_vm.setTextColor(!_vm.disabled && _vm.isDateDefined ? _vm.color : 'rgba(93, 106, 137, 0.5)')),attrs:{"type":"button","disabled":_vm.disabled}},[_vm._v("\n    "+_vm._s(_vm.isDateDefined ? _vm.dateFormatted : _vm.placeholder)+"\n  ")])],1)};
 var __vue_staticRenderFns__$1 = [];
 
   /* style */
   var __vue_inject_styles__$1 = function (inject) {
     if (!inject) { return }
-    inject("data-v-7bd5e3fc_0", { source: "button[data-v-7bd5e3fc]{border:none;margin:0;padding:0;width:auto;overflow:visible;background:0 0;color:inherit;font:inherit;line-height:normal;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-appearance:none}button[data-v-7bd5e3fc]:active,button[data-v-7bd5e3fc]:focus{outline:0;box-shadow:0}button[role=button][data-v-7bd5e3fc],button[type=button][data-v-7bd5e3fc],button[type=reset][data-v-7bd5e3fc],button[type=submit][data-v-7bd5e3fc]{cursor:pointer}.datepicker-input[data-v-7bd5e3fc]{position:relative;display:flex;flex-direction:row;justify-content:flex-start;align-items:center}.datepicker-input--disabled[data-v-7bd5e3fc]{cursor:not-allowed}.datepicker-container--rtl .datepicker-input[data-v-7bd5e3fc]{direction:rtl}.datepicker-container--rtl .datepicker-input button[data-v-7bd5e3fc],.datepicker-container--rtl .datepicker-input input[type=text][data-v-7bd5e3fc]{margin:0 8px 0 0}input[type=hidden][data-v-7bd5e3fc]{position:absolute;bottom:0;left:50%;height:1px;width:1px;border:0;clip:rect(0 0 0 0);margin:-1px;padding:0;outline:0;-webkit-appearance:none;overflow:hidden}input[type=text][data-v-7bd5e3fc]{cursor:pointer;border:none;box-shadow:none;outline:0;font-size:16px;line-height:19px;margin-left:8px;font-family:inherit;background:0 0}input[type=text][data-v-7bd5e3fc]:active,input[type=text][data-v-7bd5e3fc]:focus{outline:0;box-shadow:none}input[type=text][data-v-7bd5e3fc]:disabled,input[type=text][disabled][data-v-7bd5e3fc]{cursor:not-allowed}input[type=text].placeholder[data-v-7bd5e3fc]{color:rgba(0,0,0,.4)}input[type=text][data-v-7bd5e3fc]::placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-7bd5e3fc]:-moz-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-7bd5e3fc]::-moz-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-7bd5e3fc]:-ms-input-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-7bd5e3fc]::-webkit-input-placeholder{color:rgba(0,0,0,.4)}.datepicker-input--range input[type=text][data-v-7bd5e3fc]{min-width:310px}button[data-v-7bd5e3fc]{font-size:16px;line-height:19px;margin-left:8px}", map: undefined, media: undefined });
+    inject("data-v-8b70c5f8_0", { source: "button[data-v-8b70c5f8]{border:none;margin:0;padding:0;width:auto;overflow:visible;background:0 0;color:inherit;font:inherit;line-height:normal;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-appearance:none}button[data-v-8b70c5f8]:active,button[data-v-8b70c5f8]:focus{outline:0;box-shadow:0}button[role=button][data-v-8b70c5f8],button[type=button][data-v-8b70c5f8],button[type=reset][data-v-8b70c5f8],button[type=submit][data-v-8b70c5f8]{cursor:pointer}.datepicker-input[data-v-8b70c5f8]{position:relative;display:flex;flex-direction:row;justify-content:flex-start;align-items:center}.datepicker-input--disabled[data-v-8b70c5f8]{cursor:not-allowed}.datepicker-container--rtl .datepicker-input[data-v-8b70c5f8]{direction:rtl}.datepicker-container--rtl .datepicker-input button[data-v-8b70c5f8],.datepicker-container--rtl .datepicker-input input[type=text][data-v-8b70c5f8]{margin:0 8px 0 0}.datepicker-container--rtl .datepicker-input--no-calendar-icon button[data-v-8b70c5f8],.datepicker-container--rtl .datepicker-input--no-calendar-icon input[type=text][data-v-8b70c5f8],.datepicker-input--no-calendar-icon button[data-v-8b70c5f8],.datepicker-input--no-calendar-icon input[type=text][data-v-8b70c5f8]{margin:0}input[type=hidden][data-v-8b70c5f8]{position:absolute;bottom:0;left:50%;height:1px;width:1px;border:0;clip:rect(0 0 0 0);margin:-1px;padding:0;outline:0;-webkit-appearance:none;overflow:hidden}input[type=text][data-v-8b70c5f8]{cursor:pointer;border:none;box-shadow:none;outline:0;font-size:16px;line-height:19px;margin-left:8px;font-family:inherit;background:0 0}input[type=text][data-v-8b70c5f8]:active,input[type=text][data-v-8b70c5f8]:focus{outline:0;box-shadow:none}input[type=text][data-v-8b70c5f8]:disabled,input[type=text][disabled][data-v-8b70c5f8]{cursor:not-allowed}input[type=text].placeholder[data-v-8b70c5f8]{color:rgba(0,0,0,.4)}input[type=text][data-v-8b70c5f8]::placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-8b70c5f8]:-moz-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-8b70c5f8]::-moz-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-8b70c5f8]:-ms-input-placeholder{color:rgba(0,0,0,.4)}input[type=text][data-v-8b70c5f8]::-webkit-input-placeholder{color:rgba(0,0,0,.4)}.datepicker-input--range input[type=text][data-v-8b70c5f8]{min-width:310px}button[data-v-8b70c5f8]{font-size:16px;line-height:19px;margin-left:8px}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  var __vue_scope_id__$1 = "data-v-7bd5e3fc";
+  var __vue_scope_id__$1 = "data-v-8b70c5f8";
   /* module identifier */
   var __vue_module_identifier__$1 = undefined;
   /* functional template */
@@ -4211,6 +4215,11 @@ var script$9 = {
       type: Boolean,
       default: false
     },
+    // Allow to hide calendar icon
+    noCalendarIcon: {
+      type: Boolean,
+      default: false
+    },
     // Responsive bottom sheet
     fullscreenMobile: {
       type: Boolean,
@@ -4346,18 +4355,18 @@ var script$9 = {
 var __vue_render__$9 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"datepicker-container",class:{
     'datepicker-container--active': _vm.isVisible,
     'datepicker-container--rtl': _vm.rtl,
-  }},[(!_vm.inline)?_c('DatePickerCustomInput',{attrs:{"id":_vm.componentId,"name":_vm.name,"date":_vm.dateFormatted,"type":_vm.type,"format":_vm.inputFormat,"range":_vm.range,"range-input-text":_vm.rangeInputText,"locale":_vm.locale,"placeholder":_vm.placeholder,"color":_vm.color,"disabled":_vm.disabled,"tabindex":_vm.tabindex,"no-input":_vm.noInput},on:{"toggleDatepicker":_vm.toggleDatepicker,"focus":_vm.showDatePicker}}):_vm._e(),_vm._v(" "),_c('DatePickerOverlay',{attrs:{"isVisible":_vm.isVisible,"fullscreen-mobile":_vm.fullscreenMobile,"attach-to":_vm.attachTo,"z-index":_vm.zIndex},on:{"close":_vm.hideDatePicker}}),_vm._v(" "),_c('DatepickerAgenda',{attrs:{"name":_vm.name,"isVisible":_vm.isVisible,"date":_vm.date,"type":_vm.type,"validate":_vm.validate,"button-cancel":_vm.textsFormat.buttonCancel,"button-validate":_vm.textsFormat.buttonValidate,"range":_vm.range,"range-header-text":_vm.textsFormat.rangeHeaderText,"range-presets":_vm.rangePresets,"format-header":_vm.headerFormat,"rtl":_vm.rtl,"locale":_vm.locale,"no-header":_vm.noHeader,"inline":_vm.inline,"fixed":_vm.fixed,"fullscreen-mobile":_vm.fullscreenMobile,"color":_vm.color,"min-date":_vm.minDate,"max-date":_vm.maxDate,"attach-to":_vm.attachTo,"z-index":_vm.zIndex + 1},on:{"selectDate":_vm.changeDate,"validateDate":_vm.validateDate,"close":_vm.hideDatePicker}})],1)};
+  }},[(!_vm.inline)?_c('DatePickerCustomInput',{attrs:{"id":_vm.componentId,"name":_vm.name,"date":_vm.dateFormatted,"type":_vm.type,"format":_vm.inputFormat,"range":_vm.range,"range-input-text":_vm.rangeInputText,"locale":_vm.locale,"placeholder":_vm.placeholder,"color":_vm.color,"disabled":_vm.disabled,"tabindex":_vm.tabindex,"no-input":_vm.noInput,"no-calendar-icon":_vm.noCalendarIcon},on:{"toggleDatepicker":_vm.toggleDatepicker,"focus":_vm.showDatePicker}}):_vm._e(),_vm._v(" "),_c('DatePickerOverlay',{attrs:{"isVisible":_vm.isVisible,"fullscreen-mobile":_vm.fullscreenMobile,"attach-to":_vm.attachTo,"z-index":_vm.zIndex},on:{"close":_vm.hideDatePicker}}),_vm._v(" "),_c('DatepickerAgenda',{attrs:{"name":_vm.name,"isVisible":_vm.isVisible,"date":_vm.date,"type":_vm.type,"validate":_vm.validate,"button-cancel":_vm.textsFormat.buttonCancel,"button-validate":_vm.textsFormat.buttonValidate,"range":_vm.range,"range-header-text":_vm.textsFormat.rangeHeaderText,"range-presets":_vm.rangePresets,"format-header":_vm.headerFormat,"rtl":_vm.rtl,"locale":_vm.locale,"no-header":_vm.noHeader,"inline":_vm.inline,"fixed":_vm.fixed,"fullscreen-mobile":_vm.fullscreenMobile,"color":_vm.color,"min-date":_vm.minDate,"max-date":_vm.maxDate,"attach-to":_vm.attachTo,"z-index":_vm.zIndex + 1},on:{"selectDate":_vm.changeDate,"validateDate":_vm.validateDate,"close":_vm.hideDatePicker}})],1)};
 var __vue_staticRenderFns__$9 = [];
 
   /* style */
   var __vue_inject_styles__$9 = function (inject) {
     if (!inject) { return }
-    inject("data-v-4e50e478_0", { source: ".datepicker-container *,.datepicker-container ::after,.datepicker-container ::before{box-sizing:border-box}", map: undefined, media: undefined })
-,inject("data-v-4e50e478_1", { source: ".datepicker-container[data-v-4e50e478]{position:relative;display:flex;flex-direction:row;align-items:center;width:auto;cursor:pointer;box-sizing:border-box}.datepicker-container[data-v-4e50e478]:active,.datepicker-container[data-v-4e50e478]:focus{outline:0}", map: undefined, media: undefined });
+    inject("data-v-78f194b2_0", { source: ".datepicker-container *,.datepicker-container ::after,.datepicker-container ::before{box-sizing:border-box}", map: undefined, media: undefined })
+,inject("data-v-78f194b2_1", { source: ".datepicker-container[data-v-78f194b2]{position:relative;display:flex;flex-direction:row;align-items:center;width:auto;cursor:pointer;box-sizing:border-box}.datepicker-container[data-v-78f194b2]:active,.datepicker-container[data-v-78f194b2]:focus{outline:0}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  var __vue_scope_id__$9 = "data-v-4e50e478";
+  var __vue_scope_id__$9 = "data-v-78f194b2";
   /* module identifier */
   var __vue_module_identifier__$9 = undefined;
   /* functional template */

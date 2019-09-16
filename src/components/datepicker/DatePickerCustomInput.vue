@@ -4,6 +4,7 @@
     class="datepicker-input"
     @mousedown="$emit('toggleDatepicker')">
     <DatePickerCalendarIcon
+      v-if="!noCalendarIcon"
       :id="id"
       :color="isDateDefined && !disabled ? color : 'rgba(93, 106, 137, 0.5)'"
       :disabled="disabled" />
@@ -66,12 +67,14 @@ export default {
     disabled: { type: Boolean },
     tabindex: { type: [String, Number] },
     noInput: { type: Boolean },
+    noCalendarIcon: { type: Boolean },
   },
   computed: {
     classes () {
       return {
         'datepicker-input--disabled': this.disabled,
         'datepicker-input--range': this.range,
+        'datepicker-input--no-calendar-icon': this.noCalendarIcon,
       };
     },
     isDateDefined () {
@@ -121,6 +124,14 @@ export default {
       input[type="text"],
       button {
         margin: 0 $gutter 0 0;
+      }
+    }
+
+    &--no-calendar-icon,
+    .datepicker-container--rtl &--no-calendar-icon {
+      input[type="text"],
+      button {
+        margin: 0;
       }
     }
   }
