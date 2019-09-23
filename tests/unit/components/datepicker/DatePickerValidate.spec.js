@@ -34,6 +34,7 @@ describe('DatePickerValidate', () => {
     describe('isDisabledValidation', () => {
       it.each([
         [{ range: false, mutableDate: undefined }, false],
+        [{ range: true, mutableDate: undefined }, true],
         [{ range: true, mutableDate: { start: dayjs('2018-01-01'), end: undefined } }, true],
         [{ range: true, mutableDate: { start: undefined, end: dayjs('2018-02-01') } }, true],
         [{ range: true, mutableDate: { start: dayjs('2018-01-01'), end: dayjs('2018-02-01') } }, false],

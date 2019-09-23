@@ -284,7 +284,8 @@ export default {
     },
     isRangeSelected () {
       if (!this.range) return false;
-      return Object.values(this.mutableDate).every(date => Boolean(date));
+      return typeof this.mutableDate === 'object' &&
+        Object.values(this.mutableDate).every(date => Boolean(date));
     },
   },
   destroyed () {

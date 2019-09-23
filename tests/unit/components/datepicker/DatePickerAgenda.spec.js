@@ -198,6 +198,8 @@ describe('DatePickerAgenda', () => {
     describe('isRangeSelected', () => {
       it.each([
         [{ range: false, date: undefined }, false],
+        [{ range: true, date: undefined }, false],
+        [{ range: true, date: { start: dayjs('2018-01-01'), end: undefined } }, false],
         [{ range: true, date: { start: dayjs('2018-01-01'), end: undefined } }, false],
         [{ range: true, date: { start: undefined, end: dayjs('2018-02-01') } }, false],
         [{ range: true, date: { start: dayjs('2018-01-01'), end: dayjs('2018-02-01') } }, true],
