@@ -128,6 +128,7 @@
         <DatePickerYearMonth
           v-if="shouldShowYearMonthSelector"
           :mode="yearMonthMode"
+          :rtl="rtl"
           :range="range"
           :current-date="currentDate"
           :mutable-date="mutableDate"
