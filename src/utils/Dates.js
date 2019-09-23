@@ -235,9 +235,9 @@ export function initDate (date, { isRange, locale, format }) {
   return date && dayjs(date, format);
 }
 
-export function generateDateRange (startDate, maxDate, interval = 'day') {
+export function generateDateRange (startDate, endDate, interval = 'day') {
   const start = dayjs.isDayjs(startDate) ? startDate : dayjs(startDate);
-  const end = dayjs.isDayjs(maxDate) ? maxDate : dayjs(maxDate);
+  const end = dayjs.isDayjs(endDate) ? endDate : dayjs(endDate);
   const diffBetweenDates = end.diff(start, interval);
   return [...Array(diffBetweenDates + 1).keys()].map(i => start.add(i, interval));
 }
