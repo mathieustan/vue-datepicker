@@ -13,6 +13,7 @@
     <button
       type="button"
       :style="setTextColor(color)"
+      :disabled="isDisabledValidation"
       class="datepicker-validate__button"
       @click="$emit('validate')">
       <div
@@ -35,6 +36,14 @@ export default {
     buttonValidate: { type: String },
     buttonCancel: { type: String },
     color: { type: String },
+    range: { type: Boolean },
+    mutableDate: { type: Object },
+  },
+  computed: {
+    isDisabledValidation () {
+      if (!this.range) return false;
+      return !Object.values(this.mutableDate).every(date => Boolean(date));
+    },
   },
 };
 </script>
@@ -79,10 +88,16 @@ export default {
         margin-left: $gutter;
       }
 
-      &:hover {
+      &:hover:not(:disabled) {
         .datepicker-validate__effect {
           opacity: .1;
         }
+      }
+
+      &:disabled,
+      &[disabled] {
+        color: rgba(0, 0, 0, 0.26) !important;
+        cursor: default;
       }
     }
 

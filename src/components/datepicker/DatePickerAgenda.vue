@@ -148,6 +148,8 @@
         :button-validate="buttonValidate"
         :button-cancel="buttonCancel"
         :color="color"
+        :range="range"
+        :mutable-date="mutableDate"
         @cancel="$emit('close')"
         @validate="$emit('validateDate')"
       />
