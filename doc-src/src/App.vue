@@ -185,37 +185,6 @@
         </Wrapper>
 
         <!---------------------------------------------------------->
-        <!-- EXAMPLE : Format Output  -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> FormatOutput </h3>
-            <p><small> Allow to format output when date has been selected </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker v-model="currentDate" format-output="YYYY/MM/DD" />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">format-output</span>="YYYY/MM/DD"
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
         <!-- EXAMPLE : Placeholder  -->
         <!---------------------------------------------------------->
         <Wrapper background-color="white" class="column justify-start align-center">

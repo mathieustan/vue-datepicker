@@ -407,12 +407,12 @@ describe('Transactions: Functions', () => {
       it.each([
         [
           { start: new Date([2019, 5, 16]), end: undefined },
-          { isRange: true, locale: { lang: 'en' }, format: DEFAULT_OUTPUT_DATE_FORMAT.date },
+          { isRange: true, locale: { lang: 'en' } },
           { start: dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date), end: undefined },
         ],
         [
           { start: new Date([2019, 5, 16]), end: new Date([2019, 5, 17]) },
-          { isRange: true, locale: { lang: 'en' }, format: DEFAULT_OUTPUT_DATE_FORMAT.date },
+          { isRange: true, locale: { lang: 'en' } },
           {
             start: dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date),
             end: dayjs(new Date([2019, 5, 17]), DEFAULT_OUTPUT_DATE_FORMAT.date),
@@ -420,12 +420,12 @@ describe('Transactions: Functions', () => {
         ],
         [
           new Date([2019, 5, 16]),
-          { isRange: false, locale: { lang: 'en' }, format: DEFAULT_OUTPUT_DATE_FORMAT.date },
+          { isRange: false, locale: { lang: 'en' } },
           dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date),
         ],
         [
           undefined,
-          { isRange: false, locale: { lang: 'en' }, format: DEFAULT_OUTPUT_DATE_FORMAT.date },
+          { isRange: false, locale: { lang: 'en' } },
           undefined,
         ],
       ])(

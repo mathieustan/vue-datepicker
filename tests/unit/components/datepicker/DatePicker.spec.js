@@ -96,28 +96,30 @@ describe('DatePicker', () => {
 
     describe('inputFormat', () => {
       it.each([
-        [undefined, DEFAULT_INPUT_DATE_FORMAT.date],
-        ['YYYY-MM-DD', 'YYYY-MM-DD'],
-      ])('when format equal %p, should return %p', (format, expectedResult) => {
-        const wrapper = mountComponent({ format });
+        [{ format: undefined }, DEFAULT_INPUT_DATE_FORMAT.date],
+        [{ format: undefined, range: true }, DEFAULT_INPUT_DATE_FORMAT.range],
+        [{ format: 'DD/MM/YYYY' }, 'DD/MM/YYYY'],
+      ])('when props equal %p, should return %p', (props, expectedResult) => {
+        const wrapper = mountComponent(props);
         expect(wrapper.vm.inputFormat).toEqual(expectedResult);
       });
     });
 
     describe('headerFormat', () => {
       it.each([
-        [undefined, DEFAULT_HEADER_DATE_FORMAT.date],
-        ['MMMM MM', 'MMMM MM'],
-      ])('when format equal %p, should return %p', (formatHeader, expectedResult) => {
-        const wrapper = mountComponent({ formatHeader });
+        [{ formatHeader: undefined }, DEFAULT_HEADER_DATE_FORMAT.date],
+        [{ formatHeader: undefined, range: true }, DEFAULT_HEADER_DATE_FORMAT.range],
+        [{ formatHeader: 'MMMM MM' }, 'MMMM MM'],
+      ])('when format equal %p, should return %p', (props, expectedResult) => {
+        const wrapper = mountComponent(props);
         expect(wrapper.vm.headerFormat).toEqual(expectedResult);
       });
     });
 
     describe('outputFormat', () => {
       it.each([
-        [undefined, DEFAULT_OUTPUT_DATE_FORMAT.date],
-        ['YYYY-MM', 'YYYY-MM'],
+        [{}, DEFAULT_OUTPUT_DATE_FORMAT.date],
+        [{ range: true }, DEFAULT_OUTPUT_DATE_FORMAT.range],
       ])('when format equal %p, should return %p', (formatOutput, expectedResult) => {
         const wrapper = mountComponent({ formatOutput });
         expect(wrapper.vm.outputFormat).toEqual(expectedResult);

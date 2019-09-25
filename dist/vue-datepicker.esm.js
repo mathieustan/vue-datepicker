@@ -736,8 +736,7 @@ function generateDateRangeWithoutDisabled(_ref8, minDate, maxDate) {
 
 function initDate(date, _ref9) {
   var isRange = _ref9.isRange,
-      locale = _ref9.locale,
-      format = _ref9.format;
+      locale = _ref9.locale;
 
   if (isRange) {
     return {
@@ -746,7 +745,7 @@ function initDate(date, _ref9) {
     };
   }
 
-  return date && dayjs(date, format);
+  return date && formatDate(date, locale);
 }
 function generateDateRange(startDate, endDate) {
   var interval = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'day';
@@ -4160,10 +4159,6 @@ var script$9 = {
       type: String,
       default: undefined
     },
-    formatOutput: {
-      type: String,
-      default: undefined
-    },
     // Show/hide datepicker
     visible: {
       type: Boolean,
@@ -4271,8 +4266,7 @@ var script$9 = {
       return this.formatHeader;
     },
     outputFormat: function outputFormat() {
-      if (!this.formatOutput) { return getDefaultOutputFormat(this.range ? 'range' : this.type); }
-      return this.formatOutput;
+      return getDefaultOutputFormat(this.range ? 'range' : this.type);
     },
     textsFormat: function textsFormat() {
       var _getLocale = getLocale(this.locale.lang),
@@ -4289,8 +4283,7 @@ var script$9 = {
     dateFormatted: function dateFormatted() {
       return initDate(this.value, {
         isRange: this.range,
-        locale: this.locale,
-        format: this.outPutFormat
+        locale: this.locale
       });
     }
   },
@@ -4340,8 +4333,7 @@ var script$9 = {
     initDate: function initDate$1(date) {
       this.date = initDate(date, {
         isRange: this.range,
-        locale: this.locale,
-        format: this.outPutFormat
+        locale: this.locale
       });
     },
     changeDate: function changeDate(date) {
@@ -4370,12 +4362,12 @@ var __vue_staticRenderFns__$9 = [];
   /* style */
   var __vue_inject_styles__$9 = function (inject) {
     if (!inject) { return }
-    inject("data-v-78f194b2_0", { source: ".datepicker-container *,.datepicker-container ::after,.datepicker-container ::before{box-sizing:border-box}", map: undefined, media: undefined })
-,inject("data-v-78f194b2_1", { source: ".datepicker-container[data-v-78f194b2]{position:relative;display:flex;flex-direction:row;align-items:center;width:auto;cursor:pointer;box-sizing:border-box}.datepicker-container[data-v-78f194b2]:active,.datepicker-container[data-v-78f194b2]:focus{outline:0}", map: undefined, media: undefined });
+    inject("data-v-0d7846ac_0", { source: ".datepicker-container *,.datepicker-container ::after,.datepicker-container ::before{box-sizing:border-box}", map: undefined, media: undefined })
+,inject("data-v-0d7846ac_1", { source: ".datepicker-container[data-v-0d7846ac]{position:relative;display:flex;flex-direction:row;align-items:center;width:auto;cursor:pointer;box-sizing:border-box}.datepicker-container[data-v-0d7846ac]:active,.datepicker-container[data-v-0d7846ac]:focus{outline:0}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  var __vue_scope_id__$9 = "data-v-78f194b2";
+  var __vue_scope_id__$9 = "data-v-0d7846ac";
   /* module identifier */
   var __vue_module_identifier__$9 = undefined;
   /* functional template */

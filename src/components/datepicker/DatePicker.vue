@@ -100,7 +100,6 @@ export default {
     // Format
     format: { type: String, default: undefined },
     formatHeader: { type: String, default: undefined },
-    formatOutput: { type: String, default: undefined },
     // Show/hide datepicker
     visible: { type: Boolean, default: false },
     // Right-to-Left
@@ -156,8 +155,7 @@ export default {
       return this.formatHeader;
     },
     outputFormat () {
-      if (!this.formatOutput) return getDefaultOutputFormat(this.range ? 'range' : this.type);
-      return this.formatOutput;
+      return getDefaultOutputFormat(this.range ? 'range' : this.type);
     },
     textsFormat () {
       const { buttonValidate, buttonCancel, rangeHeaderText } = getLocale(this.locale.lang);
@@ -171,7 +169,6 @@ export default {
       return initDate(this.value, {
         isRange: this.range,
         locale: this.locale,
-        format: this.outPutFormat,
       });
     },
   },
@@ -223,7 +220,6 @@ export default {
       this.date = initDate(date, {
         isRange: this.range,
         locale: this.locale,
-        format: this.outPutFormat,
       });
     },
     changeDate (date) {
