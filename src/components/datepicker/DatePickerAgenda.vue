@@ -63,7 +63,6 @@
       <div class="datepicker-content">
         <!-- Controls -->
         <DatePickerControls
-          :rtl="rtl"
           :current-date="currentDate"
           :transition-name="transitionLabelName"
           :color="color"
@@ -128,7 +127,6 @@
         <DatePickerYearMonth
           v-if="shouldShowYearMonthSelector"
           :mode="yearMonthMode"
-          :rtl="rtl"
           :range="range"
           :current-date="currentDate"
           :mutable-date="mutableDate"

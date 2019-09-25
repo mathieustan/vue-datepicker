@@ -29,7 +29,6 @@
         class="datepicker-months">
 
         <DatePickerControls
-          :rtl="rtl"
           :current-date="currentDate"
           :transition-name="transitionName"
           :min-date="minDate"
@@ -118,7 +117,6 @@ export default {
   mixins: [colorable],
   components: { DatePickerControls },
   props: {
-    rtl: { type: Boolean, default: false },
     mode: { type: String, default: String },
     range: { type: Boolean, default: false },
     currentDate: { type: Object, default: Object },

@@ -4,7 +4,7 @@
       :disabled="isPreviousDateDisabled"
       type="button"
       class="datepicker-controls__prev"
-      @click="changeVisibleDate(!rtl ? 'prev' : 'next')"
+      @click="changeVisibleDate('prev')"
     >
       <svg viewBox="0 0 24 24">
         <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
@@ -53,7 +53,7 @@
       :disabled="isNextDateDisabled"
       type="button"
       class="datepicker-controls__next"
-      @click="changeVisibleDate(!rtl ? 'next' : 'prev')"
+      @click="changeVisibleDate('next')"
     >
       <svg viewBox="0 0 24 24">
         <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
@@ -79,7 +79,6 @@ export default {
     mode: { type: String, default: 'month' },
     minDate: { type: [String, Number, Date] },
     maxDate: { type: [String, Number, Date] },
-    rtl: { type: Boolean, default: false },
   },
   computed: {
     monthFormatted () {
@@ -126,6 +125,10 @@ export default {
 
     @include mq(tablet) {
       height: get-size(desktop, controls);
+    }
+
+    .datepicker--rtl & {
+      direction: rtl;
     }
 
     &__wrapper {
@@ -209,6 +212,10 @@ export default {
           fill: rgba(0,0,0,0.26);
         }
         cursor: default;
+      }
+
+      .datepicker--rtl & {
+        transform: rotate(180deg);
       }
     }
 
