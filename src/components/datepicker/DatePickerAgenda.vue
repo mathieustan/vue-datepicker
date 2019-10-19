@@ -135,6 +135,7 @@
           :color="color"
           :min-date="minDate"
           :max-date="maxDate"
+          :year-range-picker="yearRangePicker"
           @changeYear="changeYear"
           @selectedYearMonth="selectedYearMonth"
         />
@@ -223,6 +224,7 @@ export default {
     color: { type: String },
     minDate: { type: [String, Number, Date] },
     maxDate: { type: [String, Number, Date] },
+    yearRangePicker: { type: Number },
     zIndex: { type: Number },
   },
   data: () => ({

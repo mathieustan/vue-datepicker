@@ -52,6 +52,7 @@
       :color="color"
       :min-date="minDate"
       :max-date="maxDate"
+      :year-range-picker="yearRangePicker"
       :attach-to="attachTo"
       :z-index="zIndex + 1"
       @selectDate="changeDate"
@@ -115,6 +116,8 @@ export default {
     // Allowed dates
     minDate: { type: [String, Number, Date] },
     maxDate: { type: [String, Number, Date] },
+    // Range for year picker, default in component
+    yearRangePicker: { type: Number },
     // Disabled all datepicker
     disabled: { type: Boolean, default: false },
     // Inline
