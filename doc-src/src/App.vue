@@ -490,6 +490,41 @@
         </Wrapper>
 
         <!---------------------------------------------------------->
+        <!-- EXAMPLE : Year Picker -->
+        <!---------------------------------------------------------->
+        <Wrapper background-color="white" class="column justify-start align-center">
+          <template v-slot:description>
+            <h3> Year Range Picker </h3>
+            <p><small> Specify year picker range for datepicker (default: 10)</small></p>
+          </template>
+
+          <template v-slot:example>
+            <VueDatePicker
+              v-model="currentDate"
+              :year-range-picker="examples.yearRangePicker"
+            />
+          </template>
+
+          <template v-slot:code>
+            <CodeWrapper type="HTML">
+<span class="token operator">&lt;</span>template<span class="token operator">></span>
+  ...
+  <span class="token operator">&lt;</span>VueDatePicker
+    <span class="token attr-name">v-model</span>="date"
+    <span class="token attr-name">:year-range-picker</span>="{{ examples.yearRangePicker }}"
+  <span class="token operator">/></span>
+  ...
+<span class="token operator">&lt;/</span>template<span class="token operator">></span>
+  </CodeWrapper>
+          </template>
+
+          <template v-slot:result>
+            v-model="{{ currentDate }}"
+            <br />
+            :year-range-picker="100" (as it has to be a number)
+          </template>
+        </Wrapper>
+        <!---------------------------------------------------------->
         <!-- EXAMPLE : Locale -->
         <!---------------------------------------------------------->
         <Wrapper background-color="white" class="column justify-start align-center">
@@ -1090,6 +1125,7 @@ export default {
         min: '2019-5-3',
         max: '2019-8-12',
       },
+      yearRangePicker: 100,
       locale: {
         selectedLang: 'de',
         langs: ['es', 'en', 'fr', 'de', 'he'],
