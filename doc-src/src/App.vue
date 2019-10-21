@@ -531,7 +531,7 @@
         <Wrapper background-color="white" class="column justify-start align-center">
           <template v-slot:description>
             <h3> Locale (selectable lang available in package) </h3>
-            <p><small> Translations (actually, only 'en', 'fr', 'es' & 'de' available in package) </small></p>
+            <p><small> Translations (actually, only 'en', 'fr', 'es', 'de' & 'ru' available in package) </small></p>
           </template>
 
           <template v-slot:inputs>
@@ -1092,7 +1092,7 @@ export default {
       },
       locale: {
         selectedLang: 'de',
-        langs: ['es', 'en', 'fr', 'de', 'he'],
+        langs: ['es', 'en', 'fr', 'de', 'he', 'ru'],
         customLang: {
           name: 'it',
           weekdays: 'domenica_lunedì_martedì_mercoledì_giovedì_venerdì_sabato'.split('_'),
