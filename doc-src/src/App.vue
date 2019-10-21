@@ -501,7 +501,7 @@
           <template v-slot:example>
             <VueDatePicker
               v-model="currentDate"
-              :year-range-picker="examples.yearRangePicker"
+              :visible-years-number="examples.visibleYearsNumber"
             />
           </template>
 
@@ -511,7 +511,7 @@
   ...
   <span class="token operator">&lt;</span>VueDatePicker
     <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">:year-range-picker</span>="{{ examples.yearRangePicker }}"
+    <span class="token attr-name">:visible-years-number</span>="{{ examples.visibleYearsNumber }}"
   <span class="token operator">/></span>
   ...
 <span class="token operator">&lt;/</span>template<span class="token operator">></span>
@@ -1125,7 +1125,7 @@ export default {
         min: '2019-5-3',
         max: '2019-8-12',
       },
-      yearRangePicker: 100,
+      visibleYearsNumber: 100,
       locale: {
         selectedLang: 'de',
         langs: ['es', 'en', 'fr', 'de', 'he'],
