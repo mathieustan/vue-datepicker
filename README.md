@@ -16,7 +16,7 @@
 
 ## Demo
 
-To view a demo online: 
+To view a demo online: <https://vue-datepicker.netlify.com/>
 
 ## Install
 
@@ -53,29 +53,42 @@ Vue.use(VueDatePicker);
 ## Usage
 
 ```html
-
+<VueDatePicker v-model="currentDate" />
 ```
 
-*value* prop if passed should be a Date object
+_value_ prop if passed should be a Date object
 
 ```html
-
+<template>
+    <VueDatePicker :value="date"></VueDatePicker>
+</template>
 ```
 
 ```javascript
-
+<script>
+export default {
+  // ...
+  components: {
+    VueDatePicker
+  },
+  data: () => ({
+      date: new Date([2019, 5, 16]),
+  }),,
+  // ...
+}
+</script>
 ```
 
 support name attribute for normal html form submission
 
 ```html
-
+<VueDatePicker :value="state.date" name="uniquename"></VueDatePicker>
 ```
 
 Using `v-model`
 
 ```html
-
+<VueDatePicker v-model="state.date" name="uniquename"></VueDatePicker>
 ```
 
 ## Available props
@@ -100,7 +113,6 @@ Using `v-model`
 | fullscreenMobile | Boolean              | false            | Datepicker will appear in a bottom sheet in mobile view                                                                                                                                                                 |
 | minDate          | String\|Number\|Date |                  | Date are available FROM this date                                                                                                                                                                                       |
 | maxDate          | String\|Number\|Date |                  | Date are disabled AFTER this date                                                                                                                                                                                       |
-| yearRangePicker  | Number               | 10               | Year picker range                                                                                                                                                                                                       |
 | locale           | Object               | {lang: 'en'}     | More informations here [Translations](#translations)                                                                                                                                                                    |
 | inline           | Boolean              | false            | Inline datepicker                                                                                                                                                                                                       |
 | fixed            | Boolean              | false            | Set datepicker popup to fixed position => More informations here [Best Practices](#best-practices)                                                                                                                      |
@@ -130,7 +142,7 @@ You can use this with `format` props.
 Example :
 
 ```html
-
+<VueDatePicker v-model="currentDate" format="YYYY-MM-DD" />
 ```
 
 | Format | Output           | Description                       |
@@ -169,11 +181,28 @@ Actually, there are some locale inside project ('en', 'fr, 'es', 'de');
 exemple:
 
 ```html
-
+<template>
+    <VueDatePicker :value="date" :locale="locale"></VueDatePicker>
+</template>
 ```
 
 ```javascript
-
+<script>
+export default {
+  // ...
+  components: {
+    VueDatePicker
+  },
+  data: () => ({
+      date: new Date([2019, 5, 16]),
+      locale: {
+        lang: 'fr' // or 'en', 'es', 'de',
+        weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'], // you can surcharge weekDays too
+      },
+  }),,
+  // ...
+}
+</script>
 ```
 
 :rocket: **Now, you can use your own language object**
@@ -186,11 +215,48 @@ You should have those properties to make it works :
 ```
 
 ```html
-
+<template>
+    <VueDatePicker :value="date" :locale="locale"></VueDatePicker>
+</template>
 ```
 
 ```javascript
+<script>
+const locale = {
+  lang: {
+    name: 'it',
+    weekdays: 'domenica_lunedì_martedì_mercoledì_giovedì_venerdì_sabato'.split('_'),
+    weekdaysShort: 'dom_lun_mar_mer_gio_ven_sab'.split('_'),
+    weekStart: 1,
+    months: 'gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre'.split('_'),
+    monthsShort: 'gen_feb_mar_apr_mag_giu_lug_ago_set_ott_nov_dic'.split('_'),
+    formats: {
+      LT: 'HH:mm',
+      LTS: 'HH:mm:ss',
+      L: 'DD/MM/YYYY',
+      LL: 'D MMMM YYYY',
+      LLL: 'D MMMM YYYY HH:mm',
+      LLLL: 'dddd D MMMM YYYY HH:mm',
+    },
+    ordinal: n => `${n}º`,
+    buttonCancel: 'Annulla',
+    buttonValidate: 'Ok',
+    rangeHeaderText: 'Dalle %d Alle 13',
+  },
+};
 
+export default {
+  // ...
+  components: {
+    VueDatePicker
+  },
+  data: () => ({
+    date: new Date([2019, 5, 16]),
+    locale,
+  }),
+  // ...
+};
+</script>
 ```
 
 If you need more exemples, you can go to this link to find your language :
