@@ -1,126 +1,150 @@
-<template>
-  <div
-    :class="classes"
-    class="datepicker-input"
-    @mousedown="$emit('toggleDatepicker')">
-    <DatePickerCalendarIcon
-      v-if="!noCalendarIcon"
-      :id="id"
-      :color="isDateDefined && !disabled ? color : 'rgba(93, 106, 137, 0.5)'"
-      :disabled="disabled" />
-    <input
-      v-if="!noInput"
-      :id="id"
-      :name="name"
-      :style="setTextColor(!disabled ? color : 'rgba(93, 106, 137, 0.5)')"
-      :value="dateFormatted"
-      :disabled="disabled"
-      :placeholder="placeholder"
-      :tabindex="tabindex"
-      type="text"
-      readonly
-      @focus="$emit('focus')"
-    >
-    <button
-      v-else
-      type="button"
-      :style="setTextColor(!disabled && isDateDefined ? color : 'rgba(93, 106, 137, 0.5)')"
-      :disabled="disabled"
-    >
-      {{ isDateDefined ? dateFormatted : placeholder }}
-    </button>
-  </div>
-</template>
-
 <script>
 // mixins
 import colorable from '../../mixins/colorable';
 
+// directives
+import ClickOutside from '../../directives/click-outside';
+
 // components
-import DatePickerCalendarIcon from './DatePickerCalendarIcon.vue';
-
-// functions
-import {
-  formatDateWithLocale,
-  getRangeDatesFormatted,
-  convertQuarterToMonth,
-} from '../../utils/Dates';
-
-// constants
-import { DATE_HEADER_REGEX } from '../../constants';
+import Icon from '../Icon';
 
 export default {
   name: 'DatePickerCustomInput',
   mixins: [colorable],
-  components: { DatePickerCalendarIcon },
+  directives: { ClickOutside },
   props: {
     id: { type: String },
     name: { type: String },
     date: { type: [Object, Date, String] },
-    format: { type: String },
-    type: { type: String },
-    range: { type: Boolean },
-    rangeInputText: { type: String },
-    locale: { type: Object },
+    isDateDefined: { type: Boolean, default: false },
     placeholder: { type: String },
     color: { type: String },
-    disabled: { type: Boolean },
+    disabled: { type: Boolean, default: false },
     tabindex: { type: [String, Number] },
-    noInput: { type: Boolean },
-    noCalendarIcon: { type: Boolean },
+    noInput: { type: Boolean, default: false },
+    noCalendarIcon: { type: Boolean, default: false },
+    closeOnClickOutside: { type: Boolean, default: true },
   },
   computed: {
-    classes () {
-      return {
-        'datepicker-input--disabled': this.disabled,
-        'datepicker-input--range': this.range,
-        'datepicker-input--no-calendar-icon': this.noCalendarIcon,
-      };
+    computedColor () {
+      return this.isDateDefined && !this.disabled ? this.color : 'rgba(93, 106, 137, 0.5)';
     },
-    isDateDefined () {
-      const isDateDefined = !this.range && this.date;
-      const isDateRangeDefined = this.range && this.date && this.date.start && this.date.end;
-      return Boolean(isDateDefined) || Boolean(isDateRangeDefined);
+  },
+  methods: {
+    // ------------------------------
+    // Events
+    // ------------------------------
+    onClick () {
+      this.$emit('focus');
     },
-    // Displayed Date
-    dateFormatted () {
-      if (!this.isDateDefined) return;
-      if (this.range && this.rangeInputText) {
-        const [startDate, endDate] = getRangeDatesFormatted(this.date, this.locale, this.format).split(' ~ ');
-        return this.rangeInputText
-          .replace(DATE_HEADER_REGEX, `${startDate}`)
-          .replace(DATE_HEADER_REGEX, `${endDate}`);
+    onFocus () {
+      if (!this.$refs.input) return;
+
+      // If another element is focus, should focus this
+      if (document.activeElement !== this.$refs.input) {
+        return this.$refs.input.focus();
       }
 
-      // If type is quarter,
-      // We need to convert this quarter date, to a monthly date
-      // because dayjs will transform a monthly date to quarter date only
-      // Exemple => '2019-2' => should be converted to date : 2019-06-01
-      const currentMonth = this.date.month();
-      const newMonth = this.type === 'quarter' ? convertQuarterToMonth(currentMonth) : currentMonth;
-      return formatDateWithLocale(this.date.month(newMonth), this.locale, this.format);
+      this.$emit('focus');
     },
+    blur (event) {
+      event && this.$emit('blur');
+    },
+    onKeyDown (event) {
+      this.$emit('keydown', event);
+    },
+    // ------------------------------
+    // Generate Template
+    // ------------------------------
+    genContent () {
+      return [
+        !this.noCalendarIcon && this.genCalendarIcon(),
+        this.noInput ? this.genButton() : this.genInput(),
+      ];
+    },
+    genCalendarIcon () {
+      return this.$createElement(Icon, {
+        props: {
+          disabled: this.disabled,
+        },
+      }, ['calendarAlt']);
+    },
+    genInput () {
+      return this.$createElement('input', {
+        attrs: {
+          id: this.id,
+          name: this.name,
+          disabled: this.disabled,
+          'aria-disabled': this.disabled,
+          placeholder: this.placeholder,
+          tabindex: this.tabindex,
+          role: 'text',
+          type: 'text',
+          readonly: true,
+          'aria-readonly': true,
+        },
+        domProps: {
+          value: this.date,
+        },
+        on: {
+          focus: this.onFocus,
+          keydown: this.onKeyDown,
+        },
+        ref: 'input',
+      });
+    },
+    genButton () {
+      return this.$createElement('button', {
+        domProps: {
+          innerHTML: this.isDateDefined ? this.date : this.placeholder,
+        },
+        attrs: {
+          type: 'button',
+          disabled: this.disabled,
+          'aria-disabled': this.disabled,
+        },
+        on: {
+          click: this.onClick,
+        },
+      });
+    },
+  },
+  render (h) {
+    return h('div', this.setTextColor(this.computedColor, {
+      staticClass: 'datepicker__input',
+      directives: [{
+        name: 'click-outside',
+        value: {
+          isActive: this.closeOnClickOutside,
+          handler: this.blur,
+        },
+      }],
+      on: {
+        click: this.onClick,
+      },
+    }), this.genContent());
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  @import '../../styles/abstracts/_index.scss';
+  @import   '../../styles/abstracts/_index.scss';
 
-  .datepicker-input {
+  .datepicker__input {
     position: relative;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    width: 100%;
 
     &--disabled {
       cursor: not-allowed;
+      pointer-events: none;
     }
 
-    .datepicker-container--rtl & {
+    .datepicker__wrapper--rtl & {
       direction: rtl;
-
       input[type="text"],
       button {
         margin: 0 $gutter 0 0;
@@ -128,64 +152,49 @@ export default {
     }
 
     &--no-calendar-icon,
-    .datepicker-container--rtl &--no-calendar-icon {
+    .datepicker__wrapper--rtl &--no-calendar-icon {
       input[type="text"],
       button {
         margin: 0;
       }
     }
-  }
 
-  input[type='hidden'] {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    height: 1px;
-    width: 1px;
-    border: 0;
-    clip: rect(0 0 0 0);
-    margin: -1px;
-    padding: 0;
-    outline: 0;
-    -webkit-appearance: none;
-    overflow: hidden;
-  }
+    svg {
+      margin-bottom: 5px;
+    }
 
-  input[type="text"] {
-    cursor: pointer;
-    border: none;
-    box-shadow: none;
-    outline: 0;
-    font-size: 16px;
-    line-height: 19px;
-    margin-left: $gutter;
-    font-family: inherit;
-    background: transparent;
-
-    &:focus,
-    &:active {
-      outline: 0;
+    input {
+      display: flex;
+      flex: 1 1 auto;
+      position: relative;
+      border: none;
       box-shadow: none;
+      outline: 0;
+      font-size: 16px;
+      line-height: 19px;
+      margin-left: $gutter;
+      font-family: inherit;
+      background: transparent;
+      color: currentColor;
+      cursor: inherit;
+
+      &:focus,
+      &:active {
+        outline: 0;
+        box-shadow: none;
+      }
+
+      @include input-placeholder {
+        color: transparentize(black, .6);
+      }
     }
 
-    &:disabled,
-    &[disabled] {
-      cursor: not-allowed;
+    button {
+      @extend %reset-button;
+      font-size: 16px;
+      line-height: 19px;
+      margin-left: $gutter;
+      color: currentColor;
     }
-
-    @include input-placeholder {
-      color: transparentize(black, .6)
-    }
-
-    .datepicker-input--range & {
-      min-width: 310px;
-    }
-  }
-
-  button {
-    @extend %reset-button;
-    font-size: 16px;
-    line-height: 19px;
-    margin-left: $gutter;
   }
 </style>

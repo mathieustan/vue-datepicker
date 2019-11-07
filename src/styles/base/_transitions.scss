@@ -1,0 +1,48 @@
+@mixin transition-default() {
+  &-enter-active,
+  &-leave-active {
+    transition: all .3s get-easing(swing);
+    transition-property: opacity, transform;
+  }
+}
+
+.slide-x-transition {
+  @include transition-default();
+
+  &-enter,
+  &-leave-to {
+    opacity: 0;
+    transform: translateX(-15px);
+  }
+}
+
+.slide-y-transition {
+  @include transition-default();
+
+  &-enter,
+  &-leave-to {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+}
+
+.scale-transition {
+  @include transition-default();
+
+  &-enter,
+  &-leave,
+  &-leave-to {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+.slide-in-out-transition {
+  @include transition-default();
+
+  &-enter, &-leave-to {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+

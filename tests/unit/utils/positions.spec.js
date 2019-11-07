@@ -1,24 +1,29 @@
 import {
+  getTopColPosition,
   computeYearsScrollPosition,
   computeAgendaHeight,
-  getDynamicPosition,
+  detectFixedActivator,
+  getInnerWidth,
+  getInnerHeight,
+  getOffsetLeft,
+  getOffsetTop,
+  getRoundedBoundedClientRect,
+  measure,
 } from '@/utils/positions';
 
 describe('Utils: Functions', () => {
+  const createElement = (boundingRect = {}) => {
+    const element = document.createElement('div');
+    jest.spyOn(element, 'getBoundingClientRect').mockReturnValue(boundingRect);
+    return element;
+  };
+
   const createDivParentWithChildren = (position = 'relative') => {
     const body = document.createElement('body');
     body.style.position = position;
+
     const activatorElement = document.createElement('div');
     activatorElement.setAttribute('class', 'activator');
-    const element = document.createElement('div');
-    element.setAttribute('class', 'element');
-    Object.defineProperties(element, {
-      offsetParent: { get: () => activatorElement },
-    }, { writable: true });
-
-    activatorElement.appendChild(element);
-    element.style.height = '100px';
-    element.style.width = '100px';
 
     document.body.appendChild(activatorElement);
     Object.defineProperties(activatorElement, {
@@ -29,13 +34,32 @@ describe('Utils: Functions', () => {
     return {
       body,
       activator: activatorElement,
-      element,
     };
   };
 
   afterEach(() => {
     jest.resetModules();
     jest.clearAllMocks();
+  });
+
+  describe('getTopColPosition', () => {
+    [{
+      description: 'return first col when colYs are filled with 0 values',
+      colYs: [0, 0, 0],
+      expectedResult: { col: 0, y: 0 },
+    }, {
+      description: 'return lowest column',
+      colYs: [100, 0, 0],
+      expectedResult: { col: 1, y: 0 },
+    }, {
+      description: 'return lowest column',
+      colYs: [100, 200, 125],
+      expectedResult: { col: 0, y: 100 },
+    }].forEach(({ description, colYs, expectedResult }) => {
+      it(`should ${description}`, () => {
+        expect(getTopColPosition(colYs)).toEqual(expectedResult);
+      });
+    });
   });
 
   describe('computeYearsScrollPosition', () => {
@@ -59,179 +83,191 @@ describe('Utils: Functions', () => {
     );
   });
 
-  describe('getDynamicPosition', () => {
-    it.each([
-      // Should place ABOVE
-      [
-        { width: 800, height: 800 }, // windowSize
-        { offsetTop: 0, offsetLeft: 0 }, // target
-        { width: 800, left: 0, bottom: 800 }, // targetRect
-        { top: 700, left: 0, bottom: 700, width: 300, height: 50 }, // activatorRect
-        { width: 100, height: 400 }, // elementSize
-        { top: 300, left: 0, origin: 'bottom left' }, // result
-      ],
-      // Should place BELOW
-      [
-        { width: 800, height: 800 }, // windowSize
-        { offsetTop: 0, offsetLeft: 0 }, // target
-        { width: 800, left: 0, bottom: 800 }, // targetRect
-        { top: 100, left: 0, bottom: 100, width: 300, height: 50 }, // activatorRect
-        { width: 100, height: 100 }, // elementSize
-        { top: 150, left: 0, origin: 'top left' }, // result
-      ],
-      // Should place BELOW in SPECIFIC TARGET
-      [
-        { width: 800, height: 800 }, // windowSize
-        { offsetTop: 0, offsetLeft: 400 }, // target
-        { width: 400, left: 400, bottom: 600 }, // targetRect
-        { top: 100, left: 450, bottom: 100, width: 300, height: 50 }, // activatorRect
-        { width: 100, height: 100 }, // elementSize
-        { top: 150, left: 50, origin: 'top left' }, // result
-      ],
-      // Should place BELOW and LEFT if there is not enought place on right
-      [
-        { width: 800, height: 800 }, // windowSize
-        { offsetTop: 0, offsetLeft: 0 }, // target
-        { width: 800, left: 0, bottom: 800 }, // targetRect
-        { top: 100, left: 500, bottom: 100, width: 300, height: 50 }, // activatorRect
-        { width: 100, height: 100 }, // elementSize
-        { top: 150, left: 700, origin: 'top right' }, // result
-      ],
-      // Should place ABOVE and LEFT if there is not enought place on right
-      [
-        { width: 800, height: 800 }, // windowSize
-        { offsetTop: 0, offsetLeft: 0 }, // target
-        { width: 800, left: 0, bottom: 800 }, // targetRect
-        { top: 700, left: 500, bottom: 700, width: 300, height: 50 }, // activatorRect
-        { width: 100, height: 100 }, // elementSize
-        { top: 600, left: 700, origin: 'bottom right' }, // result
-      ],
-      // Should place BELOW and LEFT if there is not enought place on right and on left
-      [
-        { width: 800, height: 800 }, // windowSize
-        { offsetTop: 0, offsetLeft: 0 }, // target
-        { width: 800, left: 0, bottom: 800 }, // targetRect
-        { top: 100, left: 300, bottom: 100, width: 300, height: 50 }, // activatorRect
-        { width: 300, height: 100 }, // elementSize
-        { top: 150, left: 300, origin: 'top left' }, // result
-      ],
-      // Should place ABOVE and LEFT if there is not enought place on right and on left
-      [
-        { width: 800, height: 800 }, // windowSize
-        { offsetTop: 0, offsetLeft: 0 }, // target
-        { width: 800, left: 0, bottom: 800 }, // targetRect
-        { top: 700, left: 300, bottom: 700, width: 300, height: 50 }, // activatorRect
-        { width: 300, height: 100 }, // elementSize
-        { top: 600, left: 300, origin: 'bottom left' }, // result
-      ],
-      // Should place on LEFT
-      [
-        { width: 800, height: 500 }, // windowSize
-        { offsetTop: 0, offsetLeft: 0 }, // target
-        { width: 800, left: 0, bottom: 500 }, // targetRect
-        { top: 250, left: 500, bottom: 250, width: 300, height: 50 }, // activatorRect
-        { width: 400, height: 400 }, // elementSize
-        { top: 50, left: 100, origin: 'right center' }, // result
-      ],
-      // Should place on RIGHT
-      [
-        { width: 800, height: 400 }, // windowSize
-        { offsetTop: 0, offsetLeft: 0 }, // target
-        { width: 800, left: 0, bottom: 400 }, // targetRect
-        { top: 200, left: 50, bottom: 200, width: 300, height: 50 }, // activatorRect
-        { width: 300, height: 300 }, // elementSize
-        { top: 50, left: 350, origin: 'left center' }, // result
-      ],
-      // Should place MIDDLE
-      [
-        { width: 400, height: 400 }, // windowSize
-        { offsetTop: 0, offsetLeft: 0 }, // target
-        { width: 400, left: 0, bottom: 400 }, // targetRect
-        { top: 200, left: 150, bottom: 200, width: 300, height: 50 }, // activatorRect
-        { width: 300, height: 300 }, // elementSize
-        { top: 50, left: 50, origin: 'center center' }, // result
-      ],
-    ])(
-      'When windowSize = %p, target = %p, targetRect = %p, activator = %p, element = %p, should return %p',
-      (windowSize, target, targetRect, activatorRect, elementSize, expectedResult) => {
-        Object.defineProperties(window.HTMLElement.prototype, {
-          offsetHeight: { get: () => elementSize.height },
-          offsetWidth: { get: () => elementSize.width },
-        }, { writable: true });
-
-        global.pageXOffset = 0;
-        global.pageXOffset = 0;
-        global.innerWidth = windowSize.width;
-        global.innerHeight = windowSize.height;
-
-        const { activator, element, body } = createDivParentWithChildren();
-        Object.defineProperties(body, {
-          offsetTop: { get: () => target.offsetTop },
-          offsetLeft: { get: () => target.offsetLeft },
-        }, { writable: true });
-        jest.spyOn(body, 'getBoundingClientRect').mockReturnValue(targetRect);
-        jest.spyOn(activator, 'getBoundingClientRect').mockReturnValue(activatorRect);
-        expect(getDynamicPosition(element, activator, body)).toEqual(expectedResult);
-      },
-    );
-
-    it('should not add scrolltop if element parent is fixed', () => {
-      const windowSize = { width: 800, height: 800 };
-      const target = { offsetTop: 100, offsetLeft: 400 };
-      const targetRect = { width: 400, left: 400, bottom: 700 };
-      const activatorRect = { top: 200, left: 450, bottom: 250, width: 400, height: 50 };
-      const elementSize = { width: 100, height: 100 };
-      const expectedResult = { top: 250, left: 50, origin: 'top left' };
-
-      Object.defineProperties(window.HTMLElement.prototype, {
-        offsetHeight: { get: () => elementSize.height },
-        offsetWidth: { get: () => elementSize.width },
-      }, { writable: true });
-
-      global.pageXOffset = 0;
-      global.pageYOffset = 500;
-      global.innerWidth = windowSize.width;
-      global.innerHeight = windowSize.height;
-
-      const { activator, element, body } = createDivParentWithChildren('fixed');
-      Object.defineProperties(body, {
-        offsetTop: { get: () => target.offsetTop },
-        offsetLeft: { get: () => target.offsetLeft },
-      }, { writable: true });
-      jest.spyOn(body, 'getBoundingClientRect').mockReturnValue(targetRect);
-      jest.spyOn(activator, 'getBoundingClientRect').mockReturnValue(activatorRect);
-
-      expect(getDynamicPosition(element, activator, body)).toEqual(expectedResult);
+  describe('detectFixedActivator', () => {
+    [{
+      description: 'return false if activator & parents arent fixed',
+      position: 'relative',
+      expectedResult: false,
+    }, {
+      description: 'return true if parent activator is fixed',
+      position: 'fixed',
+      expectedResult: true,
+    }].forEach(({ description, position, expectedResult }) => {
+      it(`should ${description}`, () => {
+        const { activator } = createDivParentWithChildren(position);
+        expect(detectFixedActivator(activator)).toEqual(expectedResult);
+      });
     });
+  });
 
-    it('RTL: should place it correcly for RTL mode', () => {
-      const windowSize = { width: 800, height: 800 };
-      const target = { offsetTop: 0, offsetLeft: 0 };
-      const targetRect = { width: 800, left: 0, bottom: 800 };
-      const activatorRect = { top: 200, left: 100, bottom: 250, width: 300, height: 50 };
-      const elementSize = { width: 100, height: 400 };
-      const expectedResult = { top: 250, left: 300, origin: 'top right' };
-      const isRtl = true;
+  describe('getInnerWidth', () => {
+    [{
+      description: 'return window innerWidth',
+      innerWidth: 800,
+      clientWidth: 300,
+      expectedResult: 800,
+    }, {
+      description: 'return document clientWidth if innerWidth not defined',
+      innerWidth: undefined,
+      clientWidth: 300,
+      expectedResult: 300,
+    }].forEach(({ description, innerWidth, clientWidth, expectedResult }) => {
+      it(`should ${description}`, () => {
+        global.innerWidth = innerWidth;
+        Object.defineProperty(window.HTMLElement.prototype, 'clientWidth', {
+          value: clientWidth,
+          configurable: true,
+        });
+        expect(getInnerWidth()).toEqual(expectedResult);
+      });
+    });
+  });
 
-      Object.defineProperties(window.HTMLElement.prototype, {
-        offsetHeight: { get: () => elementSize.height },
-        offsetWidth: { get: () => elementSize.width },
-      }, { writable: true });
+  describe('getInnerHeight', () => {
+    [{
+      description: 'return window innerHeight',
+      innerHeight: 800,
+      clientHeight: 300,
+      expectedResult: 800,
+    }, {
+      description: 'return document clientHeight if innerHeight not defined',
+      innerHeight: undefined,
+      clientHeight: 300,
+      expectedResult: 300,
+    }].forEach(({ description, innerHeight, clientHeight, expectedResult }) => {
+      it(`should ${description}`, () => {
+        global.innerHeight = innerHeight;
+        Object.defineProperty(window.HTMLElement.prototype, 'clientHeight', {
+          value: clientHeight,
+          configurable: true,
+        });
+        expect(getInnerHeight()).toEqual(expectedResult);
+      });
+    });
+  });
 
-      global.pageXOffset = 0;
-      global.pageYOffset = 500;
-      global.innerWidth = windowSize.width;
-      global.innerHeight = windowSize.height;
+  describe('getOffsetLeft', () => {
+    [{
+      description: 'return window pageXOffset',
+      pageXOffset: 800,
+      scrollLeft: 300,
+      expectedResult: 800,
+    }, {
+      description: 'return document scrollLeft if pageXOffset not defined',
+      pageXOffset: undefined,
+      scrollLeft: 300,
+      expectedResult: 300,
+    }].forEach(({ description, pageXOffset, scrollLeft, expectedResult }) => {
+      it(`should ${description}`, () => {
+        global.pageXOffset = pageXOffset;
+        Object.defineProperty(window.HTMLElement.prototype, 'scrollLeft', {
+          value: scrollLeft,
+          configurable: true,
+        });
+        expect(getOffsetLeft()).toEqual(expectedResult);
+      });
+    });
+  });
 
-      const { activator, element, body } = createDivParentWithChildren('fixed');
-      Object.defineProperties(body, {
-        offsetTop: { get: () => target.offsetTop },
-        offsetLeft: { get: () => target.offsetLeft },
-      }, { writable: true });
-      jest.spyOn(body, 'getBoundingClientRect').mockReturnValue(targetRect);
-      jest.spyOn(activator, 'getBoundingClientRect').mockReturnValue(activatorRect);
+  describe('getOffsetTop', () => {
+    [{
+      description: 'return window pageYOffset',
+      pageYOffset: 800,
+      scrollTop: 300,
+      expectedResult: 800,
+    }, {
+      description: 'return document scrollTop if pageYOffset not defined',
+      pageYOffset: undefined,
+      scrollTop: 300,
+      expectedResult: 300,
+    }].forEach(({ description, pageYOffset, scrollTop, expectedResult }) => {
+      it(`should ${description}`, () => {
+        global.pageYOffset = pageYOffset;
+        Object.defineProperty(window.HTMLElement.prototype, 'scrollTop', {
+          value: scrollTop,
+          configurable: true,
+        });
+        expect(getOffsetTop()).toEqual(expectedResult);
+      });
+    });
+  });
 
-      expect(getDynamicPosition(element, activator, body, isRtl)).toEqual(expectedResult);
+  describe('getRoundedBoundedClientRect', () => {
+    [{
+      description: 'return element boundingRect',
+      elementsBoundingRect: {
+        top: 100,
+        left: 101.5,
+        bottom: 100,
+        right: 100,
+        width: 100,
+        height: 100,
+      },
+      expectedResult: {
+        top: 100,
+        left: 102,
+        bottom: 100,
+        right: 100,
+        width: 100,
+        height: 100,
+      },
+    }].forEach(({ description, elementsBoundingRect, expectedResult }) => {
+      it(`should ${description}`, () => {
+        const element = createElement(elementsBoundingRect);
+        expect(getRoundedBoundedClientRect(element)).toEqual(expectedResult);
+      });
+    });
+  });
+
+  describe('measure', () => {
+    [{
+      description: 'return undefined if not element',
+      element: undefined,
+      attach: false,
+      expectedResult: undefined,
+    }, {
+      description: 'return boundingRect element',
+      elementsBoundingRect: {
+        top: 100,
+        left: 101.5,
+        bottom: 100,
+        right: 100,
+        width: 100,
+        height: 100,
+      },
+      attach: false,
+      expectedResult: {
+        top: 100,
+        left: 102,
+        bottom: 100,
+        right: 100,
+        width: 100,
+        height: 100,
+      },
+    }, {
+      description: 'return boundingRect + computedStyle left & top if attach to a specific element',
+      elementsBoundingRect: {
+        top: 100,
+        left: 101.5,
+        bottom: 100,
+        right: 100,
+        width: 100,
+        height: 100,
+      },
+      attach: 'test',
+      expectedResult: {
+        top: 0,
+        left: 0,
+        bottom: 100,
+        right: 100,
+        width: 100,
+        height: 100,
+      },
+    }].forEach(({ description, elementsBoundingRect, attach, expectedResult }) => {
+      it(`should ${description}`, () => {
+        const element = elementsBoundingRect && createElement(elementsBoundingRect);
+        expect(measure(element, attach)).toEqual(expectedResult);
+      });
     });
   });
 });

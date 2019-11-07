@@ -91,7 +91,7 @@ export default {
   }
 
   &__example__item {
-    width: fit-content;
+    width: 100%;
   }
 
   &__inputs {

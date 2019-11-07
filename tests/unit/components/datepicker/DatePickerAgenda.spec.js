@@ -2,9 +2,7 @@ import dayjs from 'dayjs';
 import mockDate from 'mockdate';
 import * as bodyScrollLockFunctions from 'body-scroll-lock';
 import { shallowMount } from '@vue/test-utils';
-import DatePickerAgenda from '@/components/datepicker/DatePickerAgenda.vue';
-
-import * as utilsFunctions from '@/utils/positions';
+import DatePickerAgenda from '@/components/DatePicker/DatePickerAgenda.vue';
 
 jest.mock('body-scroll-lock', () => ({
   disableBodyScroll: jest.fn(),
@@ -26,11 +24,6 @@ describe('DatePickerAgenda', () => {
   const dummyDate = dayjs('2019-5-16');
 
   beforeEach(() => {
-    jest.spyOn(utilsFunctions, 'getDynamicPosition').mockReturnValue({
-      top: 0,
-      left: 0,
-      origin: 'origin',
-    });
     jest.spyOn(global, 'requestAnimationFrame').mockImplementation(cb => cb());
 
     mountComponent = ({
@@ -38,14 +31,12 @@ describe('DatePickerAgenda', () => {
       minDate,
       maxDate,
       locale = { lang: 'en' },
-      isVisible = true,
-      fullscreenMobile = false,
+      activeBottomSheet = false,
       noHeader = false,
-      inline = false,
-      fixed = false,
       type = 'date',
       validate,
       range,
+      rangePresets,
       rtl,
     } = {}) =>
       shallowMount(DatePickerAgenda, {
@@ -53,20 +44,16 @@ describe('DatePickerAgenda', () => {
           date,
           minDate,
           maxDate,
-          isVisible,
-          inline,
-          fixed,
           locale,
           color: 'color',
           close: jest.fn(),
           type,
           validate,
           range,
-          rtl,
-          fullscreenMobile,
+          rangePresets,
+          activeBottomSheet,
           noHeader,
-          zIndex: 1,
-          attachTo: '#app',
+          rtl,
         },
         attachToDocument: true,
       });
@@ -80,7 +67,6 @@ describe('DatePickerAgenda', () => {
   it('Should init data', () => {
     const wrapper = mountComponent();
     expect(wrapper.isVueInstance()).toBeTruthy();
-    expect(wrapper.vm.isVisible).toEqual(true);
     expect(wrapper.vm.locale).toEqual({ lang: 'en' });
     expect(wrapper.vm.color).toEqual('color');
 
@@ -99,10 +85,6 @@ describe('DatePickerAgenda', () => {
         const wrapper = mountComponent();
         expect(wrapper.vm.styles).toEqual({
           height: 'auto',
-          top: '0px',
-          left: '0px',
-          transformOrigin: 'top center',
-          zIndex: 1,
         });
       });
     });
@@ -110,12 +92,10 @@ describe('DatePickerAgenda', () => {
     describe('classes', () => {
       it.each([
         [
-          { fullscreenMobile: true, inline: false, fixed: true, noHeader: true, validate: true },
+          { fullscreenMobile: true, inline: false, activeBottomSheet: true, noHeader: true, validate: true },
           {
-            'datepicker--fullscreen-mobile': true,
             'datepicker--rtl': false,
-            'datepicker--inline': false,
-            'datepicker--fixed': true,
+            'datepicker--bottomsheet': true,
             'datepicker--no-header': true,
             'datepicker--validate': true,
             'datepicker--range': false,
@@ -124,18 +104,16 @@ describe('DatePickerAgenda', () => {
         ],
         [
           {
+            rtl: true,
             fullscreenMobile: false,
             inline: true,
             noHeader: false,
             range: true,
             date: { start: dayjs('2018-01-01'), end: dayjs('2018-02-01') },
-            rtl: true,
           },
           {
-            'datepicker--fullscreen-mobile': false,
             'datepicker--rtl': true,
-            'datepicker--inline': true,
-            'datepicker--fixed': false,
+            'datepicker--bottomsheet': false,
             'datepicker--no-header': false,
             'datepicker--validate': false,
             'datepicker--range': true,
@@ -171,35 +149,10 @@ describe('DatePickerAgenda', () => {
       );
     });
 
-    describe('shouldShowAgenda', () => {
-      it.each([
-        [{ isVisible: true, inline: false }, true],
-        [{ isVisible: false, inline: true }, true],
-        [{ isVisible: false, inline: false }, false],
-      ])('when props equal %p, should return %p', (props, expectedResult) => {
-        const wrapper = mountComponent(props);
-        expect(wrapper.vm.shouldShowAgenda).toEqual(expectedResult);
-      });
-    });
-
-    describe('shouldShowBottomSheet', () => {
-      it.each([
-        [{ isVisible: true, fullscreenMobile: false }, 400, false],
-        [{ isVisible: false, fullscreenMobile: true }, 400, false],
-        [{ isVisible: true, fullscreenMobile: true }, 400, true],
-        [{ isVisible: true, fullscreenMobile: true }, 800, false],
-      ])('when props = %p, innerWidth = %p, should return %p', (props, innerWidth, expectedResult) => {
-        const wrapper = mountComponent(props);
-        wrapper.setData({ innerWidth });
-        expect(wrapper.vm.shouldShowBottomSheet).toEqual(expectedResult);
-      });
-    });
-
     describe('isRangeSelected', () => {
       it.each([
         [{ range: false, date: undefined }, false],
         [{ range: true, date: undefined }, false],
-        [{ range: true, date: { start: dayjs('2018-01-01'), end: undefined } }, false],
         [{ range: true, date: { start: dayjs('2018-01-01'), end: undefined } }, false],
         [{ range: true, date: { start: undefined, end: dayjs('2018-02-01') } }, false],
         [{ range: true, date: { start: dayjs('2018-01-01'), end: dayjs('2018-02-01') } }, true],
@@ -210,14 +163,23 @@ describe('DatePickerAgenda', () => {
     });
   });
 
+  describe('created', () => {
+    it('should init currentDate & mutableDate ', async () => {
+      const wrapper = mountComponent();
+
+      expect(wrapper.vm.currentDate).toEqual({
+        start: dummyDate.startOf('month'),
+        end: dummyDate.endOf('month'),
+        month: 4,
+        year: 2019,
+      });
+      expect(wrapper.vm.mutableDate).toEqual(dummyDate);
+    });
+  });
+
   describe('destroyed', () => {
     it('should remove all body scroll locks', () => {
       const wrapper = mountComponent();
-      wrapper.vm.$refs = {
-        content: {
-          parentNode: { removeChild: jest.fn(() => true) },
-        },
-      };
 
       wrapper.destroy();
       expect(bodyScrollLockFunctions.clearAllBodyScrollLocks).toHaveBeenCalledWith();
@@ -227,7 +189,7 @@ describe('DatePickerAgenda', () => {
   describe('watch', () => {
     describe('date', () => {
       it('should update currentDate & mutableDate when date change', () => {
-        const wrapper = mountComponent({ isVisible: false, inline: true });
+        const wrapper = mountComponent();
         const newDate = dummyDate.add(1, 'day');
 
         expect(wrapper.vm.currentDate).toEqual({
@@ -250,89 +212,17 @@ describe('DatePickerAgenda', () => {
       });
     });
 
-    describe('shouldShowAgenda', () => {
-      it('should init currentDate & mutableDate if isVisible equal true', async () => {
-        const wrapper = mountComponent({ isVisible: false });
-        jest.spyOn(wrapper.vm, 'initDetach').mockReturnValue(true);
-        jest.spyOn(wrapper.vm, 'initResizeListener').mockReturnValue(true);
-        jest.spyOn(wrapper.vm, 'updatePosition').mockReturnValue(true);
-
-        expect(wrapper.vm.currentDate).toEqual(undefined);
-        expect(wrapper.vm.mutableDate).toEqual(undefined);
-
-        wrapper.setProps({ isVisible: true });
-
-        expect(wrapper.vm.currentDate).toEqual({
-          start: dummyDate.startOf('month'),
-          end: dummyDate.endOf('month'),
-          month: 4,
-          year: 2019,
-        });
-        expect(wrapper.vm.mutableDate).toEqual(dummyDate);
-
-        await wrapper.vm.$nextTick();
-        expect(wrapper.vm.initDetach).toHaveBeenCalled();
-        expect(wrapper.vm.initResizeListener).toHaveBeenCalled();
-        expect(wrapper.vm.updatePosition).toHaveBeenCalled();
-      });
-
-      it('should not update position if inline equal true', async () => {
-        const wrapper = mountComponent({ isVisible: false, inline: false });
-        jest.spyOn(wrapper.vm, 'initDetach').mockReturnValue(true);
-        jest.spyOn(wrapper.vm, 'initResizeListener').mockReturnValue(true);
-        jest.spyOn(wrapper.vm, 'updatePosition').mockReturnValue(true);
-
-        expect(wrapper.vm.currentDate).toEqual(undefined);
-        expect(wrapper.vm.mutableDate).toEqual(undefined);
-
-        wrapper.setProps({ inline: true });
-
-        expect(wrapper.vm.currentDate).toEqual({
-          start: dummyDate.startOf('month'),
-          end: dummyDate.endOf('month'),
-          month: 4,
-          year: 2019,
-        });
-        expect(wrapper.vm.mutableDate).toEqual(dummyDate);
-
-        await wrapper.vm.$nextTick();
-        expect(wrapper.vm.initDetach).not.toHaveBeenCalled();
-        expect(wrapper.vm.initResizeListener).not.toHaveBeenCalled();
-        expect(wrapper.vm.updatePosition).not.toHaveBeenCalled();
-      });
-
-      it('should reset if isVisible equal false', () => {
-        const wrapper = mountComponent({ isVisible: true });
-
-        wrapper.setData({
-          isActive: true,
-          transitionDaysName: 'test',
-          transitionLabelName: 'test',
-          shouldShowYearMonthSelector: true,
-          yearMonthMode: 'month',
-        });
-
-        wrapper.setProps({ isVisible: false });
-        expect(wrapper.vm.isActive).toEqual(false);
-        expect(wrapper.vm.transitionDaysName).toEqual('slide-h-next');
-        expect(wrapper.vm.transitionLabelName).toEqual('slide-v-next');
-        expect(wrapper.vm.shouldShowYearMonthSelector).toEqual(undefined);
-        expect(wrapper.vm.yearMonthMode).toEqual(undefined);
-      });
-
-    });
-
-    describe('shouldShowBottomSheet', () => {
+    describe('activeBottomSheet', () => {
       it('should disable body scroll when visible', async () => {
-        const wrapper = mountComponent({ isVisible: true, fullscreenMobile: true });
+        const wrapper = mountComponent({ activeBottomSheet: true });
         wrapper.setData({ innerWidth: 400 });
         await wrapper.vm.$nextTick();
-        const datepickerContent = document.querySelector('.datepicker-content');
+        const datepickerContent = document.querySelector('.datepicker__body');
         expect(bodyScrollLockFunctions.disableBodyScroll).toHaveBeenCalledWith(datepickerContent);
       });
 
       it('should enable body scroll when hidden', async () => {
-        const wrapper = mountComponent({ isVisible: true, fullscreenMobile: false });
+        const wrapper = mountComponent({ activeBottomSheet: false });
         wrapper.setData({ innerWidth: 500 });
         await wrapper.vm.$nextTick();
         expect(bodyScrollLockFunctions.enableBodyScroll).toHaveBeenCalled();
@@ -342,8 +232,8 @@ describe('DatePickerAgenda', () => {
     describe('yearMonthMode', () => {
       let wrapper, datepickerContent, datepickerYearMonth;
       beforeEach(() => {
-        wrapper = mountComponent({ isVisible: true, fullscreenMobile: true });
-        datepickerContent = document.querySelector('.datepicker-content');
+        wrapper = mountComponent({ activeBottomSheet: true });
+        datepickerContent = document.querySelector('.datepicker__body');
         datepickerYearMonth = document.querySelector('.datepicker-year-month');
       });
 
@@ -386,14 +276,6 @@ describe('DatePickerAgenda', () => {
   });
 
   describe('methods', () => {
-    describe('setActive', () => {
-      it('should update isActive to true', () => {
-        const wrapper = mountComponent();
-        wrapper.vm.setActive();
-        expect(wrapper.vm.isActive).toEqual(true);
-      });
-    });
-
     describe('isSelected', () => {
       it.each([
         [{ date: dayjs('2018-5-16') }, dayjs('2018-5-16'), true],
@@ -553,6 +435,38 @@ describe('DatePickerAgenda', () => {
           expect(wrapper.vm.isToday(selectedDate)).toEqual(expectedResult);
         }
       );
+    });
+
+    describe('reOrderSelectedDate', () => {
+      [{
+        description: 'do nothing if mutableDate is undefined',
+        data: {
+          mutableDate: undefined,
+        },
+        date: dummyDate,
+        expectedMutableDate: undefined,
+      }, {
+        description: 'set mutable start to end',
+        data: {
+          mutableDate: { start: dummyDate.add(2, 'day'), end: undefined },
+        },
+        date: dummyDate,
+        expectedMutableDate: { start: undefined, end: dummyDate.add(2, 'day') },
+      }, {
+        description: 'set mutable end to start',
+        data: {
+          mutableDate: { start: undefined, end: dummyDate.subtract(2, 'day') },
+        },
+        date: dummyDate,
+        expectedMutableDate: { start: dummyDate.subtract(2, 'day'), end: undefined },
+      }].forEach(({ description, data, date, expectedMutableDate }) => {
+        it(`should ${description}`, () => {
+          const wrapper = mountComponent();
+          wrapper.setData({ ...data });
+          wrapper.vm.reOrderSelectedDate(date);
+          expect(wrapper.vm.mutableDate).toEqual(expectedMutableDate);
+        });
+      });
     });
 
     describe('selectDate', () => {
@@ -850,7 +764,7 @@ describe('DatePickerAgenda', () => {
         const wrapper = mountComponent({ range: true, date: { start: startDate, end: undefined } });
         wrapper.vm.handleMouseMove({
           target: {
-            className: 'datepicker-days',
+            className: 'datepicker__days',
             tagName: 'DIV',
           },
         });
@@ -861,7 +775,7 @@ describe('DatePickerAgenda', () => {
         const wrapper = mountComponent({ range: true, date: { start: startDate, end: undefined } });
         wrapper.vm.handleMouseMove({
           target: {
-            className: 'datepicker-day__effect',
+            className: 'datepicker__day-effect',
             tagName: 'SPAN',
             parentNode: {
               dataset: { date: '2019-5-16' },
@@ -875,7 +789,7 @@ describe('DatePickerAgenda', () => {
         const wrapper = mountComponent({ range: true, date: { start: startDate, end: undefined } });
         wrapper.vm.handleMouseMove({
           target: {
-            className: 'datepicker-day',
+            className: 'datepicker__day',
             tagName: 'BUTTON',
             dataset: { date: '2019-5-16' },
           },
@@ -887,7 +801,7 @@ describe('DatePickerAgenda', () => {
         const wrapper = mountComponent({ range: true, date: { start: startDate, end: undefined } });
         wrapper.vm.handleMouseMove({
           target: {
-            className: 'datepicker-day',
+            className: 'datepicker__day',
             tagName: 'BUTTON',
             dataset: { date: '2019-5-10' },
           },
@@ -897,7 +811,7 @@ describe('DatePickerAgenda', () => {
 
         wrapper.vm.handleMouseMove({
           target: {
-            className: 'datepicker-day',
+            className: 'datepicker__day',
             tagName: 'BUTTON',
             dataset: { date: '2019-5-16' },
           },
@@ -910,7 +824,7 @@ describe('DatePickerAgenda', () => {
         const wrapper = mountComponent({ range: true, date: { start: startDate, end: undefined } });
         wrapper.vm.handleMouseMove({
           target: {
-            className: 'datepicker-day',
+            className: 'datepicker__day',
             tagName: 'BUTTON',
             dataset: { date: '2019-5-10' },
           },

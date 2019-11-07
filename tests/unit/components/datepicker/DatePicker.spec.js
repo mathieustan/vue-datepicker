@@ -2,14 +2,17 @@ import dayjs from 'dayjs';
 import * as bodyScrollLockFunctions from 'body-scroll-lock';
 import mockDate from 'mockdate';
 import { shallowMount } from '@vue/test-utils';
-import DatePicker from '@/components/datepicker/DatePicker.vue';
+import DatePicker from '@/components/DatePicker/DatePicker.vue';
 
 import * as helpersFunction from '@/utils/helpers';
 import {
   DEFAULT_INPUT_DATE_FORMAT,
   DEFAULT_HEADER_DATE_FORMAT,
   DEFAULT_OUTPUT_DATE_FORMAT,
+  KEYCODES,
 } from '@/constants';
+
+jest.useFakeTimers();
 
 jest.mock('body-scroll-lock', () => ({
   clearAllBodyScrollLocks: jest.fn(),
@@ -30,50 +33,24 @@ describe('DatePicker', () => {
 
   beforeEach(() => {
     jest.spyOn(helpersFunction, 'generateRandomId').mockReturnValue('randomId');
-    mountComponent = ({
-      id,
-      value,
-      disabled = false,
-      locale,
-      format,
-      formatHeader,
-      formatOutput,
-      type = 'date',
-      range,
-      validate,
-      buttonCancel,
-      buttonValidate,
-      rangeHeaderText,
-    } = {}) =>
+    mountComponent = ({ props = {}, scopedSlots = {} } = {}) =>
       shallowMount(DatePicker, {
-        propsData: {
-          id,
-          value,
-          disabled,
-          locale,
-          format,
-          formatHeader,
-          formatOutput,
-          type,
-          range,
-          validate,
-          buttonCancel,
-          buttonValidate,
-          rangeHeaderText,
-        },
+        scopedSlots,
+        propsData: props,
       });
   });
 
   afterEach(() => {
     jest.resetModules();
     jest.clearAllMocks();
+    document.body.innerHTML = '';
   });
 
   it('Should init data', () => {
     const wrapper = mountComponent();
     expect(wrapper.isVueInstance()).toBeTruthy();
     expect(wrapper.vm.date).toEqual(undefined);
-    expect(wrapper.vm.isVisible).toEqual(false);
+    expect(wrapper.vm.isMenuActive).toEqual(false);
     expect(wrapper.vm.placeholder).toEqual('YYYY-MM-DD');
     expect(wrapper.vm.color).toEqual('#4f88ff');
     expect(wrapper.vm.minDate).toEqual(undefined);
@@ -89,7 +66,7 @@ describe('DatePicker', () => {
         [undefined, 'datepicker_randomId'],
         ['datepicker', 'datepicker'],
       ])('when id = %p, should return %p', (id, expectedResult) => {
-        const wrapper = mountComponent({ id });
+        const wrapper = mountComponent({ props: { id } });
         expect(wrapper.vm.componentId).toEqual(expectedResult);
       });
     });
@@ -100,7 +77,7 @@ describe('DatePicker', () => {
         [{ format: undefined, range: true }, DEFAULT_INPUT_DATE_FORMAT.range],
         [{ format: 'DD/MM/YYYY' }, 'DD/MM/YYYY'],
       ])('when props equal %p, should return %p', (props, expectedResult) => {
-        const wrapper = mountComponent(props);
+        const wrapper = mountComponent({ props });
         expect(wrapper.vm.inputFormat).toEqual(expectedResult);
       });
     });
@@ -111,7 +88,7 @@ describe('DatePicker', () => {
         [{ formatHeader: undefined, range: true }, DEFAULT_HEADER_DATE_FORMAT.range],
         [{ formatHeader: 'MMMM MM' }, 'MMMM MM'],
       ])('when format equal %p, should return %p', (props, expectedResult) => {
-        const wrapper = mountComponent(props);
+        const wrapper = mountComponent({ props });
         expect(wrapper.vm.headerFormat).toEqual(expectedResult);
       });
     });
@@ -121,7 +98,7 @@ describe('DatePicker', () => {
         [{}, DEFAULT_OUTPUT_DATE_FORMAT.date],
         [{ range: true }, DEFAULT_OUTPUT_DATE_FORMAT.range],
       ])('when format equal %p, should return %p', (formatOutput, expectedResult) => {
-        const wrapper = mountComponent({ formatOutput });
+        const wrapper = mountComponent({ props: { formatOutput } });
         expect(wrapper.vm.outputFormat).toEqual(expectedResult);
       });
     });
@@ -149,8 +126,112 @@ describe('DatePicker', () => {
           rangeHeaderText: 'From %d To %d',
         }],
       ])('when props equal %p, should return %p', (props, expectedResult) => {
-        const wrapper = mountComponent(props);
+        const wrapper = mountComponent({ props });
         expect(wrapper.vm.textsFormat).toEqual(expectedResult);
+      });
+    });
+
+    describe('isDateDefined', () => {
+      it.each([
+        [undefined, false],
+        [{ value: dayjs('2019-5-16') }, true],
+        [{ range: true, value: {} }, false],
+        [{ range: true, value: { start: dayjs('2019-5-16') } }, false],
+        [{ range: true, value: { start: dayjs('2019-5-16'), end: dayjs('2019-5-17') } }, true],
+
+      ])('When props equal %p, should return %p', (props, expectedResult) => {
+        const wrapper = mountComponent({ props });
+        expect(wrapper.vm.isDateDefined).toEqual(expectedResult);
+      });
+    });
+
+    describe('computedDate', () => {
+      [{
+        description: 'return false by default',
+        props: {},
+        expectedResult: undefined,
+      }, {
+        description: 'return date formatted',
+        props: { value: dayjs('2019-2-12') },
+        expectedResult: '12 February 2019',
+      }, {
+        description: 'return month formatted',
+        props: { value: dayjs('2019-2-12'), type: 'month' },
+        expectedResult: 'February 2019',
+      }, {
+        description: 'return month formatted',
+        props: { value: dayjs('2019-2'), type: 'month' },
+        expectedResult: 'February 2019',
+      }, {
+        description: 'return quarter formatted',
+        props: { value: dayjs('2019-2-12'), type: 'quarter' },
+        expectedResult: '2019-Q2',
+      }, {
+        description: 'return quarter formatted',
+        props: { value: dayjs('2019-2'), type: 'quarter' },
+        expectedResult: '2019-Q2',
+      }, {
+        description: 'return undefined if range is enable and date is not fully selected',
+        props: {
+          value: { start: dayjs('2018-5-16'), end: undefined },
+          range: true,
+        },
+        expectedResult: undefined,
+      }, {
+        description: 'return range formatted by default',
+        props: {
+          value: { start: dayjs('2018-5-16'), end: dayjs('2018-5-17') },
+          range: true,
+        },
+        expectedResult: '16 May 2018 ~ 17 May 2018',
+      }, {
+        description: 'return range formatted with custom range format',
+        props: {
+          value: { start: dayjs('2018-5-16'), end: dayjs('2018-5-17') },
+          range: true,
+          rangeInputText: 'From %d to %d',
+        },
+        expectedResult: 'From 16 May 2018 to 17 May 2018',
+      }, {
+        description: 'return range formatted with another custom range format',
+        props: {
+          value: { start: dayjs('2018-5-16'), end: dayjs('2018-5-17') },
+          range: true,
+          rangeInputText: '%d to %d',
+        },
+        expectedResult: '16 May 2018 to 17 May 2018',
+      }].forEach(({ description, props, expectedResult }) => {
+        it(`should ${description}`, () => {
+          const wrapper = mountComponent({ props });
+          expect(wrapper.vm.computedDate).toEqual(expectedResult);
+        });
+      });
+    });
+
+    describe('shouldShowBottomSheet', () => {
+      [{
+        description: 'return false if menu isn\'t visible',
+        props: {},
+        expectedResult: false,
+      }, {
+        description: 'return false if window width is more than 480',
+        props: {
+          fullscreenMobile: true,
+        },
+        expectedResult: false,
+      }, {
+        description: 'return true if window width is equal or less than 480',
+        props: {
+          fullscreenMobile: true,
+        },
+        windowWidth: 480,
+        expectedResult: true,
+      }].forEach(({ description, props, windowWidth, expectedResult }) => {
+        it(`should ${description}`, () => {
+          global.innerWidth = windowWidth;
+          const wrapper = mountComponent({ props });
+          expect(wrapper.vm.shouldShowBottomSheet).toEqual(expectedResult);
+        });
       });
     });
   });
@@ -172,8 +253,8 @@ describe('DatePicker', () => {
         [{ value: dummyDate }, dayjs(dummyDate, DEFAULT_OUTPUT_DATE_FORMAT.date)],
         [{ value: undefined }, undefined],
       ])('when props equal %p, date should be equal to %p', (props, expectedResult) => {
-        const wrapper = mountComponent(props);
-        expect(wrapper.vm.date).toEqual(expectedResult);
+        const wrapper = mountComponent({ props });
+        expect(wrapper.vm.internalDate).toEqual(expectedResult);
       });
     });
   });
@@ -181,48 +262,22 @@ describe('DatePicker', () => {
   describe('beforeDestroy', () => {
     it('should emit destroy event && hide datepicker', () => {
       const wrapper = mountComponent();
-      wrapper.setData({ isVisible: true });
+      wrapper.setData({ isMenuActive: true });
 
       wrapper.destroy();
-      expect(wrapper.vm.isVisible).toEqual(false);
+      expect(wrapper.vm.isMenuActive).toEqual(false);
       expect(wrapper.emitted().onDestroy).toBeTruthy();
     });
   });
 
   describe('methods', () => {
-    describe('toggleDatepicker', () => {
-      it('should not show datepicker if disabled', () => {
-        const wrapper = mountComponent({ disabled: true });
-        expect(wrapper.vm.isVisible).toEqual(false);
-
-        wrapper.vm.toggleDatepicker();
-        expect(wrapper.vm.isVisible).toEqual(false);
-      });
-
-      it('should set isVisible to true', () => {
-        const wrapper = mountComponent();
-        expect(wrapper.vm.isVisible).toEqual(false);
-
-        wrapper.vm.toggleDatepicker();
-        expect(wrapper.vm.isVisible).toEqual(true);
-      });
-
-      it('should set isVisible to false iff already open', () => {
-        const wrapper = mountComponent();
-        wrapper.setData({ isVisible: true });
-
-        wrapper.vm.toggleDatepicker();
-        expect(wrapper.vm.isVisible).toEqual(false);
-      });
-    });
-
     describe('showDatePicker', () => {
       it('should do nothing if disabled', () => {
-        const wrapper = mountComponent({ disabled: true });
-        wrapper.setData({ isVisible: false });
+        const wrapper = mountComponent({ props: { disabled: true } });
+        wrapper.setData({ isMenuActive: false });
 
         wrapper.vm.showDatePicker();
-        expect(wrapper.vm.isVisible).toEqual(false);
+        expect(wrapper.vm.isMenuActive).toEqual(false);
         expect(wrapper.emitted().onOpen).toBeFalsy();
       });
 
@@ -237,35 +292,35 @@ describe('DatePicker', () => {
       ])(
         'when props = %p, date = %p, should reset date to %p & close',
         (props, currentDate, expectedResult) => {
-          const wrapper = mountComponent(props);
+          const wrapper = mountComponent({ props });
           wrapper.setData({ date: currentDate });
           jest.spyOn(wrapper.vm, 'hideDatePicker');
 
           wrapper.vm.showDatePicker();
-          expect(wrapper.vm.date).toEqual(expectedResult);
-          expect(wrapper.vm.isVisible).toEqual(true);
+          expect(wrapper.vm.internalDate).toEqual(expectedResult);
+          expect(wrapper.vm.isMenuActive).toEqual(true);
           expect(wrapper.emitted().onOpen).toBeTruthy();
         },
       );
     });
 
     describe('hideDatePicker', () => {
-      it('should set isVisible to false', () => {
+      it('should set isMenuActive to false', () => {
         const wrapper = mountComponent();
-        wrapper.setData({ isVisible: true });
+        wrapper.setData({ isMenuActive: true });
 
         wrapper.vm.hideDatePicker();
-        expect(wrapper.vm.isVisible).toEqual(false);
+        expect(wrapper.vm.isMenuActive).toEqual(false);
         expect(bodyScrollLockFunctions.clearAllBodyScrollLocks).toHaveBeenCalled();
         expect(wrapper.emitted().onClose).toBeTruthy();
       });
 
       it('should do nothing if datepicker isn\'t opened', () => {
         const wrapper = mountComponent();
-        wrapper.setData({ isVisible: false });
+        wrapper.setData({ isMenuActive: false });
 
         wrapper.vm.hideDatePicker();
-        expect(wrapper.vm.isVisible).toEqual(false);
+        expect(wrapper.vm.isMenuActive).toEqual(false);
         expect(bodyScrollLockFunctions.clearAllBodyScrollLocks).not.toHaveBeenCalled();
         expect(wrapper.emitted().onClose).toBeFalsy();
       });
@@ -281,7 +336,7 @@ describe('DatePicker', () => {
       });
 
       it('should update date but not value if validate equal true', () => {
-        const wrapper = mountComponent({ validate: true });
+        const wrapper = mountComponent({ props: { validate: true } });
         wrapper.vm.changeDate(dayjs('2019-5-18'));
         expect(wrapper.vm.date.format('YYYY-MM-DD')).toEqual('2019-05-18');
         expect(wrapper.emitted().input).toBeFalsy();
@@ -289,7 +344,7 @@ describe('DatePicker', () => {
       });
 
       it('should update dates when range is active', () => {
-        const wrapper = mountComponent({ range: true });
+        const wrapper = mountComponent({ props: { range: true } });
         const dates = {
           start: dayjs(dummyDate),
           end: dayjs(dummyDateEnd),
@@ -303,6 +358,14 @@ describe('DatePicker', () => {
     });
 
     describe('validateDate', () => {
+      it('should not update date if undefined', () => {
+        const wrapper = mountComponent();
+
+        wrapper.vm.validateDate();
+        expect(wrapper.emitted().input).toBeFalsy();
+        expect(wrapper.emitted().onChange).toBeFalsy();
+      });
+
       it('should update date', () => {
         const wrapper = mountComponent();
         wrapper.setData({ date: dayjs('2019-5-18') });
@@ -310,6 +373,95 @@ describe('DatePicker', () => {
         expect(wrapper.emitted().input[0]).toEqual(['2019-05-18']);
         expect(wrapper.emitted().onChange).toBeTruthy();
       });
+    });
+
+    describe('onKeyDown', () => {
+      [{
+        description: 'do not close menu if key isnt tab or esc',
+        event: { keyCode: KEYCODES.enter },
+        expectedResult: true,
+      }, {
+        description: 'do nothing in menu is undefined',
+        event: { keyCode: KEYCODES.enter },
+        $refs: { menu: undefined },
+        expectedResult: true,
+      }, {
+        description: 'close menu on esc',
+        event: { keyCode: KEYCODES.esc },
+        expectedResult: false,
+      }, {
+        description: 'close menu on tab',
+        event: { keyCode: KEYCODES.tab },
+        expectedResult: false,
+      }].forEach(({ description, event, $refs, expectedResult }) => {
+        it(`should ${description}`, () => {
+          const wrapper = mountComponent({ props: { visible: true } });
+          if ($refs) {
+            wrapper.vm.$refs = $refs;
+          }
+          wrapper.vm.onKeyDown({ ...event, preventDefault: jest.fn() });
+          expect(wrapper.vm.isMenuActive).toEqual(expectedResult);
+        });
+      });
+    });
+  });
+
+  describe('behaviour', () => {
+    it('should not mount GMenu if inline', () => {
+      const wrapper = mountComponent({
+        props: { inline: true },
+      });
+      expect(wrapper.find('menu').exists()).toBe(false);
+    });
+
+    it('should mount a custom input if slot is defined', () => {
+      const wrapper = mountComponent({
+        scopedSlots: {
+          activator: '<input id="input" :value="props.displayedDate" readonly />',
+        },
+      });
+      expect(wrapper.find('#input')).toBeDefined();
+    });
+
+    it('should mount an overlay if fullscreenMobile is true & width is lesss than 480', () => {
+      global.innerWidth = 479;
+      const wrapper = mountComponent({
+        props: { fullscreenMobile: true, visible: true },
+      });
+      expect(wrapper.find('.datepicker-overlay')).toBeDefined();
+    });
+
+    it('should hide datepicker when click outside', async () => {
+      const wrapper = mountComponent({
+        scopedSlots: {
+          activator: '<input id="input" :value="props.displayedDate" readonly />',
+        },
+        props: { visible: true },
+      });
+      await wrapper.vm.$nextTick();
+      jest.runOnlyPendingTimers(); // timeout when init click-outside directive
+
+      const button = document.createElement('button');
+      button.addEventListener('click', jest.fn());
+      document.body.appendChild(button);
+
+      expect(wrapper.vm.isMenuActive).toEqual(true);
+      expect(wrapper.vm.shouldShowBottomSheet).toEqual(false);
+
+      // Should close menu when on a button outisde
+      button.click();
+      jest.runOnlyPendingTimers();
+
+      expect(wrapper.vm.isMenuActive).toEqual(false);
+      expect(wrapper.vm.isBooted).toEqual(false);
+    });
+
+    it('should set is booted when received transitionEnd from GMenu', () => {
+      const wrapper = mountComponent();
+      wrapper.setData({ isMenuActive: true });
+      wrapper.vm.$refs.menu.$emit('transitionEnd');
+
+      expect(wrapper.vm.isBooted).toEqual(true);
     });
   });
 });

@@ -1,70 +1,9 @@
-<template>
-  <div class="datepicker-controls">
-    <button
-      :disabled="isPreviousDateDisabled"
-      type="button"
-      class="datepicker-controls__prev"
-      @click="changeVisibleDate('prev')"
-    >
-      <svg viewBox="0 0 24 24">
-        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
-      </svg>
-    </button>
-
-    <div class="datepicker-controls__wrapper">
-      <TransitionGroup
-        v-if="mode === 'month'"
-        :name="transitionName"
-        tag="span"
-        class="datepicker-controls__month">
-        <div
-          v-for="month in [currentDate.month]"
-          :key="month"
-          :style="setTextColor(color)"
-          class="datepicker-controls__label">
-          <button
-            type="button"
-            @click="showYearMonthSelector('month')">
-            {{ monthFormatted }}
-          </button>
-        </div>
-      </TransitionGroup>
-      <TransitionGroup
-        :name="transitionName"
-        tag="span"
-        :class="{ 'datepicker-controls__year--center' : mode === 'year' }"
-        class="datepicker-controls__year">
-        <div
-          v-for="year in [currentDate.year]"
-          :key="year"
-          :style="setTextColor(color)"
-          class="datepicker-controls__label">
-          <button
-            :disabled="isYearDisabled"
-            type="button"
-            @click="showYearMonthSelector('year')">
-              {{ yearFormatted }}
-            </button>
-        </div>
-      </TransitionGroup>
-    </div>
-
-    <button
-      :disabled="isNextDateDisabled"
-      type="button"
-      class="datepicker-controls__next"
-      @click="changeVisibleDate('next')"
-    >
-      <svg viewBox="0 0 24 24">
-        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
-      </svg>
-    </button>
-  </div>
-</template>
-
 <script>
 // mixins
 import colorable from '../../mixins/colorable';
+
+// components
+import Icon from '../Icon';
 
 // functions
 import { isBeforeDate, isAfterDate } from '../../utils/Dates';
@@ -101,12 +40,109 @@ export default {
     },
   },
   methods: {
+    // ------------------------------
+    // Events
+    // ------------------------------
     changeVisibleDate (direction) {
       this.$emit('changeVisibleDate', direction);
     },
     showYearMonthSelector (mode) {
       this.$emit('showYearMonthSelector', mode);
     },
+    // ------------------------------
+    // Generate Template
+    // ------------------------------
+    genContent () {
+      return [
+        this.genPrevButton(),
+        this.genSelectors(),
+        this.genNextButton(),
+      ];
+    },
+    genPrevButton () {
+      const icon = this.$createElement(Icon, 'chevronLeft');
+
+      return this.$createElement('button', {
+        staticClass: 'datepicker__controls-prev',
+        attrs: {
+          disabled: this.isPreviousDateDisabled,
+          type: 'button',
+        },
+        on: {
+          click: () => this.changeVisibleDate('prev'),
+        },
+      }, [icon]);
+    },
+    genNextButton () {
+      const icon = this.$createElement(Icon, 'chevronRight');
+
+      return this.$createElement('button', {
+        staticClass: 'datepicker__controls-next',
+        attrs: {
+          disabled: this.isNextDateDisabled,
+          type: 'button',
+        },
+        on: {
+          click: () => this.changeVisibleDate('next'),
+        },
+      }, [icon]);
+    },
+    genSelectors () {
+      return this.$createElement('div', {
+        staticClass: 'datepicker__controls-wrapper',
+      }, [
+        this.mode === 'month' && this.genMonthSelector(),
+        this.genYearSelector(),
+      ]);
+    },
+    genChildrenSelectors ({ value, key, type, disabled }) {
+      return this.$createElement('div', this.setTextColor(this.color, {
+        key,
+        staticClass: 'datepicker__controls-label',
+      }), [this.$createElement('button', {
+        attrs: { type: 'button', disabled },
+        on: { click: () => this.showYearMonthSelector(type) },
+      }, [value])]);
+    },
+    genMonthSelector () {
+      return this.$createElement('transition-group', {
+        staticClass: 'datepicker__controls-month',
+        props: {
+          name: this.transitionName,
+          tag: 'span',
+        },
+      }, [this.currentDate.month].map(key =>
+        this.genChildrenSelectors({
+          value: this.monthFormatted,
+          key,
+          type: 'month',
+        }))
+      );
+    },
+    genYearSelector () {
+      return this.$createElement('transition-group', {
+        staticClass: 'datepicker__controls-year',
+        class: {
+          'datepicker__controls-year--center': this.mode === 'year',
+        },
+        props: {
+          name: this.transitionName,
+          tag: 'span',
+        },
+      }, [this.currentDate.year].map(key =>
+        this.genChildrenSelectors({
+          value: this.yearFormatted,
+          key,
+          type: 'year',
+          disabled: this.isYearDisabled,
+        }))
+      );
+    },
+  },
+  render (h) {
+    return h('div', {
+      staticClass: 'datepicker__controls',
+    }, this.genContent());
   },
 };
 </script>
@@ -115,7 +151,7 @@ export default {
   @import   '../../styles/abstracts/_index.scss',
             '../../styles/base/_animations.scss';
 
-  .datepicker-controls {
+  .datepicker__controls {
     position: relative;
     display: flex;
     height: get-size(mobile, controls);
@@ -127,11 +163,7 @@ export default {
       height: get-size(desktop, controls);
     }
 
-    .datepicker--rtl & {
-      direction: rtl;
-    }
-
-    &__wrapper {
+    &-wrapper {
       position: relative;
       overflow: hidden;
       display: flex;
@@ -140,27 +172,27 @@ export default {
       flex: 1;
     }
 
-    &__month,
-    &__year {
+    &-month,
+    &-year {
       position: relative;
       display: flex;
       flex: 1;
       align-items: center;
     }
 
-    &__month {
+    &-month {
       justify-content: flex-end;
     }
 
-    &__year {
+    &-year {
       justify-content: flex-start;
 
-      &.datepicker-controls__year--center {
+      &.datepicker__controls-year--center {
         justify-content: center;
       }
     }
 
-    &__label {
+    &-label {
       padding: $gutter $gutter/2;
 
       button {
@@ -187,8 +219,8 @@ export default {
       }
     }
 
-    button.datepicker-controls__prev,
-    button.datepicker-controls__next {
+    button.datepicker__controls-prev,
+    button.datepicker__controls-next {
       position: relative;
       flex: 0 0 40px;
       height: get-size(mobile, controls);
@@ -196,6 +228,7 @@ export default {
       padding: 0 0 0 $gutter*3;
       border: none;
       outline: none;
+      color: rgba(0, 0, 0, 0.87);
       background-color: transparent;
       user-select: none;
       cursor: pointer;
@@ -209,7 +242,7 @@ export default {
       &:disabled,
       &[disabled] {
         svg {
-          fill: rgba(0,0,0,0.26);
+          color: rgba(0,0,0,0.26);
         }
         cursor: default;
       }
@@ -219,7 +252,7 @@ export default {
       }
     }
 
-    button.datepicker-controls__next {
+    button.datepicker__controls-next {
       padding: 0 $gutter*3 0 0;
 
       @include mq(tablet) {
@@ -230,7 +263,6 @@ export default {
     svg {
       width: 24px;
       height: 24px;
-      fill: rgba(0, 0, 0, 0.87);
       vertical-align: middle;
     }
   }

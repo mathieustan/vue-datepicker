@@ -33,6 +33,7 @@ import {
   areSameDates,
 } from '../../utils/Dates';
 
+// constants
 import { MAX_PRESETS_NUMBER } from '../../constants';
 
 export default {
@@ -78,7 +79,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '../../styles/abstracts/_index.scss';
+  @import   '../../styles/abstracts/_index.scss';
 
   .datepicker-presets {
     position: relative;
@@ -103,16 +104,21 @@ export default {
   }
 
   .datepicker-preset {
-    position: relative;
     @extend %reset-button;
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     padding: 0 $gutter;
-    transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);
     font-size: 14px;
     line-height: 14px;
     overflow: hidden;
     border-color: color(other, light-gray);
     border-style: solid;
     border-width: 0;
+    transition: opacity .3s get-easing(swing);
 
     &:nth-child(odd) {
       &:first-child {
@@ -134,11 +140,17 @@ export default {
       right: 0;
       bottom: 0;
       opacity: 0;
-      transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);
-      z-index: -1;
+      transition: opacity .3s get-easing(swing);
+      z-index: 0;
     }
 
-    &:hover:not(&--disabled) {
+    &__name {
+      position: relative;
+      z-index: 1;
+    }
+
+    &:hover:not(&--disabled),
+    &--selected {
       color: white;
 
       .datepicker-preset__effect {
@@ -147,12 +159,7 @@ export default {
     }
 
     &--selected  {
-      color: white;
       pointer-events: none;
-
-      .datepicker-preset__effect {
-        opacity: 1;
-      }
     }
 
     &--disabled  {

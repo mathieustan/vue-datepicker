@@ -1,8 +1,23 @@
 export {
+  getTopColPosition,
   computeYearsScrollPosition,
   computeAgendaHeight,
-  getDynamicPosition,
+  detectFixedActivator,
+  getInnerWidth,
+  getInnerHeight,
+  getOffsetLeft,
+  getOffsetTop,
+  getRoundedBoundedClientRect,
+  measure,
 };
+
+function getTopColPosition (colYs) {
+  const minimumY = Math.min(...colYs);
+  return {
+    col: colYs.indexOf(minimumY),
+    y: minimumY,
+  };
+}
 
 function computeYearsScrollPosition (container, elementToShow) {
   return elementToShow.offsetTop - (container.offsetHeight / 2) + (elementToShow.offsetHeight / 2);
@@ -15,51 +30,7 @@ function computeAgendaHeight (agenda, classWeeks) {
   return agenda.offsetHeight + 36; // height of a day's row;
 }
 
-function getDynamicPosition (element, activator, target, isRtl) {
-  // -------------------------------
-  // Select activator to get position
-  // -------------------------------
-  const isFixedActivator = checkActivatorFixed(activator);
-  const activatorRect = activator.getBoundingClientRect();
-  const activatorOffsets = getActivatorOffset(activatorRect, target, isFixedActivator);
-  const spacesAroundParent = getSpacesAroundActivator(activatorRect, target);
-  // -------------------------------
-  // Detect space around element
-  // -------------------------------
-  const placesAvailable = detectPlacesAvailable(element, spacesAroundParent);
-  const {
-    isThereEnoughSpaceBelow,
-    isThereEnoughSpaceLeft,
-    isThereEnoughSpaceRight,
-    isThereEnoughSpaceAbove,
-  } = placesAvailable;
-  // -------------------------------
-  // If there is not enought space above, below, left & right
-  // placement => MIDDLE
-  // -------------------------------
-  if (!isThereEnoughSpaceBelow &&
-    !isThereEnoughSpaceLeft &&
-    !isThereEnoughSpaceAbove &&
-    !isThereEnoughSpaceRight) {
-    return getElementCenteredPosition(element);
-  }
-
-  return getElementPosition(
-    element,
-    target,
-    activatorRect,
-    activatorOffsets,
-    spacesAroundParent,
-    placesAvailable,
-    isRtl,
-  );
-}
-
-// -------------------------------
-// HELPERS
-// -------------------------------
-
-function checkActivatorFixed (activator) {
+function detectFixedActivator (activator) {
   const POSITIONS = ['fixed', 'sticky'];
   let element = activator;
   let activatorFixed = false;
@@ -75,105 +46,44 @@ function checkActivatorFixed (activator) {
   return activatorFixed;
 }
 
-function getActivatorOffset (activatorRect, target, isFixedActivator) {
-  const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+function getInnerWidth () {
+  return window.innerWidth || document.documentElement.clientWidth;
+}
 
+function getInnerHeight () {
+  return window.innerHeight || document.documentElement.clientHeight;
+}
+
+function getOffsetLeft () {
+  return window.pageXOffset || document.documentElement.scrollLeft;
+}
+
+function getOffsetTop () {
+  return window.pageYOffset || document.documentElement.scrollTop;
+}
+
+function getRoundedBoundedClientRect (element) {
+  const rect = element.getBoundingClientRect();
   return {
-    activatorOffsetTop: activatorRect.top + (isFixedActivator ? target.scrollTop : scrollTop),
-    activatorOffsetLeft: activatorRect.left + (isFixedActivator ? target.scrollLeft : scrollLeft),
+    top: Math.round(rect.top),
+    left: Math.round(rect.left),
+    bottom: Math.round(rect.bottom),
+    right: Math.round(rect.right),
+    width: Math.round(rect.width),
+    height: Math.round(rect.height),
   };
 }
 
-function getSpacesAroundActivator (activatorRect, target) {
-  const targetRect = target.getBoundingClientRect();
-  return {
-    spaceBelow: (window.innerHeight - activatorRect.bottom) - (window.innerHeight - targetRect.bottom),
-    spaceAbove: activatorRect.top - target.offsetTop,
-    spaceLeft: activatorRect.left - target.offsetLeft,
-    spaceRight: (window.innerWidth - activatorRect.left - activatorRect.width) -
-      (window.innerWidth - targetRect.left - targetRect.width),
-  };
-}
+function measure (element, attach) {
+  if (!element) return;
 
-function detectPlacesAvailable (element, { spaceBelow, spaceAbove, spaceLeft, spaceRight }) {
-  return {
-    isThereEnoughSpaceBelow: (spaceBelow - element.offsetHeight) > 0,
-    isThereEnoughSpaceLeft: (spaceLeft - element.offsetWidth) > 0,
-    isThereEnoughSpaceRight: (spaceRight - element.offsetWidth) > 0,
-    isThereEnoughSpaceAbove: (spaceAbove - element.offsetHeight) > 0,
-  };
-}
+  const rect = getRoundedBoundedClientRect(element);
 
-function getElementCenteredPosition ({ offsetHeight, offsetWidth }) {
-  return {
-    top: window.pageYOffset + (window.innerHeight - offsetHeight) / 2,
-    left: window.pageXOffset + (window.innerWidth - offsetWidth) / 2,
-    origin: 'center center', // for animation only
-  };
-}
-
-function getElementPosition (
-  element,
-  target,
-  activatorRect,
-  activatorOffsets,
-  spacesAroundParent,
-  placesAvailable,
-  isRtl,
-) {
-  const elementHeight = element.offsetHeight;
-  const elementWidth = element.offsetWidth;
-  const { activatorOffsetTop, activatorOffsetLeft } = activatorOffsets;
-  const { spaceAbove } = spacesAroundParent;
-  const {
-    isThereEnoughSpaceBelow,
-    isThereEnoughSpaceLeft,
-    isThereEnoughSpaceRight,
-    isThereEnoughSpaceAbove,
-  } = placesAvailable;
-  const missingSpaceToShowAbove = Math.abs(spaceAbove - elementHeight);
-  const couldBeShowBelowOrAbove = isThereEnoughSpaceBelow || isThereEnoughSpaceAbove;
-
-  if (!couldBeShowBelowOrAbove && isThereEnoughSpaceRight) {
-    return {
-      top: activatorOffsetTop + (missingSpaceToShowAbove + activatorRect.height) - elementHeight,
-      left: activatorOffsetLeft + activatorRect.width,
-      origin: 'left center',
-    };
+  // Account for activator margin
+  if (attach !== false) {
+    const style = window.getComputedStyle(element);
+    rect.left = parseInt(style.marginLeft || 0);
+    rect.top = parseInt(style.marginTop || 0);
   }
-
-  if (!couldBeShowBelowOrAbove && isThereEnoughSpaceLeft) {
-    return {
-      top: activatorOffsetTop + (missingSpaceToShowAbove + activatorRect.height) - elementHeight,
-      left: activatorOffsetLeft - elementWidth,
-      origin: 'right center',
-    };
-  }
-
-  if (couldBeShowBelowOrAbove && isThereEnoughSpaceLeft && !isThereEnoughSpaceRight) {
-    return {
-      top: activatorOffsetTop + (isThereEnoughSpaceBelow ? activatorRect.height : -elementHeight),
-      left: activatorOffsetLeft + activatorRect.width - elementWidth,
-      origin: isThereEnoughSpaceBelow ? 'top right' : 'bottom right',
-    };
-  }
-
-  const activatorRtlOffsetLeft = isRtl ? (activatorRect.width - elementWidth) : 0;
-  const defaultTopOrigin = isRtl ? 'top right' : 'top left';
-  const defaultBottomOrigin = isRtl ? 'bottom right' : 'bottom left';
-
-  if (couldBeShowBelowOrAbove && !isThereEnoughSpaceLeft && !isThereEnoughSpaceRight) {
-    return {
-      top: activatorOffsetTop + (isThereEnoughSpaceBelow ? activatorRect.height : -elementHeight),
-      left: activatorOffsetLeft + activatorRtlOffsetLeft - target.offsetLeft,
-      origin: isThereEnoughSpaceBelow ? defaultTopOrigin : defaultBottomOrigin,
-    };
-  }
-
-  return {
-    top: activatorOffsetTop + (isThereEnoughSpaceBelow ? activatorRect.height : -elementHeight),
-    left: activatorOffsetLeft + activatorRtlOffsetLeft - target.offsetLeft,
-    origin: isThereEnoughSpaceBelow ? defaultTopOrigin : defaultBottomOrigin,
-  };
+  return rect;
 }

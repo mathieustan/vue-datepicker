@@ -4,14 +4,25 @@
   <div id="app">
     <div class="header">
       <h1>Vue DatePicker</h1>
-      <VueDatePicker
-        v-model="currentDate"
-        color="#9f4fff"
-        no-input
-        fullscreen-mobile
-        fixed
-        :z-index="1000"
-      />
+
+      <div class="actions">
+        <VueDatePicker
+          v-model="currentDate"
+          color="#9f4fff"
+          no-input
+          fullscreen-mobile
+        >
+          <template #activator="{ date }">
+            <button
+              class="custom-button"
+              ref="activator"
+              type="button"
+            >
+              {{ date }}
+            </button>
+          </template>
+        </VueDatePicker>
+      </div>
     </div>
 
     <div class="content">
@@ -1348,5 +1359,25 @@ export default {
         padding: $gutter*2;
       }
     }
+  }
+
+  .custom-button {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    font-stretch: normal;
+    letter-spacing: .23px;
+    font-size: 15px;
+    line-height: 19px;
+    font-weight: 500;
+    min-height: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 6px;
+    padding: 0 24px;
+    cursor: pointer;
   }
 </style>

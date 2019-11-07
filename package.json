@@ -46,7 +46,8 @@
   },
   "dependencies": {
     "body-scroll-lock": "^2.6.1",
-    "dayjs": "^1.8.14"
+    "dayjs": "^1.8.14",
+    "get-size": "^2.0.3"
   },
   "peerDependencies": {
     "core-js": "^2.6.5",

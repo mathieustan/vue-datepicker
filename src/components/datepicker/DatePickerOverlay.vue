@@ -1,24 +1,12 @@
-<template>
-  <transition name="overlay-transition" appear>
-    <div
-      ref="content"
-      v-if="shouldShowOverlay"
-      :style="styles"
-      class="datepicker-overlay"
-      @click="$emit('close')"
-    />
-  </transition>
-</template>
-
 <script>
+// mixins
 import detachable from '../../mixins/detachable';
+import toggleable from '../../mixins/toggleable';
 
 export default {
   name: 'DatePickerOverlay',
-  mixins: [detachable],
+  mixins: [detachable, toggleable],
   props: {
-    isVisible: { type: Boolean, default: false },
-    fullscreenMobile: { type: Boolean, default: false },
     zIndex: { type: Number },
   },
   computed: {
@@ -27,27 +15,43 @@ export default {
         zIndex: this.zIndex,
       };
     },
-    shouldShowOverlay () {
-      return this.isVisible && this.fullscreenMobile;
-    },
   },
   watch: {
-    shouldShowOverlay: {
-      async handler (shouldShow) {
-        if (!shouldShow) return;
-        await this.$nextTick();
-        this.initDetach(); // from @/mixins/detachable
+    isActive: {
+      handler (value) {
+        if (!value) return;
+        this.$nextTick(() => this.initDetach());
       },
       immediate: true,
     },
+  },
+  methods: {
+    genTransition () {
+      return this.$createElement('transition', {
+        props: { name: 'overlay-transition', appear: true },
+      }, [this.genContent()]);
+    },
+    genContent () {
+      return this.$createElement('div', {
+        staticClass: 'datepicker__overlay',
+        style: this.styles,
+        ref: 'content',
+        on: {
+          click: () => this.$emit('close'),
+        },
+      });
+    },
+  },
+  render () {
+    return this.isActive && this.genTransition();
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  @import '../../styles/abstracts/_index.scss';
+  @import   '../../styles/abstracts/_index.scss';
 
-  .datepicker-overlay {
+  .datepicker__overlay {
     position: fixed;
     top: 0;
     left: 0;

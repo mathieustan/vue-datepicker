@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import DatePickerOverlay from '@/components/datepicker/DatePickerOverlay.vue';
+import DatePickerOverlay from '@/components/DatePicker/DatePickerOverlay.vue';
 
 console.error = jest.fn();
 
@@ -7,15 +7,8 @@ describe('DatePickerOverlay', () => {
   let mountComponent;
 
   beforeEach(() => {
-    mountComponent = ({
-      isVisible = false,
-      fullscreenMobile = false,
-    } = {}) => shallowMount(DatePickerOverlay, {
-      propsData: {
-        isVisible,
-        fullscreenMobile,
-        zIndex: 1,
-      },
+    mountComponent = ({ props = {} } = {}) => shallowMount(DatePickerOverlay, {
+      propsData: props,
     });
   });
 
@@ -32,30 +25,18 @@ describe('DatePickerOverlay', () => {
   describe('computed', () => {
     describe('styles', () => {
       it('should return styles from data', () => {
-        const wrapper = mountComponent();
+        const wrapper = mountComponent({ props: { zIndex: 1 } });
         expect(wrapper.vm.styles).toEqual({
           zIndex: 1,
         });
       });
     });
-
-    describe('shouldShowOverlay', () => {
-      it.each([
-        [{ isVisible: false, fullscreenMobile: false }, false],
-        [{ isVisible: false, fullscreenMobile: true }, false],
-        [{ isVisible: true, fullscreenMobile: false }, false],
-        [{ isVisible: true, fullscreenMobile: true }, true],
-      ])('when props = %p, should return %p', (props, expectedResult) => {
-        const wrapper = mountComponent(props);
-        expect(wrapper.vm.shouldShowOverlay).toEqual(expectedResult);
-      });
-    });
   });
 
   describe('watch', () => {
-    describe('shouldShowOverlay', () => {
+    describe('value', () => {
       it('should do nothing if equal false', async () => {
-        const wrapper = mountComponent({ isVisible: false, fullscreenMobile: false });
+        const wrapper = mountComponent({ props: { value: false } });
         jest.spyOn(wrapper.vm, 'initDetach').mockReturnValue(true);
 
         await wrapper.vm.$nextTick();
@@ -63,7 +44,7 @@ describe('DatePickerOverlay', () => {
       });
 
       it('should initDetach if equal true', async () => {
-        const wrapper = mountComponent({ isVisible: true, fullscreenMobile: true });
+        const wrapper = mountComponent({ props: { value: true } });
         jest.spyOn(wrapper.vm, 'initDetach').mockReturnValue(true);
 
         await wrapper.vm.$nextTick();
@@ -73,8 +54,9 @@ describe('DatePickerOverlay', () => {
   });
 
   it('Should emit a close event on click', () => {
-    const wrapper = mountComponent({ isVisible: true, fullscreenMobile: true });
+    const wrapper = mountComponent({ props: { value: true } });
     wrapper.trigger('click');
+
     expect(wrapper.emitted().close).toBeTruthy();
   });
 });

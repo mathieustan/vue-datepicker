@@ -6,14 +6,14 @@ import AdvancedFormat from 'dayjs/plugin/advancedFormat';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
-import * as locales from '../locale';
 import {
-  DEFAULT_LOCALE_PROPERTIES,
   DEFAULT_INPUT_DATE_FORMAT,
   DEFAULT_HEADER_DATE_FORMAT,
   DEFAULT_OUTPUT_DATE_FORMAT,
   AVAILABLE_YEARS,
 } from '../constants';
+
+import { getDefaultLang, getLocale } from './lang';
 
 dayjs.extend(weekDay);
 dayjs.extend(weekOfYear);
@@ -23,7 +23,7 @@ dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 
 export default class PickerDate {
-  constructor (month, year, { lang = getDefaultLocale() } = {}) {
+  constructor (month, year, { lang = getDefaultLang() } = {}) {
     const locale = getLocale(lang);
     dayjs.locale(locale);
     this.start = dayjs().year(year).month(month).startOf('month');
@@ -62,24 +62,9 @@ export default class PickerDate {
 
 // -----------------------------------------
 // Handle Locale
-// - getDefaultLocale : Return current locale from navigator or 'en' default
 // - setLocaleLang : Init lang from arg
 // - getWeekDays : Return week days from lang
 // -----------------------------------------
-function isValidLocale (lang = {}) {
-  const properties = Object.keys(lang);
-  return properties.length > 0 &&
-    properties.every(property => DEFAULT_LOCALE_PROPERTIES.includes(property));
-}
-
-export function getLocale (lang) {
-  return isValidLocale(lang) ? lang : locales[lang] || locales.en;
-}
-
-export function getDefaultLocale () {
-  return (window.navigator.userLanguage || window.navigator.language || 'en').substr(0, 2);
-}
-
 export function setLocaleLang ({ lang }) {
   const locale = getLocale(lang);
   dayjs.locale(locale);
@@ -213,18 +198,19 @@ export function generateDateRangeWithoutDisabled ({ start, end }, minDate, maxDa
   const validMinDate = minDate || dayjs().year(AVAILABLE_YEARS.min);
   const validMaxDate = maxDate || dayjs().year(AVAILABLE_YEARS.max);
 
-  return generateDateRange(start, end).filter(date =>
-    date.isSameOrAfter(validMinDate, 'day') &&
-    date.isSameOrBefore(dayjs(validMaxDate, 'day')));
+  return generateDateRange(start, end)
+    .filter(date =>
+      date.isSameOrAfter(validMinDate, 'day') &&
+      date.isSameOrBefore(dayjs(validMaxDate, 'day')));
 }
 
 // -----------------------------------------
 // Generate Dates
+// - initDate : Return date formatted for range or date mode
 // - generateDateRange : Return an array of dates
 // - generateMonthAndYear : Return month & year for modes (date, month, quarter)
 // - convertQuarterToMonth : Transform quarter to a month number
 // -----------------------------------------
-
 export function initDate (date, { isRange, locale }) {
   if (isRange) {
     return {
@@ -254,6 +240,6 @@ export function generateMonthAndYear (value, currentDate, mode) {
   return { year: currentDate.year, month: value };
 }
 
-export function convertQuarterToMonth (month) {
-  return month * 3;
+export function convertQuarterToMonth (quarter) {
+  return quarter * 3;
 }

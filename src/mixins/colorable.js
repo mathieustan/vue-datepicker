@@ -7,15 +7,38 @@ const colorable = {
     color: { type: String },
   },
   methods: {
-    setBackgroundColor (color) {
-      if (!isCssColor(color)) return;
+    setBackgroundColor (color, data) {
+      if (!isCssColor(color)) return data;
+
+      if (data) {
+        return {
+          ...data,
+          style: {
+            ...data.style,
+            'background-color': `${color}`,
+            'border-color': `${color}`,
+          },
+        };
+      }
+
       return {
         'background-color': `${color}`,
         'border-color': `${color}`,
       };
     },
-    setTextColor (color) {
-      if (!isCssColor(color)) return;
+    setTextColor (color, data) {
+      if (!isCssColor(color)) return data;
+
+      if (data) {
+        return {
+          ...data,
+          style: {
+            ...data.style,
+            color: `${color}`,
+          },
+        };
+      }
+
       return {
         'color': `${color}`,
       };

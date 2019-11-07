@@ -1,172 +1,154 @@
 <template>
-  <transition name="datepicker-transition" appear @after-enter="setActive">
+  <div
+    ref="datepicker"
+    :style="styles"
+    :class="classes"
+    class="datepicker"
+    @mousemove="handleMouseMove"
+    @touchstart.stop
+  >
+
+    <!-- Title (Only for bottomsheet) -->
     <div
-      v-click-outside="{ handler : () => $emit('close'), isActive: !inline && isActive }"
-      v-if="shouldShowAgenda"
-      ref="content"
-      :style="styles"
-      :class="classes"
-      class="datepicker"
-      name="datepicker-slide"
-      @mousemove="handleMouseMove"
-      @click.stop>
-
-      <!-- Title (Only for fullscreenMobile) -->
-      <div
-        v-if="fullscreenMobile"
-        class="datepicker-title">
-        <p>{{ name }}</p>
-        <button type="button" @click="$emit('close')">
-          <svg
-            aria-hidden="true"
-            focusable="false"
-            data-prefix="fal"
-            data-icon="times"
-            role="img"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 320 512"
-          >
-            <!-- eslint-disable max-len -->
-            <path fill="currentColor" d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z" />
-            <!-- eslint-enable max-len -->
-          </svg>
-        </button>
+      v-if="activeBottomSheet"
+      class="datepicker__title">
+      <p>{{ name }}</p>
+      <div class="datepicker__title-close">
+        <Icon @click="$emit('close')">close</Icon>
       </div>
+    </div>
 
-      <!-- Header -->
-      <DatePickerHeader
-        v-if="!noHeader"
-        :mutable-date="mutableDate"
+    <!-- Header -->
+    <DatePickerHeader
+      v-if="!noHeader"
+      :mutable-date="mutableDate"
+      :transition-name="transitionLabelName"
+      :color="color"
+      :locale="locale"
+      :format-header="formatHeader"
+      :mode="yearMonthMode"
+      :range="range"
+      :range-header-text="rangeHeaderText"
+      @showYearMonthSelector="showYearMonthSelector"
+      @hideYearMonthSelector="hideYearMonthSelector"
+    />
+
+    <!-- Presets -->
+    <DatePickerPresets
+      v-if="range"
+      :range-presets="rangePresets"
+      :mutable-date="mutableDate"
+      :min-date="minDate"
+      :max-date="maxDate"
+      :color="color"
+      :locale="locale"
+      @updateRange="emitSelectedDate"
+    />
+
+    <div
+      ref="body"
+      class="datepicker__body">
+      <!-- Controls -->
+      <DatePickerControls
+        :current-date="currentDate"
         :transition-name="transitionLabelName"
         :color="color"
-        :locale="locale"
-        :format-header="formatHeader"
-        :mode="yearMonthMode"
-        :range="range"
-        :range-header-text="rangeHeaderText"
+        mode="month"
+        @changeVisibleDate="changeMonth"
         @showYearMonthSelector="showYearMonthSelector"
-        @hideYearMonthSelector="hideYearMonthSelector"
       />
 
-      <!-- Presets -->
-      <DatePickerPresets
-        v-if="range"
-        :range-presets="rangePresets"
-        :mutable-date="mutableDate"
-        :min-date="minDate"
-        :max-date="maxDate"
-        :color="color"
-        :locale="locale"
-        @updateRange="emitSelectedDate"
-      />
-
-      <div class="datepicker-content">
-        <!-- Controls -->
-        <DatePickerControls
-          :current-date="currentDate"
-          :transition-name="transitionLabelName"
-          :color="color"
-          mode="month"
-          @changeVisibleDate="changeMonth"
-          @showYearMonthSelector="showYearMonthSelector"
-        />
-
-        <!-- Week -->
-        <div class="datepicker-week">
-          <div
-            v-for="(day, index) in weekDays"
-            :key="index"
-            class="datepicker-weekday">
-            {{ day }}
-          </div>
+      <!-- Week -->
+      <div class="datepicker__week">
+        <div
+          v-for="(day, index) in weekDays"
+          :key="index"
+          class="datepicker__weekday">
+          {{ day }}
         </div>
-
-        <!-- Days -->
-        <TransitionGroup
-          tag="div"
-          class="datepicker-days__wrapper"
-          :class="classWeeks"
-          :name="transitionDaysName">
-          <div
-            v-for="dates in [currentDate]"
-            :key="dates.month"
-            class="datepicker-days">
-            <div
-              v-for="day in spaceBeforeFirstDay"
-              :key="`space-${day}`"
-              class="datepicker-day"
-            />
-            <button
-              v-for="(day, index) in currentDate.getDays()"
-              :key="index"
-              :class="{
-                'selected' : isSelected(day) && !isDisabled(day),
-                'between': range && isBetween(day),
-                'in-range': range && isInRange(day),
-                'first': range && firstInRange(day),
-                'last': range && lastInRange(day) && Boolean(mutableDate.end),
-                'select-start': range && !mutableDate.start,
-                'select-end': range && mutableDate.start && !mutableDate.end,
-                'disabled': isDisabled(day),
-              }"
-              :disabled="isDisabled(day)"
-              :data-date="day.format('YYYY-MM-DD')"
-              type="button"
-              class="datepicker-day"
-              @click="selectDate(day)"
-            >
-              <span v-if="isToday(day)" class="datepicker-day--current" />
-              <span
-                :style="setBackgroundColor(color)"
-                class="datepicker-day__effect" />
-              <span class="datepicker-day__text">{{day.format('D')}}</span>
-            </button>
-          </div>
-        </TransitionGroup>
-
-        <DatePickerYearMonth
-          v-if="shouldShowYearMonthSelector"
-          :mode="yearMonthMode"
-          :range="range"
-          :current-date="currentDate"
-          :mutable-date="mutableDate"
-          :transition-name="transitionDaysName"
-          :show-year-month-selector="showYearMonthSelector"
-          :color="color"
-          :min-date="minDate"
-          :max-date="maxDate"
-          @changeYear="changeYear"
-          @selectedYearMonth="selectedYearMonth"
-        />
       </div>
 
-      <!-- Validate -->
-      <DatePickerValidate
-        v-if="validate"
-        :button-validate="buttonValidate"
-        :button-cancel="buttonCancel"
-        :color="color"
+      <!-- Days -->
+      <TransitionGroup
+        tag="div"
+        class="datepicker__days-wrapper"
+        :class="classWeeks"
+        :name="transitionDaysName">
+        <div
+          v-for="dates in [currentDate]"
+          :key="dates.month"
+          class="datepicker__days">
+          <div
+            v-for="day in spaceBeforeFirstDay"
+            :key="`space-${day}`"
+            class="datepicker__day"
+          />
+          <button
+            v-for="(day, index) in currentDate.getDays()"
+            :key="index"
+            :class="{
+              'selected' : isSelected(day) && !isDisabled(day),
+              'between': range && isBetween(day),
+              'in-range': range && isInRange(day),
+              'first': range && firstInRange(day),
+              'last': range && lastInRange(day) && Boolean(mutableDate.end),
+              'select-start': range && !mutableDate.start,
+              'select-end': range && mutableDate.start && !mutableDate.end,
+              'disabled': isDisabled(day),
+            }"
+            :disabled="isDisabled(day)"
+            :data-date="day.format('YYYY-MM-DD')"
+            type="button"
+            class="datepicker__day"
+            @click="selectDate(day)"
+          >
+            <span v-if="isToday(day)" class="datepicker__day--current" />
+            <span
+              :style="setBackgroundColor(color)"
+              class="datepicker__day-effect" />
+            <span class="datepicker__day-text">{{day.format('D')}}</span>
+          </button>
+        </div>
+      </TransitionGroup>
+
+      <DatePickerYearMonth
+        v-if="shouldShowYearMonthSelector"
+        :mode="yearMonthMode"
         :range="range"
+        :current-date="currentDate"
         :mutable-date="mutableDate"
-        @cancel="$emit('close')"
-        @validate="$emit('validateDate')"
+        :transition-name="transitionDaysName"
+        :show-year-month-selector="showYearMonthSelector"
+        :color="color"
+        :min-date="minDate"
+        :max-date="maxDate"
+        @changeYear="changeYear"
+        @selectedYearMonth="selectedYearMonth"
       />
     </div>
-  </transition>
+
+    <!-- Validate -->
+    <DatePickerValidate
+      v-if="validate"
+      :button-validate="buttonValidate"
+      :button-cancel="buttonCancel"
+      :color="color"
+      :range="range"
+      :mutable-date="mutableDate"
+      @cancel="$emit('close')"
+      @validate="$emit('validateDate')"
+    />
+  </div>
 </template>
 
 <script>
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
-// directives
-import ClickOutside from '../../directives/click-outside';
-
 // mixins
-import dynamicPosition from '../../mixins/dynamicPosition';
-import detachable from '../../mixins/detachable';
 import colorable from '../../mixins/colorable';
 
 // components
+import Icon from '../Icon';
 import DatePickerHeader from './DatePickerHeader.vue';
 import DatePickerControls from './DatePickerControls.vue';
 import DatePickerYearMonth from './DatePickerYearMonth.vue';
@@ -192,10 +174,10 @@ import { computeAgendaHeight } from '../../utils/positions';
 import { yearMonthSelectorTypes } from '../../constants';
 
 export default {
-  name: 'DatepickerAgenda',
-  mixins: [ detachable, colorable, dynamicPosition ],
-  directives: { ClickOutside },
+  name: 'DatePickerAgenda',
+  mixins: [colorable],
   components: {
+    Icon,
     DatePickerHeader,
     DatePickerControls,
     DatePickerYearMonth,
@@ -204,9 +186,9 @@ export default {
   },
   props: {
     name: { type: String },
-    isVisible: { type: Boolean, default: false },
     date: { type: [Date, Object] },
     type: { type: String, default: 'date' },
+    value: { type: Boolean, default: false },
     validate: { type: Boolean, default: false },
     buttonValidate: { type: String },
     buttonCancel: { type: String },
@@ -214,20 +196,16 @@ export default {
     rangePresets: { type: Array, default: undefined },
     rangeHeaderText: { type: String, default: String },
     formatHeader: { type: String },
-    rtl: { type: Boolean, default: false },
     locale: { type: Object },
     noHeader: { type: Boolean, default: false },
-    inline: { type: Boolean, default: false },
-    fixed: { type: Boolean },
-    fullscreenMobile: { type: Boolean, default: false },
+    activeBottomSheet: { type: Boolean, default: false },
     color: { type: String },
     minDate: { type: [String, Number, Date] },
     maxDate: { type: [String, Number, Date] },
-    zIndex: { type: Number },
+    rtl: { type: Boolean, default: false },
   },
   data: () => ({
     height: 'auto',
-    isActive: false,
     currentDate: undefined,
     mutableDate: undefined,
     transitionDaysName: 'slide-h-next',
@@ -240,19 +218,12 @@ export default {
     styles () {
       return {
         height: this.height,
-        // left, top, orign from @/mixins/dynamicPosition
-        left: `${this.left}px`,
-        top: `${this.top}px`,
-        transformOrigin: this.origin,
-        zIndex: this.inline ? null : this.zIndex,
       };
     },
     classes () {
       return {
         'datepicker--rtl': this.rtl,
-        'datepicker--inline': this.inline,
-        'datepicker--fixed': this.fixed,
-        'datepicker--fullscreen-mobile': this.fullscreenMobile,
+        'datepicker--bottomsheet': this.activeBottomSheet,
         'datepicker--no-header': this.noHeader,
         'datepicker--validate': this.validate,
         'datepicker--range': this.range,
@@ -274,80 +245,51 @@ export default {
       }
       return `has-5-weeks`;
     },
-    shouldShowAgenda () {
-      return this.isVisible || this.inline;
-    },
-    shouldShowBottomSheet () {
-      return this.innerWidth < 480 && this.fullscreenMobile && this.isVisible;
-    },
     isRangeSelected () {
       if (!this.range) return false;
       return typeof this.mutableDate === 'object' &&
         Object.values(this.mutableDate).every(date => Boolean(date));
     },
   },
-  destroyed () {
+  created () {
+    this.initAgenda();
+  },
+  beforeDestroy () {
     clearAllBodyScrollLocks();
   },
   watch: {
-    // When date change (after being visibled),
+    value: 'initAgenda',
+    // When, date change (after being visibled),
     // should update currentDate & mutableDate
-    date: {
-      handler: 'updateDate',
-    },
+    date: 'updateDate',
     // When type change (after being visibled),
     // should update shouldShowYearMonthSelector
     type (newType) {
       this.shouldShowYearMonthSelector = yearMonthSelectorTypes.includes(newType);
       this.yearMonthMode = newType;
     },
-    // When agenda should be visible => init currentDate & mutableDate
-    // When agenda should be hidden => reset data
-    shouldShowAgenda: {
-      async handler (show) {
-        if (show) {
-          // init data when datepicker is visible
-          this.updateDate(this.date);
-          this.shouldShowYearMonthSelector = yearMonthSelectorTypes.includes(this.type);
-          this.yearMonthMode = this.type;
-
-          // If inline, we don't need to update position
-          if (this.inline) return;
-
-          await this.$nextTick();
-
-          this.initDetach(); // from @/mixins/detachable
-          this.initResizeListener(); // from @/mixins/dynamicPosition
-          this.updatePosition(); // from @/mixins/dynamicPosition
-          return;
-        };
-        // reset data when datepicker is hidden
-        this.removeResizeListener();
-        Object.assign(this.$data, this.$options.data());
-      },
-      immediate: true,
-    },
-    // When bottomSheet is visibled => lock body scroll
-    // When bottomSheet is hidden => unlock body scroll
-    shouldShowBottomSheet: {
+    // When activeBottomSheet is visibled => lock body scroll
+    // When activeBottomSheet is hidden => unlock body scroll
+    activeBottomSheet: {
       async handler (show) {
         await this.$nextTick();
 
         if (show) {
-          this.height = `${computeAgendaHeight(this.$refs.content, this.classWeeks)}px`;
-          disableBodyScroll(this.$el.querySelector('.datepicker-content'));
+          this.height = `${computeAgendaHeight(this.$refs.datepicker, this.classWeeks)}px`;
+          disableBodyScroll(this.$refs.body);
           return;
         }
+
         this.height = 'auto';
         enableBodyScroll();
       },
       immediate: true,
     },
-    // When bottomSheet is visibled and visibled mode is 'year'
+    // When activeBottomSheet is visibled and visibled mode is 'year'
     // => should keep scroll disabled, but should allow scroll into years list
     yearMonthMode (mode) {
-      if (mode === 'year' && this.shouldShowBottomSheet) {
-        enableBodyScroll(this.$el.querySelector('.datepicker-content'));
+      if (mode === 'year' && this.activeBottomSheet) {
+        enableBodyScroll(this.$refs.body);
         disableBodyScroll(this.$el.querySelector('.datepicker-year-month'));
       }
     },
@@ -356,19 +298,14 @@ export default {
     // Then we swap start / end date according to the result
     rangeCurrentHoveredDay (newHoveredDay) {
       if (!newHoveredDay) return;
-
-      // Should update mutableDate if
-      // -> hovered day is before or after current selected date
-      if (isBeforeDate(newHoveredDay, this.mutableDate.start)) {
-        this.mutableDate = { start: undefined, end: this.mutableDate.start };
-      } else if (isAfterDate(newHoveredDay, this.mutableDate.end)) {
-        this.mutableDate = { start: this.mutableDate.end, end: undefined };
-      }
+      this.reOrderSelectedDate(newHoveredDay);
     },
   },
   methods: {
-    setActive () {
-      this.isActive = true;
+    initAgenda () {
+      this.updateDate(this.date);
+      this.shouldShowYearMonthSelector = yearMonthSelectorTypes.includes(this.type);
+      this.yearMonthMode = this.type;
     },
     isSelected (day) {
       if (this.range) {
@@ -404,6 +341,16 @@ export default {
     isToday (day) {
       return isDateToday(day);
     },
+    reOrderSelectedDate (newDate) {
+      if (!this.mutableDate) return;
+      // Should update mutableDate if
+      // -> hovered day is before or after current selected date
+      if (isBeforeDate(newDate, this.mutableDate.start)) {
+        this.mutableDate = { start: undefined, end: this.mutableDate.start };
+      } else if (isAfterDate(newDate, this.mutableDate.end)) {
+        this.mutableDate = { start: this.mutableDate.end, end: undefined };
+      }
+    },
     selectDate (day) {
       if (this.range) {
         // If rangeIsSelected or no dates selected => should reset, and select start
@@ -412,6 +359,7 @@ export default {
           return;
         }
         // else, should update missing range (start or end)
+        this.reOrderSelectedDate(day);
         this.emitSelectedDate({
           ...this.mutableDate,
           ...(this.mutableDate.start && { end: day.clone() }),
@@ -500,7 +448,7 @@ export default {
       let target = event.target;
 
       // Should handle mouse move only on those classes
-      const CLASSES = ['datepicker-day', 'datepicker-day__effect'];
+      const CLASSES = ['datepicker__day', 'datepicker__day-effect'];
       if (
         typeof target.className === 'string' &&
         !CLASSES.includes(target.className.split(' ')[0])
@@ -522,30 +470,24 @@ export default {
 };
 </script>
 
-<style>
-  .datepicker  *,
+<style lang="scss" scoped>
+  @import   '../../styles/abstracts/_index.scss',
+            '../../styles/base/_animations.scss';
+
+  .datepicker,
+  .datepicker *,
   .datepicker ::before,
   .datepicker ::after {
     box-sizing: border-box;
   }
-</style>
-
-<style lang="scss" scoped>
-  @import   '../../styles/abstracts/_index.scss',
-            '../../styles/base/animations.scss';
 
   .datepicker {
-    position: absolute;
     display: flex;
     flex-direction: column;
     width: get-size(mobile, width);
-    left: 0;
-    top: 100%;
-    will-change: transform;
     background-color: white;
     border-radius: get-border-radius(2);
     box-shadow: 0 2px 8px rgba(50, 50, 93, 0.2);
-    box-sizing: border-box;
 
     &:focus,
     &:active {
@@ -556,38 +498,9 @@ export default {
       width: get-size(desktop, width);
     }
 
-    &--inline {
-      position: relative;
-      box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),
-        0px 2px 2px 0px rgba(0,0,0,0.14),
-        0px 1px 5px 0px rgba(0,0,0,0.12);
-    }
-
-    &--fixed {
-      position: fixed;
-    }
-
-    &--fullscreen-mobile {
+    &--bottomsheet {
       @include mq($to: phone) {
-        position: fixed;
-        top: auto !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
         width: 100%;
-        border-radius: get-border-radius(4) get-border-radius(4) 0 0;
-
-        // Browsers which partially support CSS Environment variables (iOS 11.0-11.2).
-        @supports (padding-bottom: constant(safe-area-inset-bottom)) {
-          --safe-area-inset-bottom: constant(safe-area-inset-bottom);
-          padding-bottom: var(--safe-area-inset-bottom);
-        }
-
-        // Browsers which fully support CSS Environment variables (iOS 11.2+).
-        @supports (padding-bottom: env(safe-area-inset-bottom)) {
-          --safe-area-inset-bottom: env(safe-area-inset-bottom);
-          padding-bottom: var(--safe-area-inset-bottom);
-        }
 
         .datepicker-header {
           border-radius: 0;
@@ -597,7 +510,7 @@ export default {
 
     /* Title
     ---------------------- */
-    &-title {
+    &__title {
       position: relative;
       display: flex;
       justify-content: space-between;
@@ -619,8 +532,10 @@ export default {
         margin: 0;
       }
 
-      button {
+      &-close {
         position: relative;
+        display: flex;
+        align-items: center;
         flex: 0 0 40px;
         height: get-size(mobile, controls);
         width: get-size(mobile, controls);
@@ -642,9 +557,9 @@ export default {
       }
     }
 
-    /* Contsnt
+    /* Body
     ---------------------- */
-    &-content {
+    &__body {
       position: relative;
       display: flex;
       flex-direction: column;
@@ -653,7 +568,7 @@ export default {
 
     /* Week
     ---------------------- */
-    &-week {
+    &__week {
       display: flex;
       font-size: 12px;
       line-height: 12px;
@@ -668,20 +583,20 @@ export default {
       .datepicker--rtl & {
         direction: rtl;
       }
+    }
 
-      .datepicker-weekday {
-        width: calc((100% / 7) - 0.1px);
-        text-align: center;
+    &__weekday {
+      width: calc((100% / 7) - 0.1px);
+      text-align: center;
 
-        @include mq(tablet) {
-          width: get-size(desktop, day-width);
-        }
+      @include mq(tablet) {
+        width: get-size(desktop, day-width);
       }
     }
 
     /* Days
     ---------------------- */
-    &-days__wrapper {
+    &__days-wrapper {
       position: relative;
       height: get-size(mobile, day-height) * 5;
       margin: 0 $gutter*3 $gutter;
@@ -710,7 +625,7 @@ export default {
       }
     }
 
-    &-days {
+    &__days {
       display: flex;
       flex-wrap: wrap;
       overflow: hidden;
@@ -719,116 +634,124 @@ export default {
       .datepicker--rtl & {
         direction: rtl;
       }
+    }
 
-      .datepicker-day {
-        @extend %reset-button;
-        position: relative;
+    /* Day
+    ---------------------- */
+    &__day {
+      @extend %reset-button;
+      position: relative;
+      width: calc((100% / 7) - 0.1px);
+      height: get-size(mobile, day-height);
+      line-height: 1;
+      font-size: 12px;
+      float: left;
+      text-align: center;
+      color: transparentize(black, .13);
+      font-weight: get-font-weight(medium);
+      transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);
+      overflow: hidden;
+
+      @include mq(tablet) {
         width: calc((100% / 7) - 0.1px);
-        height: get-size(mobile, day-height);
-        line-height: 1;
-        font-size: 12px;
-        float: left;
-        text-align: center;
-        color: transparentize(black, .13);
-        font-weight: get-font-weight(medium);
-        transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);
-        overflow: hidden;
+        height: get-size(desktop, day-height);
+      }
 
-        @include mq(tablet) {
-          width: calc((100% / 7) - 0.1px);
-          height: get-size(desktop, day-height);
+      &:hover:not(.disabled) {
+        color: white;
+
+        .datepicker__day-effect {
+          transform: translateX(-50%) scale(1);
+          opacity: .5;
         }
+      }
+
+      &.in-range:not(.disabled),
+      &.between:not(.disabled) {
+        color: white;
+
+        .datepicker__day-effect {
+          transform: translateX(-50%);
+          left: 0;
+          width: calc(100% + 1px); // 1 extra pixel to fix weird spaces;
+          border-radius: 0;
+          opacity: .5;
+
+          &:before {
+            opacity: 1;
+            left: 50%;
+          }
+        }
+      }
+
+      &.selected {
+        color: white;
 
         &:hover:not(.disabled) {
-          color: white;
+          .datepicker__day-effect {
+            opacity: 1;
+          }
+        }
 
-          .datepicker-day__effect {
-            transform: translateX(-50%) scale(1);
+        .datepicker__day-effect {
+          transform: translateX(-50%);
+          opacity: 1;
+        }
+      }
+
+      &.first,
+      &.select-start:hover:not(.selected) {
+        .datepicker__day-effect {
+          opacity: 1;
+
+          &:before {
             opacity: .5;
-          }
-        }
-        &.in-range:not(.disabled),
-        &.between:not(.disabled) {
-          color: white;
+            left: 50%;
 
-          .datepicker-day__effect {
-            transform: translateX(-50%);
-            left: 0;
-            width: calc(100% + 1px); // 1 extra pixel to fix weird spaces;
-            border-radius: 0;
-            opacity: .5;
-
-            &:before {
-              opacity: 1;
-              left: 50%;
-            }
-          }
-        }
-        &.selected {
-          color: white;
-
-          &:hover:not(.disabled) {
-            .datepicker-day__effect {
-              opacity: 1;
-            }
-          }
-
-          .datepicker-day__effect {
-            transform: translateX(-50%);
-            opacity: 1;
-          }
-        }
-        &.first,
-        &.select-start:hover:not(.selected) {
-          .datepicker-day__effect {
-            opacity: 1;
-
-            &:before {
-              opacity: .5;
-              left: 50%;
-
-              .datepicker--rtl & {
-                left: -50%;
-              }
-            }
-          }
-        }
-        &.last,
-        &.select-end:hover:not(.selected) {
-          .datepicker-day__effect {
-            opacity: 1;
-
-            &:before {
-              opacity: .5;
+            .datepicker--rtl & {
               left: -50%;
-
-              .datepicker--rtl & {
-                left: 50%;
-              }
-            }
-          }
-        }
-        &.first.last {
-          .datepicker-day__effect {
-            &:before {
-              opacity: 0;
-            }
-          }
-        }
-        &.disabled {
-          cursor: default;
-          color: rgba(0,0,0,0.26);
-
-          &:hover {
-            .datepicker-day__effect,
-            .datepicker-day__effect:before {
-              opacity: 0 !important;
             }
           }
         }
       }
 
-      .datepicker-day--current {
+      &.last,
+      &.select-end:hover:not(.selected) {
+        .datepicker__day-effect {
+          opacity: 1;
+
+          &:before {
+            opacity: .5;
+            left: -50%;
+
+            .datepicker--rtl & {
+              left: 50%;
+            }
+          }
+        }
+      }
+
+      &.first.last {
+        .datepicker__day-effect {
+          &:before {
+            opacity: 0;
+          }
+        }
+      }
+
+      &.disabled {
+        cursor: default;
+        color: rgba(0,0,0,0.26);
+
+        &:hover {
+          .datepicker__day-effect,
+          .datepicker__day-effect:before {
+            opacity: 0 !important;
+          }
+        }
+      }
+
+      &--current {
         position: absolute;
         top: 1px;
         left: 50%;
@@ -839,13 +762,13 @@ export default {
         border: 1px solid currentColor;
 
         @include mq(tablet) {
-          top: 4px;
+          top: 2px;
           width: 36px;
           height: 36px;
         }
       }
 
-      .datepicker-day__effect {
+      &-effect {
         position: absolute;
         top: 1px;
         left: 50%;
@@ -857,7 +780,7 @@ export default {
         transform: translateX(-50%) scale(0);
 
         @include mq(tablet) {
-          top: 4px;
+          top: 2px;
           width: 36px;
           height: 36px;
         }
@@ -882,42 +805,10 @@ export default {
         }
       }
 
-      .datepicker-day__text {
+      &-text {
         position: relative;
         vertical-align: sub;
       }
     }
-
-  }
-  // ----------------------
-  // Transition
-  // ----------------------
-  .datepicker-transition {
-    &-enter-active:not(.datepicker--inline),
-    &-leave-active:not(.datepicker--inline) {
-      opacity: 1;
-      transition: all 300ms;
-      transition-property: transform, opacity;
-      transform: scale(1);
-
-      @include mq($to: phone) {
-        &.datepicker--fullscreen-mobile {
-          transform: translateY(0);
-        }
-      }
-    }
-
-    &-leave-to:not(.datepicker--inline) ,
-    &-enter:not(.datepicker--inline) {
-      opacity: 0;
-      transform: scale(0);
-
-      @include mq($to: phone) {
-        &.datepicker--fullscreen-mobile {
-          transform: translateY(100%);
-        }
-      }
-    }
-
   }
 </style>

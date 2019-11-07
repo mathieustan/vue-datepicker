@@ -11,7 +11,6 @@ import {
 } from '@/constants';
 
 import Dates, {
-  getDefaultLocale,
   setLocaleLang,
   getWeekDays,
   getDefaultInputFormat,
@@ -141,20 +140,6 @@ describe('Transactions: Functions', () => {
   });
 
   describe('Functions', () => {
-    describe('getDefaultLocale', () => {
-      it.each([
-        [{ userLanguage: 'french', language: 'french' }, 'fr'],
-        [{ userLanguage: undefined, language: 'russian' }, 'ru'],
-        [{ userLanguage: undefined, language: undefined }, 'en'],
-      ])(
-        'when currentDate equal %p, should return %p',
-        (navigator, expectedResult) => {
-          Object.defineProperty(global, 'navigator', { value: navigator, writable: true });
-          expect(getDefaultLocale()).toEqual(expectedResult);
-        }
-      );
-    });
-
     describe('setLocaleLang', () => {
       const cutomLang = {
         name: 'it',

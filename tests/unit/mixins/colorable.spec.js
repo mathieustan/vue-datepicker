@@ -26,29 +26,57 @@ describe('colorable', () => {
 
   describe('methods', () => {
     describe('setBackgroundColor', () => {
-      it.each([
-        ['color', undefined],
-        ['#fff', { 'background-color': '#fff', 'border-color': '#fff' }],
-      ])(
-        'When color = %p, should return data = %p',
-        (color, expectedResult) => {
+      [{
+        description: 'return undefined if color isn\'t a css color',
+        color: 'color',
+        data: undefined,
+        expectedResult: undefined,
+      }, {
+        description: 'return style for background-color if data is undefined',
+        color: '#FFFFFF',
+        data: undefined,
+        expectedResult: { 'background-color': '#FFFFFF', 'border-color': '#FFFFFF' },
+      }, {
+        description: 'return merged data with style',
+        color: '#FFFFFF',
+        data: { staticClass: 'class' },
+        expectedResult: {
+          staticClass: 'class',
+          style: { 'background-color': '#FFFFFF', 'border-color': '#FFFFFF' },
+        },
+      }].forEach(({ description, color, data, expectedResult }) => {
+        it(`should ${description}`, () => {
           const wrapper = mountComponent();
-          expect(wrapper.vm.setBackgroundColor(color)).toEqual(expectedResult);
-        }
-      );
+          expect(wrapper.vm.setBackgroundColor(color, data)).toEqual(expectedResult);
+        });
+      });
     });
 
     describe('setTextColor', () => {
-      it.each([
-        ['color', undefined],
-        ['#fff', { 'color': '#fff' }],
-      ])(
-        'When color = %p, should return data = %p',
-        (color, expectedResult) => {
+      [{
+        description: 'return undefined if color isn\'t a css color',
+        color: 'color',
+        data: undefined,
+        expectedResult: undefined,
+      }, {
+        description: 'return style for color if data is undefined',
+        color: '#FFFFFF',
+        data: undefined,
+        expectedResult: { color: '#FFFFFF' },
+      }, {
+        description: 'return merged data with style',
+        color: '#FFFFFF',
+        data: { staticClass: 'class' },
+        expectedResult: {
+          staticClass: 'class',
+          style: { color: '#FFFFFF' },
+        },
+      }].forEach(({ description, color, data, expectedResult }) => {
+        it(`should ${description}`, () => {
           const wrapper = mountComponent();
-          expect(wrapper.vm.setTextColor(color)).toEqual(expectedResult);
-        }
-      );
+          expect(wrapper.vm.setTextColor(color, data)).toEqual(expectedResult);
+        });
+      });
     });
   });
 });

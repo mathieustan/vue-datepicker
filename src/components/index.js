@@ -1,1 +1,5 @@
-export * from './DatePicker';
+import VueDatePicker from './DatePicker';
+
+export {
+  VueDatePicker,
+};
