@@ -68,6 +68,8 @@ export default {
     // Allowed dates
     minDate: { type: [String, Number, Date] },
     maxDate: { type: [String, Number, Date] },
+    // Range for year picker
+    visibleYearsNumber: { type: Number, default: 10 },
     // Disabled all datepicker
     disabled: { type: Boolean, default: false },
     // Inline
@@ -358,6 +360,7 @@ export default {
           color: this.color,
           minDate: this.minDate,
           maxDate: this.maxDate,
+          visibleYearsNumber: this.visibleYearsNumber,
           rtl: this.rtl,
         },
         on: {

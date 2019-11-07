@@ -64,9 +64,13 @@ describe('DatePickerYearMonth', () => {
     describe('getYears', () => {
       it('should return a range of years', () => {
         const wrapper = mountComponent();
+        const thisYear = 2019;
+        const visibleYearsNumber = wrapper.vm.visibleYearsNumber;
         // current year is 2019 - 10 => 2009
         // Should show 10 years before 2019 + 10 years after 2019 => 21 years
-        const years = [...Array(21).keys()].map(i => 2009 + i);
+        // so the formula will be number*2+1 (x years after + x years before + 1 this year)
+        const yearRange = (visibleYearsNumber * 2) + 1;
+        const years = [...Array(yearRange).keys()].map(i => (thisYear - visibleYearsNumber) + i);
         expect(wrapper.vm.getYears).toEqual(years);
       });
     });

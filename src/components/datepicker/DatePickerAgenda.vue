@@ -122,6 +122,7 @@
         :color="color"
         :min-date="minDate"
         :max-date="maxDate"
+        :visible-years-number="visibleYearsNumber"
         @changeYear="changeYear"
         @selectedYearMonth="selectedYearMonth"
       />
@@ -202,6 +203,7 @@ export default {
     color: { type: String },
     minDate: { type: [String, Number, Date] },
     maxDate: { type: [String, Number, Date] },
+    visibleYearsNumber: { type: Number },
     rtl: { type: Boolean, default: false },
   },
   data: () => ({

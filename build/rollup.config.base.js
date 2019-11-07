@@ -57,6 +57,7 @@ export default {
     globals: {
       'body-scroll-lock': 'BodyScrollLock',
       'dayjs': 'Dayjs',
+      'get-size': 'getSize',
       'vue': 'Vue',
     },
   },

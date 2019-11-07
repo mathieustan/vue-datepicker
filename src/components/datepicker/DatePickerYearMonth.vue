@@ -126,6 +126,7 @@ export default {
     color: { type: String, default: String },
     minDate: { type: [String, Date, Object] },
     maxDate: { type: [String, Date, Object] },
+    visibleYearsNumber: { type: Number, default: 10 },
   },
   computed: {
     yearFormatted () {
@@ -133,7 +134,7 @@ export default {
     },
     getYears () {
       const year = this.currentDate.year;
-      return this.currentDate.generateYearsRange(year, 10, 'year');
+      return this.currentDate.generateYearsRange(year, this.visibleYearsNumber, 'year');
     },
     getMonths () {
       return this.currentDate.getMonths();
