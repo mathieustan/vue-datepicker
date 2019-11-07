@@ -1,28 +1,17 @@
-import VueDatePicker from './components/datepicker/DatePicker.vue';
+import * as components from './components';
+import VueDatePicker from './framework';
 
-export { VueDatePicker };
+export default VueDatePicker;
 
-const install = (Vue) => {
-  Vue.component('VueDatePicker', VueDatePicker);
-  Vue.component('vue-datepicker', VueDatePicker);
+const install = VueDatePicker.install;
+
+VueDatePicker.install = (Vue, options) => {
+  install.call(VueDatePicker, Vue, {
+    components,
+    options,
+  });
 };
 
-// Plugin
-const plugin = {
-  // eslint-disable-next-line no-undef
-  version: VERSION,
-  install,
-};
-
-export default plugin;
-
-// Auto-install
-let GlobalVue = null;
-if (typeof window !== 'undefined') {
-  GlobalVue = window.Vue;
-} else if (typeof global !== 'undefined') {
-  GlobalVue = global.Vue;
-}
-if (GlobalVue) {
-  GlobalVue.use(plugin);
+if (typeof window !== 'undefined' && window.Vue) {
+  window.Vue.use(VueDatePicker);
 }
