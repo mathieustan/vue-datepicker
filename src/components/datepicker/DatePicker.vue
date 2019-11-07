@@ -6,9 +6,9 @@ import ClickOutside from '../../directives/click-outside';
 
 // components
 import Menu from '../Menu';
-import DatePickerCustomInput from './DatePickerCustomInput';
-import DatePickerOverlay from './DatePickerOverlay';
-import DatePickerAgenda from './DatePickerAgenda';
+import DatePickerCustomInput from './DatePickerCustomInput.vue';
+import DatePickerOverlay from './DatePickerOverlay.vue';
+import DatePickerAgenda from './DatePickerAgenda.vue';
 
 // constants
 import { Z_INDEX_LIST, KEYCODES, DATE_HEADER_REGEX } from '../../constants';
