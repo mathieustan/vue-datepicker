@@ -214,11 +214,11 @@ export function generateDateRangeWithoutDisabled ({ start, end }, minDate, maxDa
 export function initDate (date, { isRange, locale }) {
   if (isRange) {
     return {
-      start: date && date.start && formatDate(date.start, locale),
-      end: date && date.end && formatDate(date.end, locale),
+      start: date && date.start != null ? formatDate(date.start, locale) : undefined,
+      end: date && date.end != null ? formatDate(date.end, locale) : undefined,
     };
   }
-  return date && formatDate(date, locale);
+  return date != null ? formatDate(date, locale) : undefined;
 }
 
 export function generateDateRange (startDate, endDate, interval = 'day') {

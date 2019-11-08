@@ -391,6 +391,11 @@ describe('Transactions: Functions', () => {
     describe('initDate', () => {
       it.each([
         [
+          { start: null, end: null },
+          { isRange: true, locale: { lang: 'en' } },
+          { start: undefined, end: undefined },
+        ],
+        [
           { start: new Date([2019, 5, 16]), end: undefined },
           { isRange: true, locale: { lang: 'en' } },
           { start: dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date), end: undefined },
@@ -404,14 +409,19 @@ describe('Transactions: Functions', () => {
           },
         ],
         [
-          new Date([2019, 5, 16]),
+          null,
           { isRange: false, locale: { lang: 'en' } },
-          dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date),
+          undefined,
         ],
         [
           undefined,
           { isRange: false, locale: { lang: 'en' } },
           undefined,
+        ],
+        [
+          new Date([2019, 5, 16]),
+          { isRange: false, locale: { lang: 'en' } },
+          dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date),
         ],
       ])(
         'when date equal %p && params = %p, should return %p',

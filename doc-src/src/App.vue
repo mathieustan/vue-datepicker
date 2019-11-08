@@ -502,7 +502,7 @@ export default  {
       range: {
         title: 'Props: Range',
         description: 'Enable/disable Date range (actually only available for date)',
-        date: undefined,
+        date: { start: null, end: null },
         props: {
           range: {
             type: Boolean,
