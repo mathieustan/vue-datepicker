@@ -11,9 +11,9 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - yarn-packages-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+            - yarn-packages-v1-
 
       - run:
           name: run -> install dependencies
@@ -22,7 +22,7 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: yarn-packages-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
       # run Lint
       - run:
