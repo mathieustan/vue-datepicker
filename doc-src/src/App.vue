@@ -201,7 +201,12 @@ export default {
       install: 'npm install @mathieustan/vue-datepicker --save',
       use:
 `import VueDatePicker from '@mathieustan/vue-datepicker';
-Vue.use(VueDatePicker);`,
+Vue.use(VueDatePicker);
+
+// Options: You can set lang by default
+Vue.use(VueDatePicker, {
+  lang: 'fr'
+});`,
       import:
 `import { VueDatePicker } from '@mathieustan/vue-datepicker';
 
