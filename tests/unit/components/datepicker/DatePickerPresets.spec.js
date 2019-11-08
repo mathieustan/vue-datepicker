@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
-import DatePickerPresets from '@/components/datepicker/DatePickerPresets.vue';
+import DatePickerPresets from '@/components/DatePicker/DatePickerPresets.vue';
 
 describe('DatePickerPresets', () => {
   let mountComponent;

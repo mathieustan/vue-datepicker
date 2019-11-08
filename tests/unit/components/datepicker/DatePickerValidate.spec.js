@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
-import DatePickerValidate from '@/components/datepicker/DatePickerValidate.vue';
+import DatePickerValidate from '@/components/DatePicker/DatePickerValidate.vue';
 
 describe('DatePickerValidate', () => {
   let mountComponent;

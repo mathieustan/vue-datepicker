@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
-import DatePickerHeader from '@/components/datepicker/DatePickerHeader.vue';
+import DatePickerHeader from '@/components/DatePicker/DatePickerHeader.vue';
 
 describe('DatePickerHeader', () => {
   let mountComponent;
