@@ -1,25 +1,42 @@
 <template>
-  <pre :class="classes" :data-title="type"><code :class="classes"><slot /></code></pre>
+  <div class="code-wrapper" v-highlight>
+    <pre :class="classes" :data-title="type"><code v-if="!shouldReset" :class="classes">{{ source }}</code></pre>
+  </div>
 </template>
 
 <script>
+import highlight from '../directives/highlight';
+
 export default {
   name: 'CodeWrapper',
+  directives: { highlight },
+  data: () => ({
+    shouldReset: false,
+    timeoutId: undefined,
+  }),
   props: {
     type: { type: String, default: String },
+    source: { type: String },
   },
   computed: {
     classes () {
       return `language-${this.type}`;
     },
   },
+  watch: {
+    source () {
+      this.shouldReset = true;
+      clearTimeout(this.timeoutId);
+      this.timeoutId = setTimeout(() => {
+        this.shouldReset = false;
+      }, 100);
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-  @import   '../styles/abstracts/functions',
-            '../styles/abstracts/variables',
-            '../styles/abstracts/mixins';
+  @import   '../styles/abstracts';
 
   p {
     margin-top: 0;
@@ -42,7 +59,6 @@ export default {
     display: flex;
     border: none;
     padding: $gutter*4 $gutter*2 $gutter*2;
-    border-radius: get-border-radius(3);
     overflow: hidden;
     margin: 0;
     overflow: auto;
@@ -106,6 +122,13 @@ export default {
         background-color: color(other, yellow);
       }
     }
+
+    &.language-json {
+      &:before,
+      &:after {
+        background-color: color(other, blue);
+      }
+    }
   }
 
   code {
@@ -121,27 +144,42 @@ export default {
       line-height: 19px;
     }
 
-    .token {
-      &.function {
-        color: color(other, yellow);
-      }
-      &.char, &.string {
-        color: #c6feb9;
-      }
-      &.atrule, &.delimiter, &.important, &.keyword, &.selector {
-        color: color(other, orange);
-      }
-      &.attr-name, &.operator {
-        color: #ffb454;
-      }
-      &.ponctuation {
-        color: white;
-      }
-    }
-
     span {
       font-style: inherit;
       font-weight: inherit;
+    }
+  }
+</style>
+
+<style lang="scss">
+  .token {
+    &.function {
+      color: color(other, yellow);
+    }
+    &.atrule, &.important, &.keyword, &.selector {
+      color: color(other, orange);
+    }
+    &.attr-name, &.operator {
+      color: #ffb454
+    }
+    &.punctuation {
+      color: white
+    }
+    &.boolean, &.constant, &.property, &.variable {
+      color: #ff628c
+    }
+    &.char, &.string {
+      color: #c6feb9
+    }
+    &.attr-value, &.attr-value .punctuation {
+      color: #a5c261
+    }
+    &.attr-value .punctuation:first-child {
+      color: #a9b7c6
+    }
+    &.url {
+      color: #287bde;
+      text-decoration: underline
     }
   }
 </style>

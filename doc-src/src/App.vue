@@ -39,518 +39,65 @@
           <h2> Install </h2>
         </div>
         <p> 1. Install component with npm </p>
-        <CodeWrapper type="bash">
-<span class="token function">npm install </span>@mathieustan/vue-datepicker --save</CodeWrapper>
+        <CodeWrapper type="bash" :source="installSources.install" />
 
         <p> 2. Load component in your project </p>
-        <CodeWrapper type="javascript">
-<span class="token keyword">import</span> VueDatePicker <span class="token keyword">from</span><span class="token string"> '@mathieustan/vue-datepicker'</span>;
-
-<span class="token keyword">Vue</span><span class="token function">.use(</span>VueDatePicker<span class="token function">)</span>;
-</CodeWrapper>
+        <CodeWrapper type="javascript" :source="installSources.use" />
 
         Or
-
-      <CodeWrapper type="javascript">
-<span class="token keyword">import</span> { VueDatePicker } <span class="token keyword">from</span><span class="token string"> '@mathieustan/vue-datepicker'</span>;
-
-<span class="token keyword">export default </span> {
-  <span class="token function">components</span> : {
-    VueDatePicker,
-  <span>},</span>
-}
-</CodeWrapper>
+        <CodeWrapper type="javascript" :source="installSources.import" />
 
         <p> 3. Use the component </p>
-        <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-</CodeWrapper>
+        <CodeWrapper type="HTML" :source="installSources.template" />
 
         <div class="title">
           <h2> Examples (props) </h2>
         </div>
 
         <!---------------------------------------------------------->
-        <!-- EXAMPLE : Default -->
+        <!-- EXAMPLES -->
         <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Default </h3>
-            <p><small> Default use of datepicker </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker v-model="currentDate" />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="javascript">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker <span class="token attr-name">v-model</span>="date" <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Validate -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Validate </h3>
-            <p><small> Need to validate to change date (Add buttons) </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker v-model="currentDate" validate />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">validate</span>
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Format -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Format </h3>
-            <p><small> Allow to format input date </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker v-model="currentDate" format="YYYY-MM-DD" />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">format</span>="YYYY-MM-DD"
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Format Header  -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> FormatHeader </h3>
-            <p><small> Allow to format header date </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker v-model="currentDate" format-header="dddd DD MMMM" />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">format-header</span>="dddd DD MMMM"
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Placeholder  -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Placeholder </h3>
-            <p><small> Allow to set placeholder for input </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker
-              v-model="examples.placeholder.currentDate"
-              placeholder="DD/MM/YYYY"
-            />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">placeholder</span>="DD/MM/YYYY"
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ examples.placeholder.currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Visible -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
+        <Wrapper
+          v-for="story in formattedStories"
+          :key="story.id"
+          background-color="white"
+          class="column justify-start align-center"
+        >
           <template v-slot:description>
             <h3>
-              Visible
-              <input type="checkbox" id="isVisible" name="isVisible" v-model="examples.visible.isVisible">
+              {{ story.title }}
+              <span v-if="story.on" style="color: red">{{ message }}</span>
+              <!-- Only for visible story -->
+              <input
+                v-if="story.id === 'visible'"
+                type="checkbox"
+                id="isVisible"
+                name="isVisible"
+                v-model="stories[story.id].props.visible.value">
             </h3>
-            <p><small> Used to trigger datepicker visibility </small></p>
+            <p><small> {{ story.description }} </small></p>
           </template>
 
-          <template v-slot:example>
-            <VueDatePicker v-model="currentDate" :visible="examples.visible.isVisible" />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">:visible</span>="{{ examples.visible.isVisible }}"
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Disabled -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Disabled </h3>
-            <p><small> Set datepicker disabled </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker v-model="currentDate" :disabled="true" />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">:disabled</span>="true"
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Color -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Color </h3>
-            <p><small> Allow to set datepicker color </small></p>
-          </template>
-
-          <template v-slot:inputs>
-            <div class="select-box">
+          <template v-if="story.id === 'color' || story.id === 'localeSelect'" v-slot:inputs>
+            <!-- Only for COLOR story -->
+            <div v-if="story.id === 'color'" class="select-box">
               <label for="lang-select"> Choose a color: </label>
-              <select id="lang-select" v-model="examples.color.selected">
+              <select id="lang-select" v-model="stories[story.id].props.color.value">
                 <option
-                  v-for="(color, index) in examples.color.list"
+                  v-for="(color, index) in stories[story.id].colorList"
                   :key="index"
                   :value="color.hex">
                   {{ color.name }}
                 </option>
               </select>
             </div>
-          </template>
 
-          <template v-slot:example>
-            <VueDatePicker v-model="currentDate" :color="examples.color.selected" />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">color</span>="{{ examples.color.selected }}"
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : NoHeader -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> NoHeader </h3>
-            <p><small> Boolean to hide datepicker header </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker v-model="currentDate" no-header />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">no-header</span>
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : NoInput -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> NoInput </h3>
-            <p><small> Allow to use a button instead of an input (better width management) </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker v-model="currentDate" no-input />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">no-header</span>
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : NoCalendarIocn -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> NoCalendarIocn </h3>
-            <p><small> Allow to hide calendar icon </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker v-model="currentDate" no-calendar-icon />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">no-calendar-icon</span>
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : FullscreenMobile -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> FullscreenMobile </h3>
-            <p><small> Datepicker will appear in a bottom sheet when screen width is less than 480px </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker v-model="currentDate" fullscreen-mobile no-header />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">no-header </span>
-    <span class="token attr-name">fullscreen-mobile </span>
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : MinDate -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> minDate & maxDate </h3>
-            <p><small> Specify min & end date for datepicker </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker
-              v-model="currentDate"
-              :min-date="examples.allowedDates.min"
-              :max-date="examples.allowedDates.max"
-            />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">min-date</span>="{{ examples.allowedDates.min }}"
-    <span class="token attr-name">max-date</span>="{{ examples.allowedDates.max }}"
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Locale -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Locale (lang & weekDays) </h3>
-            <p><small> Translations </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker
-              v-model="currentDate"
-              :locale="{
-                lang: 'fr',
-                weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
-              }" />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">:locale</span>="{ lang: 'fr', weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] }"
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Locale with lang selectable -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Locale (selectable lang available in package) </h3>
-            <p><small> Translations (actually, only 'en', 'fr', 'es', 'de' & 'ru' available in package) </small></p>
-          </template>
-
-          <template v-slot:inputs>
-            <div class="select-box">
+            <!-- Only for LOCALE story -->
+            <div v-if="story.id === 'localeSelect'" class="select-box">
               <label for="lang-select"> Choose a lang: </label>
-              <select id="lang-select" v-model="examples.locale.selectedLang">
+              <select id="lang-select" v-model="stories[story.id].props.locale.value.lang">
                 <option
-                  v-for="(lang, index) in examples.locale.langs"
+                  v-for="(lang, index) in stories[story.id].langsList"
                   :key="index">
                   {{ lang }}
                 </option>
@@ -560,644 +107,570 @@
 
           <template v-slot:example>
             <VueDatePicker
-              v-model="currentDate"
-              :locale="{ lang: examples.locale.selectedLang }"
-              validate
+              v-model="stories[story.id].date"
+              v-bind="story.bind"
+              v-on="story.on"
             />
           </template>
 
           <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">:locale</span>="{ lang: {{ examples.locale.selectedLang }} }"
-    <span class="token attr-name">validate </span>
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
+            <CodeWrapper type="HTML" :source="story.templateString" />
           </template>
 
           <template v-slot:result>
-            v-model="{{ currentDate }}"
+            v-model="{{ stories[story.id].date }}"
           </template>
         </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Locale with custom lang -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Locale (with custom lang object) </h3>
-            <p><small> You can use a custom lang object </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker
-              v-model="currentDate"
-              :locale="{ lang: examples.locale.customLang }"
-              validate
-            />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">:locale</span>="{ lang: {{ examples.locale.customLang }} }"
-    <span class="token attr-name">validate</span>
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Fixed -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Fixed </h3>
-            <p><small> Set datepicker to fixed position </small></p>
-          </template>
-
-          <template v-slot:example>
-            <p>See datepicker in page header ☝️</p>
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="{{currentDate}}"
-    <span class="token attr-name">:color</span>="#9f4fff"
-    <span class="token attr-name">:z-index</span>="1000"
-    <span class="token attr-name">fullscreen-mobile </span>
-    <span class="token attr-name">fixed </span>
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Rtl -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Rtl </h3>
-            <p><small> Allow Right-to-Left mode </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker
-              v-model="currentDate"
-              rtl
-              fullscreen-mobile
-            />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="{{currentDate}}"
-    <span class="token attr-name">rtl </span>
-    <span class="token attr-name">fullscreen-mobile </span>
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Inline -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Inline </h3>
-            <p><small> Allow you to show datepicker inline (without input) </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker v-model="currentDate" inline />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="{{currentDate}}"
-    <span class="token attr-name">inline</span>
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Type: Month -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Type = 'month' </h3>
-            <p><small> A month datepicker </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker
-              v-model="examples.month.currentDate"
-              type="month"
-              :min-date="examples.month.min"
-              :max-date="examples.month.end"
-              inline />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="{{ examples.month.currentDate }}"
-    <span class="token attr-name">:min-date</span>="{{ examples.month.min }}"
-    <span class="token attr-name">:max-date</span>="{{ examples.month.end }}"
-    <span class="token attr-name">type</span>="month"
-    <span class="token attr-name">:inline</span>="true"
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ examples.month.currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Type: Quarter -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Type = 'quarter' </h3>
-            <p><small> A quarter datepicker </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker
-              v-model="examples.quarter.currentDate"
-              type="quarter"
-              :min-date="examples.quarter.min"
-              :max-date="examples.quarter.end"
-              inline
-            />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="{{ examples.quarter.currentDate }}"
-    <span class="token attr-name">:min-date</span>="{{ examples.quarter.min }}"
-    <span class="token attr-name">:max-date</span>="{{ examples.quarter.end }}"
-    <span class="token attr-name">type</span>="quarter"
-    <span class="token attr-name">:inline</span>="true"
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ examples.quarter.currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Range Picker -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Range </h3>
-            <p><small> Enable/disable Date range (actually only available for date) </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker
-              v-model="examples.range.dates"
-              :name="`Choose dates`"
-              :min-date="examples.range.min"
-              :max-date="examples.range.end"
-              range
-              placeholder="Start - End"
-              fullscreen-mobile
-            />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="rangeDates"
-    <span class="token attr-name">:name</span>="`Choose dates`"
-    <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
-    <span class="token attr-name">:max-date</span>="{{ examples.range.end }}"
-    <span class="token attr-name">placeholder</span>="Start - End"
-    <span class="token attr-name">range </span>
-    <span class="token attr-name">fullscreen-mobile </span>
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ examples.range.dates }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Range Picker with PRESETS -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Range (with rangePresets) </h3>
-            <p>
-              <small>
-                Allow to add custom range presets to range datepicker.
-                (Max custom presets = 6)
-              </small>
-            </p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker
-              v-model="examples.range.dates"
-              :name="`Choose dates`"
-              :min-date="examples.range.min"
-              :max-date="examples.range.end"
-              :range-presets="examples.range.presets"
-              :range-input-text="examples.range.inputText"
-              placeholder="Start - End"
-              validate
-              range
-              no-header
-              fullscreen-mobile
-            />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="rangeDates"
-    <span class="token attr-name">:name</span>="`Choose dates`"
-    <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
-    <span class="token attr-name">:max-date</span>="{{ examples.range.end }}"
-    <span class="token attr-name">:range-presets</span>="{{ examples.range.presets }}"
-    <span class="token attr-name">:range-input-text</span>="{{ examples.range.inputText }}"
-    <span class="token attr-name">placeholder</span>="Start - End"
-    <span class="token attr-name">validate </span>
-    <span class="token attr-name">range </span>
-    <span class="token attr-name">no-header </span>
-    <span class="token attr-name">fullscreen-mobile </span>
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ examples.range.dates }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : Range Picker with RTL -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> Range with rtl mode </h3>
-            <p>
-              <small>
-                Using range picker in RTL mode
-              </small>
-            </p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker
-              v-model="examples.range.dates"
-              :name="`Choose dates`"
-              :min-date="examples.range.min"
-              :max-date="examples.range.end"
-              :range-input-text="examples.range.inputText"
-              placeholder="Start - End"
-              validate
-              range
-              no-header
-              rtl
-              fullscreen-mobile
-            />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="rangeDates"
-    <span class="token attr-name">:name</span>="`Choose dates`"
-    <span class="token attr-name">:min-date</span>="{{ examples.range.min }}"
-    <span class="token attr-name">:max-date</span>="{{ examples.range.end }}"
-    <span class="token attr-name">:range-input-text</span>="{{ examples.range.inputText }}"
-    <span class="token attr-name">placeholder</span>="Start - End"
-    <span class="token attr-name">validate </span>
-    <span class="token attr-name">range </span>
-    <span class="token attr-name">no-header </span>
-    <span class="token attr-name">rtl </span>
-    <span class="token attr-name">fullscreen-mobile </span>
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ examples.range.dates }}"
-          </template>
-        </Wrapper>
-
-        <div class="title">
-          <h2> Events </h2>
-        </div>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : onOpen -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> onOpen <span style="color: red">{{ examples.onOpen.message }}</span> </h3>
-            <p><small> Event emitted when datepicker is opened </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker
-              v-model="currentDate"
-              @onOpen="showTimeoutMessage('datepicker opened', 'onOpen')"
-            />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">@onOpen</span>="examples.onOpen.message = 'datepicker opened'"
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : onClose -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> onClose <span style="color: red">{{ examples.onClose.message }}</span> </h3>
-            <p><small> Event emitted when datepicker is closed </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker
-              v-model="currentDate"
-              @onClose="showTimeoutMessage('datepicker closed', 'onClose')"
-            />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">@onClose</span>="examples.onClose.message = 'datepicker closed'"
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
-        <!---------------------------------------------------------->
-        <!-- EXAMPLE : onChange -->
-        <!---------------------------------------------------------->
-        <Wrapper background-color="white" class="column justify-start align-center">
-          <template v-slot:description>
-            <h3> onChange <span style="color: red">{{ examples.onChange.message }}</span> </h3>
-            <p><small> Event emitted when date changed </small></p>
-          </template>
-
-          <template v-slot:example>
-            <VueDatePicker
-              v-model="currentDate"
-              @onChange="showTimeoutMessage('date changed', 'onChange')"
-            />
-          </template>
-
-          <template v-slot:code>
-            <CodeWrapper type="HTML">
-<span class="token operator">&lt;</span>template<span class="token operator">></span>
-  ...
-  <span class="token operator">&lt;</span>VueDatePicker
-    <span class="token attr-name">v-model</span>="date"
-    <span class="token attr-name">@onChange</span>="examples.onChange.message = 'date changed'"
-  <span class="token operator">/></span>
-  ...
-<span class="token operator">&lt;/</span>template<span class="token operator">></span>
-  </CodeWrapper>
-          </template>
-
-          <template v-slot:result>
-            v-model="{{ currentDate }}"
-          </template>
-        </Wrapper>
-
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Wrapper from './components/Wrapper.vue';
-import CodeWrapper from './components/CodeWrapper.vue';
+// components
+import Wrapper from '@/components/Wrapper.vue';
+import CodeWrapper from '@/components/CodeWrapper.vue';
+
+// utils
+import { prepareSettingsForStory } from '@/utils';
 
 export default {
   name: 'App',
   components: { Wrapper, CodeWrapper },
   data: () => ({
-    currentDate: new Date(),
-    examples: {
+    installSources: {
+      install: 'npm install @mathieustan/vue-datepicker --save',
+      use:
+`import VueDatePicker from '@mathieustan/vue-datepicker';
+Vue.use(VueDatePicker);`,
+      import:
+`import { VueDatePicker } from '@mathieustan/vue-datepicker';
+
+export default  {
+  components : {
+    VueDatePicker,
+  },
+};
+`,
+      template:
+`<template>
+  ...
+  <VueDatePicker v-model="date" />
+  ...
+</template>
+`,
+    },
+    stories: {
+      default: {
+        title: 'Default',
+        description: 'Default usage without any props',
+        date: new Date(),
+      },
+      validate: {
+        title: 'Props: Validate',
+        description: 'Need to validate to change date (Add buttons)',
+        date: new Date(),
+        props: {
+          buttonValidate: {
+            type: String,
+            value: 'Ok',
+          },
+          buttonCancel: {
+            type: String,
+            value: 'Cancel',
+          },
+          validate: {
+            type: Boolean,
+            value: true,
+          },
+        },
+      },
+      format: {
+        title: 'Props: Format',
+        description: 'Allow to format input date',
+        date: new Date(),
+        props: {
+          format: {
+            type: String,
+            value: 'YYYY-MM-DD',
+          },
+        },
+      },
+      formatHeader: {
+        title: 'Props: FormatHeader',
+        description: 'Allow to format header date',
+        date: new Date(),
+        props: {
+          formatHeader: {
+            type: String,
+            value: 'DD MMMM',
+          },
+        },
+      },
+      placeholder: {
+        title: 'Props: Placeholder',
+        description: 'Allow to set placeholder for input',
+        date: undefined,
+        props: {
+          placeholder: {
+            type: String,
+            value: 'Choix de la date',
+          },
+        },
+      },
       visible: {
-        isVisible: false,
+        title: 'Props: Visible',
+        description: 'Used to trigger datepicker visibility',
+        date: new Date(),
+        props: {
+          visible: {
+            type: Boolean,
+            value: false,
+          },
+        },
+      },
+      disabled: {
+        title: 'Props: Disabled',
+        description: 'Set datepicker disabled',
+        date: new Date(),
+        props: {
+          disabled: {
+            type: Boolean,
+            value: true,
+          },
+        },
       },
       color: {
-        selected: '#ff4577',
-        list: [
+        title: 'Props: Color',
+        description: 'Allow to set datepicker color',
+        date: new Date(),
+        colorList: [
           { name: 'orange', hex: '#f8a623' },
           { name: 'red', hex: '#ff4577' },
           { name: 'purple', hex: '#9f4fff' },
           { name: 'blue', hex: '#4f88ff' },
           { name: 'green', hex: '#23edad' },
         ],
+        props: {
+          color: {
+            type: Object,
+            value: '#ff4577',
+          },
+        },
       },
-      placeholder: {
-        currentDate: undefined,
-        min: '2018-08-12',
-        end: '2019-05-12',
+      noHeader: {
+        title: 'Props: NoHeader',
+        description: 'Boolean to hide datepicker header',
+        date: new Date(),
+        props: {
+          noHeader: {
+            type: Boolean,
+            value: true,
+          },
+        },
       },
-      allowedDates: {
-        min: '2019-5-3',
-        max: '2019-8-12',
+      noInput: {
+        title: 'Props: NoInput',
+        description: 'Hide input to show a button instead (better when width needs to be dynamic)',
+        date: new Date(),
+        props: {
+          noInput: {
+            type: Boolean,
+            value: true,
+          },
+        },
+      },
+      noCalendarIcon: {
+        title: 'Props: NoCalendarIcon',
+        description: 'Hide to hide calendar icon',
+        date: new Date(),
+        props: {
+          noCalendarIcon: {
+            type: Boolean,
+            value: true,
+          },
+        },
+      },
+      fullscreenMobile: {
+        title: 'Props: FullscreenMobile',
+        description: 'Datepicker will appear in a bottom sheet when screen width is less than 480px',
+        date: new Date(),
+        props: {
+          fullscreenMobile: {
+            type: Boolean,
+            value: true,
+          },
+        },
+      },
+      minMaxDate: {
+        title: 'Props: MinDate & MaxDate',
+        description: 'Specify min & max date for datepicker',
+        date: new Date(),
+        props: {
+          minDate: {
+            type: String,
+            value: '2012-02-12',
+          },
+          maxDate: {
+            type: String,
+            value: '2019-05-05',
+          },
+        },
+      },
+      visibleYearsNumber: {
+        title: 'Props: visibleYearsNumber',
+        description: 'Allows to set years range in year picker (it will add X years before & after current year)',
+        date: new Date(),
+        props: {
+          visibleYearsNumber: {
+            type: Number,
+            value: 50,
+          },
+        },
       },
       locale: {
-        selectedLang: 'de',
-        langs: ['es', 'en', 'fr', 'de', 'he', 'ru'],
-        customLang: {
-          name: 'it',
-          weekdays: 'domenica_lunedì_martedì_mercoledì_giovedì_venerdì_sabato'.split('_'),
-          weekdaysShort: 'dom_lun_mar_mer_gio_ven_sab'.split('_'),
-          weekStart: 1,
-          months: 'gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre'.split('_'),
-          monthsShort: 'gen_feb_mar_apr_mag_giu_lug_ago_set_ott_nov_dic'.split('_'),
-          formats: {
-            LT: 'HH:mm',
-            LTS: 'HH:mm:ss',
-            L: 'DD/MM/YYYY',
-            LL: 'D MMMM YYYY',
-            LLL: 'D MMMM YYYY HH:mm',
-            LLLL: 'dddd D MMMM YYYY HH:mm',
+        title: 'Props: Locale',
+        description: `Allows to set lang & custom WeekDays ({ lang: 'fr', weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] })`,
+        date: new Date(),
+        props: {
+          locale: {
+            type: String,
+            value: { lang: 'fr', weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] },
           },
-          buttonCancel: 'Annulla',
-          buttonValidate: 'Ok',
-          rangeHeaderText: 'Dalle %d Alle 13',
-          ordinal: n => `${n}º`,
+        },
+      },
+      localeSelect: {
+        title: 'Props: Locale (Selectable lang)',
+        description: 'Translations',
+        date: new Date(),
+        langsList: {
+          fr: 'fr',
+          en: 'en',
+          es: 'es',
+          de: 'de',
+          he: 'he',
+          ru: 'ru',
+          custom: {
+            name: 'it',
+            weekdays: 'domenica_lunedì_martedì_mercoledì_giovedì_venerdì_sabato'.split('_'),
+            weekdaysShort: 'dom_lun_mar_mer_gio_ven_sab'.split('_'),
+            weekStart: 1,
+            months: 'gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre'.split('_'),
+            monthsShort: 'gen_feb_mar_apr_mag_giu_lug_ago_set_ott_nov_dic'.split('_'),
+            formats: {
+              LT: 'HH:mm',
+              LTS: 'HH:mm:ss',
+              L: 'DD/MM/YYYY',
+              LL: 'D MMMM YYYY',
+              LLL: 'D MMMM YYYY HH:mm',
+              LLLL: 'dddd D MMMM YYYY HH:mm',
+            },
+            ordinal: n => `${n}º`,
+            buttonCancel: 'Annulla',
+            buttonValidate: 'Ok',
+            rangeHeaderText: 'Dalle %d Alle 13',
+          },
+        },
+        props: {
+          locale: {
+            type: Object,
+            value: { lang: 'fr' },
+          },
+        },
+      },
+      inline: {
+        title: 'Props: Inline',
+        description: 'Allow you to show datepicker inline (without input)',
+        date: new Date(),
+        props: {
+          inline: {
+            type: Boolean,
+            value: true,
+          },
         },
       },
       month: {
-        currentDate: new Date().toISOString().substr(0, 7),
-        min: '2018-11',
-        end: '2019-07',
+        title: 'Props: Type (Month)',
+        description: 'Month datepicker',
+        date: new Date(),
+        props: {
+          inline: {
+            type: Boolean,
+            value: true,
+          },
+          minDate: {
+            type: String,
+            value: '2018-3',
+          },
+          maxDate: {
+            type: String,
+            value: '2019-3',
+          },
+          type: {
+            type: String,
+            value: 'month',
+          },
+        },
       },
       quarter: {
-        currentDate: '2019-2',
-        min: '2018-2',
-        end: '2019-3',
+        title: 'Props: Type (Quarter)',
+        description: 'Quarter datepicker',
+        date: new Date(),
+        props: {
+          inline: {
+            type: Boolean,
+            value: true,
+          },
+          minDate: {
+            type: String,
+            value: '2018-3',
+          },
+          maxDate: {
+            type: String,
+            value: '2019-3',
+          },
+          type: {
+            type: String,
+            value: 'quarter',
+          },
+        },
       },
       range: {
-        dates: undefined,
-        min: '2018-02-12',
-        end: '2019-08-12',
-        inputText: 'From %d to %d',
-        presets: [{
-          name: 'This year',
-          dates: {
-            start: new Date(new Date().getFullYear(), 0, 1),
-            end: new Date(new Date().getFullYear(), 11, 31),
+        title: 'Props: Range',
+        description: 'Enable/disable Date range (actually only available for date)',
+        date: undefined,
+        props: {
+          range: {
+            type: Boolean,
+            value: true,
           },
-        }, {
-          name: 'Last year',
-          dates: {
-            start: new Date(new Date().getFullYear() - 1, 0, 1),
-            end: new Date(new Date().getFullYear() - 1, 11, 31),
+          rangeHeaderText: {
+            type: String,
+            value: 'Du %d au %d',
           },
-        }, {
-          name: 'Next year',
-          dates: {
-            start: new Date(new Date().getFullYear() + 1, 0, 1),
-            end: new Date(new Date().getFullYear() + 1, 11, 31),
+          rangeInputText: {
+            type: String,
+            value: 'Du %d au %d',
           },
-        }, {
-          name: 'Last month',
-          dates: {
-            start: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
-            end: new Date(new Date().getFullYear(), new Date().getMonth(), 0),
+          minDate: {
+            type: String,
+            value: '2018-1',
           },
-        }, {
-          name: 'This month',
-          dates: {
-            start: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-            end: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
+          maxDate: {
+            type: String,
+            value: '2019-10',
           },
-        }],
+          inline: {
+            type: Boolean,
+            value: false,
+          },
+          placeholder: {
+            type: String,
+            value: 'Début - Fin',
+          },
+          noHeader: {
+            type: Boolean,
+            value: false,
+          },
+          fullscreenMobile: {
+            type: Boolean,
+            value: true,
+          },
+          validate: {
+            type: Boolean,
+            value: true,
+          },
+        },
+      },
+      rangePresets: {
+        title: 'Props: Range (with presets)',
+        description: 'Allow to add custom range presets to range datepicker. (Max custom presets = 6)',
+        date: undefined,
+        props: {
+          range: {
+            type: Boolean,
+            value: true,
+          },
+          rangePresets: {
+            type: Array,
+            value: [{
+              name: 'This year',
+              dates: {
+                start: new Date(new Date().getFullYear(), 0, 1),
+                end: new Date(new Date().getFullYear(), 11, 31),
+              },
+            }, {
+              name: 'Last year',
+              dates: {
+                start: new Date(new Date().getFullYear() - 1, 0, 1),
+                end: new Date(new Date().getFullYear() - 1, 11, 31),
+              },
+            }, {
+              name: 'Next year',
+              dates: {
+                start: new Date(new Date().getFullYear() + 1, 0, 1),
+                end: new Date(new Date().getFullYear() + 1, 11, 31),
+              },
+            }, {
+              name: 'Last month',
+              dates: {
+                start: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
+                end: new Date(new Date().getFullYear(), new Date().getMonth(), 0),
+              },
+            }, {
+              name: 'This month',
+              dates: {
+                start: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+                end: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
+              },
+            }],
+          },
+          minDate: {
+            type: String,
+            value: '2018-1',
+          },
+          maxDate: {
+            type: String,
+            value: '2019-10',
+          },
+          placeholder: {
+            type: String,
+            value: 'Début - Fin',
+          },
+          noHeader: {
+            type: Boolean,
+            value: false,
+          },
+          fullscreenMobile: {
+            type: Boolean,
+            value: true,
+          },
+          validate: {
+            type: Boolean,
+            value: true,
+          },
+        },
+      },
+      rangeRtl: {
+        title: 'Props: Range with RTL mode',
+        description: 'Using range picker in RTL mode',
+        date: undefined,
+        props: {
+          range: {
+            type: Boolean,
+            value: true,
+          },
+          minDate: {
+            type: String,
+            value: '2018-1',
+          },
+          maxDate: {
+            type: String,
+            value: '2019-10',
+          },
+          placeholder: {
+            type: String,
+            value: 'Début - Fin',
+          },
+          noHeader: {
+            type: Boolean,
+            value: true,
+          },
+          fullscreenMobile: {
+            type: Boolean,
+            value: true,
+          },
+          validate: {
+            type: Boolean,
+            value: true,
+          },
+          rtl: {
+            type: Boolean,
+            value: true,
+          },
+        },
       },
       onOpen: {
-        message: '',
-        timeoutId: undefined,
+        title: 'Events: onOpen',
+        description: 'Event emitted when datepicker is opened',
+        date: new Date(),
+        events: {
+          onOpen: {
+            data: `'datepicker opened'`,
+            method: 'showTimeoutMessage',
+          },
+        },
       },
       onClose: {
-        message: '',
-        timeoutId: undefined,
+        title: 'Events: onClose',
+        description: 'Event emitted when datepicker is closed',
+        date: new Date(),
+        messageToShow: 'datepicker closed',
+        events: {
+          onClose: {
+            data: `'datepicker closed'`,
+            method: 'showTimeoutMessage',
+          },
+        },
       },
       onChange: {
-        message: '',
-        timeoutId: undefined,
+        title: 'Events: onChange',
+        description: 'Event emitted when date changed',
+        date: new Date(),
+        events: {
+          onChange: {
+            data: `'date changed'`,
+            method: 'showTimeoutMessage',
+          },
+        },
+      },
+      onDestroy: {
+        title: 'Events: onDestroy',
+        description: 'Event emitted when datepicker is destroyed',
+        date: new Date(),
+        events: {
+          onDestroy: {
+            data: `'datepicker destroyed'`,
+            method: 'showTimeoutMessage',
+          },
+        },
       },
     },
+    currentDate: new Date(),
+    message: '',
+    timeoutId: undefined,
   }),
+  computed: {
+    formattedStories () {
+      return Object.entries(this.stories).reduce((newStories, [key, story]) => {
+        const settings = prepareSettingsForStory(story);
+        let on = {};
+        if (story.events) {
+          const eventKey = Object.keys(story.events)[0];
+          const eventValues = Object.values(story.events)[0];
+          on = { [eventKey]: () => this.showTimeoutMessage(eventValues.data) };
+        }
+        return [
+          ...newStories, {
+            id: key,
+            title: story.title,
+            description: story.description,
+            templateString: `<VueDatePicker v-model="date" ${settings.formattedAttrs}${settings.formattedEvents}/>`,
+            on,
+            bind: settings.formattedBinds,
+          },
+        ];
+      }, []);
+    },
+  },
   methods: {
     showTimeoutMessage (message, key, timeout = 1000) {
-      this.examples[key].message = message;
+      this.message = message;
 
-      clearTimeout(this.examples[key].timeoutId);
-      this.examples[key].timeoutId = setTimeout(() => {
-        this.examples[key].message = '';
+      clearTimeout(this.timeoutId);
+      this.timeoutId = setTimeout(() => {
+        this.message = '';
       }, timeout);
-    },
-    onStartDateChange () {
-      this.examples.range.showEndDate = true;
-      this.examples.range.maxDate = this.examples.range.startDate;
     },
   },
 };
