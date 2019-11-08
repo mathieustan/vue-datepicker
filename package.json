@@ -1,7 +1,7 @@
 {
   "name": "@mathieustan/vue-datepicker",
   "description": "A clean datepicker made with VueJs",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "author": "Mathieu Stanowski <mathieu.stan@gmail.com>",
   "keywords": [
     "vue",
@@ -34,7 +34,7 @@
   "homepage": "https://vue-datepicker.netlify.com/",
   "scripts": {
     "build": "npm run build:browser && npm run build:es && npm run build:umd",
-    "build:doc": "cd doc-src && npm run build",
+    "build:doc": "cd doc-src && npm install && npm run build",
     "build:browser": "rollup --config build/rollup.config.browser.js",
     "build:es": "rollup --config build/rollup.config.es.js",
     "build:umd": "rollup --config build/rollup.config.umd.js",
