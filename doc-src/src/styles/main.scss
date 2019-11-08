@@ -1,0 +1,36 @@
+@import './abstracts';
+
+button.custom__button {
+  @include reset-button();
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  border-radius: 6px;
+  padding: $gutter;
+  height: auto;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  background-color: color(other, dark-purple);
+  outline: 0;
+  text-decoration: none;
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1), color 1ms;
+  user-select: none;
+
+  &:hover {
+    background-color: transparentize(color(other, dark-purple), .3);
+  }
+
+  & + button {
+    margin-left: $gutter*2;
+  }
+
+  &[disabled] {
+    opacity: .6;
+    pointer-events: none;;
+  }
+}

@@ -9,12 +9,11 @@
         <VueDatePicker
           v-model="currentDate"
           color="#9f4fff"
-          no-input
           fullscreen-mobile
         >
           <template #activator="{ date }">
             <button
-              class="custom-button"
+              class="custom__button"
               ref="activator"
               type="button"
             >
@@ -119,6 +118,47 @@
 
           <template v-slot:result>
             v-model="{{ stories[story.id].date }}"
+          </template>
+        </Wrapper>
+
+
+        <!---------------------------------------------------------->
+        <!-- Custom activator -->
+        <!---------------------------------------------------------->
+        <Wrapper
+          v-for="story in formattedCustomStories"
+          :key="story.id"
+          background-color="white"
+          class="column justify-start align-center"
+        >
+          <template v-slot:description>
+            <h3> {{ story.title }} </h3>
+            <p><small> {{ story.description }} </small></p>
+          </template>
+
+          <template v-slot:example>
+            <VueDatePicker
+              v-model="customStories[story.id].date"
+              v-bind="story.bind"
+            >
+              <template #activator="{ date }">
+                <button
+                  class="custom__button"
+                  ref="activator"
+                  type="button"
+                >
+                  {{ date }}
+                </button>
+              </template>
+            </VueDatePicker>
+          </template>
+
+          <template v-slot:code>
+            <CodeWrapper type="HTML" :source="story.templateString" />
+          </template>
+
+          <template v-slot:result>
+            v-model="{{ customStories[story.id].date }}"
           </template>
         </Wrapper>
       </div>
@@ -636,6 +676,13 @@ export default  {
         },
       },
     },
+    customStories: {
+      activator: {
+        title: 'Custom activator',
+        description: 'Possible to use a custom activator slot to trigger datepicker ',
+        date: new Date(),
+      },
+    },
     currentDate: new Date(),
     message: '',
     timeoutId: undefined,
@@ -657,6 +704,35 @@ export default  {
             description: story.description,
             templateString: `<VueDatePicker v-model="date" ${settings.formattedAttrs}${settings.formattedEvents}/>`,
             on,
+            bind: settings.formattedBinds,
+          },
+        ];
+      }, []);
+    },
+    formattedCustomStories () {
+      return Object.entries(this.customStories).reduce((newStories, [key, story]) => {
+        const settings = prepareSettingsForStory(story);
+        return [
+          ...newStories, {
+            id: key,
+            title: story.title,
+            description: story.description,
+            templateString:
+`<VueDatePicker v-model="date" ${settings.formattedAttrs}${settings.formattedEvents}
+>
+  <!-- another notation: <template v-slot:activator="{ date }"> -->
+  <!-- older notation: <template slot="activator" slot-scope="{ date }"> -->
+  <!-- 2.6 notation -->
+  <template #activator="{ date }">
+    <button
+      class="custom__button"
+      ref="activator"
+      type="button"
+    >
+      {{ date }}
+    </button>
+  </template>
+</VueDatePicker>`,
             bind: settings.formattedBinds,
           },
         ];
