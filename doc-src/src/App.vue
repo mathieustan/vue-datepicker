@@ -836,7 +836,7 @@ export default  {
     h1 {
       display: flex;
       align-items: center;
-      font-size: 1.5em;
+      font-size: 1.25em;
 
       @include mq(tablet) {
         font-size: 2em;

@@ -10,7 +10,6 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@mathieustan/vue-datepicker": "../",
     "core-js": "^2.6.5",
     "prism-es6": "^1.2.0",
     "vue": "^2.6.10"

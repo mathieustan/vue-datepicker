@@ -8,4 +8,11 @@ module.exports = {
     noInfo: true,
     contentBase: path.join(__dirname, '..', 'docs'),
   },
+  configureWebpack: {
+    resolve: {
+      alias: {
+        'vue': path.resolve('./node_modules/vue'),
+      },
+    },
+  },
 };
