@@ -1,61 +1,3 @@
-<template>
-  <div
-    :style="setBackgroundColor(color)"
-    :class="classes"
-    class="datepicker-header">
-
-    <div
-      v-if="!range"
-      :class="{ 'datepicker-header__year--active' : mode === 'year' }"
-      class="datepicker-header__year">
-      <span @click="$emit('showYearMonthSelector', 'year')">
-        {{ year }}
-      </span>
-    </div>
-
-    <div v-if="!range" class="datepicker-header__wrap">
-      <TransitionGroup
-        tag="div"
-        :name="transitionName"
-        :class="{ 'datepicker-header__date--active' : mode !== 'year' }"
-        class="datepicker-header__date">
-        <span
-          v-for="dateFormatted in [dateFormatted]"
-          :key="dateFormatted"
-          @click="$emit('hideYearMonthSelector')"
-        >
-          {{ dateFormatted }}
-        </span>
-      </TransitionGroup>
-    </div>
-
-    <div v-else class="datepicker-header__wrap">
-      <TransitionGroup
-        tag="div"
-        :name="transitionName"
-        :class="{ 'datepicker-header__date--active' : mutableDate.start }"
-        class="datepicker-header__date">
-        <span
-          v-for="dateFormatted in [dateFormatted[0]]"
-          :key="dateFormatted">
-          {{ dateFormatted }}
-        </span>
-      </TransitionGroup>
-      <TransitionGroup
-        tag="div"
-        :name="transitionName"
-        :class="{ 'datepicker-header__date--active' : mutableDate.end }"
-        class="datepicker-header__date">
-        <span
-          v-for="dateFormatted in [dateFormatted[1]]"
-          :key="dateFormatted">
-          {{ dateFormatted }}
-        </span>
-      </TransitionGroup>
-    </div>
-  </div>
-</template>
-
 <script>
 // mixins
 import colorable from '../../mixins/colorable';
@@ -101,6 +43,84 @@ export default {
       if (!this.mutableDate) return '--';
       return formatDateWithLocale(this.mutableDate, this.locale, this.formatHeader);
     },
+  },
+  methods: {
+    // ------------------------------
+    // Generate Template
+    // ------------------------------
+    genYear () {
+      const children = this.$createElement('span', {
+        staticClass: 'datepicker-header__year-button',
+        on: {
+          click: () => this.$emit('showYearMonthSelector', 'year'),
+        },
+      }, [this.year]);
+
+      const data = {
+        staticClass: 'datepicker-header__year',
+        class: {
+          'datepicker-header__year--active': this.mode === 'year',
+        },
+      };
+
+      return this.$createElement('div', data, [children]);
+    },
+    genDate () {
+      const transitionGroup = this.genTransitionGroup({
+        date: this.dateFormatted,
+        isActive: this.mode !== 'year',
+        onClick: () => this.$emit('hideYearMonthSelector'),
+      });
+
+      return this.$createElement('div', {
+        staticClass: 'datepicker-header__wrap',
+      }, [transitionGroup]);
+    },
+    genRangeDate () {
+      const transitionGroupStart = this.genTransitionGroup({
+        date: this.dateFormatted[0],
+        isActive: Boolean(this.mutableDate.start),
+      });
+      const transitionGroupEnd = this.genTransitionGroup({
+        date: this.dateFormatted[1],
+        isActive: Boolean(this.mutableDate.end),
+      });
+
+      return this.$createElement('div', {
+        staticClass: 'datepicker-header__wrap',
+      }, [
+        transitionGroupStart,
+        transitionGroupEnd,
+      ]);
+    },
+    genTransitionGroup ({ date, isActive, onClick }) {
+      const children = (date) => this.$createElement('span', {
+        staticClass: 'datepicker-header__wrap-button',
+        key: date,
+        on: {
+          ...(onClick && { click: onClick }),
+        },
+      }, [date]);
+
+      return this.$createElement('transition-group', {
+        staticClass: 'datepicker-header__date',
+        class: { 'datepicker-header__date--active': isActive },
+        props: {
+          name: this.transitionName,
+          tag: 'div',
+        },
+      }, [date].map(key => children(key)));
+    },
+  },
+  render (h) {
+    return h('div', this.setBackgroundColor(this.color, {
+      staticClass: 'datepicker-header',
+      class: this.classes,
+    }), [
+      !this.range && this.genYear(),
+      !this.range && this.genDate(),
+      this.range && this.genRangeDate(),
+    ]);
   },
 };
 </script>

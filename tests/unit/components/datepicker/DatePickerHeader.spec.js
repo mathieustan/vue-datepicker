@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import DatePickerHeader from '@/components/DatePicker/DatePickerHeader.vue';
 
 describe('DatePickerHeader', () => {
@@ -13,7 +13,7 @@ describe('DatePickerHeader', () => {
       range,
       rangeHeaderText = 'From %d To %d',
     } = {}) =>
-      shallowMount(DatePickerHeader, {
+      mount(DatePickerHeader, {
         propsData: {
           mutableDate,
           color: 'color',
@@ -88,6 +88,24 @@ describe('DatePickerHeader', () => {
         const wrapper = mountComponent(props);
         expect(wrapper.vm.dateFormatted).toEqual(expectedResult);
       });
+    });
+  });
+
+  describe('behaviour', () => {
+    it('should emit showYearMonthSelector when click on year', () => {
+      const wrapper = mountComponent();
+      const year = wrapper.find('.datepicker-header__year-button');
+      year.trigger('click');
+
+      expect(wrapper.emitted().showYearMonthSelector).toBeTruthy();
+    });
+
+    it('should emit hideYearMonthSelector when click on date', () => {
+      const wrapper = mountComponent();
+      const date = wrapper.find('.datepicker-header__wrap-button');
+      date.trigger('click');
+
+      expect(wrapper.emitted().hideYearMonthSelector).toBeTruthy();
     });
   });
 });
