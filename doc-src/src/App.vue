@@ -117,8 +117,9 @@
               <select id="lang-select" v-model="stories[story.id].props.locale.value.lang">
                 <option
                   v-for="(lang, index) in stories[story.id].langsList"
-                  :key="index">
-                  {{ lang }}
+                  :key="index"
+                  :value="lang">
+                  {{ index }}
                 </option>
               </select>
             </div>
@@ -405,7 +406,8 @@ export default  {
       },
       localeSelect: {
         title: 'Props: Locale (Selectable lang)',
-        description: 'Translations',
+        description: `Translations. Important, you should always pass a \
+        property lang in locale property. :locale="{ lang: selectedLang }"`,
         date: new Date(),
         langsList: {
           fr: 'fr',
