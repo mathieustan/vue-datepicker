@@ -1,147 +1,3 @@
-<template>
-  <div
-    ref="datepicker"
-    :style="styles"
-    :class="classes"
-    class="datepicker"
-    @mousemove="handleMouseMove"
-    @touchstart.stop
-  >
-
-    <!-- Title (Only for bottomsheet) -->
-    <div
-      v-if="activeBottomSheet"
-      class="datepicker__title">
-      <p>{{ name }}</p>
-      <div class="datepicker__title-close">
-        <Icon @click="$emit('close')">close</Icon>
-      </div>
-    </div>
-
-    <!-- Header -->
-    <DatePickerHeader
-      v-if="!noHeader"
-      :mutable-date="mutableDate"
-      :transition-name="transitionLabelName"
-      :color="color"
-      :locale="locale"
-      :format-header="formatHeader"
-      :mode="yearMonthMode"
-      :range="range"
-      :range-header-text="rangeHeaderText"
-      @showYearMonthSelector="showYearMonthSelector"
-      @hideYearMonthSelector="hideYearMonthSelector"
-    />
-
-    <!-- Presets -->
-    <DatePickerPresets
-      v-if="range"
-      :range-presets="rangePresets"
-      :mutable-date="mutableDate"
-      :min-date="minDate"
-      :max-date="maxDate"
-      :color="color"
-      :locale="locale"
-      @updateRange="emitSelectedDate"
-    />
-
-    <div
-      ref="body"
-      class="datepicker__body">
-      <!-- Controls -->
-      <DatePickerControls
-        :current-date="currentDate"
-        :transition-name="transitionLabelName"
-        :color="color"
-        mode="month"
-        @changeVisibleDate="changeMonth"
-        @showYearMonthSelector="showYearMonthSelector"
-      />
-
-      <!-- Week -->
-      <div class="datepicker__week">
-        <div
-          v-for="(day, index) in weekDays"
-          :key="index"
-          class="datepicker__weekday">
-          {{ day }}
-        </div>
-      </div>
-
-      <!-- Days -->
-      <TransitionGroup
-        tag="div"
-        class="datepicker__days-wrapper"
-        :class="classWeeks"
-        :name="transitionDaysName">
-        <div
-          v-for="dates in [currentDate]"
-          :key="dates.month"
-          class="datepicker__days">
-          <div
-            v-for="day in spaceBeforeFirstDay"
-            :key="`space-${day}`"
-            class="datepicker__day"
-          />
-          <button
-            v-for="(day, index) in currentDate.getDays()"
-            :key="index"
-            :class="{
-              'selected' : isSelected(day) && !isDisabled(day),
-              'between': range && isBetween(day),
-              'in-range': range && isInRange(day),
-              'first': range && firstInRange(day),
-              'last': range && lastInRange(day) && Boolean(mutableDate.end),
-              'select-start': range && !mutableDate.start,
-              'select-end': range && mutableDate.start && !mutableDate.end,
-              'disabled': isDisabled(day),
-            }"
-            :disabled="isDisabled(day)"
-            :data-date="day.format('YYYY-MM-DD')"
-            type="button"
-            class="datepicker__day"
-            @click="selectDate(day)"
-          >
-            <span v-if="isToday(day)" class="datepicker__day--current" />
-            <span
-              :style="setBackgroundColor(color)"
-              class="datepicker__day-effect" />
-            <span class="datepicker__day-text">{{day.format('D')}}</span>
-          </button>
-        </div>
-      </TransitionGroup>
-
-      <DatePickerYearMonth
-        v-if="shouldShowYearMonthSelector"
-        :mode="yearMonthMode"
-        :range="range"
-        :current-date="currentDate"
-        :mutable-date="mutableDate"
-        :transition-name="transitionDaysName"
-        :show-year-month-selector="showYearMonthSelector"
-        :color="color"
-        :min-date="minDate"
-        :max-date="maxDate"
-        :visible-years-number="visibleYearsNumber"
-        @changeYear="changeYear"
-        @selectedYearMonth="selectedYearMonth"
-      />
-    </div>
-
-    <!-- Validate -->
-    <DatePickerValidate
-      v-if="validate"
-      :button-validate="buttonValidate"
-      :button-cancel="buttonCancel"
-      :color="color"
-      :range="range"
-      :mutable-date="mutableDate"
-      @cancel="$emit('close')"
-      @validate="$emit('validateDate')"
-    />
-  </div>
-</template>
-
 <script>
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
@@ -442,6 +298,9 @@ export default {
 
       this.hideYearMonthSelector();
     },
+    // ------------------------------
+    // Events
+    // ------------------------------
     handleMouseMove (event) {
       // Should handle mouse move if :
       // -> not a range mode
@@ -468,6 +327,221 @@ export default {
 
       this.rangeCurrentHoveredDay = target.dataset.date;
     },
+    // ------------------------------
+    // Generate Template
+    // ------------------------------
+    genContent () {
+      return [
+        this.activeBottomSheet && this.genTitle(),
+        !this.noHeader && this.genHeader(),
+        this.range && this.genPresets(),
+        this.genBody(),
+        this.validate && this.genValidate(),
+      ];
+    },
+    genTitle () {
+      const title = this.$createElement('p', this.name);
+      const icon = this.$createElement(Icon, {
+        domProps: { innerHTML: 'close' },
+        on: {
+          click: () => this.$emit('close'),
+        },
+      });
+
+      return this.$createElement('div', {
+        staticClass: 'datepicker__title',
+      }, [
+        title,
+        this.$createElement('div', {
+          staticClass: 'datepicker__title-close',
+        }, [icon]),
+      ]);
+    },
+    genHeader () {
+      return this.$createElement(DatePickerHeader, {
+        props: {
+          mutableDate: this.mutableDate,
+          transitionName: this.transitionLabelName,
+          color: this.color,
+          locale: this.locale,
+          formatHeader: this.formatHeader,
+          mode: this.yearMonthMode,
+          range: this.range,
+          rangeHeaderText: this.rangeHeaderText,
+        },
+        on: {
+          showYearMonthSelector: this.showYearMonthSelector,
+          hideYearMonthSelector: this.hideYearMonthSelector,
+        },
+      });
+    },
+    genPresets () {
+      return this.$createElement(DatePickerPresets, {
+        props: {
+          rangePresets: this.rangePresets,
+          mutableDate: this.mutableDate,
+          minDate: this.minDate,
+          maxDate: this.maxDate,
+          color: this.color,
+          locale: this.locale,
+        },
+        on: {
+          updateRange: this.emitSelectedDate,
+        },
+      });
+    },
+    genBody () {
+      const children = [
+        this.genControls(),
+        this.genWeek(),
+        this.genDaysWrapper(),
+        this.shouldShowYearMonthSelector && this.genYearMonth(),
+      ];
+
+      return this.$createElement('div', {
+        staticClass: 'datepicker__body',
+        ref: 'body',
+      }, children);
+    },
+    genControls () {
+      return this.$createElement(DatePickerControls, {
+        props: {
+          currentDate: this.currentDate,
+          transitionName: this.transitionLabelName,
+          color: this.color,
+          mode: 'month',
+        },
+        on: {
+          changeVisibleDate: this.changeMonth,
+          showYearMonthSelector: this.showYearMonthSelector,
+        },
+      });
+    },
+    genWeek () {
+      const weekDay = (day, key) => this.$createElement('div', {
+        key,
+        domProps: {
+          innerHTML: day,
+        },
+        staticClass: 'datepicker__weekday',
+      });
+
+      return this.$createElement('div', {
+        staticClass: 'datepicker__week',
+      }, this.weekDays.map(weekDay));
+    },
+    genDaysWrapper () {
+      return this.$createElement('transition-group', {
+        staticClass: 'datepicker__days-wrapper',
+        class: this.classWeeks,
+        props: {
+          name: this.transitionDaysName,
+          tag: 'div',
+        },
+      }, [this.currentDate].map(this.genDays));
+    },
+    genDays (dates) {
+      const blankDay = (day) => this.$createElement('div', {
+        staticClass: 'datepicker__day',
+        key: `space-${day}`,
+      });
+
+      return this.$createElement('div', {
+        staticClass: 'datepicker__days',
+        key: dates.month,
+      }, [
+        // Generate blank days
+        this.spaceBeforeFirstDay.map(blankDay),
+        // Generate days
+        this.currentDate.getDays().map(this.genDay),
+      ]);
+    },
+    genDay (day, key) {
+      const current = this.$createElement('span', { staticClass: 'datepicker__day--current' });
+      const effect = this.$createElement('span', this.setBackgroundColor(this.color, {
+        staticClass: 'datepicker__day-effect',
+      }));
+      const text = this.$createElement('span', {
+        domProps: {
+          innerHTML: day.format('D'),
+        },
+        staticClass: 'datepicker__day-text',
+      });
+
+      return this.$createElement('button', {
+        key,
+        staticClass: 'datepicker__day',
+        class: {
+          'selected': this.isSelected(day) && !this.isDisabled(day),
+          'between': this.range && this.isBetween(day),
+          'in-range': this.range && this.isInRange(day),
+          'first': this.range && this.firstInRange(day),
+          'last': this.range && this.lastInRange(day) && Boolean(this.mutableDate.end),
+          'select-start': this.range && !this.mutableDate.start,
+          'select-end': this.range && this.mutableDate.start && !this.mutableDate.end,
+          'disabled': this.isDisabled(day),
+        },
+        attrs: {
+          type: 'button',
+          disabled: this.isDisabled(day),
+          'data-date': day.format('YYYY-MM-DD'),
+        },
+        on: {
+          click: () => this.selectDate(day),
+        },
+      }, [
+        this.isToday(day) && current,
+        effect,
+        text,
+      ]);
+    },
+    genYearMonth () {
+      return this.$createElement(DatePickerYearMonth, {
+        props: {
+          mode: this.yearMonthMode,
+          range: this.range,
+          currentDate: this.currentDate,
+          mutableDate: this.mutableDate,
+          transitionName: this.transitionDaysName,
+          showYearMonthSelector: this.showYearMonthSelector,
+          color: this.color,
+          minDate: this.minDate,
+          maxDate: this.maxDate,
+          visibleYearsNumber: this.visibleYearsNumber,
+        },
+        on: {
+          changeYear: this.changeYear,
+          selectedYearMonth: this.selectedYearMonth,
+        },
+      });
+    },
+    genValidate () {
+      return this.$createElement(DatePickerValidate, {
+        props: {
+          buttonValidate: this.buttonValidate,
+          buttonCancel: this.buttonCancel,
+          color: this.color,
+          mutableDate: this.mutableDate,
+          range: this.range,
+        },
+        on: {
+          cancel: () => this.$emit('close'),
+          validate: () => this.$emit('validateDate'),
+        },
+      });
+    },
+  },
+  render (h) {
+    return h('div', {
+      staticClass: 'datepicker',
+      class: this.classes,
+      style: this.styles,
+      ref: 'datepicker',
+      on: {
+        mousemove: this.handleMouseMove,
+        touchstart: (event) => event.stopPropagation(),
+      },
+    }, this.genContent());
   },
 };
 </script>

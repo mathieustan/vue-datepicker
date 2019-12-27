@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import mockDate from 'mockdate';
 import * as bodyScrollLockFunctions from 'body-scroll-lock';
-import { shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import DatePickerAgenda from '@/components/DatePicker/DatePickerAgenda.vue';
 
 jest.mock('body-scroll-lock', () => ({
@@ -39,7 +39,7 @@ describe('DatePickerAgenda', () => {
       rangePresets,
       rtl,
     } = {}) =>
-      shallowMount(DatePickerAgenda, {
+      mount(DatePickerAgenda, {
         propsData: {
           date,
           minDate,
@@ -835,6 +835,50 @@ describe('DatePickerAgenda', () => {
         wrapper.setData({ rangeCurrentHoveredDay: undefined });
         expect(wrapper.vm.mutableDate).toEqual({ start: undefined, end: startDate });
       });
+    });
+  });
+
+  describe('behaviour', () => {
+    it('should emit close when click on a close button', () => {
+      const wrapper = mountComponent({ activeBottomSheet: true });
+      const icon = wrapper.find('.datepicker__title-close > .icon');
+      icon.trigger('click');
+
+      expect(wrapper.emitted().close).toBeTruthy();
+    });
+
+    it('should call select date when click on a day', () => {
+      const wrapper = mountComponent();
+      jest.spyOn(wrapper.vm, 'selectDate');
+
+      const day = wrapper.findAll('.datepicker__day').at(10);
+      day.trigger('click');
+
+      expect(wrapper.vm.selectDate).toHaveBeenCalled();
+    });
+
+    it('should emit cancel when click on cancel button', () => {
+      const wrapper = mountComponent({ validate: true });
+      const button = wrapper.find('.datepicker-validate__button-cancel');
+      button.trigger('click');
+
+      expect(wrapper.emitted().close).toBeTruthy();
+    });
+
+    it('should emit validate when click on validate button', () => {
+      const wrapper = mountComponent({ validate: true });
+      const button = wrapper.find('.datepicker-validate__button-validate');
+      button.trigger('click');
+
+      expect(wrapper.emitted().validateDate).toBeTruthy();
+    });
+
+    it('should do nothing on touchstart', () => {
+      const event = { stopPropagation: jest.fn() };
+      const wrapper = mountComponent({ validate: true });
+      wrapper.trigger('touchstart', event);
+
+      expect(event.stopPropagation).toHaveBeenCalled();
     });
   });
 });
