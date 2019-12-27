@@ -1,30 +1,3 @@
-<template>
-  <div class="datepicker-validate">
-    <button
-      type="button"
-      class="datepicker-validate__button"
-      @click="$emit('cancel')">
-      <div
-        :style="setBackgroundColor(color)"
-        class="datepicker-validate__effect"
-      />
-      <div class="datepicker-validate__name">{{ buttonCancel }}</div>
-    </button>
-    <button
-      type="button"
-      :style="setTextColor(color)"
-      :disabled="isDisabledValidation"
-      class="datepicker-validate__button"
-      @click="$emit('validate')">
-      <div
-        :style="setBackgroundColor(color)"
-        class="datepicker-validate__effect"
-      />
-      <div class="datepicker-validate__name">{{ buttonValidate }}</div>
-    </button>
-  </div>
-</template>
-
 <script>
 // mixins
 import colorable from '../../mixins/colorable';
@@ -45,6 +18,61 @@ export default {
       return typeof this.mutableDate !== 'object' ||
         !Object.values(this.mutableDate).every(date => Boolean(date));
     },
+  },
+  methods: {
+    // ------------------------------
+    // Generate Template
+    // ------------------------------
+    genButtonCancel () {
+      return this.$createElement('button', {
+        staticClass: 'datepicker-validate__button datepicker-validate__button-cancel',
+        attrs: {
+          type: 'button',
+        },
+        on: {
+          click: () => this.$emit('cancel'),
+        },
+      }, [
+        this.genButtonEffect(),
+        this.genButtonText(this.buttonCancel),
+      ]);
+    },
+    genButtonValidate () {
+      return this.$createElement('button', this.setTextColor(this.color, {
+        staticClass: 'datepicker-validate__button datepicker-validate__button-validate',
+        attrs: {
+          type: 'button',
+          disabled: this.isDisabledValidation,
+        },
+        on: {
+          click: () => this.$emit('validate'),
+        },
+      }), [
+        this.genButtonEffect(),
+        this.genButtonText(this.buttonValidate),
+      ]);
+    },
+    genButtonEffect () {
+      return this.$createElement('div', this.setBackgroundColor(this.color, {
+        staticClass: 'datepicker-validate__effect',
+      }));
+    },
+    genButtonText (text) {
+      return this.$createElement('div', {
+        staticClass: 'datepicker-validate__name',
+        domProps: {
+          innerHTML: text,
+        },
+      });
+    },
+  },
+  render (h) {
+    return h('div', {
+      staticClass: 'datepicker-validate',
+    }, [
+      this.genButtonCancel(),
+      this.genButtonValidate(),
+    ]);
   },
 };
 </script>

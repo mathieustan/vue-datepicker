@@ -44,4 +44,22 @@ describe('DatePickerValidate', () => {
       });
     });
   });
+
+  describe('behaviour', () => {
+    it('should emit cancel when click on cancel button', () => {
+      const wrapper = mountComponent();
+      const button = wrapper.find('.datepicker-validate__button-cancel');
+      button.trigger('click');
+
+      expect(wrapper.emitted().cancel).toBeTruthy();
+    });
+
+    it('should emit validate when click on validate button', () => {
+      const wrapper = mountComponent();
+      const button = wrapper.find('.datepicker-validate__button-validate');
+      button.trigger('click');
+
+      expect(wrapper.emitted().validate).toBeTruthy();
+    });
+  });
 });
