@@ -1,28 +1,3 @@
-<template>
-  <div
-    v-if="rangePresets"
-    class="datepicker-presets">
-    <div class="datepicker-presets__wrapper">
-      <button
-        v-for="(preset, index) in presetsFormatted"
-        :key="index"
-        :class="{
-          'datepicker-preset--selected': isPresetSelected(preset),
-          'datepicker-preset--disabled': !isPresetValid(preset),
-        }"
-        type="button"
-        class="datepicker-preset"
-        @click="setPresetDates(preset)">
-        <div
-          :style="setBackgroundColor(color)"
-          class="datepicker-preset__effect"
-        />
-        <div class="datepicker-preset__name">{{ preset.name }}</div>
-      </button>
-    </div>
-  </div>
-</template>
-
 <script>
 // mixins
 import colorable from '../../mixins/colorable';
@@ -74,6 +49,47 @@ export default {
         end: availableDates[availableDates.length - 1],
       });
     },
+    // ------------------------------
+    // Generate Template
+    // ------------------------------
+    genWrapper () {
+      return this.$createElement('div', {
+        staticClass: 'datepicker-presets__wrapper',
+      }, this.presetsFormatted.map(this.genButton));
+    },
+    genButton (preset, key) {
+      const effect = this.$createElement('div', this.setBackgroundColor(this.color, {
+        staticClass: 'datepicker-preset__effect',
+      }));
+      const text = this.$createElement('div', {
+        staticClass: 'datepicker-preset__name',
+        domProps: {
+          innerHTML: preset.name,
+        },
+      });
+
+      return this.$createElement('button', {
+        key,
+        staticClass: 'datepicker-preset',
+        class: {
+          'datepicker-preset--selected': this.isPresetSelected(preset),
+          'datepicker-preset--disabled': !this.isPresetValid(preset),
+        },
+        attrs: {
+          type: 'button',
+        },
+        on: {
+          click: () => this.setPresetDates(preset),
+        },
+      }, [effect, text]);
+    },
+  },
+  render (h) {
+    if (!this.presetsFormatted) return;
+
+    return h('div', {
+      staticClass: 'datepicker-presets',
+    }, [this.genWrapper()]);
   },
 };
 </script>

@@ -540,7 +540,7 @@ describe('DatePickerAgenda', () => {
 
     describe('emitSelectedDate', () => {
       it('should update mutableDate, and emit selectDate', () => {
-        const wrapper = mountComponent();
+        const wrapper = mountComponent({ range: true });
         const range = { start: dayjs('2019-4-16'), end: dayjs('2019-4-18') };
         wrapper.vm.emitSelectedDate(range);
 

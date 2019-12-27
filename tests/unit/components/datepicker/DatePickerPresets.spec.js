@@ -131,4 +131,16 @@ describe('DatePickerPresets', () => {
       });
     });
   });
+
+  describe('behaviour', () => {
+    it('should emit updateRange when click on a preset', () => {
+      const wrapper = mountComponent({
+        rangePresets: [{ name: 'month', dates: { start: '2018-01-01', end: '2018-01-31' } }],
+      });
+      const preset = wrapper.find('.datepicker-preset');
+      preset.trigger('click');
+
+      expect(wrapper.emitted().updateRange).toBeTruthy();
+    });
+  });
 });

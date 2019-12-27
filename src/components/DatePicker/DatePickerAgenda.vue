@@ -375,7 +375,7 @@ export default {
       this.emitSelectedDate(day.clone());
     },
     emitSelectedDate (date) {
-      this.mutableDate = date;
+      this.updateDate(date);
       this.rangeCurrentHoveredDay = undefined;
       this.$emit('selectDate', this.mutableDate);
     },
