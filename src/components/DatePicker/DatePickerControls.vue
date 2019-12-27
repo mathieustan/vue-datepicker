@@ -149,7 +149,7 @@ export default {
 
 <style lang="scss" scoped>
   @import   '../../styles/abstracts/_index.scss',
-            '../../styles/base/_animations.scss';
+            '../../styles/base/_transitions.scss';
 
   .datepicker__controls {
     position: relative;

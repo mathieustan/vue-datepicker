@@ -6,6 +6,9 @@
   }
 }
 
+// -------------------------
+// Dropdown Transitions
+// -------------------------
 .slide-x-transition {
   @include transition-default();
 
@@ -45,4 +48,86 @@
     transform: translateY(100%);
   }
 }
+
+// -------------------------
+// Datepicker Transitions
+// -------------------------
+.slide-h-next,
+.slide-h-prev,
+.slide-v-next,
+.slide-v-prev {
+  @include transition-default();
+
+  &-enter-active,
+  &-leave-active {
+    position: absolute;
+  }
+}
+
+.slide-h-next {
+  &-enter {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  &-leave-to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+.slide-h-prev {
+  &-leave-to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  &-enter {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+.datepicker--rtl {
+  .slide-h-next-enter, .slide-h-prev-leave-to {
+    transform: translateX(-100%);
+  }
+  .slide-h-next-leave-to, .slide-h-prev-enter {
+    transform: translateX(100%);
+  }
+}
+
+.slide-v-next {
+  &-leave-to {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  &-enter {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+.slide-v-prev {
+  &-enter {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  &-leave-to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+.yearMonth-leave-active, .yearMonth-enter-active {
+  position: absolute;
+  transition: opacity .3s;
+}
+
+.yearMonth-enter, .yearMonth-leave-to {
+  opacity: 0;
+}
+
 
