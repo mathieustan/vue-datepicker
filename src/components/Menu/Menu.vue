@@ -1,6 +1,4 @@
 <script>
-import getSize from 'get-size';
-
 // directives
 import Resize from '../../directives/resize';
 
@@ -61,17 +59,24 @@ export default {
       return convertToUnit(this.maxWidth);
     },
     calculedMenuWidth () {
-      if (!this.minWidth) {
-        const minWidth = Math.min(
-          (this.activatorElement && getSize(this.activatorElement).width) || 0,
-          Math.max(window.innerWidth - 24, 0)
-        );
-        return `${minWidth}px`;
+      if (this.minWidth) {
+        return convertToUnit(this.minWidth);
       }
 
-      const isMinWidthUnitless = parseInt(this.minWidth) === this.minWidth * 1;
-      const minWidth = isMinWidthUnitless ? this.minWidth : parseInt(this.minWidth.split('px')[0]);
-      return `${minWidth}px`;
+      const minWidth = Math.min(
+        this.dimensions.activator.width,
+        Math.max(this.pageWidth - 24, 0)
+      );
+
+      const isMaxWidthUnitless = parseInt(this.calculedMaxWidth) === this.calculedMaxWidth * 1;
+
+      const maxWidth = isMaxWidthUnitless
+        ? this.calculedMaxWidth : parseInt((this.calculedMaxWidth || '').split('px')[0]);
+      const calculedMaxWidth = maxWidth || minWidth;
+      return convertToUnit(Math.min(
+        calculedMaxWidth,
+        minWidth
+      ));
     },
     calculedLeft () {
       const menuWidth = Math.max(this.dimensions.content.width, parseFloat(this.calculedMenuWidth));

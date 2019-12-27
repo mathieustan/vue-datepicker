@@ -3,13 +3,6 @@ import Menu from '@/components/Menu/Menu.vue';
 
 jest.useFakeTimers();
 
-jest.mock('get-size', () => ({
-  __esModule: true,
-  default: jest.fn(() => ({
-    width: 300,
-  })),
-}));
-
 const defaultDimensions = {
   top: 0,
   left: 0,
@@ -72,7 +65,7 @@ describe('Menu', () => {
             top: '12px',
             transformOrigin: 'top left',
             maxHeight: 'auto',
-            minWidth: '300px',
+            minWidth: '0px',
             zIndex: 0,
           },
         }],
@@ -83,7 +76,7 @@ describe('Menu', () => {
             top: '12px',
             transformOrigin: 'top left',
             maxHeight: '200px',
-            minWidth: '300px',
+            minWidth: '0px',
             zIndex: 2000,
           },
         }],
@@ -143,25 +136,65 @@ describe('Menu', () => {
         },
         expectedResult: '0px',
       }, {
-        description: 'return activatorElement width (300px)',
-        props: {},
-        expectedResult: '300px',
+        description: 'return 0 if minWidth is null',
+        props: { minWidth: null },
+        expectedResult: '0px',
       }, {
-        description: 'return minWidth with px if defined in props as a number',
-        props: {
-          minWidth: 100,
+        description: 'return minWidth if defined',
+        props: { minWidth: 200 },
+        data: {
+          activatorElement: undefined,
         },
-        expectedResult: '100px',
+        expectedResult: '200px',
       }, {
         description: 'return minWidth if defined in props as a string',
         props: {
           minWidth: '100px',
         },
         expectedResult: '100px',
+      }, {
+        description: 'return activatorElement width (300px)',
+        props: {},
+        data: {
+          dimensions: {
+            activator: {
+              ...defaultDimensions,
+              width: 300,
+            },
+            content: defaultDimensions,
+          },
+        },
+        expectedResult: '300px',
+      }, {
+        description: 'return maxWidth if minWidth is greater than maxWidth',
+        props: { maxWidth: 200 },
+        data: {
+          dimensions: {
+            activator: {
+              ...defaultDimensions,
+              width: 300,
+            },
+            content: defaultDimensions,
+          },
+        },
+        expectedResult: '200px',
+      }, {
+        description: 'return maxWidth if minWidth is greater than maxWidth',
+        props: { maxWidth: '200px' },
+        data: {
+          dimensions: {
+            activator: {
+              ...defaultDimensions,
+              width: 300,
+            },
+            content: defaultDimensions,
+          },
+        },
+        expectedResult: '200px',
       }].forEach(({ description, props, data, expectedResult }) => {
         it(`should ${description}`, () => {
           const wrapper = mountComponent({ props });
-          wrapper.setData({ ...data });
+          wrapper.setData({ ...data, pageWidth: 800 });
           expect(wrapper.vm.calculedMenuWidth).toEqual(expectedResult);
         });
       });
