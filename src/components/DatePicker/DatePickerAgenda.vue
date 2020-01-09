@@ -64,7 +64,9 @@ export default {
   },
   data: () => ({
     height: 'auto',
+    // currentDate stores start & end date for showed month
     currentDate: undefined,
+    // mutableDate stores selected date
     mutableDate: undefined,
     transitionDaysName: 'slide-h-next',
     transitionLabelName: 'slide-v-next',
@@ -165,6 +167,13 @@ export default {
       this.shouldShowYearMonthSelector = yearMonthSelectorTypes.includes(this.type);
       this.yearMonthMode = this.type;
     },
+    updateTransitions (direction) {
+      this.transitionDaysName = `slide-h-${direction}`;
+      this.transitionLabelName = `slide-v-${direction}`;
+    },
+    // ------------------------------
+    // Set design for day
+    // ------------------------------
     isSelected (day) {
       if (this.range) {
         const date = [
@@ -199,6 +208,9 @@ export default {
     isToday (day) {
       return isDateToday(day);
     },
+    // ------------------------------
+    // Handle dates change
+    // ------------------------------
     reOrderSelectedDate (newDate) {
       if (!this.mutableDate) return;
       // Should update mutableDate if
@@ -231,7 +243,13 @@ export default {
       this.emitSelectedDate(day.clone());
     },
     emitSelectedDate (date) {
-      this.updateDate(date);
+      // If range, when a preset is selected,
+      // should transition to end date month
+      if (this.range) {
+        this.currentDate = new Dates(date.end.month(), date.end.year(), this.locale);
+      }
+
+      this.mutableDate = date;
       this.rangeCurrentHoveredDay = undefined;
       this.$emit('selectDate', this.mutableDate);
     },
@@ -269,10 +287,9 @@ export default {
       this.updateTransitions(direction);
       this.currentDate = new Dates(month, year, this.locale);
     },
-    updateTransitions (direction) {
-      this.transitionDaysName = `slide-h-${direction}`;
-      this.transitionLabelName = `slide-v-${direction}`;
-    },
+    // ------------------------------
+    // Handle Year/Month/Quarter
+    // ------------------------------
     showYearMonthSelector (mode) {
       this.yearMonthMode = mode;
       this.shouldShowYearMonthSelector = true;
