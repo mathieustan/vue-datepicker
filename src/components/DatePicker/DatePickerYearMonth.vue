@@ -1,33 +1,35 @@
 <template>
   <transition name="yearMonth" appear>
     <div class="datepicker-year-month">
+
       <div
         v-if="mode === 'year'"
-        class="datepicker-years">
-        <ul class="datepicker-years__list">
-          <li
-            v-for="year in getYears"
-            :key="year"
-            :style="{
-              ...(isSelectedYear(year) && setTextColor(color)),
-            }"
-            :class="{
-              'active' : isSelectedYear(year),
-              'disabled' : isYearDisabled(year)
-            }">
+        class="datepicker-years"
+      >
+        <div class="datepicker-years__wrapper">
+          <div class="datepicker-years__list">
             <button
+              v-for="year in getYears"
+              :key="year"
               :disabled="isYearDisabled(year)"
+              :style="{
+                ...(isSelectedYear(year) && setTextColor('#fff')),
+                ...(isSelectedYear(year) && setBackgroundColor(color)),
+              }"
+              :class="{ 'active': isSelectedYear(year) }"
               type="button"
-              @click="onSelect(year)">
-              {{ year }}
+              @click="onSelect(year)"
+            >
+            {{ year }}
             </button>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
+
       <div
         v-if="mode === 'month' || mode === 'quarter'"
-        class="datepicker-months">
-
+        class="datepicker-months"
+      >
         <DatePickerControls
           :current-date="currentDate"
           :transition-name="transitionName"
@@ -117,24 +119,27 @@ export default {
   mixins: [colorable],
   components: { DatePickerControls },
   props: {
-    mode: { type: String, default: String },
-    range: { type: Boolean, default: false },
-    currentDate: { type: Object, default: Object },
-    mutableDate: { type: Object, default: undefined },
-    transitionName: { type: String, default: String },
-    showYearMonthSelector: { type: Function },
+    active: { type: Boolean, default: false },
     color: { type: String, default: String },
-    minDate: { type: [String, Date, Object] },
+    currentDate: { type: Object, default: Object },
     maxDate: { type: [String, Date, Object] },
+    minDate: { type: [String, Date, Object] },
+    mode: { type: String, default: String },
+    mutableDate: { type: Object, default: undefined },
+    range: { type: Boolean, default: false },
+    showYearMonthSelector: { type: Function },
+    transitionName: { type: String, default: String },
     visibleYearsNumber: { type: Number, default: 10 },
   },
+  data: () => ({
+    activeYear: undefined,
+  }),
   computed: {
     yearFormatted () {
       return this.currentDate.getYearFormatted();
     },
     getYears () {
-      const year = this.currentDate.year;
-      return this.currentDate.generateYearsRange(year, this.visibleYearsNumber, 'year');
+      return this.currentDate.generateYearsRange(this.activeYear, this.visibleYearsNumber, 'year');
     },
     getMonths () {
       return this.currentDate.getMonths();
@@ -142,20 +147,21 @@ export default {
     getQuarters () {
       return this.currentDate.getQuarters();
     },
+    shouldComputeYearPosition () {
+      return this.active && this.mode === 'year' && this.visibleYearsNumber;
+    },
   },
   watch: {
-    mode: {
-      async handler (currentMode) {
-        await this.$nextTick();
-        const activeItem = this.$el.querySelector('li.active');
-        if (!activeItem || currentMode !== 'year') return;
-
-        // should scroll to active year
-        const containerToScroll = this.$el.querySelector('.datepicker-years__list');
-        containerToScroll.scrollTop = computeYearsScrollPosition(containerToScroll, activeItem);
+    shouldComputeYearPosition: {
+      handler (value) {
+        if (!value) return;
+        this.$nextTick(this.computeScrollPosition);
       },
       immediate: true,
     },
+  },
+  created () {
+    this.activeYear = this.currentDate.year;
   },
   methods: {
     isSelectedYear (year) {
@@ -185,6 +191,14 @@ export default {
     onSelect (value) {
       this.$emit('selectedYearMonth', value, this.mode);
     },
+    computeScrollPosition () {
+      const activeItem = this.$el.querySelector('button.active');
+      if (!activeItem || this.mode !== 'year') return;
+
+      // should scroll to active year
+      const containerToScroll = this.$el.querySelector('.datepicker-years__wrapper');
+      containerToScroll.scrollTop = computeYearsScrollPosition(containerToScroll, activeItem);
+    },
   },
 };
 </script>
@@ -195,6 +209,7 @@ export default {
 
   .datepicker-year-month {
     position: absolute;
+    display: flex;
     top: 0;
     left: 0;
     right: 0;
@@ -215,55 +230,73 @@ export default {
   }
 
   .datepicker-years {
-    height: auto;
     position: relative;
-    z-index: 0;
-    flex: 1 0 auto;
     display: flex;
+    flex: 1 1 auto;
     flex-direction: column;
-    align-items: center;
-    height: 100%;
+    width: 100%;
+    z-index: 0;
+    overflow: hidden;
 
-    ul {
-      width: 100%;
-      font-size: 16px;
-      font-weight: get-font-weight(normal);
-      list-style-type: none;
+    .datepicker--validate & {
+      border-bottom: 1px solid color(other, light-gray);
+    }
+
+    &__wrapper {
+      position: relative;
+      display: flex;
+      flex: 1 1 auto;
+      padding: $gutter;
       overflow-y: scroll; /* has to be scroll, not auto */
       -webkit-overflow-scrolling: touch;
-      padding: 0;
-      margin: 0;
-      text-align: center;
+    }
 
-      li {
-        cursor: pointer;
-        transition: none;
+    &__list {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: fit-content;
+      grid-gap: $gutter;
+      width: 100%;
+      align-items: center;
 
-        &:hover,
-        &:focus {
+      button {
+        position: relative;
+        @extend %reset-button;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        padding: 0 20px;
+        height: 40px;
+        min-height: 40px;
+        width: 100%;
+        font-size: 15px;
+        font-weight: get-font-weight(medium);
+        border-radius: 2px;
+        outline: none;
+        transition: background-color .3s;
+
+        &:hover {
           background-color: color(other, light-gray);
         }
 
-        button {
-          position: relative;
-          @extend %reset-button;
+        &:disabled,
+        &[disabled] {
+          cursor: default;
+          color: rgba(0,0,0,0.26);
+        }
+
+        .datepicker-month--current {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: auto;
           width: 100%;
-          padding: $gutter 0;
-        }
-
-        &.active {
-          button {
-            font-size: 26px;
-            font-weight: get-font-weight(medium);
-            padding: $gutter 0;
-          }
-        }
-
-        &.disabled {
-          button {
-            cursor: default;
-            color: rgba(0,0,0,0.26);
-          }
+          height: 30px;
+          background-color: currentColor;
         }
       }
     }

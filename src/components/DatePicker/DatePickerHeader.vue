@@ -12,19 +12,21 @@ export default {
   name: 'DatePickerHeader',
   mixins: [colorable],
   props: {
-    mutableDate: { type: [String, Object] },
-    transitionName: { type: String },
     color: { type: String },
-    locale: { type: Object },
     formatHeader: { type: String },
+    locale: { type: Object },
     mode: { type: String },
+    mutableDate: { type: [String, Object] },
     range: { type: Boolean },
     rangeHeaderText: { type: String },
+    transitionName: { type: String },
+    type: { type: String },
   },
   computed: {
     classes () {
       return {
         'datepicker-header--range': this.range,
+        [`datepicker-header--${this.type}`]: this.type,
       };
     },
     year () {
@@ -42,6 +44,11 @@ export default {
       }
       if (!this.mutableDate) return '--';
       return formatDateWithLocale(this.mutableDate, this.locale, this.formatHeader);
+    },
+    isDateVisible () {
+      // Should hide year when type is year
+      // we'll show year in date block
+      return !this.range && this.type !== 'year';
     },
   },
   methods: {
@@ -118,7 +125,7 @@ export default {
       class: this.classes,
     }), [
       !this.range && this.genYear(),
-      !this.range && this.genDate(),
+      this.isDateVisible && this.genDate(),
       this.range && this.genRangeDate(),
     ]);
   },
@@ -164,6 +171,14 @@ export default {
           font-size: 22px;
           height: calc(22px + #{$gutter});
         }
+      }
+    }
+
+    &--year {
+      .datepicker-header__year {
+        flex: 1 1 auto;
+        font-size: 22px;
+        height: calc(22px + #{$gutter});
       }
     }
 

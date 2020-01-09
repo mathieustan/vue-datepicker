@@ -42,25 +42,25 @@ export default {
     DatePickerValidate,
   },
   props: {
-    name: { type: String },
-    date: { type: [Date, Object] },
-    type: { type: String, default: 'date' },
-    value: { type: Boolean, default: false },
-    validate: { type: Boolean, default: false },
-    buttonValidate: { type: String },
+    activeBottomSheet: { type: Boolean, default: false },
     buttonCancel: { type: String },
-    range: { type: Boolean, default: false },
-    rangePresets: { type: Array, default: undefined },
-    rangeHeaderText: { type: String, default: String },
+    buttonValidate: { type: String },
+    color: { type: String },
+    date: { type: [Date, Object] },
     formatHeader: { type: String },
     locale: { type: Object },
-    noHeader: { type: Boolean, default: false },
-    activeBottomSheet: { type: Boolean, default: false },
-    color: { type: String },
-    minDate: { type: [String, Number, Date] },
     maxDate: { type: [String, Number, Date] },
-    visibleYearsNumber: { type: Number },
+    minDate: { type: [String, Number, Date] },
+    name: { type: String },
+    noHeader: { type: Boolean, default: false },
+    range: { type: Boolean, default: false },
+    rangeHeaderText: { type: String, default: String },
+    rangePresets: { type: Array, default: undefined },
     rtl: { type: Boolean, default: false },
+    type: { type: String, default: 'date' },
+    validate: { type: Boolean, default: false },
+    value: { type: Boolean, default: false },
+    visibleYearsNumber: { type: Number },
   },
   data: () => ({
     height: 'auto',
@@ -302,17 +302,22 @@ export default {
       const { year, month } = generateMonthAndYear(value, this.currentDate, mode);
       this.currentDate = new Dates(month, year, this.locale);
 
-      if (mode === 'year') {
+      // When selecting a year, it should show month selector
+      // unless type is year
+      if (mode === 'year' && this.type !== 'year') {
         this.yearMonthMode = this.type === 'date' ? 'month' : this.type;
         return;
       }
 
-      if (this.type === 'month' || this.type === 'quarter') {
+      // When type is month|quarter|year
+      // Should emit date selected if it's not type date
+      if (this.type !== 'date') {
         const newDate = formatDateWithYearAndMonth(this.currentDate.year, this.currentDate.month);
         this.selectDate(newDate);
         return;
       }
 
+      // Should hide yearMonth panels when type is date
       this.hideYearMonthSelector();
     },
     // ------------------------------
@@ -377,18 +382,19 @@ export default {
     genHeader () {
       return this.$createElement(DatePickerHeader, {
         props: {
-          mutableDate: this.mutableDate,
-          transitionName: this.transitionLabelName,
           color: this.color,
-          locale: this.locale,
           formatHeader: this.formatHeader,
+          locale: this.locale,
           mode: this.yearMonthMode,
+          mutableDate: this.mutableDate,
           range: this.range,
           rangeHeaderText: this.rangeHeaderText,
+          transitionName: this.transitionLabelName,
+          type: this.type,
         },
         on: {
-          showYearMonthSelector: this.showYearMonthSelector,
           hideYearMonthSelector: this.hideYearMonthSelector,
+          showYearMonthSelector: this.showYearMonthSelector,
         },
       });
     },
@@ -515,15 +521,16 @@ export default {
     genYearMonth () {
       return this.$createElement(DatePickerYearMonth, {
         props: {
-          mode: this.yearMonthMode,
-          range: this.range,
-          currentDate: this.currentDate,
-          mutableDate: this.mutableDate,
-          transitionName: this.transitionDaysName,
-          showYearMonthSelector: this.showYearMonthSelector,
+          active: this.shouldShowYearMonthSelector,
           color: this.color,
-          minDate: this.minDate,
+          currentDate: this.currentDate,
           maxDate: this.maxDate,
+          minDate: this.minDate,
+          mode: this.yearMonthMode,
+          mutableDate: this.mutableDate,
+          range: this.range,
+          showYearMonthSelector: this.showYearMonthSelector,
+          transitionName: this.transitionDaysName,
           visibleYearsNumber: this.visibleYearsNumber,
         },
         on: {

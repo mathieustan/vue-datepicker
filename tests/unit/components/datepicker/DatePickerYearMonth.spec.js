@@ -11,25 +11,27 @@ describe('DatePickerYearMonth', () => {
 
   beforeEach(() => {
     mountComponent = ({
+      active = false,
       date = new Dates(dummyDate.month(), dummyDate.year(), { lang: 'en' }),
-      mutableDate,
-      mode = 'month',
-      minDate,
       maxDate,
+      minDate,
+      mode = 'month',
+      mutableDate,
       range,
     } = {}) =>
       shallowMount(DatePickerYearMonth, {
         propsData: {
-          transitionName: 'transitionName',
+          active,
           color: 'color',
-          mode,
           currentDate: date,
-          mutableDate,
           isVisible: true,
-          showYearMonthSelector: jest.fn(),
-          minDate,
           maxDate,
+          minDate,
+          mode,
+          mutableDate,
           range,
+          showYearMonthSelector: jest.fn(),
+          transitionName: 'transitionName',
         },
       });
   });
@@ -64,13 +66,9 @@ describe('DatePickerYearMonth', () => {
     describe('getYears', () => {
       it('should return a range of years', () => {
         const wrapper = mountComponent();
-        const thisYear = 2019;
-        const visibleYearsNumber = wrapper.vm.visibleYearsNumber;
         // current year is 2019 - 10 => 2009
         // Should show 10 years before 2019 + 10 years after 2019 => 21 years
-        // so the formula will be number*2+1 (x years after + x years before + 1 this year)
-        const yearRange = (visibleYearsNumber * 2) + 1;
-        const years = [...Array(yearRange).keys()].map(i => (thisYear - visibleYearsNumber) + i);
+        const years = [...Array(21).keys()].map(i => 2009 + i);
         expect(wrapper.vm.getYears).toEqual(years);
       });
     });
@@ -95,6 +93,35 @@ describe('DatePickerYearMonth', () => {
         expect(wrapper.vm.getQuarters).toEqual(expectedQuarters);
       });
     });
+
+    describe('shouldComputeYearPosition', () => {
+      [{
+        description: 'return false if not active',
+        props: {
+          active: false,
+        },
+        expectedResult: false,
+      }, {
+        description: 'return false if active but selected mode is month',
+        props: {
+          active: true,
+          mode: 'month',
+        },
+        expectedResult: false,
+      }, {
+        description: 'return true if active & selected mode is year',
+        props: {
+          active: true,
+          mode: 'year',
+        },
+        expectedResult: 10, // it's visibleYearsNumber
+      }].forEach(({ description, props, expectedResult }) => {
+        it(`should ${description}`, () => {
+          const wrapper = mountComponent({ ...props });
+          expect(wrapper.vm.shouldComputeYearPosition).toEqual(expectedResult);
+        });
+      });
+    });
   });
 
   describe('watch', () => {
@@ -112,12 +139,16 @@ describe('DatePickerYearMonth', () => {
     });
 
     it('should scroll to active yeart if mode is year', async () => {
-      const wrapper = mountComponent({ mode: 'month' });
+      const wrapper = mountComponent({ active: true, mode: 'month' });
       utilsFunction.computeYearsScrollPosition.mockClear();
       wrapper.setProps({ mode: 'year' });
+
+      const containerToScroll = wrapper.element.querySelector('.datepicker-years__wrapper');
+      Object.defineProperties(containerToScroll, {
+        scrollTop: { get: () => 100, set: () => 100 },
+      }, { writable: true });
       await wrapper.vm.$nextTick();
 
-      const containerToScroll = wrapper.element.querySelector('.datepicker-years__list');
       expect(utilsFunction.computeYearsScrollPosition).toHaveBeenCalled();
       expect(containerToScroll.scrollTop).toEqual(100);
     });

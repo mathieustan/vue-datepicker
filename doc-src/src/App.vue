@@ -501,6 +501,29 @@ export default  {
           },
         },
       },
+      year: {
+        title: 'Props: Type (Year)',
+        description: 'Year datepicker',
+        date: new Date(),
+        props: {
+          inline: {
+            type: Boolean,
+            value: true,
+          },
+          minDate: {
+            type: String,
+            value: '2016',
+          },
+          maxDate: {
+            type: String,
+            value: '2022',
+          },
+          type: {
+            type: String,
+            value: 'year',
+          },
+        },
+      },
       range: {
         title: 'Props: Range',
         description: 'Enable/disable Date range (actually only available for date)',
