@@ -2,7 +2,11 @@ import dayjs from 'dayjs';
 import mockDate from 'mockdate';
 import * as bodyScrollLockFunctions from 'body-scroll-lock';
 import { mount } from '@vue/test-utils';
+
 import DatePickerAgenda from '@/components/DatePicker/DatePickerAgenda.vue';
+
+// Tests helpers
+import { touch } from '../../../helpers';
 
 jest.mock('body-scroll-lock', () => ({
   disableBodyScroll: jest.fn(),
@@ -879,6 +883,18 @@ describe('DatePickerAgenda', () => {
       wrapper.trigger('touchstart', event);
 
       expect(event.stopPropagation).toHaveBeenCalled();
+    });
+
+    it('should change month when swipping table', () => {
+      const wrapper = mountComponent();
+      expect(wrapper.vm.currentDate.month).toBe(4);
+
+      const table = wrapper.findAll('.datepicker__table').at(0);
+      touch(table).start(0, 0).end(20, 0);
+      expect(wrapper.vm.currentDate.month).toBe(3);
+
+      touch(table).start(0, 0).end(-20, 0);
+      expect(wrapper.vm.currentDate.month).toBe(4);
     });
   });
 });

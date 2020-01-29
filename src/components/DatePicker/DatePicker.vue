@@ -397,7 +397,11 @@ export default {
     flex: 1 1 auto;
     align-items: center;
     max-width: 100%;
-    cursor: pointer;
+    cursor: default;
+
+    &:not(.datepicker__wrapper--inline) {
+      cursor: pointer;
+    }
 
     &:focus,
     &:active {

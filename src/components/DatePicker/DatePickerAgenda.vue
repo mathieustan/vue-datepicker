@@ -1,16 +1,19 @@
 <script>
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
+// directives
+import Touch from '../../directives/touch';
+
 // mixins
 import colorable from '../../mixins/colorable';
 
 // components
-import Icon from '../Icon';
-import DatePickerHeader from './DatePickerHeader.vue';
 import DatePickerControls from './DatePickerControls.vue';
-import DatePickerYearMonth from './DatePickerYearMonth.vue';
+import DatePickerHeader from './DatePickerHeader.vue';
 import DatePickerPresets from './DatePickerPresets.vue';
 import DatePickerValidate from './DatePickerValidate.vue';
+import DatePickerYearMonth from './DatePickerYearMonth.vue';
+import Icon from '../Icon';
 
 // functions
 import Dates, {
@@ -32,15 +35,8 @@ import { yearMonthSelectorTypes } from '../../constants';
 
 export default {
   name: 'DatePickerAgenda',
+  directives: { Touch },
   mixins: [colorable],
-  components: {
-    Icon,
-    DatePickerHeader,
-    DatePickerControls,
-    DatePickerYearMonth,
-    DatePickerPresets,
-    DatePickerValidate,
-  },
   props: {
     activeBottomSheet: { type: Boolean, default: false },
     buttonCancel: { type: String },
@@ -364,11 +360,10 @@ export default {
     genTitle () {
       const title = this.$createElement('p', this.name);
       const icon = this.$createElement(Icon, {
-        domProps: { innerHTML: 'close' },
         on: {
           click: () => this.$emit('close'),
         },
-      });
+      }, ['close']);
 
       return this.$createElement('div', {
         staticClass: 'datepicker__title',
@@ -416,8 +411,7 @@ export default {
     genBody () {
       const children = [
         this.genControls(),
-        this.genWeek(),
-        this.genDaysWrapper(),
+        this.genTable(),
         this.shouldShowYearMonthSelector && this.genYearMonth(),
       ];
 
@@ -439,6 +433,23 @@ export default {
           showYearMonthSelector: this.showYearMonthSelector,
         },
       });
+    },
+    genTable () {
+      const children = [
+        this.genWeek(),
+        this.genDaysWrapper(),
+      ];
+
+      return this.$createElement('div', {
+        staticClass: 'datepicker__table',
+        directives: [{
+          name: 'touch',
+          value: {
+            left: () => this.changeMonth('next'),
+            right: () => this.changeMonth('prev'),
+          },
+        }],
+      }, children);
     },
     genWeek () {
       const weekDay = (day, key) => this.$createElement('div', {
@@ -666,31 +677,27 @@ export default {
       flex: 1 1 auto;
     }
 
+    &__table {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      padding: $gutter $gutter*2;
+    }
+
     /* Week
     ---------------------- */
     &__week {
       display: flex;
+      justify-content: space-between;
+      margin-bottom: $gutter;
       font-size: 12px;
       line-height: 12px;
       font-weight: get-font-weight(medium);
-      margin: $gutter $gutter*3;
       color: transparentize(black, .62);
-
-      @include mq(tablet) {
-        margin: $gutter $gutter*2;
-      }
 
       .datepicker--rtl & {
         direction: rtl;
-      }
-    }
-
-    &__weekday {
-      width: calc((100% / 7) - 0.1px);
-      text-align: center;
-
-      @include mq(tablet) {
-        width: get-size(desktop, day-width);
       }
     }
 
@@ -699,12 +706,10 @@ export default {
     &__days-wrapper {
       position: relative;
       height: get-size(mobile, day-height) * 5;
-      margin: 0 $gutter*3 $gutter;
       overflow: hidden;
       transition: height .3s cubic-bezier(0.23, 1, 0.32, 1);
 
       @include mq(tablet) {
-        margin: 0 $gutter*2 $gutter;
         height: get-size(desktop, day-height) * 5;
       }
 
@@ -907,7 +912,6 @@ export default {
 
       &-text {
         position: relative;
-        vertical-align: sub;
       }
     }
   }
