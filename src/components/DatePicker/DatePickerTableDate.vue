@@ -27,6 +27,7 @@ export default {
     minDate: { type: [String, Number, Date] },
     mutableDate: { type: [String, Object] },
     range: { type: Boolean },
+    rtl: { type: Boolean },
     shouldShowYearMonthSelector: { type: Boolean },
     transitionName: { type: String },
   },
@@ -220,8 +221,8 @@ export default {
       directives: [{
         name: 'touch',
         value: {
-          left: () => this.$emit('changeMonth', 'next'),
-          right: () => this.$emit('changeMonth', 'prev'),
+          left: () => this.$emit('changeMonth', this.rtl ? 'prev' : 'next'),
+          right: () => this.$emit('changeMonth', this.rtl ? 'next' : 'prev'),
         },
       }],
       on: {

@@ -427,16 +427,30 @@ describe('DatePickerTableDate', () => {
       expect(wrapper.emitted().selectDate).toBeTruthy();
     });
 
-    it('should change month when swipping table', () => {
-      const wrapper = mountComponent();
-      expect(wrapper.vm.currentDate.month).toBe(4);
+    describe('swipe gesture', () => {
+      it('should change month when swipping table', () => {
+        const wrapper = mountComponent();
+        expect(wrapper.vm.currentDate.month).toBe(4);
 
-      const table = wrapper.findAll('.datepicker__table').at(0);
-      touch(table).start(0, 0).end(20, 0);
-      expect(wrapper.emitted().changeMonth[0]).toEqual(['prev']);
+        const table = wrapper.findAll('.datepicker__table').at(0);
+        touch(table).start(0, 0).end(20, 0);
+        expect(wrapper.emitted().changeMonth[0]).toEqual(['prev']);
 
-      touch(table).start(0, 0).end(-20, 0);
-      expect(wrapper.emitted().changeMonth[1]).toEqual(['next']);
+        touch(table).start(0, 0).end(-20, 0);
+        expect(wrapper.emitted().changeMonth[1]).toEqual(['next']);
+      });
+
+      it('[RTL] should change month when swipping table', () => {
+        const wrapper = mountComponent({ props: { rtl: true } });
+        expect(wrapper.vm.currentDate.month).toBe(4);
+
+        const table = wrapper.findAll('.datepicker__table').at(0);
+        touch(table).start(0, 0).end(20, 0);
+        expect(wrapper.emitted().changeMonth[0]).toEqual(['next']);
+
+        touch(table).start(0, 0).end(-20, 0);
+        expect(wrapper.emitted().changeMonth[1]).toEqual(['prev']);
+      });
     });
   });
 });

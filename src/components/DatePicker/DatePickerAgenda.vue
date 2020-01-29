@@ -351,6 +351,7 @@ export default {
           minDate: this.minDate,
           mutableDate: this.mutableDate,
           range: this.range,
+          rtl: this.rtl,
           shouldShowYearMonthSelector: this.shouldShowYearMonthSelector,
           transitionName: this.transitionDaysName,
         },
