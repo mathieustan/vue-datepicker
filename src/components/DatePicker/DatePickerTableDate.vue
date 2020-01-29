@@ -247,8 +247,9 @@ export default {
     /* Week
     ---------------------- */
     &-week {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: 12px;
       margin-bottom: $gutter;
       font-size: 12px;
       line-height: 12px;
@@ -258,6 +259,10 @@ export default {
       .datepicker--rtl & {
         direction: rtl;
       }
+    }
+
+    &-weekday {
+      text-align: center;
     }
 
     /* Days
@@ -282,10 +287,15 @@ export default {
     }
 
     &-days {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: get-size(mobile, day-height);
       overflow: hidden;
       width: 100%;
+
+      @include mq(tablet) {
+        grid-template-rows: get-size(desktop, day-height);
+      }
 
       .datepicker--rtl & {
         direction: rtl;
@@ -297,7 +307,7 @@ export default {
     &-day {
       @extend %reset-button;
       position: relative;
-      width: calc((100% / 7) - 0.1px);
+      width: 100%;
       height: get-size(mobile, day-height);
       line-height: 1;
       font-size: 12px;
@@ -309,7 +319,7 @@ export default {
       overflow: hidden;
 
       @include mq(tablet) {
-        width: calc((100% / 7) - 0.1px);
+        width: 100%;
         height: get-size(desktop, day-height);
       }
 
