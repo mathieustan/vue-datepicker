@@ -101,6 +101,11 @@ export default {
     // ------------------------------
     // Events
     // ------------------------------
+    onDayClick (day) {
+      // Should reset current hovered days when selecting a date
+      this.rangeCurrentHoveredDay = undefined;
+      this.$emit('selectDate', day);
+    },
     handleMouseMove (event) {
       // Should handle mouse move if :
       // -> not a range mode
@@ -206,7 +211,7 @@ export default {
           'data-date': day.format('YYYY-MM-DD'),
         },
         on: {
-          click: () => this.$emit('selectDate', day),
+          click: () => this.onDayClick(day),
         },
       }, [
         this.isToday(day) && current,

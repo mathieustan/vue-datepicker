@@ -62,7 +62,6 @@ export default {
     transitionLabelName: 'slide-v-next',
     shouldShowYearMonthSelector: undefined,
     yearMonthMode: undefined,
-    rangeCurrentHoveredDay: undefined,
   }),
   computed: {
     styles () {
@@ -181,7 +180,6 @@ export default {
       }
 
       this.mutableDate = date;
-      this.rangeCurrentHoveredDay = undefined;
       this.$emit('selectDate', this.mutableDate);
     },
     updateDate (date) {
