@@ -4,6 +4,7 @@ import es from './translations/es';
 import de from './translations/de';
 import he from './translations/he';
 import ru from './translations/ru';
+import rsvu from './translations/sv';
 
 export {
   fr,
@@ -12,4 +13,5 @@ export {
   de,
   he,
   ru,
+  sv,
 };
