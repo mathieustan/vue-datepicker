@@ -416,6 +416,7 @@ export default  {
           de: 'de',
           he: 'he',
           ru: 'ru',
+          sv: 'sv',
           custom: {
             name: 'it',
             weekdays: 'domenica_lunedì_martedì_mercoledì_giovedì_venerdì_sabato'.split('_'),
