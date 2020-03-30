@@ -1,4 +1,34 @@
 // --------------------------------------------------------------------
+// Helper -------------------------------------------------------------
+// --------------------------------------------------------------------
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+
+  @return $map;
+}
+
+@function map-deep-merge($parent-map, $child-map) {
+  $result: $parent-map;
+  @each $key, $child in $child-map {
+    $parent-has-key: map-has-key($result, $key);
+    $parent-value: map-get($result, $key);
+    $parent-type: type-of($parent-value);
+    $child-type: type-of($child);
+    $parent-is-map: $parent-type == map;
+    $child-is-map: $child-type == map;
+    @if not $parent-has-key or $parent-type != $child-type or not ($parent-is-map and $child-is-map) {
+      $result: map-merge($result, ($key: $child));
+    }
+    @else {
+      $result: map-merge($result, ($key: map-deep-merge($parent-value, $child)));
+    }
+  }
+  @return $result;
+}
+
+// --------------------------------------------------------------------
 // Retrieve Font Weight -----------------------------------------------
 // Used in _mixins.scss [@mixin font-weight] --------------------------
 // --------------------------------------------------------------------
@@ -19,5 +49,17 @@
 // --------------------------------------------------------------------
 @function get-border-radius($elem) {
 	@return map-get($border__radius, $elem);
+}
+
+// --------------------------------------------------------------------
+// Breakpoint --------------------------------------------------------------
+// --------------------------------------------------------------------
+@function breakpoint-min($name, $breakpoints: $screen__sizes) {
+  $min: map-get($breakpoints, $name);
+  @return if($min != 0, $min, null);
+}
+
+@function breakpoint-infix($name, $breakpoints: $screen__sizes) {
+  @return if(breakpoint-min($name, $breakpoints) == null, "", "-#{$name}");
 }
 

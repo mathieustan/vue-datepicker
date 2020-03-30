@@ -1,0 +1,17 @@
+@mixin transition-default() {
+  &-enter-active,
+  &-leave-active {
+    transition: all .3s get-easing(swing);
+    transition-property: opacity, transform, height;
+  }
+}
+
+.slide-x-transition {
+  @include transition-default();
+
+  &-enter,
+  &-leave-to {
+    opacity: 0;
+    transform: translateX(-15px);
+  }
+}

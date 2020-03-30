@@ -1,0 +1,20 @@
+.button {
+  background: transparent;
+  border-radius: get-border-radius(2);
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: normal;
+  margin: 0;
+  outline: 0;
+  overflow: visible;
+  padding: 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  user-select: none;
+  -moz-osx-font-smoothing: inherit;
+  -webkit-appearance: none;
+  -webkit-font-smoothing: inherit;
+  cursor: pointer;
+}

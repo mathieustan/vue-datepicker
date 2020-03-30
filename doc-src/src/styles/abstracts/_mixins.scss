@@ -6,24 +6,26 @@
   Media Query mixin
   @example scss
 
-  @include mq($from: mobile) {
+  @include mq(xs) {
     color: red;
   }
-  @include mq($to: tablet) {
+  @include mq($to: 'md') {
     color: blue;
   }
-  @include mq(mobile, tablet) {
+  @include mq(xs, md) {
     color: green;
   }
-  @include mq($from: tablet, $and: '(orientation: landscape)') {
+  @include mq('md, $and: '(orientation: landscape)') {
     color: teal;
   }
 */
 
 $breakpoints: (
-  "phone":        map-get($screen__sizes, phone),
-  "tablet":       map-get($screen__sizes, tablet),
-  "desktop":      map-get($screen__sizes, desktop),
+  "xs": map-get($screen__sizes, xs),
+  "sm": map-get($screen__sizes, sm),
+  "md": map-get($screen__sizes, md),
+  "lg": map-get($screen__sizes, lg),
+  "xl": map-get($screen__sizes, xl),
 );
 @mixin mq(
   $from: false,
@@ -74,7 +76,18 @@ $breakpoints: (
   @media #{$media-type + $media-query} {
     @content;
   }
+}
 
+@mixin media-breakpoint-up($name, $breakpoints: $screen__sizes) {
+  $min: breakpoint-min($name, $breakpoints);
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  }
+  @else {
+    @content;
+  }
 }
 
 @mixin reset-button() {
