@@ -70,6 +70,8 @@ export default {
     maxDate: { type: [String, Number, Date] },
     // Range for year picker
     visibleYearsNumber: { type: Number, default: 10 },
+    // Prevent close on click outside
+    noAutoclose: { type: Boolean, default: false },
     // Disabled all datepicker
     disabled: { type: Boolean, default: false },
     // Inline
@@ -317,7 +319,7 @@ export default {
           tabindex: this.tabindex,
           noInput: this.noInput,
           noCalendarIcon: this.noCalendarIcon,
-          closeOnClickOutside: this.isMenuActive && !this.shouldShowBottomSheet,
+          closeOnClickOutside: !this.noAutoclose && this.isMenuActive && !this.shouldShowBottomSheet,
         },
         on: {
           focus: this.showDatePicker,
