@@ -6,6 +6,7 @@
 
     <div class="examples__wrapper">
       <Wrapper
+        :id="key"
         v-for="[key, example] in Object.entries(examples)"
         :key="key"
         :filename="example.filename"
