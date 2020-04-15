@@ -40,6 +40,11 @@ export default {
         description: 'Need to validate to change date (Add buttons)',
         filename: 'validate',
       },
+      clearable: {
+        title: '# Props: Clearable',
+        description: 'Adds input clear functionality',
+        filename: 'clearable',
+      },
       format: {
         title: '# Props: Format',
         description: 'Allow to format input date',

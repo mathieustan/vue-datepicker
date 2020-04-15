@@ -39,6 +39,8 @@ export default {
   props: {
     id: { type: String, default: undefined },
     name: { type: String, default: 'datepicker' },
+    // Add input clear functionality
+    clearable: { type: Boolean, default: false },
     // Validation Buttons
     validate: { type: Boolean, default: false },
     buttonValidate: { type: String, default: undefined },
@@ -240,6 +242,10 @@ export default {
         KEYCODES.tab,
       ].includes(keyCode)) return this.hideDatePicker(event);
     },
+    onClearDate () {
+      this.$emit('input', undefined);
+      this.$emit('onChange');
+    },
     // ------------------------------
     // Generate Template
     // ------------------------------
@@ -307,22 +313,24 @@ export default {
     genCustomInput () {
       return this.$createElement(DatePickerCustomInput, {
         props: {
-          id: this.componentId,
-          name: this.name,
-          date: this.computedDate,
-          isDateDefined: this.isDateDefined,
-          placeholder: this.placeholder,
-          color: this.color,
-          disabled: this.disabled,
-          tabindex: this.tabindex,
-          noInput: this.noInput,
-          noCalendarIcon: this.noCalendarIcon,
+          clearable: this.clearable,
           closeOnClickOutside: this.isMenuActive && !this.shouldShowBottomSheet,
+          color: this.color,
+          date: this.computedDate,
+          disabled: this.disabled,
+          id: this.componentId,
+          isDateDefined: this.isDateDefined,
+          name: this.name,
+          noCalendarIcon: this.noCalendarIcon,
+          noInput: this.noInput,
+          placeholder: this.placeholder,
+          tabindex: this.tabindex,
         },
         on: {
           focus: this.showDatePicker,
           blur: this.hideDatePicker,
           keydown: this.onKeyDown,
+          clearDate: this.onClearDate,
         },
         ref: 'activator',
       });

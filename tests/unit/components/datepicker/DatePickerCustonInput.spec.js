@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import DatePickerCustomInput from '@/components/DatePicker/DatePickerCustomInput.vue';
 
 jest.useFakeTimers();
@@ -10,7 +10,7 @@ describe('DatePickerCustomInput', () => {
 
   beforeEach(() => {
     mountComponent = ({ props = {} } = {}) =>
-      shallowMount(DatePickerCustomInput, {
+      mount(DatePickerCustomInput, {
         propsData: props,
       });
   });
@@ -55,6 +55,23 @@ describe('DatePickerCustomInput', () => {
         });
       });
     });
+
+    describe('isDirty', () => {
+      [{
+        description: 'return false by default',
+        props: {},
+        expectedResult: false,
+      }, {
+        description: 'return true if date is defined',
+        props: { isDateDefined: true },
+        expectedResult: true,
+      }].forEach(({ description, props, expectedResult }) => {
+        it(`should ${description}`, () => {
+          const wrapper = mountComponent({ props });
+          expect(wrapper.vm.isDirty).toEqual(expectedResult);
+        });
+      });
+    });
   });
 
   describe('behaviour', () => {
@@ -87,6 +104,32 @@ describe('DatePickerCustomInput', () => {
       input.trigger('keydown.esc');
 
       expect(wrapper.emitted().keydown).toBeTruthy();
+    });
+
+    it('should emit clearDate when clicking on clear icon', () => {
+      const wrapper = mountComponent({ props: {
+        date: dummyDate,
+        isDateDefined: true,
+        clearable: true,
+      } });
+
+      const clearIcon = wrapper.find('.datepicker__input-clear__icon button');
+      clearIcon.trigger('mouseup');
+      expect(wrapper.emitted().clearDate).toBeFalsy();
+
+      clearIcon.trigger('click');
+
+      expect(wrapper.emitted().clearDate).toBeTruthy();
+    });
+
+    it('should hide icon when date is not defined', () => {
+      const wrapper = mountComponent({ props: {
+        isDateDefined: false,
+        clearable: true,
+      } });
+
+      const clearIconSvg = wrapper.find('.datepicker__input-clear__icon svg');
+      expect(clearIconSvg.attributes('data-icon')).toEqual('');
     });
 
     describe('genButton', () => {

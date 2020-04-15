@@ -49,7 +49,11 @@ describe('detachable', () => {
   });
 
   describe('beforeMount', () => {
-    const fakeSvgIcon = '<svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" height="16" width="16" class="icon"><path fill="currentColor"></path></svg>';
+    const fakeSvgIcon = '<span aria-hidden="true" class="icon" style="font-size: 16px; height: 16px; width: 16px;">' +
+    '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" role="img" aria-hidden="true" data-icon="fake">' +
+    '<path fill="currentColor"></path>' +
+    '</svg>' +
+    '</span>'.trim();
 
     it('should do nothing if activatorNode is undefined', async () => {
       const wrapper = mountComponent({

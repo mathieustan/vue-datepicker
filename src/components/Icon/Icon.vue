@@ -3,62 +3,76 @@
 import { ICONS } from '../../constants/icons';
 
 // helpers
-import { deepMerge } from '../../utils/helpers';
+import { convertToUnit } from '../../utils/helpers';
 
 export default {
   name: 'Icon',
   inheritAttrs: false,
   props: {
-    height: { type: [Number, String], default: 16 },
-    width: { type: [Number, String], default: 16 },
+    size: { type: [Number, String], default: 16 },
     disabled: { type: Boolean, default: false },
   },
   computed: {
-    defaultData () {
-      const hasClickListener = Boolean(this.$listeners.click);
+    hasClickListener () {
+      return Boolean(this.$listeners.click);
+    },
+  },
+  methods: {
+    getIconName () {
+      if (!this.$slots.default) return '';
+      return this.$slots.default[0].text && this.$slots.default[0].text.trim();
+    },
+    getIcon () {
+      const iconName = this.getIconName();
+      return ICONS[iconName] || iconName;
+    },
+    getDefaultData () {
       return {
         staticClass: 'icon',
         class: {
           'icon--disabled': this.disabled,
-          'icon--link': hasClickListener,
+          'icon--link': this.hasClickListener,
         },
         attrs: {
-          'aria-hidden': !hasClickListener,
-          role: hasClickListener ? 'button' : null,
-          ...this.$attrs,
+          'aria-hidden': !this.hasClickListener,
+          disabled: this.hasClickListener && this.disabled,
+          type: this.hasClickListener ? 'button' : undefined,
         },
         on: this.$listeners,
       };
     },
-  },
-  methods: {
-    getIcon () {
-      let iconName = '';
-      if (this.$slots.default) {
-        iconName = this.$slots.default[0].text && this.$slots.default[0].text.trim();
-      }
-      return ICONS[iconName] || iconName;
-    },
     renderSvgIcon (icon, h) {
-      const data = deepMerge(this.defaultData, {
+      const tag = this.hasClickListener ? 'button' : 'span';
+      const fontSize = convertToUnit(this.size);
+
+      const wrapperData = {
+        ...this.getDefaultData(),
+        style: {
+          ...(fontSize && { fontSize, height: fontSize, width: fontSize }),
+        },
+      };
+
+      const svgData = {
         attrs: {
           xmlns: 'http://www.w3.org/2000/svg',
           viewBox: icon.viewBox,
-          height: this.height,
-          width: this.width,
+          height: this.size,
+          width: this.size,
           role: 'img',
-          'aria-hidden': !this.$attrs['aria-label'],
-          'aria-label': this.$attrs['aria-label'],
+          'aria-hidden': true,
+          'data-icon': this.getIconName(),
         },
-      });
+      };
 
-      return h('svg', data, [
-        h('path', {
-          attrs: {
-            fill: 'currentColor',
-            d: icon.path,
-          },
-        }),
+      return h(tag, wrapperData, [
+        h('svg', svgData, [
+          h('path', {
+            attrs: {
+              fill: 'currentColor',
+              d: icon.path,
+            },
+          }),
+        ]),
       ]);
     },
   },

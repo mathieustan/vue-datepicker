@@ -15,6 +15,7 @@ export default {
   props: {
     id: { type: String },
     name: { type: String },
+    clearable: { type: Boolean },
     date: { type: [Object, Date, String] },
     isDateDefined: { type: Boolean, default: false },
     placeholder: { type: String },
@@ -28,6 +29,9 @@ export default {
   computed: {
     computedColor () {
       return this.isDateDefined && !this.disabled ? this.color : 'rgba(93, 106, 137, 0.5)';
+    },
+    isDirty () {
+      return this.isDateDefined;
     },
   },
   methods: {
@@ -53,6 +57,9 @@ export default {
     onKeyDown (event) {
       this.$emit('keydown', event);
     },
+    clearableCallback () {
+      this.$emit('clearDate');
+    },
     // ------------------------------
     // Generate Template
     // ------------------------------
@@ -60,17 +67,19 @@ export default {
       return [
         !this.noCalendarIcon && this.genCalendarIcon(),
         this.noInput ? this.genButton() : this.genInput(),
+        this.clearable && this.genClearIcon(),
       ];
     },
     genCalendarIcon () {
       return this.$createElement(Icon, {
+        staticClass: 'datepicker__input-icon',
         props: {
           disabled: this.disabled,
         },
       }, ['calendarAlt']);
     },
     genInput () {
-      return this.$createElement('input', {
+      const data = {
         attrs: {
           id: this.id,
           name: this.name,
@@ -91,7 +100,44 @@ export default {
           keydown: this.onKeyDown,
         },
         ref: 'input',
-      });
+      };
+
+      return this.$createElement('div', {
+        staticClass: `datepicker__input-wrapper`,
+      }, [
+        this.$createElement('input', data),
+      ]);
+    },
+    genClearIcon () {
+      const iconName = this.isDirty ? 'close' : '';
+      const data = {
+        attrs: {
+          'aria-label': 'clearable icon',
+          color: this.color,
+          disabled: this.disabled,
+        },
+        on: {
+          click: event => {
+            event.preventDefault();
+            event.stopPropagation();
+            this.clearableCallback();
+          },
+          mouseup: event => {
+            event.preventDefault();
+            event.stopPropagation();
+          },
+        },
+      };
+
+      const iconElement = this.$createElement('div', {
+        staticClass: 'datepicker__input-clear__icon',
+      }, [
+        this.$createElement(Icon, data, iconName),
+      ]);
+
+      return this.$createElement('div', {
+        staticClass: `datepicker__input-clear`,
+      }, [iconElement]);
     },
     genButton () {
       return this.$createElement('button', {
@@ -159,11 +205,16 @@ export default {
       }
     }
 
-    svg {
+    &-icon {
       margin-bottom: 5px;
     }
 
-    input {
+    &-wrapper {
+      display: flex;
+      flex: 1 1 auto;
+      position: relative;
+
+      input {
       display: flex;
       flex: 1 1 auto;
       position: relative;
@@ -186,6 +237,24 @@ export default {
 
       @include input-placeholder {
         color: transparentize(black, .6);
+      }
+    }
+    }
+
+    &-clear {
+      display: inline-flex;
+      align-self: flex-start;
+      line-height: 1;
+      user-select: none;
+
+      &__icon {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        height: 24px;
+        min-width: 24px;
+        width: 24px;
+        flex: 1 0 auto;
       }
     }
 

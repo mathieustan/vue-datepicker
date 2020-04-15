@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import Icon from '@/components/Icon/Icon.vue';
 
 import { ICONS } from '@/constants/icons';
@@ -8,7 +8,7 @@ describe('Icon', () => {
 
   beforeEach(() => {
     mountComponent = ({ iconName = 'check', props = {}, listeners = {} } = {}) =>
-      shallowMount(Icon, {
+      mount(Icon, {
         slots: {
           default: iconName,
         },
@@ -26,15 +26,14 @@ describe('Icon', () => {
   it('Should init data', () => {
     const wrapper = mountComponent();
     expect(wrapper.isVueInstance()).toBeTruthy();
-    expect(wrapper.vm.height).toEqual(16);
-    expect(wrapper.vm.width).toEqual(16);
+    expect(wrapper.vm.size).toEqual(16);
   });
 
-  describe('computed', () => {
-    describe('defaultData', () => {
+  describe('methods', () => {
+    describe('getDefaultData', () => {
       [{
-        description: 'return an default data',
-        iconName: 'close',
+        description: 'return default data for svg or i',
+        iconName: 'check',
         expectedResult: {
           staticClass: 'icon',
           class: {
@@ -43,18 +42,14 @@ describe('Icon', () => {
           },
           attrs: {
             'aria-hidden': true,
-            'aria-label': undefined,
-            height: 16,
-            role: 'img',
-            viewBox: '0 0 320 512',
-            width: 16,
-            xmlns: 'http://www.w3.org/2000/svg',
+            disabled: false,
+            type: undefined,
           },
           on: {},
         },
       }, {
-        description: 'return data as a button if clickable',
-        iconName: 'close',
+        description: 'allow to click on icon',
+        iconName: 'fa fa-check',
         listeners: { click: jest.fn() },
         expectedResult: {
           staticClass: 'icon',
@@ -63,28 +58,42 @@ describe('Icon', () => {
             'icon--link': true,
           },
           attrs: {
-            'aria-hidden': true,
-            'aria-label': undefined,
-            height: 16,
-            role: 'img',
-            viewBox: '0 0 320 512',
-            width: 16,
-            xmlns: 'http://www.w3.org/2000/svg',
+            'aria-hidden': false,
+            disabled: false,
+            type: 'button',
           },
           on: {
             click: expect.any(Function),
           },
         },
-      }].forEach(({ description, iconName, listeners, expectedResult }) => {
+      }, {
+        description: 'disabled icon',
+        iconName: 'fa fa-check',
+        listeners: { click: jest.fn() },
+        props: { disabled: true },
+        expectedResult: {
+          staticClass: 'icon',
+          class: {
+            'icon--disabled': true,
+            'icon--link': true,
+          },
+          attrs: {
+            'aria-hidden': false,
+            disabled: true,
+            type: 'button',
+          },
+          on: {
+            click: expect.any(Function),
+          },
+        },
+      }].forEach(({ description, iconName, listeners, props, expectedResult }) => {
         it(`should ${description}`, () => {
-          const wrapper = mountComponent({ iconName, listeners });
-          expect(wrapper.vm.defaultData).toEqual(expectedResult);
+          const wrapper = mountComponent({ iconName, listeners, props });
+          expect(wrapper.vm.getDefaultData()).toEqual(expectedResult);
         });
       });
     });
-  });
 
-  describe('methods', () => {
     describe('getIcon', () => {
       [{
         description: 'return an empty string if slot is empty',
@@ -104,6 +113,20 @@ describe('Icon', () => {
           expect(wrapper.vm.getIcon()).toEqual(expectedResult);
         });
       });
+    });
+  });
+
+  describe('behaviour', () => {
+    it('Default icon size should be 16', () => {
+      const wrapper = mountComponent();
+      const iconSvg = wrapper.find('svg');
+      expect(iconSvg.attributes('height')).toEqual('16');
+    });
+
+    it('should allow to update icon size', () => {
+      const wrapper = mountComponent({ props: { size: 24 } });
+      const iconSvg = wrapper.find('svg');
+      expect(iconSvg.attributes('height')).toEqual('24');
     });
   });
 });

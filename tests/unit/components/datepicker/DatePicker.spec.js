@@ -404,6 +404,16 @@ describe('DatePicker', () => {
         });
       });
     });
+
+    describe('onClearDate', () => {
+      it('should $emit date undefined', () => {
+        const wrapper = mountComponent();
+        wrapper.setData({ date: dayjs('2019-5-18') });
+        wrapper.vm.onClearDate();
+        expect(wrapper.emitted().input[0]).toEqual([undefined]);
+        expect(wrapper.emitted().onChange).toBeTruthy();
+      });
+    });
   });
 
   describe('behaviour', () => {

@@ -45,7 +45,7 @@
           class="wrapper-example__example pa-16">
           <div class="wrapper-example__item">
             <slot v-if="$slots.example" name="example" />
-            <div v-else data-app="true">
+            <div v-else>
               <component :is="component" />
             </div>
           </div>
