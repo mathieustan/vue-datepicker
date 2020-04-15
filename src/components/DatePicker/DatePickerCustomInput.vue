@@ -13,22 +13,31 @@ export default {
   mixins: [colorable],
   directives: { ClickOutside },
   props: {
-    id: { type: String },
-    name: { type: String },
     clearable: { type: Boolean },
-    date: { type: [Object, Date, String] },
-    isDateDefined: { type: Boolean, default: false },
-    placeholder: { type: String },
-    color: { type: String },
-    disabled: { type: Boolean, default: false },
-    tabindex: { type: [String, Number] },
-    noInput: { type: Boolean, default: false },
-    noCalendarIcon: { type: Boolean, default: false },
     closeOnClickOutside: { type: Boolean, default: true },
+    color: { type: String },
+    date: { type: [Object, Date, String] },
+    disabled: { type: Boolean, default: false },
+    id: { type: String },
+    isDateDefined: { type: Boolean, default: false },
+    isMenuActive: { type: Boolean, default: false },
+    name: { type: String },
+    noCalendarIcon: { type: Boolean, default: false },
+    noInput: { type: Boolean, default: false },
+    placeholder: { type: String },
+    tabindex: { type: [String, Number] },
   },
   computed: {
+    classes () {
+      return {
+        'datepicker__input--disabled': this.disabled,
+        'datepicker__input--is-active': this.isMenuActive,
+        'datepicker__input--no-date': !this.isDateDefined,
+      };
+    },
     computedColor () {
-      return this.isDateDefined && !this.disabled ? this.color : 'rgba(93, 106, 137, 0.5)';
+      if (this.disabled) return '';
+      return this.isMenuActive ? this.color : '';
     },
     isDirty () {
       return this.isDateDefined;
@@ -158,6 +167,7 @@ export default {
   render (h) {
     return h('div', this.setTextColor(this.computedColor, {
       staticClass: 'datepicker__input',
+      class: this.classes,
       directives: [{
         name: 'click-outside',
         value: {
@@ -183,10 +193,19 @@ export default {
     justify-content: flex-start;
     align-items: center;
     width: 100%;
+    color: currentColor;
 
     &--disabled {
       cursor: not-allowed;
       pointer-events: none;
+
+      input {
+        opacity: .38;
+      }
+    }
+
+    &--no-date:not(.datepicker__input--is-active) {
+      opacity: .6;
     }
 
     .datepicker__wrapper--rtl & {
@@ -236,7 +255,7 @@ export default {
       }
 
       @include input-placeholder {
-        color: transparentize(black, .6);
+        opacity: .6;
       }
     }
     }

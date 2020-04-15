@@ -320,6 +320,7 @@ export default {
           disabled: this.disabled,
           id: this.componentId,
           isDateDefined: this.isDateDefined,
+          isMenuActive: this.isMenuActive,
           name: this.name,
           noCalendarIcon: this.noCalendarIcon,
           noInput: this.noInput,

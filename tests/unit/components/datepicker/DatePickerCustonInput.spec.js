@@ -33,21 +33,21 @@ describe('DatePickerCustomInput', () => {
   describe('computed', () => {
     describe('computedColor', () => {
       [{
-        description: 'return disabled color if there is no color',
+        description: 'return empty by default',
         props: {},
-        expectedResult: 'rgba(93, 106, 137, 0.5)',
+        expectedResult: '',
       }, {
-        description: 'return disabled color if date isnt defined',
-        props: { color: '#ffffff' },
-        expectedResult: 'rgba(93, 106, 137, 0.5)',
+        description: 'return empty if disabled',
+        props: { disabled: true, color: '#ffffff', isMenuActive: true },
+        expectedResult: '',
       }, {
-        description: 'return color if date is defined',
-        props: { color: '#ffffff', isDateDefined: true },
+        description: 'return empty if menu is not active',
+        props: { color: '#ffffff', isMenuActive: false },
+        expectedResult: '',
+      }, {
+        description: 'return color if menu is active',
+        props: { color: '#ffffff', isMenuActive: true },
         expectedResult: '#ffffff',
-      }, {
-        description: 'return disabled color if disabled',
-        props: { color: '#ffffff', disabled: true },
-        expectedResult: 'rgba(93, 106, 137, 0.5)',
       }].forEach(({ description, props, expectedResult }) => {
         it(`should ${description}`, () => {
           const wrapper = mountComponent({ props });
