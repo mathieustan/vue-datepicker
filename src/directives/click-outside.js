@@ -2,11 +2,7 @@
 // https://github.com/ndelvalle/v-click-outside/blob/master/lib/v-click-outside.js
 // Mixed both :)
 
-const HAS_WINDOWS = typeof window !== 'undefined';
-const HAS_NAVIGATOR = typeof navigator !== 'undefined';
-const IS_TOUCH =
-  HAS_WINDOWS && ('ontouchstart' in window || (HAS_NAVIGATOR && navigator.msMaxTouchPoints > 0));
-const EVENTS = IS_TOUCH ? ['touchstart', 'click'] : ['click'];
+const EVENTS = ['click'];
 
 const instances = [];
 
