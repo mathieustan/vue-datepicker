@@ -10,7 +10,7 @@
 <script>
 export default {
   data: () => ({
-    date: new Date(),
+    date: '2019-2',
   }),
 };
 </script>

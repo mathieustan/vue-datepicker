@@ -143,7 +143,7 @@ describe('DatePickerYearMonth', () => {
       utilsFunction.computeYearsScrollPosition.mockClear();
       wrapper.setProps({ mode: 'year' });
 
-      const containerToScroll = wrapper.element.querySelector('.datepicker-years__wrapper');
+      const containerToScroll = wrapper.element.querySelector('.vd-selects__years-wrapper');
       Object.defineProperties(containerToScroll, {
         scrollTop: { get: () => 100, set: () => 100 },
       }, { writable: true });
@@ -243,6 +243,26 @@ describe('DatePickerYearMonth', () => {
 
         expect(wrapper.emitted().selectedYearMonth[0]).toEqual([2, 'month']);
       });
+    });
+  });
+
+  describe('behaviour', () => {
+    it('Year : should call onSelect on button click', () => {
+      const wrapper = mountComponent({ mode: 'year' });
+      const yearButton = wrapper.find('.vd-selects__years-list > button');
+      jest.spyOn(wrapper.vm, 'onSelect');
+
+      yearButton.trigger('click');
+      expect(wrapper.vm.onSelect).toHaveBeenCalled();
+    });
+
+    it('Month : should call onSelect on button click', () => {
+      const wrapper = mountComponent({ mode: 'month' });
+      const yearButton = wrapper.find('.vd-selects__months > button');
+      jest.spyOn(wrapper.vm, 'onSelect');
+
+      yearButton.trigger('click');
+      expect(wrapper.vm.onSelect).toHaveBeenCalled();
     });
   });
 });

@@ -1,102 +1,3 @@
-<template>
-  <transition name="yearMonth" appear>
-    <div class="datepicker-year-month">
-
-      <div
-        v-if="mode === 'year'"
-        class="datepicker-years"
-      >
-        <div class="datepicker-years__wrapper">
-          <div class="datepicker-years__list">
-            <button
-              v-for="year in getYears"
-              :key="year"
-              :disabled="isYearDisabled(year)"
-              :style="{
-                ...(isSelectedYear(year) && setTextColor('#fff')),
-                ...(isSelectedYear(year) && setBackgroundColor(color)),
-              }"
-              :class="{ 'active': isSelectedYear(year) }"
-              type="button"
-              @click="onSelect(year)"
-            >
-            {{ year }}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div
-        v-if="mode === 'month' || mode === 'quarter'"
-        class="datepicker-months"
-      >
-        <DatePickerControls
-          :current-date="currentDate"
-          :transition-name="transitionName"
-          :min-date="minDate"
-          :max-date="maxDate"
-          :color="color"
-          mode="year"
-          @changeVisibleDate="changeYear"
-          @showYearMonthSelector="showYearMonthSelector"
-        />
-
-        <template v-if="mode === 'month'">
-          <TransitionGroup
-            tag="div"
-            class="datepicker-months__wrapper"
-            :name="transitionName">
-            <div
-              v-for="year in [currentDate.year]"
-              :key="year"
-              class="datepicker-months__list">
-              <button
-                v-for="(month, index) in getMonths"
-                :key="index"
-                :disabled="isMonthOrQuarterDisabled(index)"
-                :style="{
-                  ...(isSelectedMonthOrQuarter(index) && setTextColor('#fff')),
-                  ...(isSelectedMonthOrQuarter(index) && setBackgroundColor(color)),
-                }"
-                type="button"
-                @click="onSelect(index)"
-              >
-              {{ month }}
-              </button>
-            </div>
-          </TransitionGroup>
-        </template>
-
-        <template v-if="mode === 'quarter'">
-          <TransitionGroup
-            tag="div"
-            class="datepicker-months__wrapper"
-            :name="transitionName">
-            <div
-              v-for="year in [currentDate.year]"
-              :key="year"
-              class="datepicker-quarters__list">
-              <button
-                v-for="(quarter, index) in getQuarters"
-                :key="index"
-                :disabled="isMonthOrQuarterDisabled(index)"
-                :style="{
-                  ...(isSelectedMonthOrQuarter(index*3) && setTextColor('#fff')),
-                  ...(isSelectedMonthOrQuarter(index*3) && setBackgroundColor(color)),
-                }"
-                type="button"
-                @click="onSelect(index)"
-              >
-              {{ quarter }}
-              </button>
-            </div>
-          </TransitionGroup>
-        </template>
-      </div>
-    </div>
-  </transition>
-</template>
-
 <script>
 // mixins
 import colorable from '../../mixins/colorable';
@@ -135,6 +36,12 @@ export default {
     activeYear: undefined,
   }),
   computed: {
+    isYearMode () {
+      return this.mode === 'year';
+    },
+    isMonthOrQuarterMode () {
+      return this.mode === 'month' || this.mode === 'quarter';
+    },
     yearFormatted () {
       return this.currentDate.getYearFormatted();
     },
@@ -148,7 +55,7 @@ export default {
       return this.currentDate.getQuarters();
     },
     shouldComputeYearPosition () {
-      return this.active && this.mode === 'year' && this.visibleYearsNumber;
+      return this.active && this.isYearMode && this.visibleYearsNumber;
     },
   },
   watch: {
@@ -164,6 +71,9 @@ export default {
     this.activeYear = this.currentDate.year;
   },
   methods: {
+    // ------------------------------
+    // Year/Month/Quarter states
+    // ------------------------------
     isSelectedYear (year) {
       return this.currentDate.year === year;
     },
@@ -185,20 +95,142 @@ export default {
       return isBeforeDate(date, this.minDate, 'month') ||
         isAfterDate(date, this.maxDate, 'month');
     },
+    // ------------------------------
+    // Scroll position
+    // ------------------------------
+    computeScrollPosition () {
+      const activeItem = this.$el.querySelector('button.active');
+      if (!activeItem || this.mode !== 'year') return;
+
+      // should scroll to active year
+      const containerToScroll = this.$el.querySelector('.vd-selects__years-wrapper');
+      containerToScroll.scrollTop = computeYearsScrollPosition(containerToScroll, activeItem);
+    },
+    // ------------------------------
+    // Events
+    // ------------------------------
     changeYear (direction) {
       this.$emit('changeYear', direction);
     },
     onSelect (value) {
       this.$emit('selectedYearMonth', value, this.mode);
     },
-    computeScrollPosition () {
-      const activeItem = this.$el.querySelector('button.active');
-      if (!activeItem || this.mode !== 'year') return;
-
-      // should scroll to active year
-      const containerToScroll = this.$el.querySelector('.datepicker-years__wrapper');
-      containerToScroll.scrollTop = computeYearsScrollPosition(containerToScroll, activeItem);
+    // ------------------------------
+    // Generate Template
+    // ------------------------------
+    genContent () {
+      return [
+        this.isYearMode && this.genYearMode(),
+        this.isMonthOrQuarterMode && this.genMonthOrQuarter(),
+      ];
     },
+    // -- Years
+    genYearMode () {
+      const yearsList = this.$createElement('div', {
+        staticClass: 'vd-selects__years-list',
+      }, this.getYears.map(year => this.genYearButton(year)));
+      const yearsWrapper = this.$createElement('div', {
+        staticClass: 'vd-selects__years-wrapper',
+      }, [yearsList]);
+
+      return this.$createElement('div', {
+        staticClass: 'vd-selects__years',
+      }, [yearsWrapper]);
+    },
+    genYearButton (year) {
+      return this.$createElement('button', {
+        key: year,
+        class: {
+          'active': this.isSelectedYear(year),
+        },
+        style: {
+          ...(this.isSelectedYear(year) && this.setTextColor('#fff')),
+          ...(this.isSelectedYear(year) && this.setBackgroundColor(this.color)),
+        },
+        attrs: {
+          disabled: this.isYearDisabled(year),
+        },
+        on: {
+          click: () => this.onSelect(year),
+        },
+      }, [year]);
+    },
+    // -- Month or Quarter
+    genMonthOrQuarter () {
+      return this.$createElement('div', {
+        staticClass: 'vd-selects__wrapper',
+      }, [
+        this.genDatePickerControls(),
+        this.genMonthQuarterTransition(this.mode),
+      ]);
+    },
+    genDatePickerControls () {
+      return this.$createElement(DatePickerControls, {
+        props: {
+          color: this.color,
+          currentDate: this.currentDate,
+          maxDate: this.maxDate,
+          minDate: this.minDate,
+          mode: 'year',
+          transitionName: this.transitionName,
+        },
+        on: {
+          changeVisibleDate: this.changeYear,
+          showYearMonthSelector: this.showYearMonthSelector,
+        },
+      });
+    },
+    genMonthQuarterTransition (mode) {
+      return this.$createElement('transition-group', {
+        staticClass: 'vd-selects__inner',
+        props: {
+          tag: 'div',
+          name: this.transitionName,
+        },
+      }, [this.currentDate.year].map(year => {
+        if (mode === 'month') return this.genMonthList(year, mode);
+        return this.genQuarterList(year, mode);
+      }));
+    },
+    genMonthList (key, mode) {
+      return this.$createElement('div', {
+        staticClass: 'vd-selects__months',
+        key,
+      }, [
+        this.getMonths.map((month, index) => this.genMonthQuarterButton(month, mode, index)),
+      ]);
+    },
+    genQuarterList (key, mode) {
+      return this.$createElement('div', {
+        staticClass: 'vd-selects__quarters',
+        key,
+      }, [
+        this.getQuarters.map((quarter, index) => this.genMonthQuarterButton(quarter, mode, index)),
+      ]);
+    },
+    genMonthQuarterButton (value, mode, index) {
+      const selectedIndex = mode === 'quarter' ? index * 3 : index;
+      return this.$createElement('button', {
+        key: index,
+        style: {
+          ...(this.isSelectedMonthOrQuarter(selectedIndex) && this.setTextColor('#fff')),
+          ...(this.isSelectedMonthOrQuarter(selectedIndex) && this.setBackgroundColor(this.color)),
+        },
+        attrs: {
+          type: 'button',
+          disabled: this.isMonthOrQuarterDisabled(index),
+        },
+        on: {
+          click: () => this.onSelect(index),
+        },
+      }, [value]);
+    },
+  },
+  render (h) {
+    const children = h('div', { staticClass: 'vd-selects' }, [this.genContent()]);
+    return h('transition', {
+      props: { name: 'yearMonth' },
+    }, [children]);
   },
 };
 </script>
@@ -207,7 +239,7 @@ export default {
   @import   '../../styles/abstracts/_index.scss',
             '../../styles/base/_transitions.scss';
 
-  .datepicker-year-month {
+  .vd-selects {
     position: absolute;
     display: flex;
     top: 0;
@@ -227,93 +259,93 @@ export default {
       --safe-area-inset-bottom: env(safe-area-inset-bottom);
       padding-bottom: var(--safe-area-inset-bottom);
     }
-  }
 
-  .datepicker-years {
-    position: relative;
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    width: 100%;
-    z-index: 0;
-    overflow: hidden;
-
-    .datepicker--validate & {
-      border-bottom: 1px solid color(other, light-gray);
-    }
-
-    &__wrapper {
+    &__years {
       position: relative;
       display: flex;
       flex: 1 1 auto;
-      padding: $gutter;
-      overflow-y: scroll; /* has to be scroll, not auto */
-      -webkit-overflow-scrolling: touch;
-    }
-
-    &__list {
-      position: relative;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: fit-content;
-      grid-gap: $gutter;
+      flex-direction: column;
       width: 100%;
-      align-items: center;
+      z-index: 0;
+      overflow: hidden;
 
-      button {
+      .datepicker--validate & {
+        border-bottom: 1px solid color(other, light-gray);
+      }
+
+      &-wrapper {
         position: relative;
-        @extend %reset-button;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 12px;
-        padding: 0 20px;
-        height: 40px;
-        min-height: 40px;
+        flex: 1 1 auto;
+        padding: $gutter;
+        overflow-y: scroll; /* has to be scroll, not auto */
+        -webkit-overflow-scrolling: touch;
+      }
+
+      &-list {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: fit-content;
+        grid-gap: $gutter;
         width: 100%;
-        font-size: 15px;
-        font-weight: get-font-weight(medium);
-        border-radius: 2px;
-        outline: none;
-        transition: background-color .3s;
+        align-items: center;
 
-        &:hover {
-          background-color: color(other, light-gray);
-        }
-
-        &:disabled,
-        &[disabled] {
-          cursor: default;
-          color: rgba(0,0,0,0.26);
-        }
-
-        .datepicker-month--current {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          margin: auto;
+        button {
+          position: relative;
+          @extend %reset-button;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 12px;
+          padding: 0 20px;
+          height: 40px;
+          min-height: 40px;
           width: 100%;
-          height: 30px;
-          background-color: currentColor;
+          font-size: 15px;
+          font-weight: get-font-weight(medium);
+          border-radius: 2px;
+          outline: none;
+          transition: background-color .3s;
+
+          &:hover {
+            background-color: color(other, light-gray);
+          }
+
+          &:disabled,
+          &[disabled] {
+            cursor: default;
+            color: rgba(0,0,0,0.26);
+          }
+
+          .datepicker-month--current {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 100%;
+            height: 30px;
+            background-color: currentColor;
+          }
         }
       }
     }
-  }
 
-  .datepicker-months {
-    height: auto;
-    overflow: hidden;
-    position: relative;
-    z-index: 0;
-    flex: 1 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
+    &__wrapper {
+      height: auto;
+      overflow: hidden;
+      position: relative;
+      z-index: 0;
+      flex: 1 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+    }
 
-    .datepicker-months__wrapper {
+    &__inner {
       position: relative;
       display: flex;
       width: 100%;
@@ -321,8 +353,8 @@ export default {
       padding: 0 $gutter $gutter;
     }
 
-    .datepicker-months__list,
-    .datepicker-quarters__list {
+    &__months,
+    &__quarters {
       position: absolute;
       top: 0;
       left: 0;
@@ -365,22 +397,14 @@ export default {
           cursor: default;
           color: rgba(0,0,0,0.26);
         }
+      }
 
-        .datepicker-month--current {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          margin: auto;
-          width: 100%;
-          height: 30px;
-          background-color: currentColor;
-        }
+      &--current {
+        border: 1px solid currentColor !important;
       }
     }
 
-    .datepicker-quarters__list {
+    &__quarters {
       grid-template-columns: 1fr;
       grid-template-rows: repeat(4, 1fr);
 
