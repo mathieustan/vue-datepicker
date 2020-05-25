@@ -1,0 +1,26 @@
+{
+  "dist/vue-datepicker.min.js": {
+    "bundled": 235746,
+    "minified": 144363,
+    "gzipped": 27269
+  },
+  "dist/vue-datepicker.esm.js": {
+    "bundled": 235747,
+    "minified": 155117,
+    "gzipped": 29394,
+    "treeshaked": {
+      "rollup": {
+        "code": 144183,
+        "import_statements": 144
+      },
+      "webpack": {
+        "code": 145362
+      }
+    }
+  },
+  "dist/vue-datepicker.umd.js": {
+    "bundled": 247286,
+    "minified": 144660,
+    "gzipped": 27404
+  }
+}
