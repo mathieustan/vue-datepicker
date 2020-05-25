@@ -14,7 +14,7 @@ module.exports = {
   ],
   messages: {
     type: 'Select the type of change that you\'re committing:',
-    customScope: 'What is the scope of this change (e.g. GButton (component name), Colorable (mixin name), Build):',
+    customScope: 'What is the scope of this change (e.g. Props, Mixin, Doc, Build, ...):',
     subject: 'Write a short, imperative tense description of the change (max 60 chars):\n',
     body: 'Provide a longer description of the change: (press enter to skip):\n',
     breaking: 'Are there any breaking changes?: (y/N)\n',
