@@ -35,6 +35,11 @@ export default {
         description: 'Default usage without any props',
         filename: 'default',
       },
+      allowedDates: {
+        title: '# Props: AllowedDates',
+        description: 'Function which validate allowed date',
+        filename: 'allowedDates',
+      },
       validate: {
         title: '# Props: Validate',
         description: 'Need to validate to change date (Add buttons)',

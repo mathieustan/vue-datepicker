@@ -20,6 +20,7 @@ import Dates, {
   formatDateWithYearAndMonth,
   getRangeDatesFormatted,
   formatDateToSend,
+  isDateAllowed,
   isDateToday,
   areSameDates,
   isBeforeDate,
@@ -264,6 +265,43 @@ describe('Dates: Functions', () => {
           expect(formatDateToSend(date, format, range)).toEqual(expectedResult);
         }
       );
+    });
+
+    describe('isDateAllowed', () => {
+      [{
+        description: 'return true by default',
+        data: {
+          date: dayjs(new Date([2019, 5, 16])),
+        },
+        expectedResult: true,
+      }, {
+        description: 'return true if date is validated by allowedDates',
+        data: {
+          date: dayjs(new Date([2019, 5, 16])),
+          allowedFn: (date) => date.getDate() === 16,
+        },
+        expectedResult: true,
+      }, {
+        description: 'return true if date is validated by allowedDates and equal min date',
+        data: {
+          date: dayjs(new Date([2019, 5, 16])),
+          allowedFn: (date) => date.getDate() === 16,
+          minDate: '2019-5-16',
+        },
+        expectedResult: true,
+      }, {
+        description: 'return true if date is validated by allowedDates and equal max date',
+        data: {
+          date: dayjs(new Date([2019, 5, 16])),
+          allowedFn: (date) => date.getDate() === 16,
+          maxDate: '2019-5-16',
+        },
+        expectedResult: true,
+      }].forEach(({ description, data, expectedResult }) => {
+        it(`should ${description}`, () => {
+          expect(isDateAllowed(data)).toEqual(expectedResult);
+        });
+      });
     });
 
     describe('isDateToday', () => {

@@ -148,6 +148,12 @@ export function formatDateToSend (date, format, range) {
 // - isAfterDate : Return Boolean if date is after maxDate (from props)
 // - isDateAfter : Return Boolean if date are after a specific date
 // -----------------------------------------
+export function isDateAllowed ({ date, min, max, allowedFn }) {
+  const formattedDate = date.toDate();
+  return (!allowedFn || allowedFn(formattedDate)) &&
+    (!min || areSameDates(formattedDate, min) || isAfterDate(formattedDate, min)) &&
+    (!max || areSameDates(formattedDate, max) || isBeforeDate(formattedDate, max));
+}
 
 export function isDateToday (date) {
   return dayjs(date.format('YYYY-MM-DD')).isSame(dayjs().format('YYYY-MM-DD'));

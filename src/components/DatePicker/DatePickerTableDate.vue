@@ -8,9 +8,9 @@ import colorable from '../../mixins/colorable';
 // functions
 import {
   getWeekDays,
-  isAfterDate,
   isBeforeDate,
   isBetweenDates,
+  isDateAllowed,
   isDateToday,
 } from '../../utils/Dates';
 
@@ -19,6 +19,7 @@ export default {
   directives: { Touch },
   mixins: [colorable],
   props: {
+    allowedDates: { type: Function },
     color: { type: String },
     currentDate: { type: [String, Object] },
     isRangeSelected: { type: Boolean },
@@ -92,8 +93,16 @@ export default {
     lastInRange (day) {
       return this.mutableDate.end && this.mutableDate.end.startOf('day').unix() === day.unix();
     },
+    isDateAllowed (day) {
+      return isDateAllowed({
+        date: day,
+        min: this.minDate,
+        max: this.maxDate,
+        allowedFn: this.allowedDates,
+      });
+    },
     isDisabled (day) {
-      return isBeforeDate(day, this.minDate) || isAfterDate(day, this.maxDate);
+      return !this.isDateAllowed(day);
     },
     isToday (day) {
       return isDateToday(day);

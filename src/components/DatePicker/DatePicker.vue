@@ -17,14 +17,14 @@ import { Z_INDEX_LIST, KEYCODES, DATE_HEADER_REGEX } from '../../constants';
 import { generateRandomId, validateAttachTarget } from '../../utils/helpers';
 import { getLocale } from '../../utils/lang';
 import {
-  getDefaultInputFormat,
-  getDefaultHeaderFormat,
-  getDefaultOutputFormat,
-  formatDateToSend,
-  initDate,
-  getRangeDatesFormatted,
   convertQuarterToMonth,
+  formatDateToSend,
   formatDateWithLocale,
+  getDefaultHeaderFormat,
+  getDefaultInputFormat,
+  getDefaultOutputFormat,
+  getRangeDatesFormatted,
+  initDate,
 } from '../../utils/Dates';
 
 export const defaultMenuProps = {
@@ -64,6 +64,7 @@ export default {
     // Applies specified color to the control
     color: { type: String, default: '#4f88ff' },
     // Allowed dates
+    allowedDates: { type: Function },
     minDate: { type: [String, Number, Date] },
     maxDate: { type: [String, Number, Date] },
     // Range for year picker
@@ -353,25 +354,26 @@ export default {
     genAgenda () {
       return this.$createElement(DatePickerAgenda, {
         props: {
-          name: this.name,
-          date: this.internalDate,
-          type: this.type,
-          value: this.isMenuActive,
-          validate: this.validate,
+          activeBottomSheet: this.isBooted && this.isMenuActive && this.shouldShowBottomSheet,
+          allowedDates: this.allowedDates,
           buttonCancel: this.textsFormat.buttonCancel,
           buttonValidate: this.textsFormat.buttonValidate,
+          color: this.color,
+          date: this.internalDate,
+          formatHeader: this.headerFormat,
+          locale: this.currentLocale,
+          maxDate: this.maxDate,
+          minDate: this.minDate,
+          name: this.name,
+          noHeader: this.noHeader,
           range: this.range,
           rangeHeaderText: this.textsFormat.rangeHeaderText,
           rangePresets: this.rangePresets,
-          formatHeader: this.headerFormat,
-          locale: this.currentLocale,
-          noHeader: this.noHeader,
-          activeBottomSheet: this.isBooted && this.isMenuActive && this.shouldShowBottomSheet,
-          color: this.color,
-          minDate: this.minDate,
-          maxDate: this.maxDate,
-          visibleYearsNumber: this.visibleYearsNumber,
           rtl: this.rtl,
+          type: this.type,
+          validate: this.validate,
+          value: this.isMenuActive,
+          visibleYearsNumber: this.visibleYearsNumber,
         },
         on: {
           selectDate: this.changeDate,

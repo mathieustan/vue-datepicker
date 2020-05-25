@@ -33,6 +33,7 @@ export default {
   mixins: [colorable],
   props: {
     activeBottomSheet: { type: Boolean, default: false },
+    allowedDates: { type: Function },
     buttonCancel: { type: String },
     buttonValidate: { type: String },
     color: { type: String },
@@ -341,6 +342,7 @@ export default {
     genTableDate () {
       return this.$createElement(DatePickerTableDate, {
         props: {
+          allowedDates: this.allowedDates,
           color: this.color,
           currentDate: this.currentDate,
           isRangeSelected: this.isRangeSelected,
