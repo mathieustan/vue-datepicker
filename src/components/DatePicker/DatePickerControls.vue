@@ -3,7 +3,7 @@
 import colorable from '../../mixins/colorable';
 
 // components
-import Icon from '../Icon';
+import VDIcon from '../VDIcon';
 
 // functions
 import { isBeforeDate, isAfterDate } from '../../utils/Dates';
@@ -60,7 +60,7 @@ export default {
       ];
     },
     genPrevButton () {
-      const icon = this.$createElement(Icon, 'chevronLeft');
+      const icon = this.$createElement(VDIcon, 'chevronLeft');
 
       return this.$createElement('button', {
         staticClass: 'datepicker__controls-prev',
@@ -74,7 +74,7 @@ export default {
       }, [icon]);
     },
     genNextButton () {
-      const icon = this.$createElement(Icon, 'chevronRight');
+      const icon = this.$createElement(VDIcon, 'chevronRight');
 
       return this.$createElement('button', {
         staticClass: 'datepicker__controls-next',

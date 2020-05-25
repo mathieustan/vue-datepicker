@@ -597,7 +597,7 @@ describe('DatePickerAgenda', () => {
   describe('behaviour', () => {
     it('should emit close when click on a close button', () => {
       const wrapper = mountComponent({ activeBottomSheet: true });
-      const icon = wrapper.find('.datepicker__title-close > .icon');
+      const icon = wrapper.find('.datepicker__title-close > .vd-icon');
       icon.trigger('click');
 
       expect(wrapper.emitted().close).toBeTruthy();

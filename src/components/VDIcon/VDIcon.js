@@ -1,12 +1,14 @@
-<script>
-// constants
+// Styles
+import './VDIcon.scss';
+
+// Constants
 import { ICONS } from '../../constants/icons';
 
-// helpers
+// Helpers
 import { convertToUnit } from '../../utils/helpers';
 
 export default {
-  name: 'Icon',
+  name: 'VDIcon',
   inheritAttrs: false,
   props: {
     size: { type: [Number, String], default: 16 },
@@ -28,10 +30,10 @@ export default {
     },
     getDefaultData () {
       return {
-        staticClass: 'icon',
+        staticClass: 'vd-icon',
         class: {
-          'icon--disabled': this.disabled,
-          'icon--link': this.hasClickListener,
+          'vd-icon--disabled': this.disabled,
+          'vd-icon--link': this.hasClickListener,
         },
         attrs: {
           'aria-hidden': !this.hasClickListener,
@@ -81,34 +83,3 @@ export default {
     return this.renderSvgIcon(icon, h);
   },
 };
-</script>
-
-<style lang="scss" scoped>
-  @import '../../styles/abstracts/_index.scss';
-
-  .icon {
-
-    // Increased specificity to overwrite
-    &.icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      letter-spacing: normal;
-      line-height: 1;
-      text-indent: 0;
-      transition: all .3s get-easing(swing);
-      transition-property: transform, color;
-      vertical-align: middle;
-      user-select: none;
-    }
-
-    &--link {
-      cursor: pointer;
-    }
-
-    &--disabled {
-      pointer-events: none;
-      opacity: .6;
-    }
-  }
-</style>

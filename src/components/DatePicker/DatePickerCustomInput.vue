@@ -6,7 +6,7 @@ import colorable from '../../mixins/colorable';
 import ClickOutside from '../../directives/click-outside';
 
 // components
-import Icon from '../Icon';
+import VDIcon from '../VDIcon';
 
 export default {
   name: 'DatePickerCustomInput',
@@ -80,7 +80,7 @@ export default {
       ];
     },
     genCalendarIcon () {
-      return this.$createElement(Icon, {
+      return this.$createElement(VDIcon, {
         staticClass: 'datepicker__input-icon',
         props: {
           disabled: this.disabled,
@@ -141,7 +141,7 @@ export default {
       const iconElement = this.$createElement('div', {
         staticClass: 'datepicker__input-clear__icon',
       }, [
-        this.$createElement(Icon, data, iconName),
+        this.$createElement(VDIcon, data, iconName),
       ]);
 
       return this.$createElement('div', {

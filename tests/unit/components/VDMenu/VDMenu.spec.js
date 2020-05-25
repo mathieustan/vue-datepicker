@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import Menu from '@/components/Menu/Menu.vue';
+import VDMenu from '@/components/VDMenu/VDMenu';
 
 jest.useFakeTimers();
 
@@ -15,7 +15,7 @@ const defaultDimensions = {
   offsetLeft: 0,
 };
 
-describe('Menu', () => {
+describe('VDMenu', () => {
   let mountComponent;
 
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe('Menu', () => {
       props = {},
       methods,
     } = {}) =>
-      shallowMount(Menu, {
+      shallowMount(VDMenu, {
         slots,
         scopedSlots: {
           activator: '<button id="activator" v-on="props.on"></button>',
@@ -402,7 +402,7 @@ describe('Menu', () => {
       await wrapper.vm.$nextTick();
 
       const click = { stopPropagation: jest.fn() };
-      const content = wrapper.find('.menu__content');
+      const content = wrapper.find('.vd-menu__content');
       content.trigger('click', click);
       expect(click.stopPropagation).toHaveBeenCalled();
     });

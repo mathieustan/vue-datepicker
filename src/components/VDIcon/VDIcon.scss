@@ -1,0 +1,26 @@
+@import '../../styles/abstracts/_index.scss';
+
+.vd-icon {
+  // Increased specificity to overwrite
+  &.vd-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: normal;
+    line-height: 1;
+    text-indent: 0;
+    transition: all .3s get-easing(swing);
+    transition-property: transform, color;
+    vertical-align: middle;
+    user-select: none;
+  }
+
+  &--link {
+    cursor: pointer;
+  }
+
+  &--disabled {
+    pointer-events: none;
+    opacity: .6;
+  }
+}

@@ -1,14 +1,14 @@
 import { mount } from '@vue/test-utils';
-import Icon from '@/components/Icon/Icon.vue';
+import VDIcon from '@/components/VDIcon/VDIcon';
 
 import { ICONS } from '@/constants/icons';
 
-describe('Icon', () => {
+describe('VDIcon', () => {
   let mountComponent;
 
   beforeEach(() => {
     mountComponent = ({ iconName = 'check', props = {}, listeners = {} } = {}) =>
-      mount(Icon, {
+      mount(VDIcon, {
         slots: {
           default: iconName,
         },
@@ -35,10 +35,10 @@ describe('Icon', () => {
         description: 'return default data for svg or i',
         iconName: 'check',
         expectedResult: {
-          staticClass: 'icon',
+          staticClass: 'vd-icon',
           class: {
-            'icon--disabled': false,
-            'icon--link': false,
+            'vd-icon--disabled': false,
+            'vd-icon--link': false,
           },
           attrs: {
             'aria-hidden': true,
@@ -52,10 +52,10 @@ describe('Icon', () => {
         iconName: 'fa fa-check',
         listeners: { click: jest.fn() },
         expectedResult: {
-          staticClass: 'icon',
+          staticClass: 'vd-icon',
           class: {
-            'icon--disabled': false,
-            'icon--link': true,
+            'vd-icon--disabled': false,
+            'vd-icon--link': true,
           },
           attrs: {
             'aria-hidden': false,
@@ -72,10 +72,10 @@ describe('Icon', () => {
         listeners: { click: jest.fn() },
         props: { disabled: true },
         expectedResult: {
-          staticClass: 'icon',
+          staticClass: 'vd-icon',
           class: {
-            'icon--disabled': true,
-            'icon--link': true,
+            'vd-icon--disabled': true,
+            'vd-icon--link': true,
           },
           attrs: {
             'aria-hidden': false,

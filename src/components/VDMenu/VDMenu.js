@@ -1,18 +1,20 @@
-<script>
-// directives
+// Styles
+import './VDMenu.scss';
+
+// Directives
 import Resize from '../../directives/resize';
 
-// mixins
+// Mixins
 import activatable from '../../mixins/activatable';
 import detachable from '../../mixins/detachable';
 import dynamicPosition from '../../mixins/dynamicPosition';
 import stackable from '../../mixins/stackable';
 
-// utils
+// Utils
 import { convertToUnit } from '../../utils/helpers';
 
 export default {
-  name: 'Menu',
+  name: 'VDMenu',
   mixins: [activatable, detachable, dynamicPosition, stackable],
   directives: { Resize },
   props: {
@@ -145,11 +147,11 @@ export default {
         attrs: {
           role: this.$attrs.role || 'menu',
         },
-        staticClass: 'menu__content',
+        staticClass: 'vd-menu__content',
         class: {
-          'menu__content--active': this.isActive,
-          'menu__content--fixed': this.activatorFixed,
-          'menu__content--bottomsheet': this.bottomSheet,
+          'vd-menu__content--active': this.isActive,
+          'vd-menu__content--fixed': this.activatorFixed,
+          'vd-menu__content--bottomsheet': this.bottomSheet,
         },
         style: this.styles,
         directives: [{
@@ -171,7 +173,7 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'menu',
+      staticClass: 'vd-menu',
       class: {
         'menu--attached': this.isAttached,
       },
@@ -186,94 +188,3 @@ export default {
     ]);
   },
 };
-</script>
-
-<style lang="scss" scoped>
-  @import '../../styles/abstracts/_index.scss',
-          '../../styles/base/_index.scss';
-
-  .menu,
-  .menu *,
-  .menu ::before,
-  .menu ::after {
-    box-sizing: border-box;
-  }
-
-  .menu {
-    display: none;
-
-    &--attached {
-      display: inline;
-    }
-
-    &__activator {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    * {
-      cursor: pointer;
-    }
-
-    &__content {
-      position: absolute;
-      display: inline-block;
-      border-radius: get-border-radius(2);
-      max-width: 80%;
-      overflow-y: auto;
-      overflow-x: hidden;
-      contain: content;
-      background-color: white;
-      // This is required for an issue on Chrome 65
-      // that prevents scrolling after a menu is opened
-      will-change: transform;
-      box-shadow: 0 2px 8px rgba(50, 50, 93, 0.2);
-
-      &--fixed {
-        position: fixed;
-      }
-
-      &--bottomsheet {
-        position: fixed;
-        top: auto !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        min-width: 100% !important;
-        border-radius: get-border-radius(4) get-border-radius(4) 0 0;
-
-        // Browsers which partially support CSS Environment variables (iOS 11.0-11.2).
-        @supports (padding-bottom: constant(safe-area-inset-bottom)) {
-          --safe-area-inset-bottom: constant(safe-area-inset-bottom);
-          padding-bottom: var(--safe-area-inset-bottom);
-        }
-
-        // Browsers which fully support CSS Environment variables (iOS 11.2+).
-        @supports (padding-bottom: env(safe-area-inset-bottom)) {
-          --safe-area-inset-bottom: env(safe-area-inset-bottom);
-          padding-bottom: var(--safe-area-inset-bottom);
-        }
-      }
-    }
-
-    &-transition {
-      &-leave-active,
-      &-leave-to {
-        pointer-events: none;
-      }
-
-      &-enter,
-      &-leave-to {
-        opacity: 0;
-      }
-
-      &-enter-active,
-      &-leave-active {
-        transition: all .3s get-easing(fastInFastOut);
-        transition-property: opacity, transform;
-      }
-    }
-  }
-</style>

@@ -5,7 +5,7 @@ import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import ClickOutside from '../../directives/click-outside';
 
 // components
-import Menu from '../Menu';
+import VDMenu from '../VDMenu';
 import DatePickerCustomInput from './DatePickerCustomInput.vue';
 import DatePickerOverlay from './DatePickerOverlay.vue';
 import DatePickerAgenda from './DatePickerAgenda.vue';
@@ -276,7 +276,7 @@ export default {
 
       const activator = this.activator;
 
-      return this.$createElement(Menu, {
+      return this.$createElement(VDMenu, {
         attrs: { role: 'menu' },
         props: {
           ...menuProps,

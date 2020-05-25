@@ -11,7 +11,7 @@ import DatePickerPresets from './DatePickerPresets.vue';
 import DatePickerTableDate from './DatePickerTableDate.vue';
 import DatePickerValidate from './DatePickerValidate.vue';
 import DatePickerYearMonth from './DatePickerYearMonth.vue';
-import Icon from '../Icon';
+import VDIcon from '../VDIcon';
 
 // functions
 import Dates, {
@@ -263,7 +263,7 @@ export default {
     },
     genTitle () {
       const title = this.$createElement('p', this.name);
-      const icon = this.$createElement(Icon, {
+      const icon = this.$createElement(VDIcon, {
         on: {
           click: () => this.$emit('close'),
         },

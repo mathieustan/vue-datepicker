@@ -29,7 +29,7 @@ module.exports = {
   ],
   collectCoverage: true,
   collectCoverageFrom: [
-    'src/components/**/*.{vue}',
+    'src/components/**/*.{vue|js}',
     'src/utils/*.js',
     'src/mixins/*.js',
     // exclude node_modules
@@ -38,6 +38,7 @@ module.exports = {
     '!src/App.vue',
     // exclude the examples component
     '!src/examples/**',
+    '!src/**/index.js',
   ],
   coverageDirectory: '<rootDir>/tests/coverage/',
   coverageThreshold: {
