@@ -15,9 +15,8 @@ import { Z_INDEX_LIST, KEYCODES, DATE_HEADER_REGEX } from '../../constants';
 
 // helpers
 import { generateRandomId, validateAttachTarget } from '../../utils/helpers';
-import { getDefaultLang, getLocale } from '../../utils/lang';
+import { getLocale } from '../../utils/lang';
 import {
-  setLocaleLang,
   getDefaultInputFormat,
   getDefaultHeaderFormat,
   getDefaultOutputFormat,
@@ -60,10 +59,7 @@ export default {
     // Show/hide datepicker
     visible: { type: Boolean, default: false },
     // Sets the locale.
-    locale: {
-      type: Object,
-      default: () => ({ lang: getDefaultLang() }),
-    },
+    locale: { type: Object, default: () => ({ lang: undefined }) },
     placeholder: { type: String, default: 'YYYY-MM-DD' },
     // Applies specified color to the control
     color: { type: String, default: '#4f88ff' },
@@ -113,6 +109,10 @@ export default {
         'datepicker__wrapper--rtl': this.rtl,
       };
     },
+    currentLocale () {
+      const { lang } = this.locale;
+      return { ...this.locale, lang: getLocale(lang) };
+    },
     // use a computed to have a dynamicId for each instance
     componentId () {
       return this.id || `datepicker_${generateRandomId()}`;
@@ -130,7 +130,7 @@ export default {
       return getDefaultOutputFormat(this.range ? 'range' : this.type);
     },
     textsFormat () {
-      const { buttonValidate, buttonCancel, rangeHeaderText } = getLocale(this.locale.lang);
+      const { buttonValidate, buttonCancel, rangeHeaderText } = this.currentLocale.lang;
       return {
         buttonValidate: this.buttonValidate || buttonValidate,
         buttonCancel: this.buttonCancel || buttonCancel,
@@ -139,7 +139,7 @@ export default {
     },
     internalDate: {
       get () {
-        return initDate(this.value, { isRange: this.range, locale: this.locale });
+        return initDate(this.value, { isRange: this.range, locale: this.currentLocale });
       },
       set (date) {
         this.date = date;
@@ -156,8 +156,11 @@ export default {
     computedDate () {
       if (!this.isDateDefined) return;
       if (this.range && this.rangeInputText) {
-        const [startDate, endDate] =
-          getRangeDatesFormatted(this.internalDate, this.locale, this.inputFormat).split(' ~ ');
+        const [startDate, endDate] = getRangeDatesFormatted(
+          this.internalDate,
+          this.currentLocale,
+          this.inputFormat
+        ).split(' ~ ');
         return this.rangeInputText
           .replace(DATE_HEADER_REGEX, `${startDate}`)
           .replace(DATE_HEADER_REGEX, `${endDate}`);
@@ -169,7 +172,11 @@ export default {
       // Exemple => '2019-2' => should be converted to date : 2019-06-01
       const currentMonth = this.internalDate.month();
       const newMonth = this.type === 'quarter' ? convertQuarterToMonth(currentMonth) : currentMonth;
-      return formatDateWithLocale(this.internalDate.set('month', newMonth), this.locale, this.inputFormat);
+      return formatDateWithLocale(
+        this.internalDate.set('month', newMonth),
+        this.currentLocale,
+        this.inputFormat
+      );
     },
     shouldShowBottomSheet () {
       return this.fullscreenMobile &&
@@ -180,12 +187,6 @@ export default {
     visible: {
       handler (isMenuActive) {
         this.isMenuActive = isMenuActive;
-      },
-      immediate: true,
-    },
-    locale: {
-      handler (newLocale) {
-        setLocaleLang(newLocale);
       },
       immediate: true,
     },
@@ -363,7 +364,7 @@ export default {
           rangeHeaderText: this.textsFormat.rangeHeaderText,
           rangePresets: this.rangePresets,
           formatHeader: this.headerFormat,
-          locale: this.locale,
+          locale: this.currentLocale,
           noHeader: this.noHeader,
           activeBottomSheet: this.isBooted && this.isMenuActive && this.shouldShowBottomSheet,
           color: this.color,

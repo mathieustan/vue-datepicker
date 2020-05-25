@@ -24,5 +24,5 @@ function isValidLocale (lang = {}) {
 }
 
 function getLocale (lang) {
-  return isValidLocale(lang) ? lang : locales[lang] || locales.en;
+  return isValidLocale(lang) ? lang : locales[lang] || getLocale(getDefaultLang());
 }

@@ -3,6 +3,9 @@ import mockDate from 'mockdate';
 import * as bodyScrollLockFunctions from 'body-scroll-lock';
 import { mount } from '@vue/test-utils';
 
+// locale
+import { en } from '@/locale';
+
 import DatePickerAgenda from '@/components/DatePicker/DatePickerAgenda.vue';
 
 jest.mock('body-scroll-lock', () => ({
@@ -31,7 +34,7 @@ describe('DatePickerAgenda', () => {
       date = dummyDate,
       minDate,
       maxDate,
-      locale = { lang: 'en' },
+      locale = { lang: en },
       activeBottomSheet = false,
       noHeader = false,
       type = 'date',
@@ -68,7 +71,7 @@ describe('DatePickerAgenda', () => {
   it('Should init data', () => {
     const wrapper = mountComponent();
     expect(wrapper.isVueInstance()).toBeTruthy();
-    expect(wrapper.vm.locale).toEqual({ lang: 'en' });
+    expect(wrapper.vm.locale).toEqual({ lang: en });
     expect(wrapper.vm.color).toEqual('color');
 
     expect(wrapper.vm.currentDate).toEqual({

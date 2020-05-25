@@ -4,7 +4,10 @@ import mockDate from 'mockdate';
 import { shallowMount } from '@vue/test-utils';
 import DatePicker from '@/components/DatePicker/DatePicker.vue';
 
+// Helpers
 import * as helpersFunction from '@/utils/helpers';
+
+// Constants
 import {
   DEFAULT_INPUT_DATE_FORMAT,
   DEFAULT_HEADER_DATE_FORMAT,

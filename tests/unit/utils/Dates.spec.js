@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import mockDate from 'mockdate';
 import 'dayjs/locale/fr';
 
-import { en, fr } from '@/locale';
+import { en, fr, es } from '@/locale';
 
 import {
   DEFAULT_INPUT_DATE_FORMAT,
@@ -11,7 +11,6 @@ import {
 } from '@/constants';
 
 import Dates, {
-  setLocaleLang,
   getWeekDays,
   getDefaultInputFormat,
   getDefaultHeaderFormat,
@@ -34,7 +33,7 @@ import Dates, {
 
 } from '@/utils/Dates';
 
-describe('Transactions: Functions', () => {
+describe('Dates: Functions', () => {
   let todaysDate;
   let dummyDate;
   let newDate;
@@ -43,7 +42,7 @@ describe('Transactions: Functions', () => {
     todaysDate = new Date([2019, 5, 16]);
     mockDate.set(todaysDate);
     dummyDate = dayjs(todaysDate);
-    newDate = new Dates(dummyDate.month(), dummyDate.year(), { lang: 'en' });
+    newDate = new Dates(dummyDate.month(), dummyDate.year(), { lang: en });
   });
 
   afterEach(() => {
@@ -77,7 +76,7 @@ describe('Transactions: Functions', () => {
 
     it('should init Dates class with a date (WITHOUT LOCALE)', () => {
       jest.spyOn(dayjs, 'locale');
-      Object.defineProperty(global, 'navigator', { value: { userLanguage: 'en' }, writable: true });
+      Object.defineProperty(global, 'navigator', { value: { userLanguage: en }, writable: true });
       const dateWithDefaultLocale = new Dates(dummyDate.month(), dummyDate.year());
       expect(dayjs.locale).toHaveBeenCalled();
       expect(dateWithDefaultLocale).toEqual({
@@ -140,41 +139,14 @@ describe('Transactions: Functions', () => {
   });
 
   describe('Functions', () => {
-    describe('setLocaleLang', () => {
-      const cutomLang = {
-        name: 'it',
-        weekdays: 'weekdays',
-        weekdaysShort: 'weekdaysShort',
-        weekStart: 1,
-        months: 'months',
-        monthsShort: 'monthsShort',
-        formats: {},
-        ordinal: n => `${n}º`,
-      };
-
-      it.each([
-        [{ lang: cutomLang }, cutomLang],
-        [{ lang: 'fr' }, fr],
-        [{ lang: 'toto' }, en],
-      ])(
-        'when lang equal %p, should set dayjs locale with %p',
-        (locale, expectedLang) => {
-          jest.spyOn(dayjs, 'locale');
-          setLocaleLang(locale);
-          expect(dayjs.locale).toHaveBeenCalledWith(expectedLang);
-        }
-      );
-    });
-
     describe('getWeekDays', () => {
       it.each([
         [
-          { lang: 'fr', weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] },
+          { lang: fr, weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] },
           ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
         ],
-        [{ lang: 'fr' }, ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']],
-        [{ lang: 'es' }, ['lun.', 'mar.', 'mié.', 'jue.', 'vie.', 'sáb.', 'dom.']],
-        [{ lang: 'toto' }, ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']],
+        [{ lang: fr }, ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']],
+        [{ lang: es }, ['lun.', 'mar.', 'mié.', 'jue.', 'vie.', 'sáb.', 'dom.']],
       ])(
         'when lang equal %p, should return %p',
         (locale, expectedResult) => {
@@ -228,9 +200,8 @@ describe('Transactions: Functions', () => {
 
     describe('formatDateWithLocale', () => {
       it.each([
-        [dayjs(new Date([2019, 5, 16])), { lang: 'en' }, 'MMM', 'May'],
-        [dayjs(new Date([2019, 5, 16])), { lang: 'fr' }, 'MMM', 'Mai'],
-        [dayjs(new Date([2019, 5, 16])), { lang: 'toto' }, 'MMM', 'May'],
+        [dayjs(new Date([2019, 5, 16])), { lang: en }, 'MMM', 'May'],
+        [dayjs(new Date([2019, 5, 16])), { lang: fr }, 'MMM', 'Mai'],
       ])(
         'when currentDate equal %p, local is %p and format equal %p, should return %p',
         (selectedDate, locale, format, expectedResult) => {
@@ -241,9 +212,8 @@ describe('Transactions: Functions', () => {
 
     describe('formatDate', () => {
       it.each([
-        [dayjs(new Date([2019, 5, 16])), { lang: 'en' }, 'May'],
-        [dayjs(new Date([2019, 5, 16])), { lang: 'fr' }, 'Mai'],
-        [dayjs(new Date([2019, 5, 16])), { lang: 'toto' }, 'May'],
+        [dayjs(new Date([2019, 5, 16])), { lang: en }, 'May'],
+        [dayjs(new Date([2019, 5, 16])), { lang: fr }, 'Mai'],
       ])(
         'when date = %p, local is %p, should return %p',
         (selectedDate, locale, expectedResult) => {
@@ -267,10 +237,10 @@ describe('Transactions: Functions', () => {
     describe('getRangeDatesFormatted', () => {
       it.each([
         [undefined, {}, 'YYYY-MM-DD', '__ ~ __'],
-        [{ start: '2019-5-15', end: undefined }, {}, 'YYYY-MM-DD', '2019-05-15 ~ __'],
-        [{ start: undefined, end: '2019-5-15' }, {}, 'YYYY-MM-DD', '__ ~ 2019-05-15'],
-        [{ start: '2019-5-15', end: undefined }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 ~ __'],
-        [{ start: '2019-5-15', end: '2019-5-17' }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 ~ 2019-05-17'],
+        [{ start: '2019-5-15', end: undefined }, { lang: en }, 'YYYY-MM-DD', '2019-05-15 ~ __'],
+        [{ start: undefined, end: '2019-5-15' }, { lang: en }, 'YYYY-MM-DD', '__ ~ 2019-05-15'],
+        [{ start: '2019-5-15', end: undefined }, { lang: en }, 'YYYY-MM-DD', '2019-05-15 ~ __'],
+        [{ start: '2019-5-15', end: '2019-5-17' }, { lang: en }, 'YYYY-MM-DD', '2019-05-15 ~ 2019-05-17'],
       ])(
         'when year = %p, month = %p should return %p when formatted with YYYY-MM',
         (dates, locale, format, expectedResult) => {
@@ -392,17 +362,17 @@ describe('Transactions: Functions', () => {
       it.each([
         [
           { start: null, end: null },
-          { isRange: true, locale: { lang: 'en' } },
+          { isRange: true, locale: { lang: en } },
           { start: undefined, end: undefined },
         ],
         [
           { start: new Date([2019, 5, 16]), end: undefined },
-          { isRange: true, locale: { lang: 'en' } },
+          { isRange: true, locale: { lang: en } },
           { start: dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date), end: undefined },
         ],
         [
           { start: new Date([2019, 5, 16]), end: new Date([2019, 5, 17]) },
-          { isRange: true, locale: { lang: 'en' } },
+          { isRange: true, locale: { lang: en } },
           {
             start: dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date),
             end: dayjs(new Date([2019, 5, 17]), DEFAULT_OUTPUT_DATE_FORMAT.date),
@@ -410,17 +380,17 @@ describe('Transactions: Functions', () => {
         ],
         [
           null,
-          { isRange: false, locale: { lang: 'en' } },
+          { isRange: false, locale: { lang: en } },
           undefined,
         ],
         [
           undefined,
-          { isRange: false, locale: { lang: 'en' } },
+          { isRange: false, locale: { lang: en } },
           undefined,
         ],
         [
           new Date([2019, 5, 16]),
-          { isRange: false, locale: { lang: 'en' } },
+          { isRange: false, locale: { lang: en } },
           dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date),
         ],
       ])(

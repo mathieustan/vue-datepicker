@@ -10,6 +10,9 @@ import Dates from '@/utils/Dates';
 // Tests helpers
 import { touch } from '../../../helpers';
 
+// locale
+import { en } from '@/locale';
+
 console.error = jest.fn();
 
 beforeEach(() => {
@@ -37,7 +40,7 @@ describe('DatePickerTableDate', () => {
           ...props,
           mutableDate,
           currentDate,
-          locale: { lang: 'en' },
+          locale: { lang: en },
         },
         attachToDocument: true,
       });

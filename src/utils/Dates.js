@@ -6,6 +6,7 @@ import AdvancedFormat from 'dayjs/plugin/advancedFormat';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
+// Constants
 import {
   DEFAULT_INPUT_DATE_FORMAT,
   DEFAULT_HEADER_DATE_FORMAT,
@@ -13,7 +14,8 @@ import {
   AVAILABLE_YEARS,
 } from '../constants';
 
-import { getDefaultLang, getLocale } from './lang';
+// Locale
+import { en } from '../locale';
 
 dayjs.extend(weekDay);
 dayjs.extend(weekOfYear);
@@ -23,9 +25,8 @@ dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 
 export default class PickerDate {
-  constructor (month, year, { lang = getDefaultLang() } = {}) {
-    const locale = getLocale(lang);
-    dayjs.locale(locale);
+  constructor (month, year, { lang = en } = {}) {
+    dayjs.locale(lang);
     this.start = dayjs().year(year).month(month).startOf('month');
     this.end = this.start.endOf('month');
     this.month = month;
@@ -62,20 +63,13 @@ export default class PickerDate {
 
 // -----------------------------------------
 // Handle Locale
-// - setLocaleLang : Init lang from arg
 // - getWeekDays : Return week days from lang
 // -----------------------------------------
-export function setLocaleLang ({ lang }) {
-  const locale = getLocale(lang);
-  dayjs.locale(locale);
-}
-
 export function getWeekDays ({ lang, weekDays }) {
-  const locale = getLocale(lang);
-  let weekDaysShort = [...locale.weekdaysShort];
+  let weekDaysShort = [...lang.weekdaysShort];
 
   // If weekStart at 1, should move first index at the end
-  if (locale.weekStart && locale.weekStart === 1) {
+  if (lang.weekStart && lang.weekStart === 1) {
     weekDaysShort.push(weekDaysShort.shift());
   }
 
@@ -105,13 +99,11 @@ export function getDefaultOutputFormat (type = 'date') {
 }
 
 export function formatDateWithLocale (date, { lang }, format) {
-  const locale = getLocale(lang);
-  return dayjs(date).locale(locale).format(format);
+  return dayjs(date).locale(lang).format(format);
 }
 
 export function formatDate (date, { lang }) {
-  const locale = getLocale(lang);
-  return dayjs(date).locale(locale);
+  return dayjs(date).locale(lang);
 }
 
 export function formatDateWithYearAndMonth (year, month) {
@@ -119,24 +111,22 @@ export function formatDateWithYearAndMonth (year, month) {
 }
 
 export function getRangeDatesFormatted ({ start, end } = {}, { lang }, format) {
-  const locale = getLocale(lang);
-
   if (!start && !end) {
     return `__ ~ __`;
   }
 
   if (!start && end) {
-    return `__ ~ ${dayjs(end).locale(locale).startOf('day').format(format)}`;
+    return `__ ~ ${dayjs(end).locale(lang).startOf('day').format(format)}`;
   }
 
   if (start && !end) {
-    return `${dayjs(start).locale(locale).startOf('day').format(format)} ~ __`;
+    return `${dayjs(start).locale(lang).startOf('day').format(format)} ~ __`;
   }
 
   return `\
-${dayjs(start).locale(locale).startOf('day').format(format)} \
+${dayjs(start).locale(lang).startOf('day').format(format)} \
 ~ \
-${dayjs(end).locale(locale).startOf('day').format(format)}`;
+${dayjs(end).locale(lang).startOf('day').format(format)}`;
 }
 
 export function formatDateToSend (date, format, range) {
