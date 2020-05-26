@@ -10,6 +10,7 @@ import path from 'path';
 import postcss from 'rollup-plugin-postcss';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
+import visualizer from 'rollup-plugin-visualizer';
 import vue from 'rollup-plugin-vue';
 
 const RESOLVE_FIELDS = ['main', 'browser', 'jsnext'];
@@ -79,6 +80,7 @@ const plugins = [
   sizeSnapshot(),
   buble(), // convert ES2015+
   terser(), // minifiy
+  visualizer(),
 ];
 
 export default {
