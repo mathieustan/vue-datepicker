@@ -1,0 +1,95 @@
+@import   '../../../styles/abstracts/_index.scss',
+          '../../../styles/base/_transitions.scss';
+
+.vd-picker,
+.vd-picker *,
+.vd-picker ::before,
+.vd-picker ::after {
+  box-sizing: border-box;
+}
+
+.vd-picker {
+  display: flex;
+  flex-direction: column;
+  width: get-size(mobile, width);
+  background-color: white;
+  border-radius: get-border-radius(2);
+  box-shadow: 0 2px 8px rgba(50, 50, 93, 0.2);
+
+  &:focus,
+  &:active {
+    outline: 0;
+  }
+
+  @include mq(tablet) {
+    width: get-size(desktop, width);
+  }
+
+  &--bottomsheet {
+    @include mq($to: phone) {
+      width: 100%;
+
+      .vd-header {
+        border-radius: 0;
+      }
+    }
+  }
+
+  /* Title
+  ---------------------- */
+  &__title {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: get-size(mobile, title);
+    padding: 0 0 0 $gutter*3;
+    border-radius: get-border-radius(4) get-border-radius(4) 0 0;
+
+    .vd-picker--rtl & {
+      direction: rtl;
+      padding: 0 $gutter*3 0 0;
+    }
+
+    @include mq(phone) {
+      display: none;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    &-close {
+      position: relative;
+      display: flex;
+      align-items: center;
+      flex: 0 0 40px;
+      height: get-size(mobile, controls);
+      width: get-size(mobile, controls);
+      padding: 0 $gutter*2 0 $gutter;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      user-select: none;
+
+      @include mq(tablet) {
+        height: get-size(desktop, controls);
+        width: get-size(desktop, controls);
+      }
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  /* Body
+  ---------------------- */
+  &__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+  }
+}

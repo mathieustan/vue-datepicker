@@ -1,0 +1,242 @@
+@import   '../../../styles/abstracts/_index.scss',
+          '../../../styles/base/_transitions.scss';
+
+.vd-picker__table {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  padding: $gutter $gutter*2;
+
+  /* Week
+  ---------------------- */
+  &-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 12px;
+    margin-bottom: $gutter;
+    font-size: 12px;
+    line-height: 12px;
+    font-weight: get-font-weight(medium);
+    color: transparentize(black, .62);
+
+    .vd-picker--rtl & {
+      direction: rtl;
+    }
+  }
+
+  &-weekday {
+    text-align: center;
+  }
+
+  /* Days
+  ---------------------- */
+  &-days__wrapper {
+    position: relative;
+    height: get-size(mobile, day-height) * 5;
+    overflow: hidden;
+    transition: height .3s cubic-bezier(0.23, 1, 0.32, 1);
+
+    @include mq(tablet) {
+      height: get-size(desktop, day-height) * 5;
+    }
+
+    &.has-6-weeks {
+      height: get-size(mobile, day-height) * 6;
+
+      @include mq(tablet) {
+        height: get-size(desktop, day-height) * 6;
+      }
+    }
+  }
+
+  &-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: get-size(mobile, day-height);
+    overflow: hidden;
+    width: 100%;
+
+    @include mq(tablet) {
+      grid-template-rows: get-size(desktop, day-height);
+    }
+
+    .vd-picker--rtl & {
+      direction: rtl;
+    }
+  }
+
+  /* Day
+  ---------------------- */
+  &-day {
+    @extend %reset-button;
+    position: relative;
+    width: 100%;
+    height: get-size(mobile, day-height);
+    line-height: 1;
+    font-size: 12px;
+    float: left;
+    text-align: center;
+    color: transparentize(black, .13);
+    font-weight: get-font-weight(medium);
+    transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);
+    overflow: hidden;
+
+    @include mq(tablet) {
+      width: 100%;
+      height: get-size(desktop, day-height);
+    }
+
+    &:hover:not(.disabled) {
+      color: white;
+
+      .vd-picker__table-day-effect {
+        transform: translateX(-50%) scale(1);
+        opacity: .5;
+      }
+    }
+
+    &.in-range:not(.disabled),
+    &.between:not(.disabled) {
+      color: white;
+
+      .vd-picker__table-day-effect {
+        transform: translateX(-50%);
+        left: 0;
+        width: calc(100% + 1px); // 1 extra pixel to fix weird spaces;
+        border-radius: 0;
+        opacity: .5;
+
+        &:before {
+          opacity: 1;
+          left: 50%;
+        }
+      }
+    }
+
+    &.selected {
+      color: white;
+
+      &:hover:not(.disabled) {
+        .vd-picker__table-day-effect {
+          opacity: 1;
+        }
+      }
+
+      .vd-picker__table-day-effect {
+        transform: translateX(-50%);
+        opacity: 1;
+      }
+    }
+
+    &.first,
+    &.select-start:hover:not(.selected) {
+      .vd-picker__table-day-effect {
+        opacity: 1;
+
+        &:before {
+          opacity: .5;
+          left: 50%;
+
+          .vd-picker--rtl & {
+            left: -50%;
+          }
+        }
+      }
+    }
+
+    &.last,
+    &.select-end:hover:not(.selected) {
+      .vd-picker__table-day-effect {
+        opacity: 1;
+
+        &:before {
+          opacity: .5;
+          left: -50%;
+
+          .vd-picker--rtl & {
+            left: 50%;
+          }
+        }
+      }
+    }
+
+    &.first.last {
+      .vd-picker__table-day-effect {
+        &:before {
+          opacity: 0;
+        }
+      }
+    }
+
+    &.disabled {
+      cursor: default;
+      color: rgba(0,0,0,0.26);
+
+      &:hover {
+        .vd-picker__table-day-effect,
+        .vd-picker__table-day-effect:before {
+          opacity: 0 !important;
+        }
+      }
+    }
+
+    &--current {
+      position: absolute;
+      top: 1px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: #{get-size(mobile, day-height) - 2};
+      height: #{get-size(mobile, day-height) - 2};
+      border-radius: 50%;
+      border: 1px solid currentColor;
+
+      @include mq(tablet) {
+        top: 2px;
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    &-effect {
+      position: absolute;
+      top: 1px;
+      left: 50%;
+      width: #{get-size(mobile, day-height) - 2};
+      height: #{get-size(mobile, day-height) - 2};
+      border-radius: 50%;
+      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);
+      transition-property: transform, opacity;
+      transform: translateX(-50%) scale(0);
+
+      @include mq(tablet) {
+        top: 2px;
+        width: 36px;
+        height: 36px;
+      }
+
+      .vd-picker--range & {
+        &:before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: inherit;
+          opacity: 0;
+        }
+      }
+
+      .vd-picker--range-selecting & {
+        transform: translateX(-50%) scale(0);
+        opacity: 0;
+        transition: none;
+      }
+    }
+
+    &-text {
+      position: relative;
+    }
+  }
+}
