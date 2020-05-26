@@ -32,6 +32,7 @@ yarn add @mathieustan/vue-datepicker
 
 ```javascript
 import { VueDatePicker } from '@mathieustan/vue-datepicker';
+import '@mathieustan/vue-datepicker/dist/vue-datepicker.min.css';
 
 export default {
   // ...
@@ -46,6 +47,7 @@ or
 
 ```javascript
 import VueDatePicker from '@mathieustan/vue-datepicker';
+import '@mathieustan/vue-datepicker/dist/vue-datepicker.min.css';
 
 Vue.use(VueDatePicker);
 ```
