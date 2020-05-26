@@ -1,14 +1,16 @@
-<script>
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
+
+// Styles
+import './DatePicker.scss';
 
 // directives
 import ClickOutside from '../../directives/click-outside';
 
 // components
 import VDMenu from '../VDMenu';
-import DatePickerCustomInput from './DatePickerCustomInput.vue';
-import DatePickerOverlay from './DatePickerOverlay.vue';
-import DatePickerAgenda from './DatePickerAgenda.vue';
+import DatePickerCustomInput from './DatePickerCustomInput';
+import DatePickerOverlay from './DatePickerOverlay';
+import DatePickerAgenda from './DatePickerAgenda';
 
 // constants
 import { Z_INDEX_LIST, KEYCODES, DATE_HEADER_REGEX } from '../../constants';
@@ -386,59 +388,8 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'datepicker__wrapper',
+      staticClass: 'vd-wrapper',
       class: this.classes,
     }, this.genContent());
   },
 };
-</script>
-
-<style lang="scss" scoped>
-  @import   '../../styles/abstracts/_index.scss';
-
-  .datepicker__wrapper,
-  .datepicker__wrapper *,
-  .datepicker__wrapper ::before,
-  .datepicker__wrapper ::after {
-    box-sizing: border-box;
-  }
-
-  .datepicker__wrapper {
-    position: relative;
-    display: flex;
-    flex: 1 1 auto;
-    align-items: center;
-    max-width: 100%;
-    cursor: default;
-
-    &:not(.datepicker__wrapper--inline) {
-      cursor: pointer;
-    }
-
-    &:focus,
-    &:active {
-      outline: 0;
-    }
-
-    &--inline {
-      width: get-size(mobile, width);
-      box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),
-        0px 2px 2px 0px rgba(0,0,0,0.14),
-        0px 1px 5px 0px rgba(0,0,0,0.12);
-
-      @include mq(tablet) {
-        width: get-size(desktop, width);
-      }
-    }
-
-    &--disabled {
-      pointer-events: none;
-    }
-  }
-
-  .datepicker__activator {
-    display: flex;
-    flex: 1 1 auto;
-    max-width: 100%;
-  }
-</style>

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
-import DatePickerYearMonth from '@/components/DatePicker/DatePickerYearMonth.vue';
+import DatePickerYearMonth from '@/components/DatePicker/DatePickerYearMonth';
 
 import Dates from '@/utils/Dates';
 import * as utilsFunction from '@/utils/positions';
@@ -138,12 +138,12 @@ describe('DatePickerYearMonth', () => {
       expect(utilsFunction.computeYearsScrollPosition).not.toHaveBeenCalled();
     });
 
-    it('should scroll to active yeart if mode is year', async () => {
+    it('should scroll to active year if mode is year', async () => {
       const wrapper = mountComponent({ active: true, mode: 'month' });
       utilsFunction.computeYearsScrollPosition.mockClear();
       wrapper.setProps({ mode: 'year' });
 
-      const containerToScroll = wrapper.element.querySelector('.vd-selects__years-wrapper');
+      const containerToScroll = wrapper.element.querySelector('.vd-picker__selects-years__wrapper');
       Object.defineProperties(containerToScroll, {
         scrollTop: { get: () => 100, set: () => 100 },
       }, { writable: true });
@@ -249,7 +249,7 @@ describe('DatePickerYearMonth', () => {
   describe('behaviour', () => {
     it('Year : should call onSelect on button click', () => {
       const wrapper = mountComponent({ mode: 'year' });
-      const yearButton = wrapper.find('.vd-selects__years-list > button');
+      const yearButton = wrapper.find('.vd-picker__selects-years__list > button');
       jest.spyOn(wrapper.vm, 'onSelect');
 
       yearButton.trigger('click');
@@ -258,7 +258,7 @@ describe('DatePickerYearMonth', () => {
 
     it('Month : should call onSelect on button click', () => {
       const wrapper = mountComponent({ mode: 'month' });
-      const yearButton = wrapper.find('.vd-selects__months > button');
+      const yearButton = wrapper.find('.vd-picker__selects-months > button');
       jest.spyOn(wrapper.vm, 'onSelect');
 
       yearButton.trigger('click');

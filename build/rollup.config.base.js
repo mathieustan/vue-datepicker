@@ -30,7 +30,7 @@ const plugins = [
   // -------------------------------------------
   // Lint files
   // -------------------------------------------
-  eslint({ exclude: ['**/*.scss'] }),
+  eslint({ exclude: ['**/*.(scss|css)'] }),
   // -------------------------------------------
   // Allow node builtins
   // -------------------------------------------
@@ -62,8 +62,12 @@ const plugins = [
   // 2. vue => Like vue-loader for webpack
   // 3. replace => Allows to set package.json version in bundle
   // -------------------------------------------
-  postcss({ extract: false, use: ['sass'] }),
-  vue({ template: { isProduction: true } }),
+  postcss({
+    use: ['sass'],
+    extract: 'vue-datepicker.min.css',
+    minimize: true,
+  }),
+  vue({ css: false, template: { isProduction: true } }),
   replace({
     'process.env.NODE_ENV': JSON.stringify('production'),
     VERSION: JSON.stringify(version),

@@ -1,19 +1,21 @@
-<script>
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
-// mixins
+// Styles
+import './DatePickerAgenda.scss';
+
+// Mixins
 import colorable from '../../mixins/colorable';
 
-// components
-import DatePickerControls from './DatePickerControls.vue';
-import DatePickerHeader from './DatePickerHeader.vue';
-import DatePickerPresets from './DatePickerPresets.vue';
-import DatePickerTableDate from './DatePickerTableDate.vue';
-import DatePickerValidate from './DatePickerValidate.vue';
-import DatePickerYearMonth from './DatePickerYearMonth.vue';
+// Components
+import DatePickerControls from './DatePickerControls';
+import DatePickerHeader from './DatePickerHeader';
+import DatePickerPresets from './DatePickerPresets';
+import DatePickerTableDate from './DatePickerTableDate';
+import DatePickerValidate from './DatePickerValidate';
+import DatePickerYearMonth from './DatePickerYearMonth';
 import VDIcon from '../VDIcon';
 
-// functions
+// Functions
 import Dates, {
   formatDateWithYearAndMonth,
   isBeforeDate,
@@ -25,7 +27,7 @@ import Dates, {
 } from '../../utils/Dates';
 import { computeAgendaHeight } from '../../utils/positions';
 
-// constants
+// Constants
 import { yearMonthSelectorTypes } from '../../constants';
 
 export default {
@@ -72,12 +74,12 @@ export default {
     },
     classes () {
       return {
-        'datepicker--rtl': this.rtl,
-        'datepicker--bottomsheet': this.activeBottomSheet,
-        'datepicker--no-header': this.noHeader,
-        'datepicker--validate': this.validate,
-        'datepicker--range': this.range,
-        'datepicker--range-selecting': this.range && !this.isRangeSelected,
+        'vd-picker--rtl': this.rtl,
+        'vd-picker--bottomsheet': this.activeBottomSheet,
+        'vd-picker--no-header': this.noHeader,
+        'vd-picker--validate': this.validate,
+        'vd-picker--range': this.range,
+        'vd-picker--range-selecting': this.range && !this.isRangeSelected,
       };
     },
     isRangeSelected () {
@@ -271,11 +273,11 @@ export default {
       }, ['close']);
 
       return this.$createElement('div', {
-        staticClass: 'datepicker__title',
+        staticClass: 'vd-picker__title',
       }, [
         title,
         this.$createElement('div', {
-          staticClass: 'datepicker__title-close',
+          staticClass: 'vd-picker__title-close',
         }, [icon]),
       ]);
     },
@@ -321,7 +323,7 @@ export default {
       ];
 
       return this.$createElement('div', {
-        staticClass: 'datepicker__body',
+        staticClass: 'vd-picker__body',
         ref: 'body',
       }, children);
     },
@@ -401,109 +403,10 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'datepicker',
+      staticClass: 'vd-picker',
       class: this.classes,
       style: this.styles,
       ref: 'datepicker',
     }, this.genContent());
   },
 };
-</script>
-
-<style lang="scss" scoped>
-  @import   '../../styles/abstracts/_index.scss',
-            '../../styles/base/_transitions.scss';
-
-  .datepicker,
-  .datepicker *,
-  .datepicker ::before,
-  .datepicker ::after {
-    box-sizing: border-box;
-  }
-
-  .datepicker {
-    display: flex;
-    flex-direction: column;
-    width: get-size(mobile, width);
-    background-color: white;
-    border-radius: get-border-radius(2);
-    box-shadow: 0 2px 8px rgba(50, 50, 93, 0.2);
-
-    &:focus,
-    &:active {
-      outline: 0;
-    }
-
-    @include mq(tablet) {
-      width: get-size(desktop, width);
-    }
-
-    &--bottomsheet {
-      @include mq($to: phone) {
-        width: 100%;
-
-        .datepicker-header {
-          border-radius: 0;
-        }
-      }
-    }
-
-    /* Title
-    ---------------------- */
-    &__title {
-      position: relative;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      min-height: get-size(mobile, title);
-      padding: 0 0 0 $gutter*3;
-      border-radius: get-border-radius(4) get-border-radius(4) 0 0;
-
-      .datepicker--rtl & {
-        direction: rtl;
-        padding: 0 $gutter*3 0 0;
-      }
-
-      @include mq(phone) {
-        display: none;
-      }
-
-      p {
-        margin: 0;
-      }
-
-      &-close {
-        position: relative;
-        display: flex;
-        align-items: center;
-        flex: 0 0 40px;
-        height: get-size(mobile, controls);
-        width: get-size(mobile, controls);
-        padding: 0 $gutter*2 0 $gutter;
-        border: none;
-        outline: none;
-        background-color: transparent;
-        user-select: none;
-
-        @include mq(tablet) {
-          height: get-size(desktop, controls);
-          width: get-size(desktop, controls);
-        }
-
-        svg {
-          width: 24px;
-          height: 24px;
-        }
-      }
-    }
-
-    /* Body
-    ---------------------- */
-    &__body {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 auto;
-    }
-  }
-</style>

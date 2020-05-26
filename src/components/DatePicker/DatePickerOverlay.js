@@ -1,5 +1,7 @@
-<script>
-// mixins
+// Styles
+import './DatePickerOverlay.scss';
+
+// Mixins
 import detachable from '../../mixins/detachable';
 import toggleable from '../../mixins/toggleable';
 
@@ -33,7 +35,7 @@ export default {
     },
     genContent () {
       return this.$createElement('div', {
-        staticClass: 'datepicker__overlay',
+        staticClass: 'vd-picker__overlay',
         style: this.styles,
         ref: 'content',
         on: {
@@ -46,33 +48,3 @@ export default {
     return this.isActive && this.genTransition();
   },
 };
-</script>
-
-<style lang="scss" scoped>
-  @import   '../../styles/abstracts/_index.scss';
-
-  .datepicker__overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: transparentize(black, .5);
-
-    @include mq(phone) {
-      display: none;
-    }
-  }
-
-  .overlay-transition {
-    &-enter-active,
-    &-leave-active {
-      opacity: 1;
-      transition: opacity 300ms;
-    }
-    &-leave-to,
-    &-enter{
-      opacity: 0;
-    }
-  }
-</style>

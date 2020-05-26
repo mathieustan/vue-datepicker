@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
-import DatePickerPresets from '@/components/DatePicker/DatePickerPresets.vue';
+import DatePickerPresets from '@/components/DatePicker/DatePickerPresets';
 
 describe('DatePickerPresets', () => {
   let mountComponent;
@@ -137,7 +137,7 @@ describe('DatePickerPresets', () => {
       const wrapper = mountComponent({
         rangePresets: [{ name: 'month', dates: { start: '2018-01-01', end: '2018-01-31' } }],
       });
-      const preset = wrapper.find('.datepicker-preset');
+      const preset = wrapper.find('.vd-picker__preset');
       preset.trigger('click');
 
       expect(wrapper.emitted().updateRange).toBeTruthy();

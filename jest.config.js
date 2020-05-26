@@ -29,7 +29,7 @@ module.exports = {
   ],
   collectCoverage: true,
   collectCoverageFrom: [
-    'src/components/**/*.{vue|js}',
+    'src/components/**/*.js',
     'src/utils/*.js',
     'src/mixins/*.js',
     // exclude node_modules
@@ -48,7 +48,7 @@ module.exports = {
       lines: 90,
       statements: 90,
     },
-    './src/**/*.vue': {
+    './src/**/*.js': {
       statements: 90,
     },
   },

@@ -1,5 +1,7 @@
-<script>
-// mixins
+// Styles
+import './DatePickerValidate.scss';
+
+// Mixins
 import colorable from '../../mixins/colorable';
 
 export default {
@@ -25,7 +27,7 @@ export default {
     // ------------------------------
     genButtonCancel () {
       return this.$createElement('button', {
-        staticClass: 'datepicker-validate__button datepicker-validate__button-cancel',
+        staticClass: 'vd-picker__validate-button vd-picker__validate-button__cancel',
         attrs: {
           type: 'button',
         },
@@ -39,7 +41,7 @@ export default {
     },
     genButtonValidate () {
       return this.$createElement('button', this.setTextColor(this.color, {
-        staticClass: 'datepicker-validate__button datepicker-validate__button-validate',
+        staticClass: 'vd-picker__validate-button vd-picker__validate-button__validate',
         attrs: {
           type: 'button',
           disabled: this.isDisabledValidation,
@@ -54,12 +56,12 @@ export default {
     },
     genButtonEffect () {
       return this.$createElement('div', this.setBackgroundColor(this.color, {
-        staticClass: 'datepicker-validate__effect',
+        staticClass: 'vd-picker__validate-effect',
       }));
     },
     genButtonText (text) {
       return this.$createElement('div', {
-        staticClass: 'datepicker-validate__name',
+        staticClass: 'vd-picker__validate-name',
         domProps: {
           innerHTML: text,
         },
@@ -68,77 +70,10 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'datepicker-validate',
+      staticClass: 'vd-picker__validate',
     }, [
       this.genButtonCancel(),
       this.genButtonValidate(),
     ]);
   },
 };
-</script>
-
-<style lang="scss" scoped>
-  @import '../../styles/abstracts/_index.scss';
-
-  .datepicker-validate {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0 $gutter*3 $gutter $gutter*3;
-
-    @include mq(tablet) {
-      padding: $gutter $gutter*2;
-    }
-
-    .datepicker--rtl & {
-      direction: rtl;
-    }
-
-    &__button {
-      @extend %reset-button;
-      position: relative;
-      display: inline-flex;
-      flex: 0 0 auto;
-      align-items: center;
-      justify-content: center;
-      height: 36px;
-      min-width: 44px;
-      font-size: 14px;
-      font-weight: 500;
-      border-radius: get-border-radius(1);
-      padding: 6px 8px;
-      outline: 0;
-      text-transform: uppercase;
-      text-decoration: none;
-      overflow: hidden;
-
-      & + & {
-        margin-left: $gutter;
-      }
-
-      &:hover:not(:disabled) {
-        .datepicker-validate__effect {
-          opacity: .1;
-        }
-      }
-
-      &:disabled,
-      &[disabled] {
-        color: rgba(0, 0, 0, 0.26) !important;
-        cursor: default;
-      }
-    }
-
-    &__effect {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      opacity: 0;
-      transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1);
-      z-index: -1;
-    }
-  }
-</style>

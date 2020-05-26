@@ -56,7 +56,10 @@ const detachable = {
             node.elm.parentNode.removeChild(node.elm);
         });
       }
-    } catch (error) { console.error(error); }
+    } catch (error) {
+      /* istanbul ignore next */
+      console.error(error);
+    }
   },
   methods: {
     initDetach () {

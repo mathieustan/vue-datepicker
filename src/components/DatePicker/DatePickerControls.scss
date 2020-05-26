@@ -1,0 +1,118 @@
+@import   '../../styles/abstracts/_index.scss',
+  '../../styles/base/_transitions.scss';
+
+.vd-picker__controls {
+  position: relative;
+  display: flex;
+  height: get-size(mobile, controls);
+  text-align: center;
+  position: relative;
+  width: 100%;
+
+  @include mq(tablet) {
+    height: get-size(desktop, controls);
+  }
+
+  &-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+  }
+
+  &-month,
+  &-year {
+    position: relative;
+    display: flex;
+    flex: 1;
+    align-items: center;
+  }
+
+  &-month {
+    justify-content: flex-end;
+  }
+
+  &-year {
+    justify-content: flex-start;
+
+    &.vd-picker__controls-year--center {
+      justify-content: center;
+    }
+  }
+
+  &-label {
+    padding: $gutter $gutter/2;
+
+    button {
+      @extend %reset-button;
+      position: relative;
+      display: flex;
+      font-size: 15px;
+      font-weight: get-font-weight(medium);
+      line-height: 15px;
+      padding: 0;
+      border: none;
+      outline: none;
+      transition: color 300ms;
+
+      &:not(:hover):not(:focus) {
+        color: rgba(0,0,0,.87);
+      }
+
+      &:disabled,
+      &[disabled] {
+        cursor: default;
+        color: rgba(0,0,0,0.26);
+      }
+    }
+  }
+
+  button.vd-picker__controls-prev,
+  button.vd-picker__controls-next {
+    position: relative;
+    flex: 0 0 40px;
+    height: get-size(mobile, controls);
+    width: get-size(mobile, controls);
+    padding: 0 0 0 $gutter*3;
+    border: none;
+    outline: none;
+    color: rgba(0, 0, 0, 0.87);
+    background-color: transparent;
+    user-select: none;
+    cursor: pointer;
+
+    @include mq(tablet) {
+      padding: 0 $gutter 0 $gutter;
+      height: get-size(desktop, controls);
+      width: get-size(desktop, controls);
+    }
+
+    &:disabled,
+    &[disabled] {
+      svg {
+        color: rgba(0,0,0,0.26);
+      }
+      cursor: default;
+    }
+
+    .vd-picker--rtl & {
+      transform: rotate(180deg);
+    }
+  }
+
+  button.vd-picker__controls-next {
+    padding: 0 $gutter*3 0 0;
+
+    @include mq(tablet) {
+      padding: 0 $gutter 0 $gutter;
+    }
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+  }
+}

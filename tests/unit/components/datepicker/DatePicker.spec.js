@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import * as bodyScrollLockFunctions from 'body-scroll-lock';
 import mockDate from 'mockdate';
 import { shallowMount } from '@vue/test-utils';
-import DatePicker from '@/components/DatePicker/DatePicker.vue';
+import DatePicker from '@/components/DatePicker/DatePicker';
 
 // Helpers
 import * as helpersFunction from '@/utils/helpers';

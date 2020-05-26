@@ -1,4 +1,6 @@
-<script>
+// Styles
+import './DatePickerCustomInput.scss';
+
 // mixins
 import colorable from '../../mixins/colorable';
 
@@ -30,9 +32,9 @@ export default {
   computed: {
     classes () {
       return {
-        'datepicker__input--disabled': this.disabled,
-        'datepicker__input--is-active': this.isMenuActive,
-        'datepicker__input--no-date': !this.isDateDefined,
+        'vd-picker__input--disabled': this.disabled,
+        'vd-picker__input--is-active': this.isMenuActive,
+        'vd-picker__input--no-date': !this.isDateDefined,
       };
     },
     computedColor () {
@@ -81,7 +83,7 @@ export default {
     },
     genCalendarIcon () {
       return this.$createElement(VDIcon, {
-        staticClass: 'datepicker__input-icon',
+        staticClass: 'vd-picker__input-icon',
         props: {
           disabled: this.disabled,
         },
@@ -112,7 +114,7 @@ export default {
       };
 
       return this.$createElement('div', {
-        staticClass: `datepicker__input-wrapper`,
+        staticClass: `vd-picker__input-wrapper`,
       }, [
         this.$createElement('input', data),
       ]);
@@ -139,13 +141,13 @@ export default {
       };
 
       const iconElement = this.$createElement('div', {
-        staticClass: 'datepicker__input-clear__icon',
+        staticClass: 'vd-picker__input-clear__icon',
       }, [
         this.$createElement(VDIcon, data, iconName),
       ]);
 
       return this.$createElement('div', {
-        staticClass: `datepicker__input-clear`,
+        staticClass: `vd-picker__input-clear`,
       }, [iconElement]);
     },
     genButton () {
@@ -166,7 +168,7 @@ export default {
   },
   render (h) {
     return h('div', this.setTextColor(this.computedColor, {
-      staticClass: 'datepicker__input',
+      staticClass: 'vd-picker__input',
       class: this.classes,
       directives: [{
         name: 'click-outside',
@@ -181,108 +183,3 @@ export default {
     }), this.genContent());
   },
 };
-</script>
-
-<style lang="scss" scoped>
-  @import   '../../styles/abstracts/_index.scss';
-
-  .datepicker__input {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100%;
-    color: currentColor;
-
-    &--disabled {
-      cursor: not-allowed;
-      pointer-events: none;
-
-      input {
-        opacity: .38;
-      }
-    }
-
-    &--no-date:not(.datepicker__input--is-active) {
-      opacity: .6;
-    }
-
-    .datepicker__wrapper--rtl & {
-      direction: rtl;
-      input[type="text"],
-      button {
-        margin: 0 $gutter 0 0;
-      }
-    }
-
-    &--no-calendar-icon,
-    .datepicker__wrapper--rtl &--no-calendar-icon {
-      input[type="text"],
-      button {
-        margin: 0;
-      }
-    }
-
-    &-icon {
-      margin-bottom: 5px;
-    }
-
-    &-wrapper {
-      display: flex;
-      flex: 1 1 auto;
-      position: relative;
-
-      input {
-      display: flex;
-      flex: 1 1 auto;
-      position: relative;
-      border: none;
-      box-shadow: none;
-      outline: 0;
-      font-size: 16px;
-      line-height: 19px;
-      margin-left: $gutter;
-      font-family: inherit;
-      background: transparent;
-      color: currentColor;
-      cursor: inherit;
-
-      &:focus,
-      &:active {
-        outline: 0;
-        box-shadow: none;
-      }
-
-      @include input-placeholder {
-        opacity: .6;
-      }
-    }
-    }
-
-    &-clear {
-      display: inline-flex;
-      align-self: flex-start;
-      line-height: 1;
-      user-select: none;
-
-      &__icon {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        height: 24px;
-        min-width: 24px;
-        width: 24px;
-        flex: 1 0 auto;
-      }
-    }
-
-    button {
-      @extend %reset-button;
-      font-size: 16px;
-      line-height: 19px;
-      margin-left: $gutter;
-      color: currentColor;
-    }
-  }
-</style>

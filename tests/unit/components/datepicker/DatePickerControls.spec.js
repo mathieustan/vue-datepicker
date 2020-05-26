@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
-import DatePickerControls from '@/components/DatePicker/DatePickerControls.vue';
+import DatePickerControls from '@/components/DatePicker/DatePickerControls';
 
 import Dates from '@/utils/Dates';
 
@@ -135,17 +135,17 @@ describe('DatePickerControls', () => {
     it('should emit changeVisibleDate when click on prev/next button', () => {
       const wrapper = mountComponent();
 
-      wrapper.find('.datepicker__controls-prev').trigger('click');
+      wrapper.find('.vd-picker__controls-prev').trigger('click');
       expect(wrapper.emitted().changeVisibleDate[0]).toEqual(['prev']);
 
-      wrapper.find('.datepicker__controls-next').trigger('click');
+      wrapper.find('.vd-picker__controls-next').trigger('click');
       expect(wrapper.emitted().changeVisibleDate[1]).toEqual(['next']);
     });
 
     it('should emit showYearMonthSelector when click on month/year selector', () => {
       const wrapper = mountComponent();
 
-      wrapper.find('.datepicker__controls-label > button').trigger('click');
+      wrapper.find('.vd-picker__controls-label > button').trigger('click');
       expect(wrapper.emitted().showYearMonthSelector[0]).toEqual(['month']);
     });
   });

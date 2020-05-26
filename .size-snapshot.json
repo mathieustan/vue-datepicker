@@ -1,26 +1,26 @@
 {
   "dist/vue-datepicker.min.js": {
-    "bundled": 232601,
-    "minified": 144820,
-    "gzipped": 27631
+    "bundled": 134421,
+    "minified": 75625,
+    "gzipped": 19753
   },
   "dist/vue-datepicker.esm.js": {
-    "bundled": 232604,
-    "minified": 154872,
-    "gzipped": 29634,
+    "bundled": 134398,
+    "minified": 81653,
+    "gzipped": 20802,
     "treeshaked": {
       "rollup": {
-        "code": 144638,
+        "code": 75445,
         "import_statements": 144
       },
       "webpack": {
-        "code": 145815
+        "code": 76622
       }
     }
   },
   "dist/vue-datepicker.umd.js": {
-    "bundled": 243975,
-    "minified": 145117,
-    "gzipped": 27755
+    "bundled": 143257,
+    "minified": 75922,
+    "gzipped": 19874
   }
 }

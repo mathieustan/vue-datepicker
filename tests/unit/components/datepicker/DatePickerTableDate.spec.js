@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import mockDate from 'mockdate';
 import { mount } from '@vue/test-utils';
 
-import DatePickerTableDate from '@/components/DatePicker/DatePickerTableDate.vue';
+import DatePickerTableDate from '@/components/DatePicker/DatePickerTableDate';
 
 // Functions
 import Dates from '@/utils/Dates';
@@ -325,7 +325,7 @@ describe('DatePickerTableDate', () => {
         });
         wrapper.vm.handleMouseMove({
           target: {
-            className: 'datepicker__table-days',
+            className: 'vd-picker__table-days',
             tagName: 'DIV',
           },
         });
@@ -341,7 +341,7 @@ describe('DatePickerTableDate', () => {
         });
         wrapper.vm.handleMouseMove({
           target: {
-            className: 'datepicker__table-day-effect',
+            className: 'vd-picker__table-day-effect',
             tagName: 'SPAN',
             parentNode: {
               dataset: { date: '2019-5-16' },
@@ -360,7 +360,7 @@ describe('DatePickerTableDate', () => {
         });
         wrapper.vm.handleMouseMove({
           target: {
-            className: 'datepicker__table-day',
+            className: 'vd-picker__table-day',
             tagName: 'BUTTON',
             dataset: { date: '2019-5-16' },
           },
@@ -378,7 +378,7 @@ describe('DatePickerTableDate', () => {
         });
         wrapper.vm.handleMouseMove({
           target: {
-            className: 'datepicker__table-day',
+            className: 'vd-picker__table-day',
             tagName: 'BUTTON',
             dataset: { date: '2019-5-10' },
           },
@@ -388,7 +388,7 @@ describe('DatePickerTableDate', () => {
 
         wrapper.vm.handleMouseMove({
           target: {
-            className: 'datepicker__table-day',
+            className: 'vd-picker__table-day',
             tagName: 'BUTTON',
             dataset: { date: '2019-5-16' },
           },
@@ -406,7 +406,7 @@ describe('DatePickerTableDate', () => {
         });
         wrapper.vm.handleMouseMove({
           target: {
-            className: 'datepicker__table-day',
+            className: 'vd-picker__table-day',
             tagName: 'BUTTON',
             dataset: { date: '2019-5-10' },
           },
@@ -424,7 +424,7 @@ describe('DatePickerTableDate', () => {
     it('should call select date when click on a day', () => {
       const wrapper = mountComponent();
 
-      const day = wrapper.findAll('.datepicker__table-day').at(10);
+      const day = wrapper.findAll('.vd-picker__table-day').at(10);
       day.trigger('click');
 
       expect(wrapper.emitted().selectDate).toBeTruthy();
@@ -435,7 +435,7 @@ describe('DatePickerTableDate', () => {
         const wrapper = mountComponent();
         expect(wrapper.vm.currentDate.month).toBe(4);
 
-        const table = wrapper.findAll('.datepicker__table').at(0);
+        const table = wrapper.findAll('.vd-picker__table').at(0);
         touch(table).start(0, 0).end(20, 0);
         expect(wrapper.emitted().changeMonth[0]).toEqual(['prev']);
 
@@ -447,7 +447,7 @@ describe('DatePickerTableDate', () => {
         const wrapper = mountComponent({ props: { rtl: true } });
         expect(wrapper.vm.currentDate.month).toBe(4);
 
-        const table = wrapper.findAll('.datepicker__table').at(0);
+        const table = wrapper.findAll('.vd-picker__table').at(0);
         touch(table).start(0, 0).end(20, 0);
         expect(wrapper.emitted().changeMonth[0]).toEqual(['next']);
 

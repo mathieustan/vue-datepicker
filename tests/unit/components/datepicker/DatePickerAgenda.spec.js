@@ -6,7 +6,7 @@ import { mount } from '@vue/test-utils';
 // locale
 import { en } from '@/locale';
 
-import DatePickerAgenda from '@/components/DatePicker/DatePickerAgenda.vue';
+import DatePickerAgenda from '@/components/DatePicker/DatePickerAgenda';
 
 jest.mock('body-scroll-lock', () => ({
   disableBodyScroll: jest.fn(),
@@ -98,12 +98,12 @@ describe('DatePickerAgenda', () => {
         [
           { fullscreenMobile: true, inline: false, activeBottomSheet: true, noHeader: true, validate: true },
           {
-            'datepicker--rtl': false,
-            'datepicker--bottomsheet': true,
-            'datepicker--no-header': true,
-            'datepicker--validate': true,
-            'datepicker--range': false,
-            'datepicker--range-selecting': false,
+            'vd-picker--rtl': false,
+            'vd-picker--bottomsheet': true,
+            'vd-picker--no-header': true,
+            'vd-picker--validate': true,
+            'vd-picker--range': false,
+            'vd-picker--range-selecting': false,
           },
         ],
         [
@@ -116,12 +116,12 @@ describe('DatePickerAgenda', () => {
             date: { start: dayjs('2018-01-01'), end: dayjs('2018-02-01') },
           },
           {
-            'datepicker--rtl': true,
-            'datepicker--bottomsheet': false,
-            'datepicker--no-header': false,
-            'datepicker--validate': false,
-            'datepicker--range': true,
-            'datepicker--range-selecting': false,
+            'vd-picker--rtl': true,
+            'vd-picker--bottomsheet': false,
+            'vd-picker--no-header': false,
+            'vd-picker--validate': false,
+            'vd-picker--range': true,
+            'vd-picker--range-selecting': false,
           },
         ],
       ])('when props = %p, should return %p', (props, expectedResult) => {
@@ -198,7 +198,7 @@ describe('DatePickerAgenda', () => {
         const wrapper = mountComponent({ activeBottomSheet: true });
         wrapper.setData({ innerWidth: 400 });
         await wrapper.vm.$nextTick();
-        const datepickerContent = document.querySelector('.datepicker__body');
+        const datepickerContent = document.querySelector('.vd-picker__body');
         expect(bodyScrollLockFunctions.disableBodyScroll).toHaveBeenCalledWith(datepickerContent);
       });
 
@@ -214,7 +214,7 @@ describe('DatePickerAgenda', () => {
       let wrapper, datepickerContent, datepickerYearMonth;
       beforeEach(() => {
         wrapper = mountComponent({ activeBottomSheet: true });
-        datepickerContent = document.querySelector('.datepicker__body');
+        datepickerContent = document.querySelector('.vd-picker__body');
         datepickerYearMonth = document.querySelector('.datepicker-year-month');
       });
 
@@ -597,7 +597,7 @@ describe('DatePickerAgenda', () => {
   describe('behaviour', () => {
     it('should emit close when click on a close button', () => {
       const wrapper = mountComponent({ activeBottomSheet: true });
-      const icon = wrapper.find('.datepicker__title-close > .vd-icon');
+      const icon = wrapper.find('.vd-picker__title-close > .vd-icon');
       icon.trigger('click');
 
       expect(wrapper.emitted().close).toBeTruthy();
@@ -605,7 +605,7 @@ describe('DatePickerAgenda', () => {
 
     it('should emit cancel when click on cancel button', () => {
       const wrapper = mountComponent({ validate: true });
-      const button = wrapper.find('.datepicker-validate__button-cancel');
+      const button = wrapper.find('.vd-picker__validate-button__cancel');
       button.trigger('click');
 
       expect(wrapper.emitted().close).toBeTruthy();
@@ -613,7 +613,7 @@ describe('DatePickerAgenda', () => {
 
     it('should emit validate when click on validate button', () => {
       const wrapper = mountComponent({ validate: true });
-      const button = wrapper.find('.datepicker-validate__button-validate');
+      const button = wrapper.find('.vd-picker__validate-button__validate');
       button.trigger('click');
 
       expect(wrapper.emitted().validateDate).toBeTruthy();

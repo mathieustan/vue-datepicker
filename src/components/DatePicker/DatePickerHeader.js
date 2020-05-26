@@ -1,11 +1,13 @@
-<script>
-// mixins
+// Styles
+import './DatePickerHeader.scss';
+
+// Mixins
 import colorable from '../../mixins/colorable';
 
-// functions
+// Functions
 import { formatDateWithLocale, getRangeDatesFormatted } from '../../utils/Dates';
 
-// constants
+// Constants
 import { DATE_HEADER_REGEX } from '../../constants';
 
 export default {
@@ -25,8 +27,8 @@ export default {
   computed: {
     classes () {
       return {
-        'datepicker-header--range': this.range,
-        [`datepicker-header--${this.type}`]: this.type,
+        'vd-picker__header--range': this.range,
+        [`vd-picker__header--${this.type}`]: this.type,
       };
     },
     year () {
@@ -57,16 +59,16 @@ export default {
     // ------------------------------
     genYear () {
       const children = this.$createElement('span', {
-        staticClass: 'datepicker-header__year-button',
+        staticClass: 'vd-picker__header-year__button',
         on: {
           click: () => this.$emit('showYearMonthSelector', 'year'),
         },
       }, [this.year]);
 
       const data = {
-        staticClass: 'datepicker-header__year',
+        staticClass: 'vd-picker__header-year',
         class: {
-          'datepicker-header__year--active': this.mode === 'year',
+          'vd-picker__header-year--active': this.mode === 'year',
         },
       };
 
@@ -80,7 +82,7 @@ export default {
       });
 
       return this.$createElement('div', {
-        staticClass: 'datepicker-header__wrap',
+        staticClass: 'vd-picker__header-wrap',
       }, [transitionGroup]);
     },
     genRangeDate () {
@@ -94,7 +96,7 @@ export default {
       });
 
       return this.$createElement('div', {
-        staticClass: 'datepicker-header__wrap',
+        staticClass: 'vd-picker__header-wrap',
       }, [
         transitionGroupStart,
         transitionGroupEnd,
@@ -102,7 +104,7 @@ export default {
     },
     genTransitionGroup ({ date, isActive, onClick }) {
       const children = (date) => this.$createElement('span', {
-        staticClass: 'datepicker-header__wrap-button',
+        staticClass: 'vd-picker__header-wrap__button',
         key: date,
         on: {
           ...(onClick && { click: onClick }),
@@ -110,8 +112,8 @@ export default {
       }, [date]);
 
       return this.$createElement('transition-group', {
-        staticClass: 'datepicker-header__date',
-        class: { 'datepicker-header__date--active': isActive },
+        staticClass: 'vd-picker__header-date',
+        class: { 'vd-picker__header-date--active': isActive },
         props: {
           name: this.transitionName,
           tag: 'div',
@@ -121,7 +123,7 @@ export default {
   },
   render (h) {
     return h('div', this.setBackgroundColor(this.color, {
-      staticClass: 'datepicker-header',
+      staticClass: 'vd-picker__header',
       class: this.classes,
     }), [
       !this.range && this.genYear(),
@@ -130,112 +132,3 @@ export default {
     ]);
   },
 };
-</script>
-
-<style lang="scss" scoped>
-  @import   '../../styles/abstracts/_index.scss',
-            '../../styles/base/_transitions.scss';
-
-  .datepicker-header {
-    color: white;
-    padding: ($gutter*2);
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    flex-wrap: wrap;
-    line-height: 1;
-    min-height: get-size(mobile, header);
-    max-height: get-size(mobile, header);
-    border-radius: get-border-radius(2) get-border-radius(2) 0 0;
-
-    .datepicker--rtl & {
-      direction: rtl;
-    }
-
-    @include mq(tablet) {
-      min-height: get-size(desktop, header);
-      max-height: get-size(desktop, header);
-    }
-
-    &--range {
-      .datepicker-header__wrap {
-        flex: 1 1 auto;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      .datepicker-header__date {
-        font-size: 18px;
-        height: calc(18px + #{$gutter});
-
-        @include mq(tablet) {
-          font-size: 22px;
-          height: calc(22px + #{$gutter});
-        }
-      }
-    }
-
-    &--year {
-      .datepicker-header__year {
-        flex: 1 1 auto;
-        font-size: 22px;
-        height: calc(22px + #{$gutter});
-      }
-    }
-
-    &__year {
-      align-items: center;
-      display: inline-flex;
-      font-size: 14px;
-      margin-bottom: $gutter;
-      opacity: 0.6;
-      transition: opacity .3s;
-
-      &:hover:not(&--active),
-      &:focus:not(&--active) {
-        cursor: pointer;
-        opacity: 1;
-      }
-
-      &--active {
-        opacity: 1;
-        cursor: default;
-      }
-    }
-
-    &__wrap {
-      position: relative;
-      display: flex;
-      width: 100%;
-    }
-
-    &__date {
-      position: relative;
-      display: flex;
-      width: 100%;
-      font-size: 22px;
-      height: calc(22px + #{$gutter});
-      text-align: left;
-      overflow: hidden;
-      padding-bottom: $gutter;
-      margin-bottom: -#{$gutter};
-      opacity: 0.6;
-      transition: opacity .3s;
-
-      &:hover:not(&--active),
-      &:focus:not(&--active) {
-        cursor: pointer;
-        opacity: 1;
-      }
-
-      &--active {
-        opacity: 1;
-        cursor: default;
-      }
-
-      @include mq(tablet) {
-        font-size: 24px;
-        height: calc(24px + #{$gutter});
-      }
-    }
-  }
-</style>

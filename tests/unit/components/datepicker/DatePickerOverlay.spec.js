@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import DatePickerOverlay from '@/components/DatePicker/DatePickerOverlay.vue';
+import DatePickerOverlay from '@/components/DatePicker/DatePickerOverlay';
 
 console.error = jest.fn();
 

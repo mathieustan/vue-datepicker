@@ -1,0 +1,105 @@
+@import   '../../styles/abstracts/_index.scss',
+  '../../styles/base/_transitions.scss';
+
+.vd-picker__header {
+  color: white;
+  padding: ($gutter*2);
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  flex-wrap: wrap;
+  line-height: 1;
+  min-height: get-size(mobile, header);
+  max-height: get-size(mobile, header);
+  border-radius: get-border-radius(2) get-border-radius(2) 0 0;
+
+  .vd-picker--rtl & {
+    direction: rtl;
+  }
+
+  @include mq(tablet) {
+    min-height: get-size(desktop, header);
+    max-height: get-size(desktop, header);
+  }
+
+  &--range {
+    .vd-picker__header-wrap {
+      flex: 1 1 auto;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .vd-picker__header-date {
+      font-size: 18px;
+      height: calc(18px + #{$gutter});
+
+      @include mq(tablet) {
+        font-size: 22px;
+        height: calc(22px + #{$gutter});
+      }
+    }
+  }
+
+  &--year {
+    .vd-picker__header-year {
+      flex: 1 1 auto;
+      font-size: 22px;
+      height: calc(22px + #{$gutter});
+    }
+  }
+
+  &-year {
+    align-items: center;
+    display: inline-flex;
+    font-size: 14px;
+    margin-bottom: $gutter;
+    opacity: 0.6;
+    transition: opacity .3s;
+
+    &:hover:not(&--active),
+    &:focus:not(&--active) {
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    &--active {
+      opacity: 1;
+      cursor: default;
+    }
+  }
+
+  &-wrap {
+    position: relative;
+    display: flex;
+    width: 100%;
+  }
+
+  &-date {
+    position: relative;
+    display: flex;
+    width: 100%;
+    font-size: 22px;
+    height: calc(22px + #{$gutter});
+    text-align: left;
+    overflow: hidden;
+    padding-bottom: $gutter;
+    margin-bottom: -#{$gutter};
+    opacity: 0.6;
+    transition: opacity .3s;
+
+    &:hover:not(&--active),
+    &:focus:not(&--active) {
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    &--active {
+      opacity: 1;
+      cursor: default;
+    }
+
+    @include mq(tablet) {
+      font-size: 24px;
+      height: calc(24px + #{$gutter});
+    }
+  }
+}

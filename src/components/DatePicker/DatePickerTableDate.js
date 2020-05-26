@@ -1,11 +1,13 @@
-<script>
-// directives
+// Styles
+import './DatePickerTableDate.scss';
+
+// Directives
 import Touch from '../../directives/touch';
 
-// mixins
+// Mixins
 import colorable from '../../mixins/colorable';
 
-// functions
+// Functions
 import {
   getWeekDays,
   isBeforeDate,
@@ -123,7 +125,7 @@ export default {
       let target = event.target;
 
       // Should handle mouse move only on those classes
-      const CLASSES = ['datepicker__table-day', 'datepicker__table-day-effect'];
+      const CLASSES = ['vd-picker__table-day', 'vd-picker__table-day-effect'];
       if (
         typeof target.className === 'string' &&
         !CLASSES.includes(target.className.split(' ')[0])
@@ -137,6 +139,7 @@ export default {
       // Don't do anything if we are on the same day
       const isADate = target.dataset.date;
       const isCurrentHoveredDay = target.dataset.date === this.rangeCurrentHoveredDay;
+      /* istanbul ignore next */
       if (!isADate || isCurrentHoveredDay) return;
 
       this.rangeCurrentHoveredDay = target.dataset.date;
@@ -156,16 +159,16 @@ export default {
         domProps: {
           innerHTML: day,
         },
-        staticClass: 'datepicker__table-weekday',
+        staticClass: 'vd-picker__table-weekday',
       });
 
       return this.$createElement('div', {
-        staticClass: 'datepicker__table-week',
+        staticClass: 'vd-picker__table-week',
       }, this.weekDays.map(weekDay));
     },
     genDaysWrapper () {
       return this.$createElement('transition-group', {
-        staticClass: 'datepicker__table-days__wrapper',
+        staticClass: 'vd-picker__table-days__wrapper',
         class: this.classWeeks,
         props: {
           name: this.transitionName,
@@ -175,12 +178,12 @@ export default {
     },
     genDays (dates) {
       const blankDay = (day) => this.$createElement('div', {
-        staticClass: 'datepicker__table-day',
+        staticClass: 'vd-picker__table-day',
         key: `space-${day}`,
       });
 
       return this.$createElement('div', {
-        staticClass: 'datepicker__table-days',
+        staticClass: 'vd-picker__table-days',
         key: dates.month,
       }, [
         // Generate blank days
@@ -190,20 +193,20 @@ export default {
       ]);
     },
     genDay (day, key) {
-      const current = this.$createElement('span', { staticClass: 'datepicker__table-day--current' });
+      const current = this.$createElement('span', { staticClass: 'vd-picker__table-day--current' });
       const effect = this.$createElement('span', this.setBackgroundColor(this.color, {
-        staticClass: 'datepicker__table-day-effect',
+        staticClass: 'vd-picker__table-day-effect',
       }));
       const text = this.$createElement('span', {
         domProps: {
           innerHTML: day.format('D'),
         },
-        staticClass: 'datepicker__table-day-text',
+        staticClass: 'vd-picker__table-day-text',
       });
 
       return this.$createElement('button', {
         key,
-        staticClass: 'datepicker__table-day',
+        staticClass: 'vd-picker__table-day',
         class: {
           'selected': this.isSelected(day) && !this.isDisabled(day),
           'between': this.range && this.isBetween(day),
@@ -231,7 +234,7 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'datepicker__table',
+      staticClass: 'vd-picker__table',
       directives: [{
         name: 'touch',
         value: {
@@ -246,250 +249,3 @@ export default {
     }, this.genContent());
   },
 };
-</script>
-
-<style lang="scss" scoped>
-  @import   '../../styles/abstracts/_index.scss',
-            '../../styles/base/_transitions.scss';
-
-  .datepicker__table {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
-    padding: $gutter $gutter*2;
-
-    /* Week
-    ---------------------- */
-    &-week {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      grid-template-rows: 12px;
-      margin-bottom: $gutter;
-      font-size: 12px;
-      line-height: 12px;
-      font-weight: get-font-weight(medium);
-      color: transparentize(black, .62);
-
-      .datepicker--rtl & {
-        direction: rtl;
-      }
-    }
-
-    &-weekday {
-      text-align: center;
-    }
-
-    /* Days
-    ---------------------- */
-    &-days__wrapper {
-      position: relative;
-      height: get-size(mobile, day-height) * 5;
-      overflow: hidden;
-      transition: height .3s cubic-bezier(0.23, 1, 0.32, 1);
-
-      @include mq(tablet) {
-        height: get-size(desktop, day-height) * 5;
-      }
-
-      &.has-6-weeks {
-        height: get-size(mobile, day-height) * 6;
-
-        @include mq(tablet) {
-          height: get-size(desktop, day-height) * 6;
-        }
-      }
-    }
-
-    &-days {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      grid-template-rows: get-size(mobile, day-height);
-      overflow: hidden;
-      width: 100%;
-
-      @include mq(tablet) {
-        grid-template-rows: get-size(desktop, day-height);
-      }
-
-      .datepicker--rtl & {
-        direction: rtl;
-      }
-    }
-
-    /* Day
-    ---------------------- */
-    &-day {
-      @extend %reset-button;
-      position: relative;
-      width: 100%;
-      height: get-size(mobile, day-height);
-      line-height: 1;
-      font-size: 12px;
-      float: left;
-      text-align: center;
-      color: transparentize(black, .13);
-      font-weight: get-font-weight(medium);
-      transition: color 450ms cubic-bezier(0.23, 1, 0.32, 1);
-      overflow: hidden;
-
-      @include mq(tablet) {
-        width: 100%;
-        height: get-size(desktop, day-height);
-      }
-
-      &:hover:not(.disabled) {
-        color: white;
-
-        .datepicker__table-day-effect {
-          transform: translateX(-50%) scale(1);
-          opacity: .5;
-        }
-      }
-
-      &.in-range:not(.disabled),
-      &.between:not(.disabled) {
-        color: white;
-
-        .datepicker__table-day-effect {
-          transform: translateX(-50%);
-          left: 0;
-          width: calc(100% + 1px); // 1 extra pixel to fix weird spaces;
-          border-radius: 0;
-          opacity: .5;
-
-          &:before {
-            opacity: 1;
-            left: 50%;
-          }
-        }
-      }
-
-      &.selected {
-        color: white;
-
-        &:hover:not(.disabled) {
-          .datepicker__table-day-effect {
-            opacity: 1;
-          }
-        }
-
-        .datepicker__table-day-effect {
-          transform: translateX(-50%);
-          opacity: 1;
-        }
-      }
-
-      &.first,
-      &.select-start:hover:not(.selected) {
-        .datepicker__table-day-effect {
-          opacity: 1;
-
-          &:before {
-            opacity: .5;
-            left: 50%;
-
-            .datepicker--rtl & {
-              left: -50%;
-            }
-          }
-        }
-      }
-
-      &.last,
-      &.select-end:hover:not(.selected) {
-        .datepicker__table-day-effect {
-          opacity: 1;
-
-          &:before {
-            opacity: .5;
-            left: -50%;
-
-            .datepicker--rtl & {
-              left: 50%;
-            }
-          }
-        }
-      }
-
-      &.first.last {
-        .datepicker__table-day-effect {
-          &:before {
-            opacity: 0;
-          }
-        }
-      }
-
-      &.disabled {
-        cursor: default;
-        color: rgba(0,0,0,0.26);
-
-        &:hover {
-          .datepicker__table-day-effect,
-          .datepicker__table-day-effect:before {
-            opacity: 0 !important;
-          }
-        }
-      }
-
-      &--current {
-        position: absolute;
-        top: 1px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: #{get-size(mobile, day-height) - 2};
-        height: #{get-size(mobile, day-height) - 2};
-        border-radius: 50%;
-        border: 1px solid currentColor;
-
-        @include mq(tablet) {
-          top: 2px;
-          width: 36px;
-          height: 36px;
-        }
-      }
-
-      &-effect {
-        position: absolute;
-        top: 1px;
-        left: 50%;
-        width: #{get-size(mobile, day-height) - 2};
-        height: #{get-size(mobile, day-height) - 2};
-        border-radius: 50%;
-        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);
-        transition-property: transform, opacity;
-        transform: translateX(-50%) scale(0);
-
-        @include mq(tablet) {
-          top: 2px;
-          width: 36px;
-          height: 36px;
-        }
-
-        .datepicker--range & {
-          &:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: inherit;
-            opacity: 0;
-          }
-        }
-
-        .datepicker--range-selecting & {
-          transform: translateX(-50%) scale(0);
-          opacity: 0;
-          transition: none;
-        }
-      }
-
-      &-text {
-        position: relative;
-      }
-    }
-  }
-</style>
-

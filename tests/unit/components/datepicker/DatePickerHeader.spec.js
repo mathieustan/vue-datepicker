@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { mount } from '@vue/test-utils';
-import DatePickerHeader from '@/components/DatePicker/DatePickerHeader.vue';
+import DatePickerHeader from '@/components/DatePicker/DatePickerHeader';
 
 describe('DatePickerHeader', () => {
   let mountComponent;
@@ -47,13 +47,13 @@ describe('DatePickerHeader', () => {
         [
           { range: true, mutableDate: {} },
           {
-            'datepicker-header--range': true,
+            'vd-picker__header--range': true,
           },
         ],
         [
           { range: false },
           {
-            'datepicker-header--range': false,
+            'vd-picker__header--range': false,
           },
         ],
       ])('when props = %p, should return %p', (props, expectedResult) => {
@@ -94,7 +94,7 @@ describe('DatePickerHeader', () => {
   describe('behaviour', () => {
     it('should emit showYearMonthSelector when click on year', () => {
       const wrapper = mountComponent();
-      const year = wrapper.find('.datepicker-header__year-button');
+      const year = wrapper.find('.vd-picker__header-year__button');
       year.trigger('click');
 
       expect(wrapper.emitted().showYearMonthSelector).toBeTruthy();
@@ -102,7 +102,7 @@ describe('DatePickerHeader', () => {
 
     it('should emit hideYearMonthSelector when click on date', () => {
       const wrapper = mountComponent();
-      const date = wrapper.find('.datepicker-header__wrap-button');
+      const date = wrapper.find('.vd-picker__header-wrap__button');
       date.trigger('click');
 
       expect(wrapper.emitted().hideYearMonthSelector).toBeTruthy();

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { mount } from '@vue/test-utils';
-import DatePickerCustomInput from '@/components/DatePicker/DatePickerCustomInput.vue';
+import DatePickerCustomInput from '@/components/DatePicker/DatePickerCustomInput';
 
 jest.useFakeTimers();
 
@@ -113,7 +113,7 @@ describe('DatePickerCustomInput', () => {
         clearable: true,
       } });
 
-      const clearIcon = wrapper.find('.datepicker__input-clear__icon button');
+      const clearIcon = wrapper.find('.vd-picker__input-clear__icon button');
       clearIcon.trigger('mouseup');
       expect(wrapper.emitted().clearDate).toBeFalsy();
 
@@ -128,7 +128,7 @@ describe('DatePickerCustomInput', () => {
         clearable: true,
       } });
 
-      const clearIconSvg = wrapper.find('.datepicker__input-clear__icon svg');
+      const clearIconSvg = wrapper.find('.vd-picker__input-clear__icon svg');
       expect(clearIconSvg.attributes('data-icon')).toEqual('');
     });
 
