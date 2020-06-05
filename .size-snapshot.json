@@ -2,7 +2,7 @@
   "dist/vue-datepicker.min.js": {
     "bundled": 134312,
     "minified": 75562,
-    "gzipped": 19744
+    "gzipped": 19745
   },
   "dist/vue-datepicker.esm.js": {
     "bundled": 134289,
@@ -21,6 +21,6 @@
   "dist/vue-datepicker.umd.js": {
     "bundled": 143148,
     "minified": 75859,
-    "gzipped": 19865
+    "gzipped": 19866
   }
 }
