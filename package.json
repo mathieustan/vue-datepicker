@@ -19,6 +19,7 @@
   "license": "MIT",
   "files": [
     "dist/*.js",
+    "dist/*.css",
     "src/*"
   ],
   "main": "dist/vue-datepicker.umd.js",
