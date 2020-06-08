@@ -33,7 +33,7 @@
 // Used in _mixins.scss [@mixin font-weight] --------------------------
 // --------------------------------------------------------------------
 @function get-font-weight($elem) {
-	@return map-get($font__weight, $elem);
+  @return map-get($font__weight, $elem);
 }
 
 // --------------------------------------------------------------------
@@ -41,14 +41,14 @@
 // Usage: color(primary, 1) --------------------------------------------
 // --------------------------------------------------------------------
 @function color($elem, $variant) {
-	@return map-get(map-get($color, $elem), $variant);
+  @return map-get(map-get($color, $elem), $variant);
 }
 
 // --------------------------------------------------------------------
 // Retrieve Border Radius ---------------------------------------------
 // --------------------------------------------------------------------
 @function get-border-radius($elem) {
-	@return map-get($border__radius, $elem);
+  @return map-get($border__radius, $elem);
 }
 
 // --------------------------------------------------------------------
@@ -61,5 +61,12 @@
 
 @function breakpoint-infix($name, $breakpoints: $screen__sizes) {
   @return if(breakpoint-min($name, $breakpoints) == null, "", "-#{$name}");
+}
+
+// --------------------------------------------------------------------
+// Animation ---------------------------------------------------------
+// --------------------------------------------------------------------
+@function get-easing($elem) {
+  @return map-get($easing, $elem);
 }
 

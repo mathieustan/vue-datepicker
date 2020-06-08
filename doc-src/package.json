@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "lodash.throttle": "^4.1.1",
     "prismjs": "^1.19.0",
     "vue": "^2.6.10",
-    "vue-prism-component": "^1.1.1"
+    "vue-prism-component": "^1.1.1",
+    "vue-scrollto": "^2.18.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.7.0",

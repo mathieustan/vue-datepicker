@@ -1,5 +1,6 @@
 <template>
-  <div
+  <section
+    :id="id"
     :style="style"
     class="wrapper"
   >
@@ -54,7 +55,7 @@
     </div>
 
     <slot />
-  </div>
+  </section>
 </template>
 
 <script>
@@ -64,6 +65,7 @@ export default {
   name: 'Wrapper',
   components: { CodeWrapper },
   props: {
+    id: { type: String },
     filename: { type: [Object, String], default: undefined },
   },
   data: () => ({
@@ -151,6 +153,7 @@ export default {
   @import '../styles/abstracts/_index.scss';
 
   .wrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
     border: 1px solid color(other, light-gray);

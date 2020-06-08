@@ -70,10 +70,6 @@ export default {
     padding: $gutter*2;
     z-index: 999;
 
-    @include mq('md') {
-      height: 100px;
-    }
-
     h1 {
       display: flex;
       align-items: center;
