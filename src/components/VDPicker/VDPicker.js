@@ -36,6 +36,11 @@ export const defaultMenuProps = {
 
 export default {
   name: 'VDPicker.js',
+  provide () {
+    return {
+      VDPicker: this,
+    };
+  },
   directives: { ClickOutside },
   props: {
     id: { type: String, default: undefined },

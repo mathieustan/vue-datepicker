@@ -162,6 +162,13 @@ export default {
         description: 'Using range picker in RTL mode',
         filename: 'rangeRtl',
       },
+      // -- Slots
+      daySlot: {
+        title: '# Custom day slot',
+        description: `Allows to change day appaearance,
+          but you can also use tooltip or anything else if needed`,
+        filename: 'daySlot',
+      },
       // -- Events
       events: {
         title: '# Events',

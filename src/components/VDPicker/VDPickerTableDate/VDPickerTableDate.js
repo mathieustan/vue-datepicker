@@ -16,8 +16,12 @@ import {
   isDateToday,
 } from '../../../utils/Dates';
 
+// Helpers
+import { getSlot } from '../../../utils/helpers';
+
 export default {
   name: 'VDPickerTableDate',
+  inject: ['VDPicker'],
   directives: { Touch },
   mixins: [colorable],
   props: {
@@ -52,6 +56,9 @@ export default {
         return `has-6-weeks`;
       }
       return `has-5-weeks`;
+    },
+    scopedSlotDay () {
+      return getSlot(this.VDPicker, 'day');
     },
   },
   watch: {
@@ -192,43 +199,97 @@ export default {
         this.currentDate.getDays().map(this.genDay),
       ]);
     },
-    genDay (day, key) {
-      const current = this.$createElement('span', { staticClass: 'vd-picker__table-day--current' });
-      const effect = this.$createElement('span', this.setBackgroundColor(this.color, {
-        staticClass: 'vd-picker__table-day-effect',
-      }));
-      const text = this.$createElement('span', {
-        domProps: {
-          innerHTML: day.format('D'),
-        },
-        staticClass: 'vd-picker__table-day-text',
-      });
+    getDayHelpers (day) {
+      const formattedDay = day.format('D');
+      const isCurrent = this.isToday(day);
+      const isSelected = this.isSelected(day) && !this.isDisabled(day);
+      const isBetween = this.range && this.isBetween(day);
+      const isInRange = this.range && this.isInRange(day);
+      const isFirstRangeDay = this.range && this.firstInRange(day);
+      const isLastRangeDay = this.range && this.lastInRange(day) && Boolean(this.mutableDate.end);
+      const isFirstSelectedDay = this.range && !this.mutableDate.start;
+      const isLastSelectedDay = this.range && this.mutableDate.start && !this.mutableDate.end;
+      const isDisabled = this.isDisabled(day);
 
-      return this.$createElement('button', {
+      return {
+        classes: {
+          'vd-picker__table-day--selected': isSelected,
+          'vd-picker__table-day--between': isBetween,
+          'vd-picker__table-day--in-range': isInRange,
+          'vd-picker__table-day--first': isFirstRangeDay,
+          'vd-picker__table-day--last': isLastRangeDay,
+          'vd-picker__table-day--select-start': isFirstSelectedDay,
+          'vd-picker__table-day--select-end': isLastSelectedDay,
+          'vd-picker__table-day--disabled': isDisabled,
+        },
+        formattedDay,
+        isCurrent,
+        isSelected,
+        isBetween,
+        isInRange,
+        isFirstRangeDay,
+        isLastRangeDay,
+        isFirstSelectedDay,
+        isLastSelectedDay,
+        isDisabled,
+      };
+    },
+    genDay (day, key) {
+      const { classes, ...helpers } = this.getDayHelpers(day);
+      // -------------------------------------
+      // -- Generate 3 divs
+      // 1- Current day effect (bordered circle)
+      // 2- Selected day effect  (filled circle)
+      // 3- Day number in text
+      // -------------------------------------
+      const current = this.$createElement('div', { staticClass: 'vd-picker__table-day__current' });
+      const effect = this.$createElement('div', { staticClass: 'vd-picker__table-day__effect' });
+      const text = this.$createElement('span', { staticClass: 'vd-picker__table-day__text' }, [helpers.formattedDay]);
+      // -------------------------------------
+      // -- Generate data
+      // -------------------------------------
+      const dayData = {
         key,
         staticClass: 'vd-picker__table-day',
-        class: {
-          'selected': this.isSelected(day) && !this.isDisabled(day),
-          'between': this.range && this.isBetween(day),
-          'in-range': this.range && this.isInRange(day),
-          'first': this.range && this.firstInRange(day),
-          'last': this.range && this.lastInRange(day) && Boolean(this.mutableDate.end),
-          'select-start': this.range && !this.mutableDate.start,
-          'select-end': this.range && this.mutableDate.start && !this.mutableDate.end,
-          'disabled': this.isDisabled(day),
-        },
+        class: classes,
         attrs: {
           type: 'button',
-          disabled: this.isDisabled(day),
+          disabled: helpers.isDisabled,
           'data-date': day.format('YYYY-MM-DD'),
         },
         on: {
           click: () => this.onDayClick(day),
         },
-      }, [
-        this.isToday(day) && current,
-        effect,
-        text,
+      };
+      // -------------------------------------
+      // -- If there is not scopedSlots date
+      // => Show default date style
+      // -------------------------------------
+      if (!this.scopedSlotDay) {
+        const wrapper = this.$createElement('div', {
+          staticClass: 'vd-picker__table-day__wrapper',
+        }, [
+          this.isToday(day) && current,
+          effect,
+          text,
+        ]);
+        return this.$createElement('button', this.setTextColor(this.color, dayData), [wrapper]);
+      }
+      // -------------------------------------
+      // -- Else show day scoped slot
+      // -------------------------------------
+      const scopedSlot = this.VDPicker.$scopedSlots.day({
+        day: helpers.formattedDay,
+        ...helpers,
+        attrs: {
+          ...dayData.attrs,
+          ...dayData.props,
+        },
+        on: dayData.on,
+      });
+
+      return this.$createElement('button', dayData, [
+        scopedSlot,
       ]);
     },
   },

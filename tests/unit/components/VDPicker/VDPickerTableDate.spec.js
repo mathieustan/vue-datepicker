@@ -27,15 +27,22 @@ describe('VDPickerTableDate', () => {
   let mountComponent;
   const dummyDate = dayjs('2019-5-16');
   const dummyDateRange = { start: dummyDate, end: undefined };
+  const defaultVDPickerProvider = { $scopedSlots: {}, $slots: {} };
 
   beforeEach(() => {
-    mountComponent = ({ props = {} } = {}) => {
+    mountComponent = ({
+      props = {},
+      provide = {
+        VDPicker: defaultVDPickerProvider,
+      },
+    } = {}) => {
       const dummyDates = props.range ? dummyDateRange : dummyDate;
       const mutableDate = props.mutableDate || dummyDates;
       const newDate = props.range ? (mutableDate.end || mutableDate.start) : mutableDate;
       const currentDate = new Dates(newDate.month(), newDate.year(), { lang: 'en' });
 
       return mount(VDPickerTableDate, {
+        provide,
         propsData: {
           ...props,
           mutableDate,
@@ -454,6 +461,22 @@ describe('VDPickerTableDate', () => {
         touch(table).start(0, 0).end(-20, 0);
         expect(wrapper.emitted().changeMonth[1]).toEqual(['prev']);
       });
+    });
+
+    it('should mount scoped slot for date', () => {
+      const wrapper = mountComponent({
+        provide: {
+          VDPicker: {
+            ...defaultVDPickerProvider,
+            $scopedSlots: {
+              day: jest.fn(() => '<div id="day" slot-scope="{ day }"> {{ day }} </div>'),
+            },
+          },
+        },
+      });
+
+      const days = wrapper.find('#day');
+      expect(days.length).not.toEqual(0);
     });
   });
 });

@@ -26,6 +26,7 @@ afterEach(() => {
 describe('VDPickerAgenda', () => {
   let mountComponent;
   const dummyDate = dayjs('2019-5-16');
+  const defaultVDPickerProvider = { $scopedSlots: {}, $slots: {} };
 
   beforeEach(() => {
     jest.spyOn(global, 'requestAnimationFrame').mockImplementation(cb => cb());
@@ -44,6 +45,9 @@ describe('VDPickerAgenda', () => {
       rtl,
     } = {}) =>
       mount(VDPickerAgenda, {
+        provide: {
+          VDPicker: defaultVDPickerProvider,
+        },
         propsData: {
           date,
           minDate,
