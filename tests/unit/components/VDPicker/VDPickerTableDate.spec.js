@@ -111,195 +111,15 @@ describe('VDPickerTableDate', () => {
   });
 
   describe('methods', () => {
-    describe('isSelected', () => {
-      [{
-        description: 'return true if selected date equals mutableDate',
-        props: {
-          mutableDate: dayjs('2018-5-16'),
-        },
-        selectedDate: dayjs('2018-5-16'),
-        expectedResult: true,
-      }, {
-        description: 'return false',
-        props: {
-          mutableDate: dayjs('2018-5-16'),
-        },
-        selectedDate: dayjs('2018-5-17'),
-        expectedResult: false,
-      }, {
-        description: 'return true if any dates in range equals mutableDate',
-        props: {
-          mutableDate: {
-            start: dayjs('2018-5-16'), end: undefined,
-          },
-          range: true,
-        },
-        selectedDate: dayjs('2018-5-16'),
-        expectedResult: true,
-      }, {
-        description: 'return false if any dates in range NOT equals mutableDate',
-        props: {
-          mutableDate: {
-            start: dayjs('2018-5-16'), end: undefined,
-          },
-          range: true,
-        },
-        selectedDate: dayjs('2018-5-17'),
-        expectedResult: false,
-      }, {
-        description: 'return true if any dates in range',
-        props: {
-          mutableDate: {
-            start: dayjs('2018-5-16'), end: dayjs('2018-5-17'),
-          },
-          range: true,
-        },
-        selectedDate: dayjs('2018-5-17'),
-        expectedResult: true,
-      }].forEach(({ description, props, selectedDate, expectedResult }) => {
-        it(`should ${description}`, () => {
-          const wrapper = mountComponent({ props });
-          expect(wrapper.vm.isSelected(selectedDate)).toEqual(expectedResult);
-        });
-      });
-    });
-
-    describe('isBetween', () => {
-      it.each([
-        [
-          { mutableDate: undefined, range: true },
-          dayjs('2018-5-16'),
-          false,
-        ],
-        [
-          { mutableDate: { start: dayjs('2018-5-16'), end: dayjs('2018-5-17') }, range: true },
-          dayjs('2018-5-18'),
-          false,
-        ],
-        [
-          { mutableDate: { start: dayjs('2018-5-16'), end: dayjs('2018-5-20') }, range: true },
-          dayjs('2018-5-18'),
-          true,
-        ],
-      ])(
-        'when props = %p, and selected date = %p, should return %p',
-        (props, selectedDate, expectedResult) => {
-          const wrapper = mountComponent({ props });
-          expect(wrapper.vm.isBetween(selectedDate)).toEqual(expectedResult);
-        }
-      );
-    });
-
-    describe('isInRange', () => {
-      it.each([
-        [
-          { mutableDate: undefined, range: true },
-          undefined,
-          dayjs('2018-5-16'),
-          undefined,
-        ],
-        [
-          { mutableDate: { start: dayjs('2018-5-16'), end: undefined }, range: true },
-          dayjs('2018-5-17'),
-          dayjs('2018-5-18'),
-          false,
-        ],
-        [
-          { mutableDate: { start: dayjs('2018-5-16'), end: undefined }, range: true },
-          dayjs('2018-5-18'),
-          dayjs('2018-5-17'),
-          true,
-        ],
-        [
-          { mutableDate: { start: undefined, end: dayjs('2018-5-16') }, range: true },
-          dayjs('2018-5-14'),
-          dayjs('2018-5-15'),
-          true,
-        ],
-      ])(
-        'when props = %p, rangeCurrentHoveredDay = %p, and selected date = %p, should return %p',
-        (props, rangeCurrentHoveredDay, selectedDate, expectedResult) => {
-          const wrapper = mountComponent({ props });
-          wrapper.setData({ rangeCurrentHoveredDay });
-          expect(wrapper.vm.isInRange(selectedDate)).toEqual(expectedResult);
-        }
-      );
-    });
-
-    describe('firstInRange', () => {
-      it.each([
-        [
-          { mutableDate: { start: dayjs('2018-5-16'), end: undefined }, range: true },
-          dayjs('2018-5-16'),
-          true,
-        ],
-        [
-          { mutableDate: { start: dayjs('2018-5-16'), end: dayjs('2018-5-17') }, range: true },
-          dayjs('2018-5-18'),
-          false,
-        ],
-      ])(
-        'when props = %p, and selected date = %p, should return %p',
-        (props, selectedDate, expectedResult) => {
-          const wrapper = mountComponent({ props });
-          expect(wrapper.vm.firstInRange(selectedDate)).toEqual(expectedResult);
-        }
-      );
-    });
-
-    describe('lastInRange', () => {
-      it.each([
-        [
-          { mutableDate: { start: dayjs('2018-5-16'), end: dayjs('2018-5-19') }, range: true },
-          dayjs('2018-5-18'),
-          false,
-        ],
-        [
-          { mutableDate: { start: dayjs('2018-5-16'), end: dayjs('2018-5-18') }, range: true },
-          dayjs('2018-5-18'),
-          true,
-        ],
-      ])(
-        'when props = %p, and selected date = %p, should return %p',
-        (props, selectedDate, expectedResult) => {
-          const wrapper = mountComponent({ props });
-          expect(wrapper.vm.lastInRange(selectedDate)).toEqual(expectedResult);
-        }
-      );
-    });
-
-    describe('isDisabled', () => {
-      it.each([
-        [{ minDate: undefined, maxDate: undefined }, dayjs('2018-5-16'), false],
-        [{ minDate: '2018-5-1', maxDate: '2018-5-20' }, dayjs('2018-5-16'), false],
-        [{ minDate: '2018-5-17', maxDate: '2018-5-20' }, dayjs('2018-5-16'), true],
-        [{ minDate: '2018-5-1', maxDate: '2018-5-15' }, dayjs('2018-5-16'), true],
-      ])(
-        'when currentDate equal %p, and selected date is %p, should return %p',
-        (allowedDates, selectedDate, expectedResult) => {
-          const { minDate, maxDate } = allowedDates;
-          const wrapper = mountComponent({ props: { minDate, maxDate } });
-          expect(wrapper.vm.isDisabled(selectedDate)).toEqual(expectedResult);
-        }
-      );
-    });
-
-    describe('isToday', () => {
-      it.each([
-        [dayjs('2019-5-16'), true],
-        [dayjs('2019-9-16'), false],
-      ])(
-        'when currentDate equal %p, should return %p',
-        (selectedDate, expectedResult) => {
-          const wrapper = mountComponent();
-          expect(wrapper.vm.isToday(selectedDate)).toEqual(expectedResult);
-        }
-      );
-    });
-
     describe('handleMouseMove', () => {
       let startDate;
       let maxDate;
+      let defaultEvent = {
+        target: {
+          className: 'button',
+          tagName: 'BUTTON',
+        },
+      };
       beforeEach(() => {
         startDate = dayjs('2019-5-15');
         maxDate = dayjs('2019-5-20');
@@ -307,7 +127,7 @@ describe('VDPickerTableDate', () => {
 
       it('should do nothing if range is false', () => {
         const wrapper = mountComponent();
-        wrapper.vm.handleMouseMove({ target: undefined });
+        wrapper.vm.handleMouseMove(defaultEvent);
         expect(wrapper.vm.rangeCurrentHoveredDay).toEqual(undefined);
       });
 
@@ -319,11 +139,11 @@ describe('VDPickerTableDate', () => {
             isRangeSelected: true,
           },
         });
-        wrapper.vm.handleMouseMove({ target: undefined });
+        wrapper.vm.handleMouseMove(defaultEvent);
         expect(wrapper.vm.rangeCurrentHoveredDay).toEqual(undefined);
       });
 
-      it('should do nothing if target hasn\'t a specific class', () => {
+      it('should do nothing if target is days wrapper', () => {
         const wrapper = mountComponent({
           props: {
             range: true,
@@ -339,7 +159,7 @@ describe('VDPickerTableDate', () => {
         expect(wrapper.vm.rangeCurrentHoveredDay).toEqual(undefined);
       });
 
-      it('should take parent if node is SPAN (child of button)', () => {
+      it('should check parent if there is no dataset value', () => {
         const wrapper = mountComponent({
           props: {
             range: true,
@@ -349,27 +169,10 @@ describe('VDPickerTableDate', () => {
         wrapper.vm.handleMouseMove({
           target: {
             className: 'vd-picker__table-day-effect',
-            tagName: 'SPAN',
+            dataset: {},
             parentNode: {
               dataset: { date: '2019-5-16' },
             },
-          },
-        });
-        expect(wrapper.vm.rangeCurrentHoveredDay).toEqual('2019-5-16');
-      });
-
-      it('should trigger only if target has a specific class', () => {
-        const wrapper = mountComponent({
-          props: {
-            range: true,
-            mutableDate: { start: startDate, end: undefined },
-          },
-        });
-        wrapper.vm.handleMouseMove({
-          target: {
-            className: 'vd-picker__table-day',
-            tagName: 'BUTTON',
-            dataset: { date: '2019-5-16' },
           },
         });
         expect(wrapper.vm.rangeCurrentHoveredDay).toEqual('2019-5-16');
@@ -461,22 +264,6 @@ describe('VDPickerTableDate', () => {
         touch(table).start(0, 0).end(-20, 0);
         expect(wrapper.emitted().changeMonth[1]).toEqual(['prev']);
       });
-    });
-
-    it('should mount scoped slot for date', () => {
-      const wrapper = mountComponent({
-        provide: {
-          VDPicker: {
-            ...defaultVDPickerProvider,
-            $scopedSlots: {
-              day: jest.fn(() => '<div id="day" slot-scope="{ day }"> {{ day }} </div>'),
-            },
-          },
-        },
-      });
-
-      const days = wrapper.find('#day');
-      expect(days.length).not.toEqual(0);
     });
   });
 });

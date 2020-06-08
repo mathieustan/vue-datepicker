@@ -6,7 +6,7 @@
       isFirstSelectedDay, isLastSelectedDay, isDisabled
     -->
     <template #day="{ day, isCurrent, isSelected, isBetween, isFirstRangeDay, isLastRangeDay }">
-      <div
+      <span
         :class="{
           'scoped-day--current': isCurrent,
           'scoped-day--selected': isSelected,
@@ -18,7 +18,7 @@
         class="scoped-day"
       >
         <span class="scoped-day__text">{{ day }}</span>
-      </div>
+      </span>
     </template>
   </VueDatePicker>
 </template>

@@ -1,0 +1,233 @@
+@import   '../../../styles/abstracts/_index.scss';
+
+$default-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);
+$default-effect-opacity: .12;
+$default-text-color: transparentize(black, .13);
+
+$day-size: get-size(mobile, day-height);
+$day-size-md: get-size(desktop, day-height);
+$day-inner-size: #{$day-size - 2};
+$day-inner-size-md: #{$day-size - 2};
+
+$days-height-5-weeks: $day-size * 5;
+$days-height-5-weeks-md: $day-size-md * 5;
+$days-height-6-weeks: $day-size * 6;
+$days-height-6-weeks-md: $day-size-md * 6;
+
+.vd-picker__table-day {
+  @extend %reset-button;
+
+  position: relative;
+  width: 100%;
+  height: $day-size;
+
+  line-height: 1;
+  font-size: 12px;
+  float: left;
+  text-align: center;
+  color: currentColor;
+  font-weight: get-font-weight(medium);
+  transition: $default-transition;
+  overflow: hidden;
+
+  @include mq(tablet) {
+    width: 100%;
+    height: $day-size-md;
+  }
+
+  &__wrapper {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      opacity: 0;
+      width: 50%;
+      background-color: white;
+      z-index: 1;
+      transition-property: opacity;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 1px;
+      left: 50%;
+      width: calc(100% + 1px);
+      height: $day-inner-size;
+      border: 1px solid currentColor;
+      background-color: currentColor;
+      opacity: $default-effect-opacity;
+      transform: translateX(-50%) scale(0);
+
+      @include mq(tablet) {
+        top: 2px;
+        height: $day-size;
+      }
+    }
+  }
+
+  /* Elements
+  ---------------------- */
+  &__current,
+  &__effect {
+    position: absolute;
+    top: 1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: $day-inner-size;
+    height: $day-inner-size;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+
+    @include mq(tablet) {
+      top: 2px;
+      width: $day-size;
+      height: $day-size;
+    }
+  }
+
+  &__current {
+    color: $default-text-color;
+    z-index: 1;
+  }
+
+  &__effect {
+    background-color: currentColor;
+    transform: translateX(-50%) scale(0);
+    transition: $default-transition;
+    z-index: 1;
+
+    .vd-picker--range-selecting & {
+      transition: unset;
+    }
+  }
+
+  &__text {
+    position: relative;
+    color: $default-text-color;
+    z-index: 1;
+  }
+
+  /* Modifiers
+  ---------------------- */
+  &:hover:not(.vd-picker__table-day--disabled):not(.vd-picker__table-day--selected):not(.vd-picker__table-day--between) {
+    .vd-picker__table-day__effect {
+      transform: translateX(-50%) scale(1);
+      opacity: $default-effect-opacity;
+    }
+
+    &.vd-picker__table-day--select-end,
+    &.vd-picker__table-day--select-start {
+      .vd-picker__table-day__wrapper {
+        &:before {
+          opacity: 1;
+          right: 0;
+
+          .vd-picker--rtl & {
+            left: 0;
+            right: unset;
+          }
+        }
+
+        &:after {
+          transform: translateX(-50%) scale(1);
+          opacity: .08;
+        }
+      }
+
+      .vd-picker__table-day__effect {
+        opacity: 1;
+        transition: unset;
+      }
+
+      .vd-picker__table-day__text {
+        color: white;
+      }
+    }
+
+    &.vd-picker__table-day--select-start {
+      .vd-picker__table-day__wrapper {
+        &:before {
+          left: 0;
+
+          .vd-picker--rtl & {
+            right: 0;
+            left: unset;
+          }
+        }
+      }
+    }
+  }
+
+  &--selected {
+    .vd-picker__table-day__effect {
+      transform: translateX(-50%) scale(1);
+      opacity: 1;
+    }
+
+    .vd-picker__table-day__text {
+      color: white;
+    }
+  }
+
+  &--in-range:not(.vd-picker__table-day--disabled),
+  &--between:not(.vd-picker__table-day--disabled),
+  &--first,
+  &--last {
+    .vd-picker__table-day__wrapper:after {
+      transform: translateX(-50%) scale(1);
+    }
+  }
+
+  &--in-range:not(.vd-picker__table-day--disabled) {
+    .vd-picker__table-day__wrapper:after {
+      opacity: .08;
+    }
+  }
+
+  &--first,
+  &--last {
+    .vd-picker__table-day__wrapper:after {
+      .vd-picker--range-selecting & {
+        opacity: .08;
+      }
+    }
+  }
+
+  &--first {
+    .vd-picker__table-day__wrapper:before {
+      opacity: 1;
+      left: 0;
+
+      .vd-picker--rtl & {
+        right: 0;
+        left: unset;
+      }
+    }
+  }
+
+  &--last {
+    .vd-picker__table-day__wrapper:before {
+      opacity: 1;
+      right: 0;
+
+      .vd-picker--rtl & {
+        left: 0;
+        right: unset;
+      }
+    }
+
+    &:not(.vd-picker__table-day--select-start) .vd-picker__table-day__effect {
+      opacity: 1;
+    }
+  }
+
+  &--disabled.vd-picker__table-day {
+    cursor: default;
+
+    .vd-picker__table-day__text {
+      color: rgba(0,0,0,0.26);
+    }
+  }
+}
