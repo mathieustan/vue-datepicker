@@ -5,7 +5,7 @@ import './VDPickerHeader.scss';
 import colorable from '../../../mixins/colorable';
 
 // Functions
-import { formatDateWithLocale, getRangeDatesFormatted } from '../../../utils/Dates';
+import { generateDateFormatted, getRangeDatesFormatted } from '../../../utils/Dates';
 
 // Constants
 import { DATE_HEADER_REGEX } from '../../../constants';
@@ -33,7 +33,7 @@ export default {
     },
     year () {
       if (!this.mutableDate) return '-';
-      return formatDateWithLocale(this.mutableDate, this.locale, 'YYYY');
+      return generateDateFormatted(this.mutableDate, this.locale, 'YYYY');
     },
     dateFormatted () {
       if (this.range && this.rangeHeaderText) {
@@ -45,7 +45,7 @@ export default {
         return [fromText.trim(), toText.trim()];
       }
       if (!this.mutableDate) return '--';
-      return formatDateWithLocale(this.mutableDate, this.locale, this.formatHeader);
+      return generateDateFormatted(this.mutableDate, this.locale, this.formatHeader);
     },
     isDateVisible () {
       // Should hide year when type is year

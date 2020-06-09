@@ -9,7 +9,7 @@ import DatePickerControls from '../VDPickerControls/VDPickerControls';
 
 // Functions
 import {
-  formatDateWithYearAndMonth,
+  generateDateWithYearAndMonth,
   isBeforeDate,
   isAfterDate,
   areSameDates,
@@ -81,7 +81,7 @@ export default {
     },
     isSelectedMonthOrQuarter (monthIndex) {
       if (this.range || !this.mutableDate) return false;
-      const selectedDate = formatDateWithYearAndMonth(this.currentDate.year, monthIndex);
+      const selectedDate = generateDateWithYearAndMonth(this.currentDate.year, monthIndex);
       return areSameDates(
         this.mutableDate.format('YYYY-MM'),
         selectedDate.format('YYYY-MM'),
@@ -93,7 +93,7 @@ export default {
         isAfterDate(year, this.maxDate, this.mode);
     },
     isMonthOrQuarterDisabled (monthIndex) {
-      const date = formatDateWithYearAndMonth(this.yearFormatted, monthIndex);
+      const date = generateDateWithYearAndMonth(this.yearFormatted, monthIndex);
       return isBeforeDate(date, this.minDate, 'month') ||
         isAfterDate(date, this.maxDate, 'month');
     },

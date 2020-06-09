@@ -20,8 +20,8 @@ import { generateRandomId, validateAttachTarget } from '../../utils/helpers';
 import { getLocale } from '../../utils/lang';
 import {
   convertQuarterToMonth,
-  formatDateToSend,
-  formatDateWithLocale,
+  transformDateForModel,
+  generateDateFormatted,
   getDefaultHeaderFormat,
   getDefaultInputFormat,
   getDefaultOutputFormat,
@@ -147,7 +147,11 @@ export default {
     },
     internalDate: {
       get () {
-        return initDate(this.value, { isRange: this.range, locale: this.currentLocale });
+        return initDate(this.value, {
+          range: this.range,
+          locale: this.currentLocale,
+          type: this.type,
+        });
       },
       set (date) {
         this.date = date;
@@ -180,7 +184,7 @@ export default {
       // Exemple => '2019-2' => should be converted to date : 2019-06-01
       const currentMonth = this.internalDate.month();
       const newMonth = this.type === 'quarter' ? convertQuarterToMonth(currentMonth) : currentMonth;
-      return formatDateWithLocale(
+      return generateDateFormatted(
         this.internalDate.set('month', newMonth),
         this.currentLocale,
         this.inputFormat
@@ -236,7 +240,7 @@ export default {
         return;
       }
 
-      this.$emit('input', formatDateToSend(this.date, this.outputFormat, this.range));
+      this.$emit('input', transformDateForModel(this.date, this.outputFormat, this.range));
       this.$emit('onChange');
       this.hideDatePicker();
     },

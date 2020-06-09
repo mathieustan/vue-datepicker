@@ -17,13 +17,13 @@ import VDIcon from '../../VDIcon';
 
 // Functions
 import Dates, {
-  formatDateWithYearAndMonth,
-  isBeforeDate,
-  isAfterDate,
-  isDateAfter,
-  formatDate,
-  generateMonthAndYear,
   convertQuarterToMonth,
+  generateDate,
+  generateDateWithYearAndMonth,
+  generateMonthAndYear,
+  isAfterDate,
+  isBeforeDate,
+  isDateAfter,
 } from '../../../utils/Dates';
 import { computeAgendaHeight } from '../../../utils/positions';
 
@@ -186,11 +186,11 @@ export default {
       this.$emit('selectDate', this.mutableDate);
     },
     updateDate (date) {
-      let newDate = formatDate(this.range ? (date.end || date.start) : date, this.locale);
+      let newDate = generateDate(this.range ? (date.end || date.start) : date, this.locale);
 
       // If today's date is after maxDate, we should show maxDate month
       if (isAfterDate(newDate, this.maxDate)) {
-        newDate = formatDate(this.maxDate, this.locale);
+        newDate = generateDate(this.maxDate, this.locale);
       }
 
       if (this.range) {
@@ -244,7 +244,7 @@ export default {
       // When type is month|quarter|year
       // Should emit date selected if it's not type date
       if (this.type !== 'date') {
-        const newDate = formatDateWithYearAndMonth(this.currentDate.year, this.currentDate.month);
+        const newDate = generateDateWithYearAndMonth(this.currentDate.year, this.currentDate.month);
         this.selectDate(newDate);
         return;
       }
