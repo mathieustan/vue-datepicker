@@ -31,7 +31,7 @@ dayjs.extend(weekOfYear);
 export default class PickerDate {
   constructor (month, year, { lang = en } = {}) {
     dayjs.locale(lang);
-    this.start = generateDate().year(year).month(month).startOf('month');
+    this.start = dayjs().year(year).month(month).startOf('month');
     this.end = this.start.endOf('month');
     this.month = month;
     this.year = year;
@@ -43,12 +43,12 @@ export default class PickerDate {
     return Array.from(generateDateRange(this.start, this.end));
   }
   getMonths () {
-    return Array.apply(0, Array(12)).map((_, i) => generateDate().month(i).format('MMM'));
+    return Array.apply(0, Array(12)).map((_, i) => dayjs().month(i).format('MMM'));
   }
   getQuarters () {
     return Array.apply(0, Array(4)).map((_, i) => {
-      const quarterMonthStart = generateDate().quarter(i + 1).startOf('quarter').format('MMMM');
-      const quarterMonthEnd = generateDate().quarter(i + 1).endOf('quarter').format('MMMM');
+      const quarterMonthStart = dayjs().quarter(i + 1).startOf('quarter').format('MMMM');
+      const quarterMonthEnd = dayjs().quarter(i + 1).endOf('quarter').format('MMMM');
       return `${quarterMonthStart} - ${quarterMonthEnd}`;
     });
   }
