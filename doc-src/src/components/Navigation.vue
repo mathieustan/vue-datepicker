@@ -1,15 +1,14 @@
 <template>
   <nav>
     <ul>
-      <li><a href="#section__about" @click="scrollToExample('#section__about')">About</a></li>
-      <li><a href="#section__install" @click="scrollToExample('#section__install')">Install</a></li>
+      <li><a href="#section__about" @click.prevent="scrollToExample('#section__about')">About</a></li>
+      <li><a href="#section__install" @click.prevent="scrollToExample('#section__install')">Install</a></li>
       <li
         v-for="[key] in Object.entries(examples)"
         :key="key"
       >
-        <a :href="`#section__${key}`" @click="scrollToExample(`#section__${key}`)"># {{ key }}</a>
+        <a :href="`#section__${key}`" @click.prevent="scrollToExample(`#section__${key}`)"># {{ key }}</a>
       </li>
-
     </ul>
   </nav>
 </template>
@@ -23,9 +22,8 @@ export default {
   },
   methods: {
     scrollToExample (element) {
-      VueScrollTo.scrollTo(element, 300, {
+      VueScrollTo.scrollTo(element, 500, {
         offset: -100,
-        force: true,
       });
     },
   },

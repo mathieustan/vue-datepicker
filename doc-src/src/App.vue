@@ -312,12 +312,14 @@ export default  {
     display: flex;
     max-width: 1000px;
     margin: 0 auto;
+    width: 100vw;
     font-size: 1em;
     line-height: 1.62;
     color: #3b454e;
 
     @include mq('md') {
       font-size: 1.125em;
+      width: calc(100vw - 180px);
     }
 
     &-inner {
