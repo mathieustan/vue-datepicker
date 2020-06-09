@@ -1,0 +1,87 @@
+@import '../../styles/abstracts/_index.scss',
+  '../../styles/base/_index.scss';
+
+.vd-menu,
+.vd-menu *,
+.vd-menu ::before,
+.vd-menu ::after {
+  box-sizing: border-box;
+}
+
+.vd-menu {
+  display: none;
+
+  &--attached {
+    display: inline;
+  }
+
+  &__activator {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  * {
+    cursor: pointer;
+  }
+
+  &__content {
+    position: absolute;
+    display: inline-block;
+    border-radius: get-border-radius(2);
+    max-width: 80%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    contain: content;
+    background-color: white;
+    // This is required for an issue on Chrome 65
+    // that prevents scrolling after a menu is opened
+    will-change: transform;
+    box-shadow: 0 2px 8px rgba(50, 50, 93, 0.2);
+
+    &--fixed {
+      position: fixed;
+    }
+
+    &--bottomsheet {
+      position: fixed;
+      top: auto !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      min-width: 100% !important;
+      border-radius: get-border-radius(4) get-border-radius(4) 0 0;
+
+      // Browsers which partially support CSS Environment variables (iOS 11.0-11.2).
+      @supports (padding-bottom: constant(safe-area-inset-bottom)) {
+        --safe-area-inset-bottom: constant(safe-area-inset-bottom);
+        padding-bottom: var(--safe-area-inset-bottom);
+      }
+
+      // Browsers which fully support CSS Environment variables (iOS 11.2+).
+      @supports (padding-bottom: env(safe-area-inset-bottom)) {
+        --safe-area-inset-bottom: env(safe-area-inset-bottom);
+        padding-bottom: var(--safe-area-inset-bottom);
+      }
+    }
+  }
+
+  &-transition {
+    &-leave-active,
+    &-leave-to {
+      pointer-events: none;
+    }
+
+    &-enter,
+    &-leave-to {
+      opacity: 0;
+    }
+
+    &-enter-active,
+    &-leave-active {
+      transition: all .3s get-easing(fastInFastOut);
+      transition-property: opacity, transform;
+    }
+  }
+}

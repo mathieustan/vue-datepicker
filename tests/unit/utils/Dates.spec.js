@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import mockDate from 'mockdate';
 import 'dayjs/locale/fr';
 
-import { en, fr } from '@/locale';
+import { en, fr, es } from '@/locale';
 
 import {
   DEFAULT_INPUT_DATE_FORMAT,
@@ -11,30 +11,30 @@ import {
 } from '@/constants';
 
 import Dates, {
-  setLocaleLang,
-  getWeekDays,
-  getDefaultInputFormat,
-  getDefaultHeaderFormat,
-  getDefaultOutputFormat,
-  formatDateWithLocale,
-  formatDate,
-  formatDateWithYearAndMonth,
-  getRangeDatesFormatted,
-  formatDateToSend,
-  isDateToday,
   areSameDates,
-  isBeforeDate,
+  convertQuarterToMonth,
+  generateDate,
+  generateDateFormatted,
+  generateDateRange,
+  generateDateRangeWithoutDisabled,
+  generateDateWithYearAndMonth,
+  generateMonthAndYear,
+  getDefaultHeaderFormat,
+  getDefaultInputFormat,
+  getDefaultOutputFormat,
+  getRangeDatesFormatted,
+  getWeekDays,
+  initDate,
   isAfterDate,
+  isBeforeDate,
   isBetweenDates,
   isDateAfter,
-  initDate,
-  generateDateRangeWithoutDisabled,
-  generateDateRange,
-  generateMonthAndYear,
-
+  isDateAllowed,
+  isDateToday,
+  transformDateForModel,
 } from '@/utils/Dates';
 
-describe('Transactions: Functions', () => {
+describe('Dates: Functions', () => {
   let todaysDate;
   let dummyDate;
   let newDate;
@@ -43,7 +43,7 @@ describe('Transactions: Functions', () => {
     todaysDate = new Date([2019, 5, 16]);
     mockDate.set(todaysDate);
     dummyDate = dayjs(todaysDate);
-    newDate = new Dates(dummyDate.month(), dummyDate.year(), { lang: 'en' });
+    newDate = new Dates(dummyDate.month(), dummyDate.year(), { lang: en });
   });
 
   afterEach(() => {
@@ -77,7 +77,7 @@ describe('Transactions: Functions', () => {
 
     it('should init Dates class with a date (WITHOUT LOCALE)', () => {
       jest.spyOn(dayjs, 'locale');
-      Object.defineProperty(global, 'navigator', { value: { userLanguage: 'en' }, writable: true });
+      Object.defineProperty(global, 'navigator', { value: { userLanguage: en }, writable: true });
       const dateWithDefaultLocale = new Dates(dummyDate.month(), dummyDate.year());
       expect(dayjs.locale).toHaveBeenCalled();
       expect(dateWithDefaultLocale).toEqual({
@@ -140,49 +140,187 @@ describe('Transactions: Functions', () => {
   });
 
   describe('Functions', () => {
-    describe('setLocaleLang', () => {
-      const cutomLang = {
-        name: 'it',
-        weekdays: 'weekdays',
-        weekdaysShort: 'weekdaysShort',
-        weekStart: 1,
-        months: 'months',
-        monthsShort: 'monthsShort',
-        formats: {},
-        ordinal: n => `${n}º`,
-      };
-
-      it.each([
-        [{ lang: cutomLang }, cutomLang],
-        [{ lang: 'fr' }, fr],
-        [{ lang: 'toto' }, en],
-      ])(
-        'when lang equal %p, should set dayjs locale with %p',
-        (locale, expectedLang) => {
-          jest.spyOn(dayjs, 'locale');
-          setLocaleLang(locale);
-          expect(dayjs.locale).toHaveBeenCalledWith(expectedLang);
-        }
-      );
-    });
-
-    describe('getWeekDays', () => {
+    // -----------------------------------------
+    // Init Date
+    // -----------------------------------------
+    describe('initDate', () => {
       it.each([
         [
-          { lang: 'fr', weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] },
-          ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
+          { start: null, end: null },
+          { range: true, locale: { lang: en } },
+          { start: undefined, end: undefined },
         ],
-        [{ lang: 'fr' }, ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']],
-        [{ lang: 'es' }, ['lun.', 'mar.', 'mié.', 'jue.', 'vie.', 'sáb.', 'dom.']],
-        [{ lang: 'toto' }, ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']],
+        [
+          { start: new Date([2019, 5, 16]), end: undefined },
+          { range: true, locale: { lang: en } },
+          { start: dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date), end: undefined },
+        ],
+        [
+          { start: new Date([2019, 5, 16]), end: new Date([2019, 5, 17]) },
+          { range: true, locale: { lang: en } },
+          {
+            start: dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date),
+            end: dayjs(new Date([2019, 5, 17]), DEFAULT_OUTPUT_DATE_FORMAT.date),
+          },
+        ],
+        [
+          null,
+          { range: false, locale: { lang: en } },
+          undefined,
+        ],
+        [
+          undefined,
+          { range: false, locale: { lang: en } },
+          undefined,
+        ],
+        [
+          new Date([2019, 5, 16]),
+          { range: false, locale: { lang: en } },
+          dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date),
+        ],
       ])(
-        'when lang equal %p, should return %p',
-        (locale, expectedResult) => {
-          expect(getWeekDays(locale)).toEqual(expectedResult);
+        'when date equal %p && params = %p, should return %p',
+        (date, params, expectedResult) => {
+          const result = initDate(date, params);
+          expect(result).toEqual(expectedResult);
+        },
+      );
+
+      describe('should return correct year for each lang when type is year', () => {
+        const date = new Date([2019, 5, 16]);
+
+        it('when default lang', () => {
+          const params = { range: false, locale: { lang: en }, type: 'year' };
+          expect(initDate(date, params).get('year')).toEqual(2019);
+        });
+
+        it('when default fr', () => {
+          const params = { range: false, locale: { lang: fr }, type: 'year' };
+          expect(initDate(date, params).get('year')).toEqual(2019);
+        });
+      });
+    });
+
+    // -----------------------------------------
+    // Generate & Format
+    // - generateDate : Return a date set with lang
+    // - generateDateFormatted : Return a date with specific string format
+    // - generateDateWithYearAndMonth : Return date set to a specific year & month
+    // - generateDateRange : Return an array of dates
+    // - generateDateRangeWithoutDisabled : Return an array of dates filtered (without disabled days)
+    // - generateMonthAndYear : Return month & year for modes (date, month, quarter)
+    // - transformDateForModel: Return date (or date range) properly formatted as string
+    // - convertQuarterToMonth : Transform quarter to a month number (multiply by 3)
+    // -----------------------------------------
+    describe('generateDate', () => {
+      it.each([
+        [dayjs(new Date([2019, 5, 16])), { lang: en }, 'May'],
+        [dayjs(new Date([2019, 5, 16])), { lang: fr }, 'Mai'],
+      ])(
+        'when date = %p, local is %p, should return %p',
+        (selectedDate, locale, expectedResult) => {
+          expect(generateDate(selectedDate, locale).format('MMM')).toEqual(expectedResult);
         }
       );
     });
 
+    describe('generateDateFormatted', () => {
+      it.each([
+        [dayjs(new Date([2019, 5, 16])), { lang: en }, 'MMM', 'May'],
+        [dayjs(new Date([2019, 5, 16])), { lang: fr }, 'MMM', 'Mai'],
+      ])(
+        'when currentDate equal %p, local is %p and format equal %p, should return %p',
+        (selectedDate, locale, format, expectedResult) => {
+          expect(generateDateFormatted(selectedDate, locale, format)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('generateDateWithYearAndMonth', () => {
+      it.each([
+        [2018, 2, '2018-03'],
+        [2019, 3, '2019-04'],
+      ])(
+        'when year = %p, month = %p should return %p when formatted with YYYY-MM',
+        (year, month, expectedResult) => {
+          expect(generateDateWithYearAndMonth(year, month).format('YYYY-MM')).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('generateDateRange', () => {
+      it.each([
+        ['2019-5-10', '2019-5-14', [...Array(5).keys()].map(day => dayjs(`2019-5-1${day}`))],
+        [dayjs('2019-5-10'), dayjs('2019-5-14'), [...Array(5).keys()].map(day => dayjs(`2019-5-1${day}`))],
+      ])(
+        'when startDate = %p, maxDate = %p, should return %p',
+        (startDate, maxDate, expectedResult) => {
+          expect(generateDateRange(startDate, maxDate)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('generateDateRangeWithoutDisabled', () => {
+      it.each([
+        [{ start: '2018-01-01', end: '2018-01-31' }, undefined, undefined, 31],
+        [{ start: '2018-01-01', end: '2018-01-31' }, '2018-01-20', undefined, 12],
+        [{ start: '2018-01-01', end: '2018-01-31' }, undefined, '2018-01-30', 30],
+        [{ start: '2018-01-01', end: '2018-01-31' }, '2018-01-20', '2018-02-05', 12],
+        [{ start: '2018-01-01', end: '2018-01-31' }, '2017-12-01', '2018-01-10', 10],
+        [{ start: '2018-01-01', end: '2018-01-31' }, '2019-01-01', '2019-01-31', 0],
+      ])(
+        'when dates = %p, minDate = %p, maxDate = %p, should return %p date available',
+        (dates, minDate, maxDate, expectedResult) => {
+          const ranges = generateDateRangeWithoutDisabled(dates, minDate, maxDate);
+          expect(ranges.length).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('generateMonthAndYear', () => {
+      it.each([
+        [2019, { year: 2018, month: 2 }, 'year', { year: 2019, month: 2 }],
+        [3, { year: 2018, month: 2 }, 'quarter', { year: 2018, month: 9 }],
+        [3, { year: 2018, month: 2 }, 'month', { year: 2018, month: 3 }],
+      ])(
+        'when value = %p, currentDate = %p and mode = %p, should return %p',
+        (value, currentDate, mode, expectedResult) => {
+          expect(generateMonthAndYear(value, currentDate, mode)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('transformDateForModel', () => {
+      it.each([
+        [dayjs('2019-5-15'), 'YYYY-MM-DD', false, '2019-05-15'],
+        [
+          { start: dayjs('2019-5-15'), end: dayjs('2019-5-17') },
+          'YYYY-MM-DD',
+          true,
+          { start: '2019-05-15', end: '2019-05-17' },
+        ],
+      ])(
+        'when date = %p, format = %p and range = %p, should return %p',
+        (date, format, range, expectedResult) => {
+          expect(transformDateForModel(date, format, range)).toEqual(expectedResult);
+        }
+      );
+    });
+
+    describe('convertQuarterToMonth', () => {
+      it('should multiply by 3 given month number', () => {
+        expect(convertQuarterToMonth(1)).toEqual(3);
+      });
+    });
+
+    // -----------------------------------------
+    // Getters
+    // - getDefaultInputFormat : Return format string for input
+    // - getDefaultHeaderFormat : Return format string for header (in agenda)
+    // - getDefaultOutputFormat : Return format string when date selected
+    // - getWeekDays : Return an array with days in weeks (from lang)
+    // - getRangeDatesFormatted : Return dates formatted for range
+    // -----------------------------------------
     describe('getDefaultInputFormat', () => {
       it.each([
         [undefined, DEFAULT_INPUT_DATE_FORMAT.date],
@@ -226,40 +364,18 @@ describe('Transactions: Functions', () => {
       );
     });
 
-    describe('formatDateWithLocale', () => {
+    describe('getWeekDays', () => {
       it.each([
-        [dayjs(new Date([2019, 5, 16])), { lang: 'en' }, 'MMM', 'May'],
-        [dayjs(new Date([2019, 5, 16])), { lang: 'fr' }, 'MMM', 'Mai'],
-        [dayjs(new Date([2019, 5, 16])), { lang: 'toto' }, 'MMM', 'May'],
+        [
+          { lang: fr, weekDays: ['L', 'M', 'M', 'J', 'V', 'S', 'D'] },
+          ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
+        ],
+        [{ lang: fr }, ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']],
+        [{ lang: es }, ['lun.', 'mar.', 'mié.', 'jue.', 'vie.', 'sáb.', 'dom.']],
       ])(
-        'when currentDate equal %p, local is %p and format equal %p, should return %p',
-        (selectedDate, locale, format, expectedResult) => {
-          expect(formatDateWithLocale(selectedDate, locale, format)).toEqual(expectedResult);
-        }
-      );
-    });
-
-    describe('formatDate', () => {
-      it.each([
-        [dayjs(new Date([2019, 5, 16])), { lang: 'en' }, 'May'],
-        [dayjs(new Date([2019, 5, 16])), { lang: 'fr' }, 'Mai'],
-        [dayjs(new Date([2019, 5, 16])), { lang: 'toto' }, 'May'],
-      ])(
-        'when date = %p, local is %p, should return %p',
-        (selectedDate, locale, expectedResult) => {
-          expect(formatDate(selectedDate, locale).format('MMM')).toEqual(expectedResult);
-        }
-      );
-    });
-
-    describe('formatDateWithYearAndMonth', () => {
-      it.each([
-        [2018, 2, '2018-03'],
-        [2019, 3, '2019-04'],
-      ])(
-        'when year = %p, month = %p should return %p when formatted with YYYY-MM',
-        (year, month, expectedResult) => {
-          expect(formatDateWithYearAndMonth(year, month).format('YYYY-MM')).toEqual(expectedResult);
+        'when lang equal %p, should return %p',
+        (locale, expectedResult) => {
+          expect(getWeekDays(locale)).toEqual(expectedResult);
         }
       );
     });
@@ -267,10 +383,10 @@ describe('Transactions: Functions', () => {
     describe('getRangeDatesFormatted', () => {
       it.each([
         [undefined, {}, 'YYYY-MM-DD', '__ ~ __'],
-        [{ start: '2019-5-15', end: undefined }, {}, 'YYYY-MM-DD', '2019-05-15 ~ __'],
-        [{ start: undefined, end: '2019-5-15' }, {}, 'YYYY-MM-DD', '__ ~ 2019-05-15'],
-        [{ start: '2019-5-15', end: undefined }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 ~ __'],
-        [{ start: '2019-5-15', end: '2019-5-17' }, { lang: 'en' }, 'YYYY-MM-DD', '2019-05-15 ~ 2019-05-17'],
+        [{ start: '2019-5-15', end: undefined }, { lang: en }, 'YYYY-MM-DD', '2019-05-15 ~ __'],
+        [{ start: undefined, end: '2019-5-15' }, { lang: en }, 'YYYY-MM-DD', '__ ~ 2019-05-15'],
+        [{ start: '2019-5-15', end: undefined }, { lang: en }, 'YYYY-MM-DD', '2019-05-15 ~ __'],
+        [{ start: '2019-5-15', end: '2019-5-17' }, { lang: en }, 'YYYY-MM-DD', '2019-05-15 ~ 2019-05-17'],
       ])(
         'when year = %p, month = %p should return %p when formatted with YYYY-MM',
         (dates, locale, format, expectedResult) => {
@@ -279,21 +395,50 @@ describe('Transactions: Functions', () => {
       );
     });
 
-    describe('formatDateToSend', () => {
-      it.each([
-        [dayjs('2019-5-15'), 'YYYY-MM-DD', false, '2019-05-15'],
-        [
-          { start: dayjs('2019-5-15'), end: dayjs('2019-5-17') },
-          'YYYY-MM-DD',
-          true,
-          { start: '2019-05-15', end: '2019-05-17' },
-        ],
-      ])(
-        'when date = %p, format = %p and range = %p, should return %p',
-        (date, format, range, expectedResult) => {
-          expect(formatDateToSend(date, format, range)).toEqual(expectedResult);
-        }
-      );
+    // -----------------------------------------
+    // Compare Dates
+    // - isDateAllowed: Return if a specific date is allowed
+    // - isDateToday : Return Boolean if date is today
+    // - areSameDates : Return Boolean if dates are the same
+    // - isBeforeDate : Return Boolean if date is before minDate (from props)
+    // - isAfterDate : Return Boolean if date is after maxDate (from props)
+    // - isDateAfter : Return Boolean if date are after a specific date
+    // -----------------------------------------
+    describe('isDateAllowed', () => {
+      [{
+        description: 'return true by default',
+        data: {
+          date: dayjs(new Date([2019, 5, 16])),
+        },
+        expectedResult: true,
+      }, {
+        description: 'return true if date is validated by allowedDates',
+        data: {
+          date: dayjs(new Date([2019, 5, 16])),
+          allowedFn: (date) => date.getDate() === 16,
+        },
+        expectedResult: true,
+      }, {
+        description: 'return true if date is validated by allowedDates and equal min date',
+        data: {
+          date: dayjs(new Date([2019, 5, 16])),
+          allowedFn: (date) => date.getDate() === 16,
+          minDate: '2019-5-16',
+        },
+        expectedResult: true,
+      }, {
+        description: 'return true if date is validated by allowedDates and equal max date',
+        data: {
+          date: dayjs(new Date([2019, 5, 16])),
+          allowedFn: (date) => date.getDate() === 16,
+          maxDate: '2019-5-16',
+        },
+        expectedResult: true,
+      }].forEach(({ description, data, expectedResult }) => {
+        it(`should ${description}`, () => {
+          expect(isDateAllowed(data)).toEqual(expectedResult);
+        });
+      });
     });
 
     describe('isDateToday', () => {
@@ -384,92 +529,6 @@ describe('Transactions: Functions', () => {
         'when date = %p, maxDate = %p and type = %p, should return %p',
         (date, anotherDate, expectedResult) => {
           expect(isDateAfter(date, anotherDate)).toEqual(expectedResult);
-        }
-      );
-    });
-
-    describe('initDate', () => {
-      it.each([
-        [
-          { start: null, end: null },
-          { isRange: true, locale: { lang: 'en' } },
-          { start: undefined, end: undefined },
-        ],
-        [
-          { start: new Date([2019, 5, 16]), end: undefined },
-          { isRange: true, locale: { lang: 'en' } },
-          { start: dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date), end: undefined },
-        ],
-        [
-          { start: new Date([2019, 5, 16]), end: new Date([2019, 5, 17]) },
-          { isRange: true, locale: { lang: 'en' } },
-          {
-            start: dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date),
-            end: dayjs(new Date([2019, 5, 17]), DEFAULT_OUTPUT_DATE_FORMAT.date),
-          },
-        ],
-        [
-          null,
-          { isRange: false, locale: { lang: 'en' } },
-          undefined,
-        ],
-        [
-          undefined,
-          { isRange: false, locale: { lang: 'en' } },
-          undefined,
-        ],
-        [
-          new Date([2019, 5, 16]),
-          { isRange: false, locale: { lang: 'en' } },
-          dayjs(new Date([2019, 5, 16]), DEFAULT_OUTPUT_DATE_FORMAT.date),
-        ],
-      ])(
-        'when date equal %p && params = %p, should return %p',
-        (date, params, expectedResult) => {
-          const result = initDate(date, params);
-          expect(result).toEqual(expectedResult);
-        },
-      );
-    });
-
-    describe('generateDateRangeWithoutDisabled', () => {
-      it.each([
-        [{ start: '2018-01-01', end: '2018-01-31' }, undefined, undefined, 31],
-        [{ start: '2018-01-01', end: '2018-01-31' }, '2018-01-20', undefined, 12],
-        [{ start: '2018-01-01', end: '2018-01-31' }, undefined, '2018-01-30', 30],
-        [{ start: '2018-01-01', end: '2018-01-31' }, '2018-01-20', '2018-02-05', 12],
-        [{ start: '2018-01-01', end: '2018-01-31' }, '2017-12-01', '2018-01-10', 10],
-        [{ start: '2018-01-01', end: '2018-01-31' }, '2019-01-01', '2019-01-31', 0],
-      ])(
-        'when dates = %p, minDate = %p, maxDate = %p, should return %p date available',
-        (dates, minDate, maxDate, expectedResult) => {
-          const ranges = generateDateRangeWithoutDisabled(dates, minDate, maxDate);
-          expect(ranges.length).toEqual(expectedResult);
-        }
-      );
-    });
-
-    describe('generateDateRange', () => {
-      it.each([
-        ['2019-5-10', '2019-5-14', [...Array(5).keys()].map(day => dayjs(`2019-5-1${day}`))],
-        [dayjs('2019-5-10'), dayjs('2019-5-14'), [...Array(5).keys()].map(day => dayjs(`2019-5-1${day}`))],
-      ])(
-        'when startDate = %p, maxDate = %p, should return %p',
-        (startDate, maxDate, expectedResult) => {
-          expect(generateDateRange(startDate, maxDate)).toEqual(expectedResult);
-        }
-      );
-    });
-
-    describe('generateMonthAndYear', () => {
-      it.each([
-        [2019, { year: 2018, month: 2 }, 'year', { year: 2019, month: 2 }],
-        [3, { year: 2018, month: 2 }, 'quarter', { year: 2018, month: 9 }],
-        [3, { year: 2018, month: 2 }, 'month', { year: 2018, month: 3 }],
-      ])(
-        'when value = %p, currentDate = %p and mode = %p, should return %p',
-        (value, currentDate, mode, expectedResult) => {
-          expect(generateMonthAndYear(value, currentDate, mode)).toEqual(expectedResult);
         }
       );
     });

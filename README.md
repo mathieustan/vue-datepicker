@@ -32,6 +32,7 @@ yarn add @mathieustan/vue-datepicker
 
 ```javascript
 import { VueDatePicker } from '@mathieustan/vue-datepicker';
+import '@mathieustan/vue-datepicker/dist/vue-datepicker.min.css';
 
 export default {
   // ...
@@ -46,6 +47,7 @@ or
 
 ```javascript
 import VueDatePicker from '@mathieustan/vue-datepicker';
+import '@mathieustan/vue-datepicker/dist/vue-datepicker.min.css';
 
 Vue.use(VueDatePicker);
 ```
@@ -98,6 +100,7 @@ Using `v-model`
 | id                 | String               | 'datepicker'     | Sets the input id                                                                                                                                                                                                                  |
 | value              | Date\|String\|Number |                  | Date picker model (ISO 8601 format, YY-mm-dd or YY-mm)                                                                                                                                                                             |
 | name               | String               | 'datepicker'     | Input name property & datepicker title in fullscreenMobile                                                                                                                                                                         |
+| clearable          | Boolean              | false            | Add input clear functionality                                                                                                                                                                                                      |
 | validate           | Boolean              | false            | Shows validations button to select date                                                                                                                                                                                            |
 | buttonValidate     | String               | 'Ok'             | Sets validate text button                                                                                                                                                                                                          |
 | buttonCancel       | String               | 'Cancel'         | Sets cancel text button                                                                                                                                                                                                            |
@@ -111,6 +114,7 @@ Using `v-model`
 | noInput            | Boolean              |                  | Hides datepickler input. It'll show a button instead                                                                                                                                                                               |
 | noCalendarIcon     | Boolean              |                  | Hides datepicker icon                                                                                                                                                                                                              |
 | fullscreenMobile   | Boolean              | false            | Shows datepicker in a bottom sheet when in mobile view                                                                                                                                                                             |
+| allowedDates       | Function             |                  | Function which validate allowed date (allowedDates: (date) => .... // date is a javascript date)                                                                                                                                   |
 | minDate            | String\|Number\|Date |                  | Dates are availables after this date                                                                                                                                                                                               |
 | maxDate            | String\|Number\|Date |                  | Dates are disabled after this date                                                                                                                                                                                                 |
 | visibleYearsNumber | Number               | 10               | Allows to set years range in year picker (it will add X years before & after current year)                                                                                                                                         |

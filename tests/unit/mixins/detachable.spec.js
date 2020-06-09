@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { mount } from '@vue/test-utils';
-import Icon from '@/components/Icon';
+import VDIcon from '@/components/VDIcon';
 import detachable from '@/mixins/detachable';
 
 console.error = jest.fn();
@@ -49,13 +49,17 @@ describe('detachable', () => {
   });
 
   describe('beforeMount', () => {
-    const fakeSvgIcon = '<svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" height="16" width="16" class="icon"><path fill="currentColor"></path></svg>';
+    const fakeSvgIcon = '<span aria-hidden="true" class="vd-icon" style="font-size: 16px; height: 16px; width: 16px;">' +
+    '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" role="img" aria-hidden="true" data-icon="fake">' +
+    '<path fill="currentColor"></path>' +
+    '</svg>' +
+    '</span>'.trim();
 
     it('should do nothing if activatorNode is undefined', async () => {
       const wrapper = mountComponent({
         slots: {
           activator: [{
-            render: h => h(Icon, ['fake']),
+            render: h => h(VDIcon, ['fake']),
           }],
         },
         render (h) {
@@ -84,7 +88,7 @@ describe('detachable', () => {
       const wrapper = mountComponent({
         slots: {
           activator: [{
-            render: h => h(Icon, ['fake']),
+            render: h => h(VDIcon, ['fake']),
           }],
         },
         render (h) {
@@ -111,7 +115,7 @@ describe('detachable', () => {
         attachToDocument: true,
         slots: {
           activator: [{
-            render: h => h(Icon, ['fake']),
+            render: h => h(VDIcon, ['fake']),
           }],
         },
         render (h) {
@@ -146,7 +150,7 @@ describe('detachable', () => {
         attachToDocument: true,
         slots: {
           activator: [{
-            render: h => h(Icon, ['fake']),
+            render: h => h(VDIcon, ['fake']),
           }],
         },
         render (h) {
@@ -198,7 +202,7 @@ describe('detachable', () => {
         attachToDocument: true,
         slots: {
           activator: [{
-            render: h => h(Icon, ['fake']),
+            render: h => h(VDIcon, ['fake']),
           }],
         },
         render (h) {

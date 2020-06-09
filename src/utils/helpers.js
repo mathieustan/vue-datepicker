@@ -53,6 +53,7 @@ function getZIndex (el) {
 function deepMerge (source = {}, target = {}) {
   // Iterate through `source` properties and if an `Object` set property to merge of `target` and `source` properties
   for (const key of Object.keys(source)) {
+    /* istanbul ignore next */
     if (source[key] instanceof Object) Object.assign(source[key], deepMerge(target[key], source[key]));
   }
 
