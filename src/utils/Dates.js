@@ -177,23 +177,23 @@ export function getWeekDays ({ lang, weekDays }) {
   return weekDays || weekDaysShort;
 }
 
-export function getRangeDatesFormatted ({ start, end } = {}, { lang }, format) {
+export function getRangeDatesFormatted ({ start, end } = {}, locale, format) {
   if (!start && !end) {
     return `__ ~ __`;
   }
 
   if (!start && end) {
-    return `__ ~ ${generateDate(end, lang).startOf('day').format(format)}`;
+    return `__ ~ ${generateDate(end, locale).startOf('day').format(format)}`;
   }
 
   if (start && !end) {
-    return `${generateDate(start, lang).startOf('day').format(format)} ~ __`;
+    return `${generateDate(start, locale).startOf('day').format(format)} ~ __`;
   }
 
   return `\
-${generateDate(start, lang).startOf('day').format(format)} \
+${generateDate(start, locale).startOf('day').format(format)} \
 ~ \
-${generateDate(end, lang).startOf('day').format(format)}`;
+${generateDate(end, locale).startOf('day').format(format)}`;
 }
 
 // -----------------------------------------

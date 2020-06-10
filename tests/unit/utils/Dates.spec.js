@@ -387,6 +387,8 @@ describe('Dates: Functions', () => {
         [{ start: undefined, end: '2019-5-15' }, { lang: en }, 'YYYY-MM-DD', '__ ~ 2019-05-15'],
         [{ start: '2019-5-15', end: undefined }, { lang: en }, 'YYYY-MM-DD', '2019-05-15 ~ __'],
         [{ start: '2019-5-15', end: '2019-5-17' }, { lang: en }, 'YYYY-MM-DD', '2019-05-15 ~ 2019-05-17'],
+        [{ start: '2019-5-15', end: '2019-5-17' }, { lang: en }, 'DD MMMM', '15 May ~ 17 May'],
+        [{ start: '2019-5-15', end: '2019-5-17' }, { lang: fr }, 'DD MMMM', '15 Mai ~ 17 Mai'],
       ])(
         'when year = %p, month = %p should return %p when formatted with YYYY-MM',
         (dates, locale, format, expectedResult) => {
