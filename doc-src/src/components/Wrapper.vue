@@ -60,6 +60,7 @@
 
 <script>
 import CodeWrapper from './CodeWrapper.vue';
+import 'intersection-observer';
 
 export default {
   name: 'Wrapper',
