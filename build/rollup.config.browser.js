@@ -1,4 +1,8 @@
+// Default
 import base from './rollup.config.base';
+
+// Plugins
+import generatePlugins from './rollup.plugins';
 
 const config = Object.assign({}, base, {
   output: {
@@ -9,4 +13,6 @@ const config = Object.assign({}, base, {
   },
 });
 
-export default config;
+export default (commandLineArgs) => {
+  return { ...config, plugins: generatePlugins(commandLineArgs) };
+};
