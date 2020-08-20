@@ -274,4 +274,4 @@ When should you use `attach` prop :
 ### Attach
 
 is great when you have a fixed element in your page like a panel, a dialog or a fixed fullscreen container.
-The datepicker position will not take care of scroll page position and it'll be `absolutely positionned` into your fixed container. (if you scroll, datepicker popup will scroll too).
+The datepicker position will not take care of scroll page position and it'll be `absolutely positioned` into your fixed container. (if you scroll, datepicker popup will scroll too).
