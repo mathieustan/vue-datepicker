@@ -406,5 +406,12 @@ describe('VDMenu', () => {
       content.trigger('click', click);
       expect(click.stopPropagation).toHaveBeenCalled();
     });
+
+    it('should add content class if specified', () => {
+      mountComponent({ props: { value: true, contentClass: 'test' } });
+
+      const menuContent = document.body.querySelector('.vd-menu__content');
+      expect(menuContent.getAttribute('class')).toContain('test');
+    });
   });
 });

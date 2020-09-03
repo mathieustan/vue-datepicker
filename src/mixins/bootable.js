@@ -1,4 +1,5 @@
 const bootable = {
+  name: 'Bootable',
   data: () => ({
     isBooted: false,
   }),
@@ -10,6 +11,11 @@ const bootable = {
   watch: {
     isActive () {
       this.isBooted = true;
+    },
+  },
+  methods: {
+    showLazyContent (content) {
+      return (this.hasContent && content) ? content() : [this.$createElement()];
     },
   },
 };

@@ -70,6 +70,8 @@ export default {
     placeholder: { type: String, default: 'YYYY-MM-DD' },
     // Applies specified color to the control
     color: { type: String, default: '#4f88ff' },
+    // Applies custom class to datepicker content
+    contentClass: { type: String, default: '' },
     // Allowed dates
     allowedDates: { type: Function },
     minDate: { type: [String, Number, Date] },
@@ -274,6 +276,7 @@ export default {
     genMenuWithContent () {
       const menuProps = {
         ...defaultMenuProps,
+        contentClass: this.contentClass,
         value: this.isMenuActive,
         origin: this.origin,
         allowOverflow: this.allowOverflow,

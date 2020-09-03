@@ -35,7 +35,7 @@ export default {
     // Allows to update z-index
     zIndex: { type: Number, default: undefined },
     // Allows Menu to act like a bottomSheet
-    // TODO create a GBottomSheet component
+    // TODO create a VDBottomSheet component
     bottomSheet: { type: Boolean, default: false },
   },
   data: () => ({
@@ -91,21 +91,14 @@ export default {
       return this.detectOrigin(this.calculedLeft, this.calculedTop);
     },
   },
-  watch: {
-    isActive (value) {
-      if (this.disabled) return;
-      if (value) {
-        this.callActivate();
-        return;
-      }
-
-      this.callDeactivate();
-    },
+  mounted () {
+    this.isActive && this.callActivate();
   },
   methods: {
-    callActivate () {
+    activate () {
+      // Update coordinates and dimensions of menu
+      // and its activator
       this.updateDimensions();
-
       // Start the transition
       requestAnimationFrame(() => {
         // Once transitioning, calculate scroll and top position
@@ -149,6 +142,7 @@ export default {
         },
         staticClass: 'vd-menu__content',
         class: {
+          ...(this.contentClass && { [this.contentClass]: true }),
           'vd-menu__content--active': this.isActive,
           'vd-menu__content--fixed': this.activatorFixed,
           'vd-menu__content--bottomsheet': this.bottomSheet,
@@ -183,8 +177,8 @@ export default {
         value: this.onResize,
       }],
     }, [
-      [!this.activator && this.genActivator()],
-      this.genTransition(),
+      !this.activator && this.genActivator(),
+      this.showLazyContent(() => [this.genTransition()]),
     ]);
   },
 };

@@ -8,7 +8,7 @@ describe('dynamicPosition', () => {
   let mountComponent;
   const EmptyComponent = Vue.component('empty-component', {
     mixins: [dynamicPosition],
-    props: ['activator', 'attach', 'allowOverflow'],
+    props: ['activator', 'attach', 'allowOverflow', 'disabled'],
     template: '<div></div>',
   });
 
@@ -170,7 +170,29 @@ describe('dynamicPosition', () => {
     });
   });
 
+  describe('watch', () => {
+    describe('disabled', () => {
+      it('should desactivate menu when disabled props change to true', () => {
+        const wrapper = mountComponent();
+        wrapper.setData({ isContentActive: true });
+        wrapper.setProps({ disabled: true });
+
+        expect(wrapper.vm.isContentActive).toEqual(false);
+      });
+    });
+  });
+
   describe('methods', () => {
+    describe('callDeactivate', () => {
+      it('should close menu', () => {
+        const wrapper = mountComponent();
+        wrapper.setData({ isContentActive: true });
+        wrapper.vm.callDeactivate();
+
+        expect(wrapper.vm.isContentActive).toEqual(false);
+      });
+    });
+
     describe('calcLeft', () => {
       [{
         description: 'return scrollbarWidth if left is less',

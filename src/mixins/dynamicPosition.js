@@ -1,4 +1,4 @@
-// utils
+// Helpers
 import { convertToUnit } from '../utils/helpers';
 import {
   detectFixedActivator,
@@ -12,6 +12,7 @@ import {
 const scrollbarWidth = 12;
 
 const dynamicPosition = {
+  name: 'DynamicPosition',
   data: () => ({
     activatorFixed: false,
     dimensions: {
@@ -62,7 +63,26 @@ const dynamicPosition = {
         Boolean(this.activator);
     },
   },
+  watch: {
+    disabled (val) {
+      val && this.callDeactivate();
+    },
+    isActive (val) {
+      if (this.disabled) return;
+
+      val ? this.callActivate() : this.callDeactivate();
+    },
+  },
   methods: {
+    activate () {},
+    deactivate () {},
+    callActivate () {
+      this.activate();
+    },
+    callDeactivate () {
+      this.isContentActive = false;
+      this.deactivate();
+    },
     calcLeft (menuWidth) {
       return convertToUnit(this.isAttached
         ? this.computedLeft
@@ -76,17 +96,18 @@ const dynamicPosition = {
     calcXOverflow (left, menuWidth) {
       const xOverflow = left + menuWidth - this.pageWidth + scrollbarWidth;
 
-      if (xOverflow > 0) {
+      if ((!this.left || this.right) && xOverflow > 0) {
         left = Math.max(left - xOverflow, 0);
       } else {
         left = Math.max(left, scrollbarWidth);
       }
+
       return left + getOffsetLeft();
     },
     calcYOverflow (top) {
       const toTop = this.pageYOffset + getInnerHeight();
       const { activator, content } = this.dimensions;
-      const contentHeight = content.height;
+      const contentHeight = (content || {}).height;
       const totalHeight = top + contentHeight;
       const isOverflowing = toTop < totalHeight;
 
@@ -144,7 +165,6 @@ const dynamicPosition = {
     updateDimensions () {
       this.checkActivatorFixed();
       this.checkForPageYOffset();
-
       this.pageWidth = getInnerWidth();
 
       const dimensions = {};

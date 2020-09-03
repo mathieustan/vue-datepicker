@@ -5,6 +5,15 @@ import detachable from '@/mixins/detachable';
 
 console.error = jest.fn();
 
+const defaultVDIconHtml =
+'<div class="mock">' +
+  '<div class="content">' +
+    '<span aria-hidden="true" class="vd-icon" style="font-size: 16px; height: 16px; width: 16px;">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" role="img" aria-hidden="true" data-icon="fa fa-test"><path fill="currentColor"></path></svg>' +
+    '</span>' +
+  '</div>' +
+'</div>';
+
 describe('detachable', () => {
   let mountComponent;
   const EmptyComponent = Vue.component('empty-component', {
@@ -49,17 +58,11 @@ describe('detachable', () => {
   });
 
   describe('beforeMount', () => {
-    const fakeSvgIcon = '<span aria-hidden="true" class="vd-icon" style="font-size: 16px; height: 16px; width: 16px;">' +
-    '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" role="img" aria-hidden="true" data-icon="fake">' +
-    '<path fill="currentColor"></path>' +
-    '</svg>' +
-    '</span>'.trim();
-
     it('should do nothing if activatorNode is undefined', async () => {
       const wrapper = mountComponent({
         slots: {
           activator: [{
-            render: h => h(VDIcon, ['fake']),
+            render: h => h(VDIcon, ['fa fa-test']),
           }],
         },
         render (h) {
@@ -74,21 +77,17 @@ describe('detachable', () => {
         },
       });
 
-      expect(wrapper.html()).toEqual(
-        `<div class="mock"><div class="content">${fakeSvgIcon}</div></div>`
-      );
+      expect(wrapper.html()).toEqual(defaultVDIconHtml);
 
       await wrapper.vm.$nextTick();
-      expect(wrapper.html()).toEqual(
-        `<div class="mock"><div class="content">${fakeSvgIcon}</div></div>`
-      );
+      expect(wrapper.html()).toEqual(defaultVDIconHtml);
     });
 
     it('should do nothing if wrapper does not have parent', async () => {
       const wrapper = mountComponent({
         slots: {
           activator: [{
-            render: h => h(VDIcon, ['fake']),
+            render: h => h(VDIcon, ['fa fa-test']),
           }],
         },
         render (h) {
@@ -101,12 +100,20 @@ describe('detachable', () => {
       wrapper.setData({ activatorNode: wrapper.vm.$slots.activator });
 
       expect(wrapper.html()).toEqual(
-        `<div class="content">${fakeSvgIcon}</div>`
+        '<div class="content">' +
+          '<span aria-hidden="true" class="vd-icon" style="font-size: 16px; height: 16px; width: 16px;">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" role="img" aria-hidden="true" data-icon="fa fa-test"><path fill="currentColor"></path></svg>' +
+          '</span>' +
+        '</div>'
       );
 
       await wrapper.vm.$nextTick();
       expect(wrapper.html()).toEqual(
-        `<div class="content">${fakeSvgIcon}</div>`
+        '<div class="content">' +
+          '<span aria-hidden="true" class="vd-icon" style="font-size: 16px; height: 16px; width: 16px;">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" role="img" aria-hidden="true" data-icon="fa fa-test"><path fill="currentColor"></path></svg>' +
+          '</span>' +
+        '</div>'
       );
     });
 
@@ -115,7 +122,7 @@ describe('detachable', () => {
         attachToDocument: true,
         slots: {
           activator: [{
-            render: h => h(VDIcon, ['fake']),
+            render: h => h(VDIcon, ['fa fa-test']),
           }],
         },
         render (h) {
@@ -131,9 +138,7 @@ describe('detachable', () => {
       });
       wrapper.setData({ activatorNode: wrapper.vm.$slots.activator });
 
-      expect(wrapper.html()).toEqual(
-        `<div class="mock"><div class="content">${fakeSvgIcon}</div></div>`
-      );
+      expect(wrapper.html()).toEqual(defaultVDIconHtml);
 
       await wrapper.vm.$nextTick();
       expect(wrapper.html()).toEqual(
@@ -150,7 +155,7 @@ describe('detachable', () => {
         attachToDocument: true,
         slots: {
           activator: [{
-            render: h => h(VDIcon, ['fake']),
+            render: h => h(VDIcon, ['fa fa-test']),
           }],
         },
         render (h) {
@@ -166,9 +171,7 @@ describe('detachable', () => {
       });
       wrapper.setData({ activatorNode: wrapper.vm.$slots.activator });
 
-      expect(wrapper.html()).toEqual(
-        `<div class="mock"><div class="content">${fakeSvgIcon}</div></div>`
-      );
+      expect(wrapper.html()).toEqual(defaultVDIconHtml);
 
       await wrapper.vm.$nextTick();
       expect(wrapper.html()).toEqual(
@@ -202,7 +205,7 @@ describe('detachable', () => {
         attachToDocument: true,
         slots: {
           activator: [{
-            render: h => h(VDIcon, ['fake']),
+            render: h => h(VDIcon, ['fa fa-test']),
           }],
         },
         render (h) {
@@ -219,10 +222,10 @@ describe('detachable', () => {
       wrapper.setData({ activatorNode: wrapper.vm.$slots.activator });
 
       await wrapper.vm.$nextTick();
-      expect(document.body.querySelector('icon')).toBeDefined();
+      expect(document.body.querySelector('vd-icon')).toBeDefined();
 
       wrapper.destroy();
-      expect(document.body.querySelector('icon')).toEqual(null);
+      expect(document.body.querySelector('vd-icon')).toEqual(null);
     });
   });
 
