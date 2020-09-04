@@ -296,28 +296,35 @@ export default  {
   @import './styles/abstracts/_index.scss';
 
   #app {
-    display: flex;
     flex: 1 1 auto;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 100%;
+    position: relative;
   }
 
   .content {
     display: flex;
-    max-width: 1000px;
-    margin: 80px auto;
-    width: 100vw;
+    flex: 1 1 auto;
+    padding: 0;
     font-size: 1em;
     line-height: 1.62;
     color: #3b454e;
 
     @include mq('md') {
       font-size: 1.125em;
-      width: calc(100vw - 180px);
+      padding: 0 0 0 180px;
     }
 
     &-inner {
+      position: relative;
+      margin: 0 auto;
+      max-width: 1000px;
+      width: 100%;
       display: flex;
       flex-direction: column;
-      width: 100%;
       text-align: left;
       padding: 12px;
     }
