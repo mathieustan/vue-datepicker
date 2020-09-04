@@ -60,8 +60,9 @@
       }
 
       .vd-picker--bottomsheet & {
-        @include mq($to: phone) {
-          width: 100%;
+        @include mq($to: 481px) {
+          flex: 1 1 100%;
+          max-width: 100%;
         }
       }
     }
