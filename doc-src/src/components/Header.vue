@@ -57,14 +57,14 @@ export default {
   @import '../styles/abstracts/_index.scss';
 
   .header {
-    position: sticky;
+    position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 80px;
-    width: 100%;
     background-color: color(other, blue);
     color: #fff;
     padding: $gutter*2;

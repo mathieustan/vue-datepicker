@@ -141,7 +141,7 @@ export default {
       }, [yearsWrapper]);
     },
     genYearButton (year) {
-      return this.$createElement('button', {
+      const button = this.$createElement('button', {
         key: year,
         class: {
           'active': this.isSelectedYear(year),
@@ -157,6 +157,9 @@ export default {
           click: () => this.onSelect(year),
         },
       }, [year]);
+      return this.$createElement('div', {
+        staticClass: 'vd-picker__selects-years__button',
+      }, [button]);
     },
     // -- Month or Quarter
     genMonthOrQuarter () {
@@ -213,7 +216,7 @@ export default {
     },
     genMonthQuarterButton (value, mode, index) {
       const selectedIndex = mode === 'quarter' ? index * 3 : index;
-      return this.$createElement('button', {
+      const button = this.$createElement('button', {
         key: index,
         style: {
           ...(this.isSelectedMonthOrQuarter(selectedIndex) && this.setTextColor('#fff')),
@@ -227,6 +230,9 @@ export default {
           click: () => this.onSelect(index),
         },
       }, [value]);
+      return this.$createElement('div', {
+        staticClass: `vd-picker__selects-${mode}s__button`,
+      }, [button]);
     },
   },
   render (h) {

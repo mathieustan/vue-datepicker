@@ -296,22 +296,14 @@ export default  {
   @import './styles/abstracts/_index.scss';
 
   #app {
-    display: grid;
-    grid-template-columns: 1fr;
-
-    @include mq('md') {
-      grid-template-columns: 180px 1fr;
-    }
-  }
-
-  .header {
-    grid-column: 1 / 3;
+    display: flex;
+    flex: 1 1 auto;
   }
 
   .content {
     display: flex;
     max-width: 1000px;
-    margin: 0 auto;
+    margin: 80px auto;
     width: 100vw;
     font-size: 1em;
     line-height: 1.62;

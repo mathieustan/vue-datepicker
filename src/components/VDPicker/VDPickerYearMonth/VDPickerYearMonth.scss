@@ -40,59 +40,40 @@
       position: relative;
       display: flex;
       flex: 1 1 auto;
-      padding: $gutter;
+      padding: 0 12px;
       overflow-y: scroll; /* has to be scroll, not auto */
       -webkit-overflow-scrolling: touch;
     }
 
     &__list {
       position: relative;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: fit-content;
-      grid-gap: $gutter;
-      width: 100%;
-      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      flex: 1 1 get-size(mobile, width);
+      max-width: get-size(mobile, width);
+      margin-left: -12px;
+      margin-right: -12px;
 
-      button {
-        position: relative;
-        @extend %reset-button;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 12px;
-        padding: 0 20px;
-        height: 40px;
-        min-height: 40px;
-        width: 100%;
-        font-size: 15px;
-        font-weight: get-font-weight(medium);
-        border-radius: 2px;
-        outline: none;
-        transition: background-color .3s;
+      @include mq(tablet) {
+        flex: 1 1 get-size(desktop, width);
+        max-width: get-size(desktop, width);
+      }
 
-        &:hover {
-          background-color: color(other, light-gray);
-        }
-
-        &:disabled,
-        &[disabled] {
-          cursor: default;
-          color: rgba(0,0,0,0.26);
-        }
-
-        .datepicker-month--current {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          margin: auto;
+      .vd-picker--bottomsheet & {
+        @include mq($to: phone) {
           width: 100%;
-          height: 30px;
-          background-color: currentColor;
         }
       }
+    }
+
+    &__button {
+      position: relative;
+      display: flex;
+      flex: 0 0 calc((100% / 3));
+      max-width: calc((100% / 3));
+      justify-content: center;
+      align-items: center;
+      padding: 12px;
     }
   }
 
@@ -113,53 +94,36 @@
     display: flex;
     width: 100%;
     height: 100%;
-    padding: 0 $gutter $gutter;
+    padding: 0 12px;
   }
 
   &-months,
   &-quarters {
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
+    left: 12px;
+    right: 12px;
     bottom: 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    grid-gap: $gutter;
-    width: 100%;
-    height: 100%;
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
     justify-items: center;
     align-items: center;
+    margin-left: -12px;
+    margin-right: -12px;
 
     .vd-picker--rtl & {
       direction: rtl;
     }
 
-    button {
+    &__button {
       position: relative;
-      @extend %reset-button;
       display: flex;
+      flex: 0 0 calc((100% / 3));
+      max-width: calc((100% / 3));
       justify-content: center;
       align-items: center;
-      font-size: 12px;
-      padding: 0 20px;
-      height: 30px;
-      font-size: 15px;
-      font-weight: get-font-weight(medium);
-      border-radius: 2px;
-      outline: none;
-      transition: background-color .3s;
-
-      &:hover {
-        background-color: color(other, light-gray);
-      }
-
-      &:disabled,
-      &[disabled] {
-        cursor: default;
-        color: rgba(0,0,0,0.26);
-      }
+      padding: 12px;
     }
 
     &--current {
@@ -168,12 +132,45 @@
   }
 
   &-quarters {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, 1fr);
+    &__button {
+      flex: 1 1 100%;
+      max-width: 100%;
+      height: calc(100%/4);
+      padding: ($gutter/2) 0;
+    }
 
     button {
       height: 100%;
       width: 100%;
+      padding: 0 20px;
+    }
+  }
+
+  button {
+    position: relative;
+    @extend %reset-button;
+    cursor: pointer;
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    min-height: 36px;
+    font-size: 15px;
+    font-weight: get-font-weight(medium);
+    border-radius: 2px;
+    outline: none;
+    transition: background-color .3s;
+
+    &:hover {
+      background-color: color(other, light-gray);
+    }
+
+    &:disabled,
+    &[disabled] {
+      cursor: default;
+      color: rgba(0,0,0,0.26);
+      pointer-events: none;
     }
   }
 }

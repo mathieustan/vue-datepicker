@@ -249,7 +249,7 @@ describe('VDPickerYearMonth', () => {
   describe('behaviour', () => {
     it('Year : should call onSelect on button click', () => {
       const wrapper = mountComponent({ mode: 'year' });
-      const yearButton = wrapper.find('.vd-picker__selects-years__list > button');
+      const yearButton = wrapper.find('.vd-picker__selects-years__button > button');
       jest.spyOn(wrapper.vm, 'onSelect');
 
       yearButton.trigger('click');
@@ -258,7 +258,7 @@ describe('VDPickerYearMonth', () => {
 
     it('Month : should call onSelect on button click', () => {
       const wrapper = mountComponent({ mode: 'month' });
-      const yearButton = wrapper.find('.vd-picker__selects-months > button');
+      const yearButton = wrapper.find('.vd-picker__selects-months__button > button');
       jest.spyOn(wrapper.vm, 'onSelect');
 
       yearButton.trigger('click');

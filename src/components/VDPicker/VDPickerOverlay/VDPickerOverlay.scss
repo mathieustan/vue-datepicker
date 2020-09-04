@@ -8,7 +8,7 @@
   bottom: 0;
   background-color: transparentize(black, .5);
 
-  @include mq(phone) {
+  @include mq(481px) {
     display: none;
   }
 }

@@ -1,0 +1,18 @@
+@import '../../../styles/abstracts/index';
+
+$default-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);
+$default-effect-opacity: .12;
+$default-text-color: transparentize(black, .13);
+
+$day-size: get-size(mobile, day-height);
+$day-size-md: get-size(desktop, day-height);
+
+$day-width: calc(100%/7);
+
+$day-inner-size: #{$day-size - 2};
+$day-inner-size-md: #{$day-size - 2};
+
+$days-height-5-weeks: $day-size * 5;
+$days-height-5-weeks-md: $day-size-md * 5;
+$days-height-6-weeks: $day-size * 6;
+$days-height-6-weeks-md: $day-size-md * 6;

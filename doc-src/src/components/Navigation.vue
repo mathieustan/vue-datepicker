@@ -34,12 +34,13 @@ export default {
   @import '../styles/abstracts/_index.scss';
 
   nav {
-    position: sticky;
+    position: fixed;
     display: none;
     left: 0;
+    top: 0;
+    margin-top: 80px;
     width: 180px;
     height: calc(100vh - 80px);
-    top: 80px;
     background-color: white;
     border-right: 1px solid #3b454e;
     overflow-y: scroll; /* has to be scroll, not auto */

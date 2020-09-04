@@ -1,13 +1,7 @@
-@import   '../../../styles/abstracts/_index.scss',
-          '../../../styles/base/_transitions.scss';
+@import   '../../../styles/abstracts/index',
+          '../../../styles/base/transitions',
+          './variables';
 
-$day-size: get-size(mobile, day-height);
-$day-size-md: get-size(desktop, day-height);
-
-$days-height-5-weeks: $day-size * 5;
-$days-height-5-weeks-md: $day-size-md * 5;
-$days-height-6-weeks: $day-size * 6;
-$days-height-6-weeks-md: $day-size-md * 6;
 
 @mixin before-left-position {
   opacity: 1;
@@ -24,14 +18,16 @@ $days-height-6-weeks-md: $day-size-md * 6;
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-  padding: $gutter $gutter*2;
+  padding: $gutter 12px;
 
   /* Week
   ---------------------- */
   &-week {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: 12px;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    min-height: 12px;
+    height: 12px;
     margin-bottom: $gutter;
     font-size: 12px;
     line-height: 12px;
@@ -44,6 +40,8 @@ $days-height-6-weeks-md: $day-size-md * 6;
   }
 
   &-weekday {
+    flex: 0 0 $day-width;
+    max-width: $day-width;
     text-align: center;
   }
 
@@ -68,15 +66,10 @@ $days-height-6-weeks-md: $day-size-md * 6;
   }
 
   &-days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: $day-size;
+    display: flex;
+    flex-wrap: wrap;
     overflow: hidden;
     width: 100%;
-
-    @include mq(tablet) {
-      grid-template-rows: $day-size-md;
-    }
 
     .vd-picker--rtl & {
       direction: rtl;
