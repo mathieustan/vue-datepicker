@@ -35,7 +35,7 @@ export const defaultMenuProps = {
 };
 
 export default {
-  name: 'VDPicker.js',
+  name: 'VDPicker',
   provide () {
     return {
       VDPicker: this,

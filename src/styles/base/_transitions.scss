@@ -1,11 +1,3 @@
-@mixin transition-default() {
-  &-enter-active,
-  &-leave-active {
-    transition: all .3s get-easing(swing);
-    transition-property: opacity, transform;
-  }
-}
-
 // -------------------------
 // Dropdown Transitions
 // -------------------------

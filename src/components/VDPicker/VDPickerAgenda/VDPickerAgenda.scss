@@ -29,7 +29,7 @@
     @include mq($to: phone) {
       width: 100%;
 
-      .vd-header {
+      .vd-picker__header {
         border-radius: 0;
       }
     }
