@@ -48,6 +48,10 @@
   &-year {
     justify-content: flex-start;
 
+    .vd-picker--rtl & {
+      order: -1;
+    }
+
     .vd-picker__controls-label {
       left: 0;
 
@@ -61,6 +65,10 @@
       .vd-picker__controls-label {
         left: 50%;
         transform: translateX(-50%) translateY(-50%);
+
+        button {
+          margin: auto;
+        }
       }
     }
   }
@@ -123,10 +131,6 @@
         color: rgba(0,0,0,0.26);
       }
       cursor: default;
-    }
-
-    .vd-picker--rtl & {
-      transform: rotate(180deg);
     }
   }
 
