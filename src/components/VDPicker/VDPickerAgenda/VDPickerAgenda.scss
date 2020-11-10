@@ -25,6 +25,10 @@
     width: get-size(desktop, width);
   }
 
+  &--rtl {
+    direction: rtl;
+  }
+
   &--bottomsheet {
     @include mq($to: 481px) {
       width: 100%;
@@ -43,12 +47,12 @@
     justify-content: space-between;
     align-items: center;
     min-height: get-size(mobile, title);
-    padding: 0 0 0 $gutter*3;
+    padding: 0 0 0 $gutter*2;
     border-radius: get-border-radius(4) get-border-radius(4) 0 0;
 
     .vd-picker--rtl & {
       direction: rtl;
-      padding: 0 $gutter*3 0 0;
+      padding: 0 $gutter*2 0 0;
     }
 
     @include mq(phone) {

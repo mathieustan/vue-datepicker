@@ -33,10 +33,6 @@
     line-height: 12px;
     font-weight: get-font-weight(medium);
     color: transparentize(black, .62);
-
-    .vd-picker--rtl & {
-      direction: rtl;
-    }
   }
 
   &-weekday {
@@ -70,9 +66,5 @@
     flex-wrap: wrap;
     overflow: hidden;
     width: 100%;
-
-    .vd-picker--rtl & {
-      direction: rtl;
-    }
   }
 }

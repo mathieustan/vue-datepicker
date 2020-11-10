@@ -11,10 +11,6 @@
     padding: $gutter $gutter*2;
   }
 
-  .vd-picker--rtl & {
-    direction: rtl;
-  }
-
   &-button {
     @extend %reset-button;
     position: relative;
