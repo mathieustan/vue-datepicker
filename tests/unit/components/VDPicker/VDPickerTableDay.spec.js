@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import mockDate from 'mockdate';
 import { mount } from '@vue/test-utils';
 
-import VDPickerTableDay from '@/components/VDPicker/VDPickerTableDay/VDPickerTableDay';
+import VDPickerTableDay from '@/components/VDPicker/VDPickerTableDay';
 
 beforeEach(() => {
   mockDate.set('2019-5-16');
@@ -35,6 +35,9 @@ describe('VDPickerTableDay', () => {
           ...props,
           mutableDate,
           day,
+        },
+        mocks: {
+          $vuedatepicker: { lang: 'en' },
         },
         attachToDocument: true,
       });
@@ -292,27 +295,11 @@ describe('VDPickerTableDay', () => {
   });
 
   describe('behaviour', () => {
-    it('should call select date when click on a day', () => {
+    it('should emit new day when click on it', () => {
       const wrapper = mountComponent();
 
       wrapper.trigger('click');
-      expect(wrapper.emitted().selectDate).toBeTruthy();
-    });
-
-    it('should mount scoped slot for date', () => {
-      const wrapper = mountComponent({
-        provide: {
-          VDPicker: {
-            ...defaultVDPickerProvider,
-            $scopedSlots: {
-              day: jest.fn(() => '<div id="day" slot-scope="{ day }"> {{ day }} </div>'),
-            },
-          },
-        },
-      });
-
-      const days = wrapper.find('#day');
-      expect(days.length).not.toEqual(0);
+      expect(wrapper.emitted()['select-day']).toBeTruthy();
     });
   });
 });

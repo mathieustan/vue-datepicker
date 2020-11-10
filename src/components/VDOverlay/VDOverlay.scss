@@ -1,0 +1,40 @@
+@import '../../styles/abstracts/_index.scss';
+
+.vd-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  border-radius: inherit;
+  justify-content: center;
+  pointer-events: none;
+  transition: 0.3s get-easing(swing), z-index 1ms;
+
+  &__content {
+    position: relative;
+  }
+
+  &__inner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+    transition: inherit;
+    will-change: opacity;
+  }
+
+  &--absolute {
+    position: absolute;
+  }
+
+  &--active {
+    pointer-events: auto;
+  }
+}

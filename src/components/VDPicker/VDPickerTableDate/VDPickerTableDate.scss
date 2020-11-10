@@ -1,38 +1,27 @@
-@import   '../../../styles/abstracts/index',
-          '../../../styles/base/transitions',
+@import   '../../../styles/abstracts/_index.scss',
+          '../../../styles/base/_transitions.scss',
           './variables';
-
-
-@mixin before-left-position {
-  opacity: 1;
-  left: 0;
-
-  .vd-picker--rtl & {
-    right: 0;
-    left: unset;
-  }
-}
 
 .vd-picker__table {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  padding: $gutter 12px;
+  padding: 0 12px;
+  height: $table-height;
 
   /* Week
   ---------------------- */
   &-week {
     display: flex;
     flex-wrap: nowrap;
-    width: 100%;
-    min-height: 12px;
-    height: 12px;
-    margin-bottom: $gutter;
-    font-size: 12px;
-    line-height: 12px;
-    font-weight: get-font-weight(medium);
-    color: transparentize(black, .62);
+    flex: 1 1 100%;
+    max-width: 100%;
+
+    padding: $gutter 0;
+    font-weight: 600;
+
+    font-size: $week-font-size;
+    line-height: $week-line-height;
+    font-weight: $week-font-weight;
+    color: $week-color;
   }
 
   &-weekday {
@@ -46,19 +35,7 @@
   &-days__wrapper {
     position: relative;
     overflow: hidden;
-    transition: height .3s cubic-bezier(0.23, 1, 0.32, 1);
-
-    height: $days-height-5-weeks;
-    @include mq(tablet) {
-      height: $days-height-5-weeks-md;
-    }
-
-    &.has-6-weeks {
-      height: $days-height-6-weeks;
-      @include mq(tablet) {
-        height: $days-height-6-weeks-md;
-      }
-    }
+    height: $table-date-height;
   }
 
   &-days {

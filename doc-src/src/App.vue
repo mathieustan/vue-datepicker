@@ -249,8 +249,17 @@ export default  {
       daySlot: {
         title: '# Custom day slot',
         description: `Allows to change day appaearance,
-          but you can also use tooltip or anything else if needed`,
+          but you can also use tooltip or anything else if needed.
+          Try to keep cursor on a day`,
         filename: 'daySlot',
+      },
+      // -- Misc
+      birthdayPicker: {
+        title: 'Birthday picker',
+        description: `Starting with year picker by default, restricting
+                      dates range and closing the picker menu after selecting
+                      the day make the perfect birthday picker.`,
+        filename: 'birthday',
       },
       // -- Events
       events: {

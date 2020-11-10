@@ -1,0 +1,64 @@
+@import '../../../styles/abstracts/_index.scss',
+        '../../../styles/base/_transitions.scss',
+        '../index.scss';
+
+.vd-picker__years {
+  position: relative;
+  height: 290px;
+  list-style-type: none;
+  text-align: center;
+  margin: 0;
+  padding: $gutter 0;
+  overflow-y: scroll; /* has to be scroll, not auto */
+  -webkit-overflow-scrolling: touch;
+
+  // Browsers which partially support CSS Environment variables (iOS 11.0-11.2).
+  @supports (padding-bottom: constant(safe-area-inset-bottom)) {
+    --safe-area-inset-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: var(--safe-area-inset-bottom);
+  }
+
+  // Browsers which fully support CSS Environment variables (iOS 11.2+).
+  @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    --safe-area-inset-bottom: env(safe-area-inset-bottom);
+    padding-bottom: var(--safe-area-inset-bottom);
+  }
+
+  .vd-picker--bottomsheet & {
+    height: 290px;
+  }
+
+  .vd-picker--validate & {
+    border-bottom: 1px solid color(other, light-gray);
+  }
+
+  li {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    padding: $gutter 0;
+    height: 40px;
+    min-height: 40px;
+    width: 100%;
+    font-size: 15px;
+    font-weight: get-font-weight(medium);
+    outline: none;
+    transition: background-color .3s;
+
+    &:hover {
+      background-color: color(other, light-gray);
+    }
+
+    &:disabled,
+    &[disabled] {
+      cursor: default;
+      color: rgba(0,0,0,0.26);
+      pointer-events: none;;
+    }
+  }
+}
+

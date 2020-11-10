@@ -3,38 +3,46 @@ import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 // Styles
 import './VDPicker.scss';
 
-// directives
+// Mixins
+import Localable from '../../mixins/localable';
+import Mobile from '../../mixins/mobile';
+
+// Directives
 import ClickOutside from '../../directives/click-outside';
 
-// components
+// Components
 import VDMenu from '../VDMenu';
 import VDPickerCustomInput from './VDPickerCustomInput/VDPickerCustomInput';
-import VDPickerOverlay from './VDPickerOverlay/VDPickerOverlay';
 import VDPickerAgenda from './VDPickerAgenda/VDPickerAgenda';
 
-// constants
-import { Z_INDEX_LIST, KEYCODES, DATE_HEADER_REGEX } from '../../constants';
+// Constants
+import { Z_INDEX_LIST, KEYCODES } from '../../constants';
 
-// helpers
-import { generateRandomId, validateAttachTarget } from '../../utils/helpers';
-import { getLocale } from '../../utils/lang';
+// Date Helpers
 import {
-  convertQuarterToMonth,
-  transformDateForModel,
-  generateDateFormatted,
-  getDefaultHeaderFormat,
   getDefaultInputFormat,
+  getDefaultHeaderFormat,
   getDefaultOutputFormat,
-  getRangeDatesFormatted,
   initDate,
-} from '../../utils/Dates';
+  genFormattedInputDate,
+  transformDateForModel,
+} from './utils/helpers';
+
+import { generateRandomId, validateAttachTarget } from '../../utils/helpers';
+import { deprecate, removed } from '../../utils/console';
+import mixins from '../../utils/mixins';
 
 export const defaultMenuProps = {
   minWidth: '290px',
   maxWidth: '315px',
 };
 
-export default {
+const baseMixins = mixins(
+  Localable,
+  Mobile,
+);
+
+export default baseMixins.extend({
   name: 'VDPicker',
   provide () {
     return {
@@ -66,7 +74,6 @@ export default {
     // Show/hide datepicker
     visible: { type: Boolean, default: false },
     // Sets the locale.
-    locale: { type: Object, default: () => ({ lang: undefined }) },
     placeholder: { type: String, default: 'YYYY-MM-DD' },
     // Applies specified color to the control
     color: { type: String, default: '#4f88ff' },
@@ -84,8 +91,6 @@ export default {
     inline: { type: Boolean, default: false },
     // Set if header in agenda should be visible
     noHeader: { type: Boolean, default: false },
-    // Allow to hide input (to use a button instead)
-    noInput: { type: Boolean, default: false },
     // Allow to hide calendar icon
     noCalendarIcon: { type: Boolean, default: false },
     // Responsive bottom sheet
@@ -118,10 +123,6 @@ export default {
         'vd-wrapper--disabled': this.disabled,
         'vd-wrapper--rtl': this.rtl,
       };
-    },
-    currentLocale () {
-      const { lang } = this.locale;
-      return { ...this.locale, lang: getLocale(lang) };
     },
     // use a computed to have a dynamicId for each instance
     componentId () {
@@ -167,34 +168,19 @@ export default {
         this.internalDate.end;
       return Boolean(isDateDefined) || Boolean(isDateRangeDefined);
     },
-    computedDate () {
-      if (!this.isDateDefined) return;
-      if (this.range && this.rangeInputText) {
-        const [startDate, endDate] = getRangeDatesFormatted(
-          this.internalDate,
-          this.currentLocale,
-          this.inputFormat
-        ).split(' ~ ');
-        return this.rangeInputText
-          .replace(DATE_HEADER_REGEX, `${startDate}`)
-          .replace(DATE_HEADER_REGEX, `${endDate}`);
-      }
-
-      // If type is quarter,
-      // We need to convert this quarter date, to a monthly date
-      // because dayjs will transform a monthly date to quarter date only
-      // Exemple => '2019-2' => should be converted to date : 2019-06-01
-      const currentMonth = this.internalDate.month();
-      const newMonth = this.type === 'quarter' ? convertQuarterToMonth(currentMonth) : currentMonth;
-      return generateDateFormatted(
-        this.internalDate.set('month', newMonth),
-        this.currentLocale,
-        this.inputFormat
-      );
+    formattedInputDate () {
+      return genFormattedInputDate({
+        inputFormat: this.inputFormat,
+        internalDate: this.internalDate,
+        isDateDefined: this.isDateDefined,
+        locale: this.currentLocale,
+        range: this.range,
+        rangeInputText: this.rangeInputText,
+        type: this.type,
+      });
     },
-    shouldShowBottomSheet () {
-      return this.fullscreenMobile &&
-        window.innerWidth <= 480;
+    isFullScreenMode () {
+      return this.fullscreenMobile && this.isMobile;
     },
   },
   watch: {
@@ -204,6 +190,25 @@ export default {
       },
       immediate: true,
     },
+    isFullScreenMode () {
+      if (!this.isMenuActive) return;
+
+      this.hideDatePicker();
+      setTimeout(() => {
+        this.showDatePicker();
+      }, 200);
+    },
+  },
+  created () {
+    /* istanbul ignore next */
+    ['no-input'].forEach(prop => {
+      if (this.$attrs.hasOwnProperty(prop)) removed({ original: prop, vm: this });
+    });
+
+    /* istanbul ignore next */
+    if (this.$attrs.hasOwnProperty('fullscreen-breakpoint')) {
+      deprecate({ original: 'fullscreen-mobile', replacement: 'mobile-breakpoint', vm: this });
+    }
   },
   mounted () {
     this.activator = this.$refs.activator;
@@ -218,6 +223,7 @@ export default {
     // ------------------------------
     showDatePicker () {
       if (this.disabled) return;
+
       this.isMenuActive = true;
       this.$emit('onOpen');
     },
@@ -269,26 +275,76 @@ export default {
 
       return [
         this.$scopedSlots.activator ? this.genActivator() : this.genCustomInput(),
-        this.genOverlay(),
         this.genMenuWithContent(),
       ];
     },
+    genActivator () {
+      return this.$createElement('div', {
+        staticClass: 'vd-activator',
+        directives: [{
+          name: 'click-outside',
+          value: {
+            isActive: this.isMenuActive && !this.isFullScreenMode,
+            handler: this.hideDatePicker,
+          },
+        }],
+        on: {
+          click: this.showDatePicker,
+          keydown: this.onKeyDown,
+        },
+        ref: 'activator',
+      }, [
+        this.$scopedSlots.activator({
+          date: this.formattedInputDate,
+        }),
+      ]);
+    },
+    genCustomInput () {
+      return this.$createElement(VDPickerCustomInput, {
+        props: {
+          clearable: this.clearable,
+          color: this.color,
+          date: this.formattedInputDate,
+          disabled: this.disabled,
+          id: this.componentId,
+          isDateDefined: this.isDateDefined,
+          isMenuActive: this.isMenuActive,
+          name: this.name,
+          noCalendarIcon: this.noCalendarIcon,
+          placeholder: this.placeholder,
+          tabindex: this.tabindex,
+        },
+        directives: [{
+          name: 'click-outside',
+          value: {
+            isActive: this.isMenuActive && !this.isFullScreenMode,
+            handler: this.hideDatePicker,
+          },
+        }],
+        nativeOn: {
+          click: this.showDatePicker,
+        },
+        on: {
+          keydown: this.onKeyDown,
+          clearDate: this.onClearDate,
+        },
+        ref: 'activator',
+      });
+    },
     genMenuWithContent () {
+      const shouldShowBottomSheet = this.isFullScreenMode;
+
       const menuProps = {
         ...defaultMenuProps,
-        contentClass: this.contentClass,
         value: this.isMenuActive,
         origin: this.origin,
         allowOverflow: this.allowOverflow,
-        rtl: this.rtl,
-        zIndex: parseInt(this.zIndex) + 1,
-        attach: !this.shouldShowBottomSheet ? this.attach : false,
-        transition: this.shouldShowBottomSheet ? 'slide-in-out-transition' : 'scale-transition',
+        attach: !shouldShowBottomSheet ? this.attach : false,
+        transition: shouldShowBottomSheet ? 'slide-in-out-transition' : 'scale-transition',
         // Allow GMenu to act like a bottomSheet
         // TODO create a GBottomSheet component
-        bottomSheet: this.shouldShowBottomSheet,
+        bottomSheet: shouldShowBottomSheet,
       };
-
       const activator = this.activator;
 
       return this.$createElement(VDMenu, {
@@ -305,76 +361,16 @@ export default {
         ref: 'menu',
       }, [this.genAgenda()]);
     },
-    genActivator () {
-      return this.$createElement('div', {
-        staticClass: 'vd-activator',
-        directives: [{
-          name: 'click-outside',
-          value: {
-            isActive: this.isMenuActive && !this.shouldShowBottomSheet,
-            handler: this.hideDatePicker,
-          },
-        }],
-        on: {
-          click: this.showDatePicker,
-          keydown: this.onKeyDown,
-        },
-        ref: 'activator',
-      }, [
-        this.$scopedSlots.activator({
-          date: this.computedDate,
-        }),
-      ]);
-    },
-    genCustomInput () {
-      return this.$createElement(VDPickerCustomInput, {
-        props: {
-          clearable: this.clearable,
-          closeOnClickOutside: this.isMenuActive && !this.shouldShowBottomSheet,
-          color: this.color,
-          date: this.computedDate,
-          disabled: this.disabled,
-          id: this.componentId,
-          isDateDefined: this.isDateDefined,
-          isMenuActive: this.isMenuActive,
-          name: this.name,
-          noCalendarIcon: this.noCalendarIcon,
-          noInput: this.noInput,
-          placeholder: this.placeholder,
-          tabindex: this.tabindex,
-        },
-        on: {
-          focus: this.showDatePicker,
-          blur: this.hideDatePicker,
-          keydown: this.onKeyDown,
-          clearDate: this.onClearDate,
-        },
-        ref: 'activator',
-      });
-    },
-    genOverlay () {
-      if (!this.shouldShowBottomSheet) return;
-
-      return this.$createElement(VDPickerOverlay, {
-        props: {
-          value: this.isMenuActive && this.shouldShowBottomSheet,
-          zIndex: parseInt(this.zIndex),
-        },
-        on: {
-          close: this.hideDatePicker,
-        },
-      });
-    },
     genAgenda () {
       return this.$createElement(VDPickerAgenda, {
         props: {
-          activeBottomSheet: this.isBooted && this.isMenuActive && this.shouldShowBottomSheet,
           allowedDates: this.allowedDates,
           buttonCancel: this.textsFormat.buttonCancel,
           buttonValidate: this.textsFormat.buttonValidate,
           color: this.color,
           date: this.internalDate,
-          formatHeader: this.headerFormat,
+          fullscreen: this.isBooted && this.isMenuActive && this.isFullScreenMode,
+          headerFormat: this.headerFormat,
           locale: this.currentLocale,
           maxDate: this.maxDate,
           minDate: this.minDate,
@@ -394,6 +390,13 @@ export default {
           validateDate: this.validateDate,
           close: this.hideDatePicker,
         },
+        directives: [{
+          name: 'click-outside',
+          value: {
+            isActive: this.isBooted && this.isMenuActive,
+            handler: this.hideDatePicker,
+          },
+        }],
         ref: 'agenda',
       });
     },
@@ -404,4 +407,4 @@ export default {
       class: this.classes,
     }, this.genContent());
   },
-};
+});

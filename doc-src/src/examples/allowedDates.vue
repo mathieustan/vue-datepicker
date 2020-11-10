@@ -1,23 +1,74 @@
 <template>
-  <VueDatePicker
-    v-model="date"
-    :allowed-dates="allowedDates"
-  />
+  <div class="pa-0">
+    <div>
+      <div>
+        <p> Day Example :</p>
+        <VueDatePicker
+          v-model="date"
+          :allowed-dates="allowedDates"
+        />
+      </div>
+    </div>
+
+    <div>
+      <div>
+        <p> Month Example :</p>
+        <VueDatePicker
+          v-model="date"
+          :allowed-dates="allowedMonths"
+          type="month"
+        />
+      </div>
+    </div>
+
+    <div>
+      <div>
+        <p> Quarter Example :</p>
+        <VueDatePicker
+          v-model="date"
+          :allowed-dates="allowedQuarters"
+          type="quarter"
+        />
+      </div>
+    </div>
+
+    <div>
+      <div>
+        <p> Year Example :</p>
+        <VueDatePicker
+          v-model="date"
+          :allowed-dates="allowedYears"
+          type="year"
+        />
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script>
-const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const ALLOWED_DAYS = ['Monday', 'Tuesday', 'Thursday', 'Friday'];
-
 export default {
   data: () => ({
     date: null,
   }),
   methods: {
-    // date is a javascript date
+    // date is a string
     allowedDates: date => {
-      const activeDay = DAYS[date.getDay()];
-      return ALLOWED_DAYS.includes(activeDay);
+      // date is : YYYY-MM-DD
+      return parseInt(date.split('-')[2], 10) % 2 === 0;
+    },
+    allowedMonths: date => {
+      // date is : YYYY-MM
+      return parseInt(date.split('-')[1], 10) % 2 === 0;
+    },
+    allowedQuarters: date => {
+      // date is : YYYY-QQ
+      console.log(date.split('-')[1]);
+      return parseInt(date.split('-')[1], 10) % 2 === 0;
+    },
+    allowedYears: date => {
+      // date is : YYYY
+      return parseInt(date, 10) % 2 === 0;
     },
   },
 };

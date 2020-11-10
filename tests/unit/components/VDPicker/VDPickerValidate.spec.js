@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
-import VDPickerValidate from '@/components/VDPicker/VDPickerValidate/VDPickerValidate';
+import VDPickerValidate from '@/components/VDPicker/VDPickerValidate';
 
-describe('VDPickerValidate', () => {
+describe('DatePickerValidate', () => {
   let mountComponent;
 
   beforeEach(() => {
@@ -48,7 +48,7 @@ describe('VDPickerValidate', () => {
   describe('behaviour', () => {
     it('should emit cancel when click on cancel button', () => {
       const wrapper = mountComponent();
-      const button = wrapper.find('.vd-picker__validate-button__cancel');
+      const button = wrapper.find('.vd-picker-validate__button-cancel');
       button.trigger('click');
 
       expect(wrapper.emitted().cancel).toBeTruthy();
@@ -56,7 +56,7 @@ describe('VDPickerValidate', () => {
 
     it('should emit validate when click on validate button', () => {
       const wrapper = mountComponent();
-      const button = wrapper.find('.vd-picker__validate-button__validate');
+      const button = wrapper.find('.vd-picker-validate__button-validate');
       button.trigger('click');
 
       expect(wrapper.emitted().validate).toBeTruthy();

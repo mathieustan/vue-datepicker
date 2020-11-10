@@ -1,7 +1,7 @@
-@import '../../../styles/abstracts/_index.scss',
-  '../../../styles/base/_transitions.scss';
+@import   '../../../styles/abstracts/_index.scss',
+          '../../../styles/base/_transitions.scss';
 
-.vd-picker__header {
+.vd-picker-header {
   color: white;
   padding: ($gutter*2);
   display: flex;
@@ -19,12 +19,12 @@
   }
 
   &--range {
-    .vd-picker__header-wrap {
+    .vd-picker-header__wrap {
       flex: 1 1 auto;
       flex-direction: column;
       justify-content: space-between;
     }
-    .vd-picker__header-date {
+    .vd-picker-header__date {
       font-size: 18px;
       height: calc(18px + #{$gutter});
 
@@ -36,14 +36,14 @@
   }
 
   &--year {
-    .vd-picker__header-year {
+    .vd-picker-header__year {
       flex: 1 1 auto;
       font-size: 22px;
       height: calc(22px + #{$gutter});
     }
   }
 
-  &-year {
+  &__year {
     align-items: center;
     display: inline-flex;
     font-size: 14px;
@@ -63,13 +63,13 @@
     }
   }
 
-  &-wrap {
+  &__wrap {
     position: relative;
     display: flex;
     width: 100%;
   }
 
-  &-date {
+  &__date {
     position: relative;
     display: flex;
     width: 100%;

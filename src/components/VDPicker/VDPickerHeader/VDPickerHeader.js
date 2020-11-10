@@ -4,48 +4,37 @@ import './VDPickerHeader.scss';
 // Mixins
 import colorable from '../../../mixins/colorable';
 
-// Functions
-import { generateDateFormatted, getRangeDatesFormatted } from '../../../utils/Dates';
+import mixins from '../../../utils/mixins';
 
-// Constants
-import { DATE_HEADER_REGEX } from '../../../constants';
+const baseMixins = mixins(
+  colorable,
+);
 
-export default {
+export default baseMixins.extend({
   name: 'VDPickerHeader',
-  mixins: [colorable],
   props: {
+    formattedHeaderYear: { type: String },
+    formattedHeaderDate: { type: [Array, String] },
     color: { type: String },
-    formatHeader: { type: String },
-    locale: { type: Object },
     mode: { type: String },
     mutableDate: { type: [String, Object] },
     range: { type: Boolean },
-    rangeHeaderText: { type: String },
     transitionName: { type: String },
-    type: { type: String },
+    type: { tpye: Boolean },
   },
   computed: {
     classes () {
       return {
-        'vd-picker__header--range': this.range,
-        [`vd-picker__header--${this.type}`]: this.type,
+        'vd-picker-header--range': this.range,
+        [`vd-picker-header--${this.type}`]: this.type,
       };
     },
     year () {
       if (!this.mutableDate) return '-';
-      return generateDateFormatted(this.mutableDate, this.locale, 'YYYY');
+      return this.formattedHeaderYear;
     },
     dateFormatted () {
-      if (this.range && this.rangeHeaderText) {
-        const [startDate, endDate] = getRangeDatesFormatted(this.mutableDate, this.locale, this.formatHeader).split(' ~ ');
-        const [fromText, toText] = this.rangeHeaderText
-          .replace(DATE_HEADER_REGEX, `${startDate}|`)
-          .replace(DATE_HEADER_REGEX, `${endDate}|`)
-          .split('|');
-        return [fromText.trim(), toText.trim()];
-      }
-      if (!this.mutableDate) return '--';
-      return generateDateFormatted(this.mutableDate, this.locale, this.formatHeader);
+      return this.formattedHeaderDate;
     },
     isDateVisible () {
       // Should hide year when type is year
@@ -59,16 +48,16 @@ export default {
     // ------------------------------
     genYear () {
       const children = this.$createElement('span', {
-        staticClass: 'vd-picker__header-year__button',
+        staticClass: 'vd-picker-header__year-button',
         on: {
-          click: () => this.$emit('showYearMonthSelector', 'year'),
+          click: () => this.$emit('update-mode', 'year'),
         },
       }, [this.year]);
 
       const data = {
-        staticClass: 'vd-picker__header-year',
+        staticClass: 'vd-picker-header__year',
         class: {
-          'vd-picker__header-year--active': this.mode === 'year',
+          'vd-picker-header__year--active': this.mode === 'year',
         },
       };
 
@@ -78,11 +67,11 @@ export default {
       const transitionGroup = this.genTransitionGroup({
         date: this.dateFormatted,
         isActive: this.mode !== 'year',
-        onClick: () => this.$emit('hideYearMonthSelector'),
+        onClick: () => this.$emit('update-mode', 'date'),
       });
 
       return this.$createElement('div', {
-        staticClass: 'vd-picker__header-wrap',
+        staticClass: 'vd-picker-header__wrap',
       }, [transitionGroup]);
     },
     genRangeDate () {
@@ -96,7 +85,7 @@ export default {
       });
 
       return this.$createElement('div', {
-        staticClass: 'vd-picker__header-wrap',
+        staticClass: 'vd-picker-header__wrap',
       }, [
         transitionGroupStart,
         transitionGroupEnd,
@@ -104,7 +93,7 @@ export default {
     },
     genTransitionGroup ({ date, isActive, onClick }) {
       const children = (date) => this.$createElement('span', {
-        staticClass: 'vd-picker__header-wrap__button',
+        staticClass: 'vd-picker-header__wrap-button',
         key: date,
         on: {
           ...(onClick && { click: onClick }),
@@ -112,8 +101,8 @@ export default {
       }, [date]);
 
       return this.$createElement('transition-group', {
-        staticClass: 'vd-picker__header-date',
-        class: { 'vd-picker__header-date--active': isActive },
+        staticClass: 'vd-picker-header__date',
+        class: { 'vd-picker-header__date--active': isActive },
         props: {
           name: this.transitionName,
           tag: 'div',
@@ -123,7 +112,7 @@ export default {
   },
   render (h) {
     return h('div', this.setBackgroundColor(this.color, {
-      staticClass: 'vd-picker__header',
+      staticClass: 'vd-picker-header',
       class: this.classes,
     }), [
       !this.range && this.genYear(),
@@ -131,4 +120,4 @@ export default {
       this.range && this.genRangeDate(),
     ]);
   },
-};
+});

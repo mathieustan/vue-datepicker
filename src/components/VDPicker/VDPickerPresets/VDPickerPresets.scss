@@ -1,6 +1,7 @@
-@import '../../../styles/abstracts/_index.scss';
+@import '../../../styles/abstracts/_index.scss',
+        '../index.scss';
 
-.vd-picker__presets {
+.vd-picker-presets {
   position: relative;
   display: flex;
   padding: $gutter*2 12px;
@@ -9,7 +10,7 @@
     padding: $gutter*2 12px $gutter;
   }
 
-  &-wrapper {
+  &__wrapper {
     position: relative;
     display: flex;
     flex: 1 1 auto;
@@ -18,7 +19,7 @@
   }
 }
 
-.vd-picker__preset {
+.vd-picker-preset {
   @extend %reset-button;
 
   position: relative;
@@ -58,7 +59,7 @@
     border-width: 0 1px 1px 0;
   }
 
-  &-effect {
+  &__effect {
     position: absolute;
     top: 0;
     left: 0;
@@ -69,7 +70,7 @@
     z-index: 0;
   }
 
-  &-name {
+  &__name {
     position: relative;
     z-index: 1;
   }
@@ -78,7 +79,7 @@
   &--selected {
     color: white;
 
-    .vd-picker__preset-effect {
+    .vd-picker-preset__effect {
       opacity: 1;
     }
   }
@@ -88,7 +89,7 @@
   }
 
   &--disabled  {
-    color: rgba(93, 106, 137, 0.2);
+    color: color(typography, disabled);
     cursor: not-allowed;
     pointer-events: none;
   }

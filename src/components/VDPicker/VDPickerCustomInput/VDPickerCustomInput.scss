@@ -1,4 +1,5 @@
-@import '../../../styles/abstracts/_index.scss';
+@import '../../../styles/abstracts/_index.scss',
+        '../index.scss';
 
 .vd-picker__input {
   position: relative;
@@ -7,20 +8,6 @@
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  color: currentColor;
-
-  &--disabled {
-    cursor: not-allowed;
-    pointer-events: none;
-
-    input {
-      opacity: .38;
-    }
-  }
-
-  &--no-date:not(.vd-picker__input--is-active) {
-    opacity: .6;
-  }
 
   .vd-wrapper--rtl & {
     direction: rtl;
@@ -30,50 +17,25 @@
     }
   }
 
-  &--no-calendar-icon,
-  .vd-wrapper--rtl &--no-calendar-icon {
-    input[type="text"],
+  // Modifiers
+  &--disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+
+    input,
+    .vd-icon.vd-icon--disabled {
+      opacity: .38;
+    }
+  }
+
+  &--no-calendar-icon {
+    input,
     button {
       margin: 0;
     }
   }
 
-  &-icon {
-    margin-bottom: 5px;
-  }
-
-  &-wrapper {
-    display: flex;
-    flex: 1 1 auto;
-    position: relative;
-
-    input {
-      display: flex;
-      flex: 1 1 auto;
-      position: relative;
-      border: none;
-      box-shadow: none;
-      outline: 0;
-      font-size: 16px;
-      line-height: 19px;
-      margin-left: $gutter;
-      font-family: inherit;
-      background: transparent;
-      color: currentColor;
-      cursor: inherit;
-
-      &:focus,
-      &:active {
-        outline: 0;
-        box-shadow: none;
-      }
-
-      @include input-placeholder {
-        opacity: .6;
-      }
-    }
-  }
-
+  // Elements
   &-clear {
     display: inline-flex;
     align-self: flex-start;
@@ -88,14 +50,42 @@
       min-width: 24px;
       width: 24px;
       flex: 1 0 auto;
+
+      button {
+        @extend %reset-button;
+      }
+
+      .vd-icon.vd-icon {
+        height: 24px;
+        min-width: 24px;
+        width: 24px;
+      }
     }
   }
 
-  button {
-    @extend %reset-button;
+  input {
+    display: flex;
+    flex: 1 1 auto;
+    position: relative;
+    border: none;
+    box-shadow: none;
+    outline: 0;
     font-size: 16px;
     line-height: 19px;
     margin-left: $gutter;
+    font-family: inherit;
+    background: transparent;
     color: currentColor;
+    cursor: inherit;
+
+    &:focus,
+    &:active {
+      outline: 0;
+      box-shadow: none;
+    }
+
+    @include input-placeholder {
+      opacity: .6;
+    }
   }
 }

@@ -1,5 +1,5 @@
-@import '../../../styles/abstracts/_index.scss',
-  '../../../styles/base/_transitions.scss';
+@import   '../../../styles/abstracts/_index.scss',
+          '../index.scss';
 
 .vd-picker__controls {
   position: relative;
@@ -10,66 +10,37 @@
   position: relative;
   width: 100%;
 
-  @include mq(tablet) {
-    height: get-size(desktop, controls);
-    min-height: get-size(desktop, controls);
-  }
-
   &-wrapper {
     position: relative;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex: 1 1 auto;
+    flex: 1;
   }
 
   &-month,
   &-year {
     position: relative;
     display: flex;
-    flex: 1 1 auto;
+    flex: 1;
     align-items: center;
   }
 
   &-month {
     justify-content: flex-end;
-
-    .vd-picker__controls-label {
-      right: 0;
-
-      .vd-picker--rtl & {
-        right: auto;
-        left: 0;
-      }
-    }
   }
 
   &-year {
     justify-content: flex-start;
 
-    .vd-picker__controls-label {
-      left: 0;
-
-      .vd-picker--rtl & {
-        left: auto;
-        right: 0;
-      }
-    }
-
     &.vd-picker__controls-year--center {
-      .vd-picker__controls-label {
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-      }
+      justify-content: center;
     }
   }
 
   &-label {
     padding: $gutter $gutter/2;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
 
     button {
       @extend %reset-button;
@@ -100,7 +71,6 @@
     position: relative;
     flex: 0 0 40px;
     height: get-size(mobile, controls);
-    min-height: get-size(mobile, controls);
     width: get-size(mobile, controls);
     padding: 0 0 0 $gutter*3;
     border: none;
@@ -112,8 +82,6 @@
 
     @include mq(tablet) {
       padding: 0 $gutter 0 $gutter;
-      height: get-size(desktop, controls);
-      min-height: get-size(desktop, controls);
       width: get-size(desktop, controls);
     }
 
@@ -139,8 +107,8 @@
   }
 
   svg {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
     vertical-align: middle;
   }
 }

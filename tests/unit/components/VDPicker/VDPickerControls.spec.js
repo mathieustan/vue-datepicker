@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
-import VDPickerControls from '@/components/VDPicker/VDPickerControls/VDPickerControls';
+import VDPickerControls from '@/components/VDPicker/VDPickerControls';
 
-import Dates from '@/utils/Dates';
+// PickerDate Class
+import PickerDate from '@/components/VDPicker/utils/PickerDate';
 
 jest.useFakeTimers();
 
@@ -12,19 +13,19 @@ describe('VDPickerControls', () => {
 
   beforeEach(() => {
     mountComponent = ({
-      date = new Dates(dummyDate.month(), dummyDate.year(), { lang: 'en' }),
-      mode = 'month',
+      date = new PickerDate(dummyDate.month(), dummyDate.year(), { lang: 'en' }),
+      mode = 'date',
       locale = { lang: 'en' },
-      minDate,
-      maxDate,
+      min,
+      max,
     } = {}) =>
       shallowMount(VDPickerControls, {
         propsData: {
-          currentDate: date,
+          pickerDate: date,
           mode,
           locale,
-          minDate,
-          maxDate,
+          min,
+          max,
         },
       });
   });
@@ -36,11 +37,12 @@ describe('VDPickerControls', () => {
 
   it('Should init data', () => {
     const wrapper = mountComponent();
-    expect(wrapper.vm.currentDate).toEqual({
+    expect(wrapper.vm.pickerDate).toEqual({
       start: dummyDate.startOf('month'),
       end: dummyDate.endOf('month'),
       month: 4,
       year: 2019,
+      locale: { lang: 'en' },
     });
   });
 
@@ -62,15 +64,15 @@ describe('VDPickerControls', () => {
     describe('isYearDisabled', () => {
       // current date = dayjs(new Date([2019, 5, 16]))
       it.each([
-        [{ minDate: undefined, maxDate: undefined }, false],
-        [{ minDate: '2018-1-1', maxDate: '2020-12-31' }, false],
-        [{ minDate: '2020-1-1', maxDate: '2020-12-31' }, true],
-        [{ minDate: '2018-1-1', maxDate: '2018-12-31' }, true],
+        [{ min: undefined, max: undefined }, false],
+        [{ min: '2018-1-1', max: '2020-12-31' }, false],
+        [{ min: '2020-1-1', max: '2020-12-31' }, true],
+        [{ min: '2018-1-1', max: '2018-12-31' }, true],
       ])(
         'when allowed dates = %p, should return %p',
         (allowedDates, expectedResult) => {
-          const { minDate, maxDate } = allowedDates;
-          const wrapper = mountComponent({ minDate, maxDate });
+          const { min, max } = allowedDates;
+          const wrapper = mountComponent({ min, max });
           expect(wrapper.vm.isYearDisabled).toEqual(expectedResult);
         }
       );
@@ -79,15 +81,14 @@ describe('VDPickerControls', () => {
     describe('isPreviousDateDisabled', () => {
       // current date = dayjs(new Date([2019, 5, 16]))
       it.each([
-        [{ minDate: undefined, maxDate: undefined }, undefined, false],
-        [{ minDate: '2018-1-1', maxDate: '2020-12-31' }, 'year', false],
-        [{ minDate: '2020-1-1', maxDate: '2020-12-31' }, 'month', false],
-        [{ minDate: '2020-1-1', maxDate: '2020-12-31' }, 'year', true],
+        [{ min: undefined, mode: 'date' }, false],
+        [{ min: '2019-4-10', mode: 'date' }, false],
+        [{ min: '2019-5-10', mode: 'date' }, true],
+        [{ min: '2019-5-10', mode: 'month' }, true],
       ])(
         'when allowed dates = %p and mode = %p, should return %p',
-        (allowedDates, mode, expectedResult) => {
-          const { minDate, maxDate } = allowedDates;
-          const wrapper = mountComponent({ minDate, maxDate, mode });
+        (props, expectedResult) => {
+          const wrapper = mountComponent(props);
           expect(wrapper.vm.isPreviousDateDisabled).toEqual(expectedResult);
         }
       );
@@ -96,15 +97,15 @@ describe('VDPickerControls', () => {
     describe('isNextDateDisabled', () => {
       // current date = dayjs(new Date([2019, 5, 16]))
       it.each([
-        [{ minDate: undefined, maxDate: undefined }, undefined, false],
-        [{ minDate: '2018-1-1', maxDate: '2020-12-31' }, 'year', false],
-        [{ minDate: '2018-1-1', maxDate: '2018-12-31' }, 'month', false],
-        [{ minDate: '2018-1-1', maxDate: '2018-12-31' }, 'year', true],
+        [{ max: undefined, mode: 'date' }, false],
+        [{ max: undefined, mode: 'date' }, false],
+        [{ max: '2019-6-16', mode: 'date' }, false],
+        [{ max: '2019-5-16', mode: 'date' }, true],
+        [{ max: '2019-5-16', mode: 'month' }, true],
       ])(
         'when allowed dates = %p and mode = %p, should return %p',
-        (allowedDates, mode, expectedResult) => {
-          const { minDate, maxDate } = allowedDates;
-          const wrapper = mountComponent({ minDate, maxDate, mode });
+        (props, expectedResult) => {
+          const wrapper = mountComponent(props);
           expect(wrapper.vm.isNextDateDisabled).toEqual(expectedResult);
         }
       );
@@ -112,41 +113,32 @@ describe('VDPickerControls', () => {
   });
 
   describe('methods', () => {
-    describe('changeVisibleDate', () => {
+    describe('onNavigationClick', () => {
       it('Should send an event to update month', () => {
         const wrapper = mountComponent();
-        wrapper.vm.changeVisibleDate('prev');
+        wrapper.vm.onNavigationClick('prev');
 
-        expect(wrapper.emitted().changeVisibleDate[0]).toEqual(['prev']);
-      });
-    });
-
-    describe('showYearMonthSelector', () => {
-      it('Should send an event to show year/month selector', () => {
-        const wrapper = mountComponent();
-        wrapper.vm.showYearMonthSelector('month');
-
-        expect(wrapper.emitted().showYearMonthSelector[0]).toEqual(['month']);
+        expect(wrapper.emitted()['on-navigation-click'][0]).toEqual(['prev']);
       });
     });
   });
 
   describe('behaviour', () => {
-    it('should emit changeVisibleDate when click on prev/next button', () => {
+    it('should emit direction when click on prev/next button', () => {
       const wrapper = mountComponent();
 
       wrapper.find('.vd-picker__controls-prev').trigger('click');
-      expect(wrapper.emitted().changeVisibleDate[0]).toEqual(['prev']);
+      expect(wrapper.emitted()['on-navigation-click'][0]).toEqual(['prev']);
 
       wrapper.find('.vd-picker__controls-next').trigger('click');
-      expect(wrapper.emitted().changeVisibleDate[1]).toEqual(['next']);
+      expect(wrapper.emitted()['on-navigation-click'][1]).toEqual(['next']);
     });
 
-    it('should emit showYearMonthSelector when click on month/year selector', () => {
+    it('should emit update mode when click on month/year selector', () => {
       const wrapper = mountComponent();
 
       wrapper.find('.vd-picker__controls-label > button').trigger('click');
-      expect(wrapper.emitted().showYearMonthSelector[0]).toEqual(['month']);
+      expect(wrapper.emitted()['update-mode'][0]).toEqual(['month']);
     });
   });
 });

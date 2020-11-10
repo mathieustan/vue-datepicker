@@ -1,11 +1,12 @@
 import dayjs from 'dayjs';
 import * as bodyScrollLockFunctions from 'body-scroll-lock';
 import mockDate from 'mockdate';
-import { shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import VDPicker from '@/components/VDPicker/VDPicker';
 
 // Helpers
 import * as helpersFunction from '@/utils/helpers';
+import { resizeWindow } from '../../../helpers';
 
 // Constants
 import {
@@ -18,6 +19,8 @@ import {
 jest.useFakeTimers();
 
 jest.mock('body-scroll-lock', () => ({
+  disableBodyScroll: jest.fn(),
+  enableBodyScroll: jest.fn(),
   clearAllBodyScrollLocks: jest.fn(),
 }));
 
@@ -37,9 +40,12 @@ describe('VDPicker', () => {
   beforeEach(() => {
     jest.spyOn(helpersFunction, 'generateRandomId').mockReturnValue('randomId');
     mountComponent = ({ props = {}, scopedSlots = {} } = {}) =>
-      shallowMount(VDPicker, {
+      mount(VDPicker, {
         scopedSlots,
         propsData: props,
+        mocks: {
+          $vuedatepicker: { lang: 'en' },
+        },
       });
   });
 
@@ -148,7 +154,7 @@ describe('VDPicker', () => {
       });
     });
 
-    describe('computedDate', () => {
+    describe('formattedInputDate', () => {
       [{
         description: 'return false by default',
         props: {},
@@ -206,34 +212,35 @@ describe('VDPicker', () => {
       }].forEach(({ description, props, expectedResult }) => {
         it(`should ${description}`, () => {
           const wrapper = mountComponent({ props });
-          expect(wrapper.vm.computedDate).toEqual(expectedResult);
+          expect(wrapper.vm.formattedInputDate).toEqual(expectedResult);
         });
       });
     });
 
-    describe('shouldShowBottomSheet', () => {
+    describe('isFullScreenMode', () => {
       [{
-        description: 'return false if menu isn\'t visible',
+        description: 'return false when width is greater than mobileBreakpoint',
         props: {},
         expectedResult: false,
       }, {
-        description: 'return false if window width is more than 480',
+        description: 'return true if mobileBreakpoint is greater than window width',
         props: {
           fullscreenMobile: true,
+          mobileBreakpoint: 1200,
+        },
+        expectedResult: true,
+      }, {
+        description: 'return false if mobileBreakpoint is less than window width',
+        props: {
+          fullscreenMobile: true,
+          mobileBreakpoint: 500,
         },
         expectedResult: false,
-      }, {
-        description: 'return true if window width is equal or less than 480',
-        props: {
-          fullscreenMobile: true,
-        },
-        windowWidth: 480,
-        expectedResult: true,
-      }].forEach(({ description, props, windowWidth, expectedResult }) => {
+      }].forEach(({ description, props, expectedResult }) => {
         it(`should ${description}`, () => {
-          global.innerWidth = windowWidth;
+          resizeWindow(1000);
           const wrapper = mountComponent({ props });
-          expect(wrapper.vm.shouldShowBottomSheet).toEqual(expectedResult);
+          expect(wrapper.vm.isFullScreenMode).toEqual(expectedResult);
         });
       });
     });
@@ -274,6 +281,7 @@ describe('VDPicker', () => {
   });
 
   describe('methods', () => {
+
     describe('showDatePicker', () => {
       it('should do nothing if disabled', () => {
         const wrapper = mountComponent({ props: { disabled: true } });
@@ -424,7 +432,7 @@ describe('VDPicker', () => {
       const wrapper = mountComponent({
         props: { inline: true },
       });
-      expect(wrapper.find('menu').exists()).toBe(false);
+      expect(wrapper.find('vd-menu').exists()).toBe(false);
     });
 
     it('should mount a custom input if slot is defined', () => {
@@ -436,8 +444,8 @@ describe('VDPicker', () => {
       expect(wrapper.find('#input')).toBeDefined();
     });
 
-    it('should mount an overlay if fullscreenMobile is true & width is lesss than 480', () => {
-      global.innerWidth = 479;
+    it('should mount an overlay if fullscreenMobile is true', () => {
+      resizeWindow(400);
       const wrapper = mountComponent({
         props: { fullscreenMobile: true, visible: true },
       });
@@ -459,7 +467,6 @@ describe('VDPicker', () => {
       document.body.appendChild(button);
 
       expect(wrapper.vm.isMenuActive).toEqual(true);
-      expect(wrapper.vm.shouldShowBottomSheet).toEqual(false);
 
       // Should close menu when on a button outisde
       button.click();
@@ -475,6 +482,26 @@ describe('VDPicker', () => {
       wrapper.vm.$refs.menu.$emit('transitionEnd');
 
       expect(wrapper.vm.isBooted).toEqual(true);
+    });
+
+    it('should open agenda & overlay when window size change', async () => {
+      resizeWindow(1200);
+      const wrapper = mountComponent({
+        props: { fullscreenMobile: true },
+      });
+
+      wrapper.setData({ isMenuActive: true, isBooted: true });
+      await wrapper.vm.$nextTick();
+
+      expect(document.body.querySelector('.vd-overlay')).not.toBeTruthy();
+      expect(document.body.querySelector('.vd-menu__content')).toBeDefined();
+
+      resizeWindow(400);
+      await wrapper.vm.$nextTick();
+      jest.runOnlyPendingTimers();
+      expect(wrapper.vm.isMenuActive).toEqual(true);
+
+      expect(document.body.querySelector('.vd-overlay')).toBeDefined();
     });
   });
 });

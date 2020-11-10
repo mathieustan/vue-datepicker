@@ -1,19 +1,15 @@
 // Styles
 import './VDPickerCustomInput.scss';
 
-// mixins
+// Mixins
 import colorable from '../../../mixins/colorable';
 
-// directives
-import ClickOutside from '../../../directives/click-outside';
-
-// components
+// Components
 import VDIcon from '../../VDIcon';
 
 export default {
   name: 'VDPickerCustomInput',
   mixins: [colorable],
-  directives: { ClickOutside },
   props: {
     clearable: { type: Boolean },
     closeOnClickOutside: { type: Boolean, default: true },
@@ -25,7 +21,6 @@ export default {
     isMenuActive: { type: Boolean, default: false },
     name: { type: String },
     noCalendarIcon: { type: Boolean, default: false },
-    noInput: { type: Boolean, default: false },
     placeholder: { type: String },
     tabindex: { type: [String, Number] },
   },
@@ -49,22 +44,6 @@ export default {
     // ------------------------------
     // Events
     // ------------------------------
-    onClick () {
-      this.$emit('focus');
-    },
-    onFocus () {
-      if (!this.$refs.input) return;
-
-      // If another element is focus, should focus this
-      if (document.activeElement !== this.$refs.input) {
-        return this.$refs.input.focus();
-      }
-
-      this.$emit('focus');
-    },
-    blur (event) {
-      event && this.$emit('blur');
-    },
     onKeyDown (event) {
       this.$emit('keydown', event);
     },
@@ -74,23 +53,15 @@ export default {
     // ------------------------------
     // Generate Template
     // ------------------------------
-    genContent () {
-      return [
-        !this.noCalendarIcon && this.genCalendarIcon(),
-        this.noInput ? this.genButton() : this.genInput(),
-        this.clearable && this.genClearIcon(),
-      ];
-    },
     genCalendarIcon () {
       return this.$createElement(VDIcon, {
-        staticClass: 'vd-picker__input-icon',
         props: {
           disabled: this.disabled,
         },
       }, ['calendarAlt']);
     },
     genInput () {
-      const data = {
+      return this.$createElement('input', {
         attrs: {
           id: this.id,
           name: this.name,
@@ -107,17 +78,10 @@ export default {
           value: this.date,
         },
         on: {
-          focus: this.onFocus,
           keydown: this.onKeyDown,
         },
         ref: 'input',
-      };
-
-      return this.$createElement('div', {
-        staticClass: `vd-picker__input-wrapper`,
-      }, [
-        this.$createElement('input', data),
-      ]);
+      });
     },
     genClearIcon () {
       const iconName = this.isDirty ? 'close' : '';
@@ -150,36 +114,15 @@ export default {
         staticClass: `vd-picker__input-clear`,
       }, [iconElement]);
     },
-    genButton () {
-      return this.$createElement('button', {
-        domProps: {
-          innerHTML: this.isDateDefined ? this.date : this.placeholder,
-        },
-        attrs: {
-          type: 'button',
-          disabled: this.disabled,
-          'aria-disabled': this.disabled,
-        },
-        on: {
-          click: this.onClick,
-        },
-      });
-    },
   },
   render (h) {
     return h('div', this.setTextColor(this.computedColor, {
       staticClass: 'vd-picker__input',
       class: this.classes,
-      directives: [{
-        name: 'click-outside',
-        value: {
-          isActive: this.closeOnClickOutside,
-          handler: this.blur,
-        },
-      }],
-      on: {
-        click: this.onClick,
-      },
-    }), this.genContent());
+    }), [
+      !this.noCalendarIcon && this.genCalendarIcon(),
+      this.genInput(),
+      this.clearable && this.genClearIcon(),
+    ]);
   },
 };

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { mount } from '@vue/test-utils';
-import VDPickerHeader from '@/components/VDPicker/VDPickerHeader/VDPickerHeader';
+import VDPickerHeader from '@/components/VDPicker/VDPickerHeader';
 
 describe('VDPickerHeader', () => {
   let mountComponent;
@@ -8,20 +8,19 @@ describe('VDPickerHeader', () => {
 
   beforeEach(() => {
     mountComponent = ({
+      formattedHeaderYear,
+      formattedHeaderDate = ['', ''],
       mutableDate,
-      formatHeader = 'dddd DD MMM',
       range,
-      rangeHeaderText = 'From %d To %d',
     } = {}) =>
       mount(VDPickerHeader, {
         propsData: {
+          formattedHeaderYear,
+          formattedHeaderDate,
           mutableDate,
           color: 'color',
-          locale: { lang: 'en' },
-          formatHeader,
           mode: undefined,
           range,
-          rangeHeaderText,
         },
       });
   });
@@ -36,8 +35,6 @@ describe('VDPickerHeader', () => {
     expect(wrapper.isVueInstance()).toBeTruthy();
     expect(wrapper.vm.color).toEqual('color');
     expect(wrapper.vm.mutableDate).toEqual(undefined);
-    expect(wrapper.vm.locale).toEqual({ lang: 'en' });
-    expect(wrapper.vm.formatHeader).toEqual('dddd DD MMM');
     expect(wrapper.vm.mode).toEqual(undefined);
   });
 
@@ -47,13 +44,13 @@ describe('VDPickerHeader', () => {
         [
           { range: true, mutableDate: {} },
           {
-            'vd-picker__header--range': true,
+            'vd-picker-header--range': true,
           },
         ],
         [
           { range: false },
           {
-            'vd-picker__header--range': false,
+            'vd-picker-header--range': false,
           },
         ],
       ])('when props = %p, should return %p', (props, expectedResult) => {
@@ -65,7 +62,7 @@ describe('VDPickerHeader', () => {
     describe('year', () => {
       it.each([
         [{ mutableDate: undefined }, '-'],
-        [{ mutableDate: dummyDate }, '2019'],
+        [{ mutableDate: dummyDate, formattedHeaderYear: '2019' }, '2019'],
       ])('When props = %p, should return %p', (props, expectedResult) => {
         const wrapper = mountComponent(props);
         expect(wrapper.vm.year).toEqual(expectedResult);
@@ -74,16 +71,8 @@ describe('VDPickerHeader', () => {
 
     describe('dateFormatted', () => {
       it.each([
-        [{ mutableDate: undefined }, '--'],
-        [{ mutableDate: dummyDate }, 'Thursday 16 May'],
-        [
-          { range: true, mutableDate: { start: dummyDate, end: undefined }, formatHeader: 'YYYY-MM-DD' },
-          ['From 2019-05-16', 'To __'],
-        ],
-        [
-          { range: true, mutableDate: { start: dummyDate, end: dayjs(new Date([2019, 5, 16])) }, formatHeader: 'YYYY-MM-DD' },
-          ['From 2019-05-16', 'To 2019-05-16'],
-        ],
+        [{ formattedHeaderDate: '--' }, '--'],
+        [{ formattedHeaderDate: ['--', '--'] }, ['--', '--']],
       ])('When props = %p, should return %p', (props, expectedResult) => {
         const wrapper = mountComponent(props);
         expect(wrapper.vm.dateFormatted).toEqual(expectedResult);
@@ -92,20 +81,20 @@ describe('VDPickerHeader', () => {
   });
 
   describe('behaviour', () => {
-    it('should emit showYearMonthSelector when click on year', () => {
+    it('should update mode when clicking year', () => {
       const wrapper = mountComponent();
-      const year = wrapper.find('.vd-picker__header-year__button');
+      const year = wrapper.find('.vd-picker-header__year-button');
       year.trigger('click');
 
-      expect(wrapper.emitted().showYearMonthSelector).toBeTruthy();
+      expect(wrapper.emitted()['update-mode']).toBeTruthy();
     });
 
-    it('should emit hideYearMonthSelector when click on date', () => {
+    it('should update mode when clicking date', () => {
       const wrapper = mountComponent();
-      const date = wrapper.find('.vd-picker__header-wrap__button');
+      const date = wrapper.find('.vd-picker-header__wrap-button');
       date.trigger('click');
 
-      expect(wrapper.emitted().hideYearMonthSelector).toBeTruthy();
+      expect(wrapper.emitted()['update-mode']).toBeTruthy();
     });
   });
 });

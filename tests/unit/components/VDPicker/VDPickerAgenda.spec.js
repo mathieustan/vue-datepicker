@@ -3,10 +3,10 @@ import mockDate from 'mockdate';
 import * as bodyScrollLockFunctions from 'body-scroll-lock';
 import { mount } from '@vue/test-utils';
 
-// locale
-import { en } from '@/locale';
+import VDPickerAgenda from '@/components/VDPicker/VDPickerAgenda';
 
-import VDPickerAgenda from '@/components/VDPicker/VDPickerAgenda/VDPickerAgenda';
+// Lang
+import { en } from '@/locale';
 
 jest.mock('body-scroll-lock', () => ({
   disableBodyScroll: jest.fn(),
@@ -35,13 +35,13 @@ describe('VDPickerAgenda', () => {
       date = dummyDate,
       minDate,
       maxDate,
-      locale = { lang: en },
-      activeBottomSheet = false,
+      fullscreen = false,
       noHeader = false,
       type = 'date',
       validate,
       range,
       rangePresets,
+      locale = { lang: en },
       rtl,
     } = {}) =>
       mount(VDPickerAgenda, {
@@ -52,16 +52,19 @@ describe('VDPickerAgenda', () => {
           date,
           minDate,
           maxDate,
-          locale,
           color: 'color',
           close: jest.fn(),
           type,
           validate,
           range,
           rangePresets,
-          activeBottomSheet,
+          fullscreen,
           noHeader,
+          locale,
           rtl,
+        },
+        mocks: {
+          $vuedatepicker: { lang: 'en' },
         },
         attachToDocument: true,
       });
@@ -75,32 +78,23 @@ describe('VDPickerAgenda', () => {
   it('Should init data', () => {
     const wrapper = mountComponent();
     expect(wrapper.isVueInstance()).toBeTruthy();
-    expect(wrapper.vm.locale).toEqual({ lang: en });
     expect(wrapper.vm.color).toEqual('color');
 
-    expect(wrapper.vm.currentDate).toEqual({
+    expect(wrapper.vm.pickerDate).toEqual({
       start: dummyDate.startOf('month'),
       end: dummyDate.endOf('month'),
       month: 4,
       year: 2019,
+      locale: { lang: en },
     });
     expect(wrapper.vm.mutableDate).toEqual(dummyDate);
   });
 
   describe('computed', () => {
-    describe('styles', () => {
-      it('should return styles from data', () => {
-        const wrapper = mountComponent();
-        expect(wrapper.vm.styles).toEqual({
-          height: 'auto',
-        });
-      });
-    });
-
     describe('classes', () => {
       it.each([
         [
-          { fullscreenMobile: true, inline: false, activeBottomSheet: true, noHeader: true, validate: true },
+          { fullscreenMobile: true, inline: false, fullscreen: true, noHeader: true, validate: true },
           {
             'vd-picker--rtl': false,
             'vd-picker--bottomsheet': true,
@@ -112,12 +106,12 @@ describe('VDPickerAgenda', () => {
         ],
         [
           {
-            rtl: true,
             fullscreenMobile: false,
             inline: true,
             noHeader: false,
             range: true,
             date: { start: dayjs('2018-01-01'), end: dayjs('2018-02-01') },
+            rtl: true,
           },
           {
             'vd-picker--rtl': true,
@@ -149,14 +143,15 @@ describe('VDPickerAgenda', () => {
   });
 
   describe('created', () => {
-    it('should init currentDate & mutableDate ', async () => {
+    it('should init pickerDate & mutableDate ', async () => {
       const wrapper = mountComponent();
 
-      expect(wrapper.vm.currentDate).toEqual({
+      expect(wrapper.vm.pickerDate).toEqual({
         start: dummyDate.startOf('month'),
         end: dummyDate.endOf('month'),
         month: 4,
         year: 2019,
+        locale: { lang: en },
       });
       expect(wrapper.vm.mutableDate).toEqual(dummyDate);
     });
@@ -173,89 +168,83 @@ describe('VDPickerAgenda', () => {
 
   describe('watch', () => {
     describe('date', () => {
-      it('should update currentDate & mutableDate when date change', () => {
+      it('should update pickerDate & mutableDate when date change', () => {
         const wrapper = mountComponent();
         const newDate = dummyDate.add(1, 'day');
 
-        expect(wrapper.vm.currentDate).toEqual({
+        expect(wrapper.vm.pickerDate).toEqual({
           start: dummyDate.startOf('month'),
           end: dummyDate.endOf('month'),
           month: 4,
           year: 2019,
+          locale: { lang: en },
         });
         expect(wrapper.vm.mutableDate).toEqual(dummyDate);
 
         wrapper.setProps({ date: newDate });
 
-        expect(wrapper.vm.currentDate).toEqual({
+        expect(wrapper.vm.pickerDate).toEqual({
           start: newDate.startOf('month'),
           end: newDate.endOf('month'),
           month: 4,
           year: 2019,
+          locale: { lang: en },
         });
         expect(wrapper.vm.mutableDate).toEqual(newDate);
       });
     });
 
-    describe('activeBottomSheet', () => {
+    describe('fullscreen', () => {
       it('should disable body scroll when visible', async () => {
-        const wrapper = mountComponent({ activeBottomSheet: true });
-        wrapper.setData({ innerWidth: 400 });
+        const wrapper = mountComponent({ fullscreen: true });
         await wrapper.vm.$nextTick();
         const datepickerContent = document.querySelector('.vd-picker__body');
         expect(bodyScrollLockFunctions.disableBodyScroll).toHaveBeenCalledWith(datepickerContent);
       });
 
       it('should enable body scroll when hidden', async () => {
-        const wrapper = mountComponent({ activeBottomSheet: false });
-        wrapper.setData({ innerWidth: 500 });
+        const wrapper = mountComponent({ fullscreen: false });
         await wrapper.vm.$nextTick();
         expect(bodyScrollLockFunctions.enableBodyScroll).toHaveBeenCalled();
       });
     });
 
-    describe('yearMonthMode', () => {
+    describe('mode', () => {
       let wrapper, datepickerContent, datepickerYearMonth;
       beforeEach(() => {
-        wrapper = mountComponent({ activeBottomSheet: true });
+        wrapper = mountComponent({ fullscreen: true });
         datepickerContent = document.querySelector('.vd-picker__body');
-        datepickerYearMonth = document.querySelector('.datepicker-year-month');
+        datepickerYearMonth = document.querySelector('.vd-picker__years');
       });
 
       it('should do nothing if active mode isnt year && should\'nt show bottom sheet', () => {
-        wrapper.setData({ innerWidth: 400, yearMonthMode: 'month' });
+        wrapper.setData({ mode: 'month' });
 
-        expect(bodyScrollLockFunctions.enableBodyScroll).not.toHaveBeenCalledWith(datepickerContent);
-        expect(bodyScrollLockFunctions.disableBodyScroll).not.toHaveBeenCalledWith(datepickerYearMonth);
+        wrapper.vm.$nextTick(() => {
+          expect(bodyScrollLockFunctions.enableBodyScroll).not.toHaveBeenCalledWith(datepickerContent);
+          expect(bodyScrollLockFunctions.disableBodyScroll).not.toHaveBeenCalledWith(datepickerYearMonth);
+        });
+
       });
 
-      it('should do nothing if active mode isnt year && should\'nt show bottom sheet', () => {
-        wrapper.setData({ innerWidth: 400, yearMonthMode: 'year' });
+      it('should update body scroll when mode is year', () => {
+        wrapper.setData({ mode: 'year' });
 
-        expect(bodyScrollLockFunctions.enableBodyScroll).toHaveBeenCalledWith(datepickerContent);
-        expect(bodyScrollLockFunctions.disableBodyScroll).toHaveBeenCalledWith(datepickerYearMonth);
+        wrapper.vm.$nextTick(() => {
+          expect(bodyScrollLockFunctions.enableBodyScroll).toHaveBeenCalledWith(datepickerContent);
+          expect(bodyScrollLockFunctions.disableBodyScroll).toHaveBeenCalledWith(datepickerYearMonth);
+        });
+
       });
     });
 
     describe('type', () => {
-      it('should init shouldShowYearMonthSelector && yearMonthMode from type', () => {
+      it('should update mode', () => {
         const wrapper = mountComponent({ type: 'month' });
-        expect(wrapper.vm.shouldShowYearMonthSelector).toEqual(true);
-        expect(wrapper.vm.yearMonthMode).toEqual('month');
+        expect(wrapper.vm.mode).toEqual('month');
 
         wrapper.setProps({ type: 'date' });
-        expect(wrapper.vm.shouldShowYearMonthSelector).toEqual(false);
-        expect(wrapper.vm.yearMonthMode).toEqual('date');
-      });
-
-      it('should init shouldShowYearMonthSelector && yearMonthMode from type', () => {
-        const wrapper = mountComponent({ type: 'date' });
-        expect(wrapper.vm.shouldShowYearMonthSelector).toEqual(false);
-        expect(wrapper.vm.yearMonthMode).toEqual('date');
-
-        wrapper.setProps({ type: 'month' });
-        expect(wrapper.vm.shouldShowYearMonthSelector).toEqual(true);
-        expect(wrapper.vm.yearMonthMode).toEqual('month');
+        expect(wrapper.vm.mode).toEqual('date');
       });
     });
   });
@@ -387,7 +376,7 @@ describe('VDPickerAgenda', () => {
     });
 
     describe('updateDate', () => {
-      it('Should update currentDate & mutableDate for MONTH mode', () => {
+      it('Should update pickerDate & mutableDate for MONTH mode', () => {
         const newDate = dayjs('2019-04', 'YYYY-MM');
         const wrapper = mountComponent({
           isVisible: false,
@@ -396,11 +385,12 @@ describe('VDPickerAgenda', () => {
         });
 
         wrapper.vm.updateDate(newDate);
-        expect(wrapper.vm.currentDate).toEqual({
+        expect(wrapper.vm.pickerDate).toEqual({
           start: newDate.startOf('month'),
           end: newDate.endOf('month'),
           month: 3,
           year: 2019,
+          locale: { lang: en },
         });
         expect(wrapper.vm.mutableDate).toEqual(newDate);
       });
@@ -416,16 +406,17 @@ describe('VDPickerAgenda', () => {
         });
 
         wrapper.vm.updateDate(newDate);
-        expect(wrapper.vm.currentDate).toEqual({
+        expect(wrapper.vm.pickerDate).toEqual({
           start: expectedDate.startOf('month'),
           end: expectedDate.endOf('month'),
           month: 2,
           year: 2019,
+          locale: { lang: en },
         });
         expect(wrapper.vm.mutableDate).toEqual(expectedDate);
       });
 
-      it('Should update currentDate & mutableDate for QUARTER mode', () => {
+      it('Should update pickerDate & mutableDate for QUARTER mode', () => {
         const newDate = dayjs('2019-2', 'YYYY-Q');
         const wrapper = mountComponent({
           isVisible: false,
@@ -434,11 +425,12 @@ describe('VDPickerAgenda', () => {
         });
 
         wrapper.vm.updateDate(newDate);
-        expect(wrapper.vm.currentDate).toEqual({
+        expect(wrapper.vm.pickerDate).toEqual({
           start: newDate.month(3).startOf('month'),
           end: newDate.month(3).endOf('month'),
           month: 3,
           year: 2019,
+          locale: { lang: en },
         });
         expect(wrapper.vm.mutableDate).toEqual(newDate.month(3));
       });
@@ -451,34 +443,38 @@ describe('VDPickerAgenda', () => {
           end: dummyDate.add(1, 'month').endOf('month'),
           month: 5,
           year: 2019,
+          locale: { lang: en },
         }],
         ['next', dayjs(new Date([2019, 12, 16])), {
           start: dayjs(new Date([2019, 12, 16])).add(1, 'month').startOf('month'),
           end: dayjs(new Date([2019, 12, 16])).add(1, 'month').endOf('month'),
           month: 0,
           year: 2020,
+          locale: { lang: en },
         }],
         ['prev', dummyDate, {
           start: dummyDate.subtract(1, 'month').startOf('month'),
           end: dummyDate.subtract(1, 'month').endOf('month'),
           month: 3,
           year: 2019,
+          locale: { lang: en },
         }],
         ['prev', dayjs(new Date([2019, 1, 16])), {
           start: dayjs(new Date([2019, 1, 16])).subtract(1, 'month').startOf('month'),
           end: dayjs(new Date([2019, 1, 16])).subtract(1, 'month').endOf('month'),
           month: 11,
           year: 2018,
+          locale: { lang: en },
         }],
       ])(
-        'When direction is %p, date equal %p, currentDate should be %p',
+        'When direction is %p, date equal %p, pickerDate should be %p',
         (direction, date, expectedResult) => {
           const wrapper = mountComponent({ date });
           wrapper.vm.changeMonth(direction);
 
           expect(wrapper.vm.transitionDaysName).toEqual(`slide-h-${direction}`);
           expect(wrapper.vm.transitionLabelName).toEqual(`slide-v-${direction}`);
-          expect(wrapper.vm.currentDate).toEqual(expectedResult);
+          expect(wrapper.vm.pickerDate).toEqual(expectedResult);
         }
       );
     });
@@ -490,22 +486,24 @@ describe('VDPickerAgenda', () => {
           end: dummyDate.add(1, 'year').endOf('month'),
           month: 4,
           year: 2020,
+          locale: { lang: en },
         }],
         ['prev', dummyDate, {
           start: dummyDate.subtract(1, 'year').startOf('month'),
           end: dummyDate.subtract(1, 'year').endOf('month'),
           month: 4,
           year: 2018,
+          locale: { lang: en },
         }],
       ])(
-        'When direction is %p, date equal %p, currentDate should be %p',
+        'When direction is %p, date equal %p, pickerDate should be %p',
         (direction, date, expectedResult) => {
           const wrapper = mountComponent({ date });
           wrapper.vm.changeYear(direction);
 
           expect(wrapper.vm.transitionDaysName).toEqual(`slide-h-${direction}`);
           expect(wrapper.vm.transitionLabelName).toEqual(`slide-v-${direction}`);
-          expect(wrapper.vm.currentDate).toEqual(expectedResult);
+          expect(wrapper.vm.pickerDate).toEqual(expectedResult);
         }
       );
     });
@@ -523,84 +521,113 @@ describe('VDPickerAgenda', () => {
       });
     });
 
-    describe('showYearMonthSelector', () => {
-      it('Should set yearMonth mode & show selector', () => {
-        const wrapper = mountComponent();
-        wrapper.vm.showYearMonthSelector('year');
-
-        expect(wrapper.vm.yearMonthMode).toEqual('year');
-        expect(wrapper.vm.shouldShowYearMonthSelector).toBeTruthy();
-      });
-    });
-
-    describe('hideYearMonthSelector', () => {
-      it('Should close yearMonth selector & reset state', () => {
-        const wrapper = mountComponent();
-        wrapper.setData({ yearMonthMode: 'month', shouldShowYearMonthSelector: true });
-
-        wrapper.vm.hideYearMonthSelector();
-
-        expect(wrapper.vm.yearMonthMode).toEqual(undefined);
-        expect(wrapper.vm.shouldShowYearMonthSelector).toBeFalsy();
-      });
-    });
-
-    describe('selectedYearMonth', () => {
-      it.each([
-        ['date', 2018, 'year', {
+    describe('updateSelectedYearMonth', () => {
+      [{
+        description: 'should update year and show month picker',
+        props: {
+          type: 'date',
+        },
+        options: {
+          value: 2018,
+          mode: 'year',
+        },
+        expectedDate: {
           start: dummyDate.set('year', 2018).startOf('month'),
           end: dummyDate.set('year', 2018).endOf('month'),
           month: 4,
           year: 2018,
-        }],
-        ['month', 2018, 'year', {
+          locale: { lang: en },
+        },
+        expectedMode: 'month',
+      }, {
+        description: 'should update month and show date picker',
+        props: {
+          type: 'date',
+        },
+        options: {
+          value: 2,
+          mode: 'month',
+        },
+        expectedDate: {
+          start: dummyDate.set('month', 2).startOf('month'),
+          end: dummyDate.set('month', 2).endOf('month'),
+          month: 2,
+          year: 2019,
+          locale: { lang: en },
+        },
+        expectedMode: 'date',
+      }, {
+        description: 'should update year and show quarter',
+        props: {
+          type: 'quarter',
+        },
+        options: {
+          value: 2018,
+          mode: 'year',
+        },
+        expectedDate: {
+          start: dummyDate.set('year', 2018).set('month', 12).startOf('month'),
+          end: dummyDate.set('year', 2018).set('month', 12).endOf('month'),
+          month: 12,
+          year: 2018,
+          locale: { lang: en },
+        },
+        expectedMode: 'quarter',
+      }, {
+        description: 'should update year and selectDate date when type is year',
+        props: {
+          type: 'year',
+        },
+        options: {
+          value: 2018,
+          mode: 'year',
+        },
+        expectedDate: {
           start: dummyDate.set('year', 2018).startOf('month'),
           end: dummyDate.set('year', 2018).endOf('month'),
           month: 4,
           year: 2018,
-        }],
-        [undefined, 2, 'month', {
+          locale: { lang: en },
+        },
+        expectedMode: 'year',
+        callSelectDate: true,
+      }, {
+        description: 'should update month and select date when type is month',
+        props: {
+          type: 'month',
+        },
+        options: {
+          value: 2,
+          mode: 'month',
+        },
+        expectedDate: {
           start: dummyDate.set('month', 2).startOf('month'),
           end: dummyDate.set('month', 2).endOf('month'),
           month: 2,
           year: 2019,
-        }],
-      ])(
-        'When value selected is %p, mode equal %p, currentDate should equal %p',
-        (type, value, mode, expectedResult) => {
-          const wrapper = mountComponent({ type });
-          jest.spyOn(wrapper.vm, 'hideYearMonthSelector');
-          wrapper.vm.selectedYearMonth(value, mode);
+          locale: { lang: en },
+        },
+        expectedMode: 'month',
+        callSelectDate: true,
+      }].forEach(({ description, props, options, expectedDate, expectedMode, callSelectDate }) => {
+        it(`should ${description}`, () => {
+          const wrapper = mountComponent(props);
+          jest.spyOn(wrapper.vm, 'selectDate');
+          wrapper.vm.updateSelectedYearMonth(options.value, options.mode);
 
-          expect(wrapper.vm.currentDate).toEqual(expectedResult);
-          expect(wrapper.vm.yearMonthMode).toEqual(type === 'date' ? 'month' : type);
+          expect(wrapper.vm.pickerDate).toEqual(expectedDate);
+          expect(wrapper.vm.mode).toEqual(expectedMode);
 
-          if (mode === 'month') {
-            expect(wrapper.vm.hideYearMonthSelector).toHaveBeenCalled();
-          }
-        }
-      );
-
-      it('should update selected date when type is month', () => {
-        const wrapper = mountComponent({ type: 'month' });
-        jest.spyOn(wrapper.vm, 'hideYearMonthSelector');
-
-        wrapper.vm.selectedYearMonth(2, 'month');
-        expect(wrapper.vm.currentDate).toEqual({
-          start: dummyDate.set('month', 2).startOf('month'),
-          end: dummyDate.set('month', 2).endOf('month'),
-          month: 2,
-          year: 2019,
+          if (callSelectDate) expect(wrapper.vm.selectDate).toHaveBeenCalled();
         });
-        expect(wrapper.emitted().selectDate[0]).toEqual([dayjs().year(2019).month(2).startOf('month')]);
-        expect(wrapper.vm.hideYearMonthSelector).not.toHaveBeenCalled();
       });
     });
+
   });
 
   describe('behaviour', () => {
     it('should emit close when click on a close button', () => {
-      const wrapper = mountComponent({ activeBottomSheet: true });
+      const wrapper = mountComponent({ fullscreen: true });
       const icon = wrapper.find('.vd-picker__title-close > .vd-icon');
       icon.trigger('click');
 
@@ -609,7 +636,7 @@ describe('VDPickerAgenda', () => {
 
     it('should emit cancel when click on cancel button', () => {
       const wrapper = mountComponent({ validate: true });
-      const button = wrapper.find('.vd-picker__validate-button__cancel');
+      const button = wrapper.find('.vd-picker-validate__button-cancel');
       button.trigger('click');
 
       expect(wrapper.emitted().close).toBeTruthy();
@@ -617,7 +644,7 @@ describe('VDPickerAgenda', () => {
 
     it('should emit validate when click on validate button', () => {
       const wrapper = mountComponent({ validate: true });
-      const button = wrapper.find('.vd-picker__validate-button__validate');
+      const button = wrapper.find('.vd-picker-validate__button-validate');
       button.trigger('click');
 
       expect(wrapper.emitted().validateDate).toBeTruthy();

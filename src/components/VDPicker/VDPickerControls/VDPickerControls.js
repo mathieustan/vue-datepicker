@@ -8,59 +8,67 @@ import colorable from '../../../mixins/colorable';
 import VDIcon from '../../VDIcon';
 
 // Functions
-import { isBeforeDate, isAfterDate } from '../../../utils/Dates';
+import {
+  isBeforeDate,
+  isAfterDate,
+} from '../utils/helpers';
 
-export default {
+// Helpers
+import mixins from '../../../utils/mixins';
+
+const baseMixins = mixins(
+  colorable,
+);
+
+export default baseMixins.extend({
   name: 'VDPickerControls',
-  mixins: [colorable],
   props: {
-    currentDate: { type: Object, required: true },
+    pickerDate: { type: Object, required: true },
     transitionName: { type: String },
     color: { type: String },
-    mode: { type: String, default: 'month' },
-    minDate: { type: [String, Number, Date] },
-    maxDate: { type: [String, Number, Date] },
+    mode: { type: String, default: 'date' },
+    min: { type: [String, Number, Date] },
+    max: { type: [String, Number, Date] },
   },
   computed: {
     monthFormatted () {
-      return this.currentDate.getMonthFormatted();
+      return this.pickerDate.getMonthFormatted();
     },
     yearFormatted () {
-      return this.currentDate.getYearFormatted();
+      return this.pickerDate.getYearFormatted();
     },
     isYearDisabled () {
-      return isBeforeDate(this.yearFormatted, this.minDate, 'year') ||
-        isAfterDate(this.yearFormatted, this.maxDate, 'year');
+      return isBeforeDate(this.yearFormatted, this.min, 'year') ||
+        isAfterDate(this.yearFormatted, this.max, 'year');
     },
     isPreviousDateDisabled () {
-      if (this.mode !== 'year') return false;
-      return isBeforeDate(Number(this.yearFormatted) - 1, this.minDate, 'year');
+      // If active mode is month or quater, controls will show year.
+      // If active mode is date, controls will show month - year
+      const previousYear = parseInt(this.yearFormatted, 10) - 1;
+      const previousDate = ['month', 'quarter'].includes(this.mode)
+        ? previousYear : `${this.yearFormatted}-${this.pickerDate.month}`;
+
+      return isBeforeDate(previousDate, this.min, this.mode === 'month' ? 'year' : 'month');
     },
     isNextDateDisabled () {
-      if (this.mode !== 'year') return false;
-      return isAfterDate(Number(this.yearFormatted) + 1, this.maxDate, 'year');
+      // If active mode is month or quater, controls will show year.
+      // If active mode is date, controls will show month - year
+      const nextYear = parseInt(this.yearFormatted, 10) + 1;
+      const nextDate = ['month', 'quarter'].includes(this.mode)
+        ? nextYear : `${this.yearFormatted}-${this.pickerDate.month + 2}`;
+      return isAfterDate(nextDate, this.max, this.mode === 'month' ? 'year' : 'month');
     },
   },
   methods: {
     // ------------------------------
     // Events
     // ------------------------------
-    changeVisibleDate (direction) {
-      this.$emit('changeVisibleDate', direction);
-    },
-    showYearMonthSelector (mode) {
-      this.$emit('showYearMonthSelector', mode);
+    onNavigationClick (direction) {
+      this.$emit('on-navigation-click', direction);
     },
     // ------------------------------
     // Generate Template
     // ------------------------------
-    genContent () {
-      return [
-        this.genPrevButton(),
-        this.genSelectors(),
-        this.genNextButton(),
-      ];
-    },
     genPrevButton () {
       const icon = this.$createElement(VDIcon, 'chevronLeft');
 
@@ -71,7 +79,7 @@ export default {
           type: 'button',
         },
         on: {
-          click: () => this.changeVisibleDate('prev'),
+          click: () => this.onNavigationClick('prev'),
         },
       }, [icon]);
     },
@@ -85,7 +93,7 @@ export default {
           type: 'button',
         },
         on: {
-          click: () => this.changeVisibleDate('next'),
+          click: () => this.onNavigationClick('next'),
         },
       }, [icon]);
     },
@@ -93,7 +101,7 @@ export default {
       return this.$createElement('div', {
         staticClass: 'vd-picker__controls-wrapper',
       }, [
-        this.mode === 'month' && this.genMonthSelector(),
+        this.mode === 'date' && this.genMonthSelector(),
         this.genYearSelector(),
       ]);
     },
@@ -103,7 +111,7 @@ export default {
         staticClass: 'vd-picker__controls-label',
       }), [this.$createElement('button', {
         attrs: { type: 'button', disabled },
-        on: { click: () => this.showYearMonthSelector(type) },
+        on: { click: () => this.$emit('update-mode', type) },
       }, [value])]);
     },
     genMonthSelector () {
@@ -113,7 +121,7 @@ export default {
           name: this.transitionName,
           tag: 'span',
         },
-      }, [this.currentDate.month].map(key =>
+      }, [this.pickerDate.month].map(key =>
         this.genChildrenSelectors({
           value: this.monthFormatted,
           key,
@@ -125,13 +133,13 @@ export default {
       return this.$createElement('transition-group', {
         staticClass: 'vd-picker__controls-year',
         class: {
-          'vd-picker__controls-year--center': this.mode === 'year',
+          'vd-picker__controls-year--center': ['month', 'quarter'].includes(this.mode),
         },
         props: {
           name: this.transitionName,
           tag: 'span',
         },
-      }, [this.currentDate.year].map(key =>
+      }, [this.pickerDate.year].map(key =>
         this.genChildrenSelectors({
           value: this.yearFormatted,
           key,
@@ -144,6 +152,10 @@ export default {
   render (h) {
     return h('div', {
       staticClass: 'vd-picker__controls',
-    }, this.genContent());
+    }, [
+      this.genPrevButton(),
+      this.genSelectors(),
+      this.genNextButton(),
+    ]);
   },
-};
+});

@@ -3,33 +3,43 @@ import './VDPickerPresets.scss';
 
 // Mixins
 import colorable from '../../../mixins/colorable';
-
-// Functions
-import {
-  generateDateRangeWithoutDisabled,
-  areSameDates,
-} from '../../../utils/Dates';
+import Localable from '../../../mixins/localable';
 
 // Constants
 import { MAX_PRESETS_NUMBER } from '../../../constants';
 
-export default {
+// Helpers
+import {
+  generateDateRangeWithoutDisabled,
+  areSameDates,
+} from '../utils/helpers';
+import mixins from '../../../utils/mixins';
+
+const baseMixins = mixins(
+  colorable,
+  Localable,
+);
+
+export default baseMixins.extend({
   name: 'VDPickerPresets',
-  mixins: [colorable],
   props: {
     rangePresets: { type: Array },
     mutableDate: { type: Object },
     minDate: { type: [String, Number, Date] },
     maxDate: { type: [String, Number, Date] },
     color: { type: String },
-    locale: { type: Object },
   },
   computed: {
     presetsFormatted () {
       if (!this.rangePresets) return;
       return this.rangePresets.map(preset => ({
         ...preset,
-        availableDates: generateDateRangeWithoutDisabled(preset.dates, this.minDate, this.maxDate),
+        availableDates: generateDateRangeWithoutDisabled({
+          dates: preset.dates,
+          minDate: this.minDate,
+          maxDate: this.maxDate,
+          locale: this.currentLocale,
+        }),
       })).splice(0, MAX_PRESETS_NUMBER); // Allow a number of presets
     },
   },
@@ -46,7 +56,7 @@ export default {
     setPresetDates ({ availableDates }) {
       if (this.isPresetSelected({ availableDates })) return;
 
-      this.$emit('updateRange', {
+      this.$emit('update-range', {
         start: availableDates[0],
         end: availableDates[availableDates.length - 1],
       });
@@ -56,15 +66,15 @@ export default {
     // ------------------------------
     genWrapper () {
       return this.$createElement('div', {
-        staticClass: 'vd-picker__presets-wrapper',
+        staticClass: 'vd-picker-presets__wrapper',
       }, this.presetsFormatted.map(this.genButton));
     },
     genButton (preset, key) {
       const effect = this.$createElement('div', this.setBackgroundColor(this.color, {
-        staticClass: 'vd-picker__preset-effect',
+        staticClass: 'vd-picker-preset__effect',
       }));
       const text = this.$createElement('div', {
-        staticClass: 'vd-picker__preset-name',
+        staticClass: 'vd-picker-preset__name',
         domProps: {
           innerHTML: preset.name,
         },
@@ -72,10 +82,10 @@ export default {
 
       return this.$createElement('button', {
         key,
-        staticClass: 'vd-picker__preset',
+        staticClass: 'vd-picker-preset',
         class: {
-          'vd-picker__preset--selected': this.isPresetSelected(preset),
-          'vd-picker__preset--disabled': !this.isPresetValid(preset),
+          'vd-picker-preset--selected': this.isPresetSelected(preset),
+          'vd-picker-preset--disabled': !this.isPresetValid(preset),
         },
         attrs: {
           type: 'button',
@@ -90,7 +100,7 @@ export default {
     if (!this.presetsFormatted) return;
 
     return h('div', {
-      staticClass: 'vd-picker__presets',
+      staticClass: 'vd-picker-presets',
     }, [this.genWrapper()]);
   },
-};
+});

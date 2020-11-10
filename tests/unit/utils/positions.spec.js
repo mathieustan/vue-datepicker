@@ -63,10 +63,31 @@ describe('Utils: Functions', () => {
   });
 
   describe('computeYearsScrollPosition', () => {
-    it('should return currentYear position from element position', () => {
-      const container = { offsetHeight: 200 };
-      const elementToShow = { offsetTop: 250, offsetHeight: 50 };
-      expect(computeYearsScrollPosition(container, elementToShow)).toEqual(175);
+    [{
+      description: 'calcul position from activeItem',
+      options: {
+        container: { scrollHeight: 200, offsetHeight: 0 },
+        activeItem: { offsetTop: 250, offsetHeight: 50 },
+      },
+      // activeItem.offsetTop - container.offsetHeight / 2 + activeItem.offsetHeight / 2;
+      expectedResult: 250 - 0 + 25,
+    }, {
+      description: 'if min or max is set but without an active year, should scroll to top',
+      options: {
+        container: { scrollHeight: 200, offsetHeight: 0 },
+        min: '2017',
+      },
+      expectedResult: 0,
+    }, {
+      description: 'scroll to middle by default',
+      options: {
+        container: { scrollHeight: 200, offsetHeight: 0 },
+      },
+      expectedResult: 100,
+    }].forEach(({ description, options, expectedResult }) => {
+      it(`should ${description}`, () => {
+        expect(computeYearsScrollPosition(options)).toEqual(expectedResult);
+      });
     });
   });
 

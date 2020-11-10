@@ -1,11 +1,11 @@
 @import '../../../styles/abstracts/index';
 
-$day-size: get-size(mobile, day-height);
-$day-size-md: get-size(desktop, day-height);
+$table-height: 242px;
+$table-date-height: 208px;
 
 $day-width: calc(100%/7);
 
-$days-height-5-weeks: $day-size * 5;
-$days-height-5-weeks-md: $day-size-md * 5;
-$days-height-6-weeks: $day-size * 6;
-$days-height-6-weeks-md: $day-size-md * 6;
+$week-font-size: 12px;
+$week-font-weight: get-font-weight(medium);
+$week-line-height: 18px;
+$week-color: transparentize(black, .62);

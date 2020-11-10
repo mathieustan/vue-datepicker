@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { shallowMount } from '@vue/test-utils';
-import VDPickerPresets from '@/components/VDPicker/VDPickerPresets/VDPickerPresets';
+import VDPickerPresets from '@/components/VDPicker/VDPickerPresets';
 
 describe('VDPickerPresets', () => {
   let mountComponent;
@@ -11,7 +11,6 @@ describe('VDPickerPresets', () => {
       mutableDate,
       minDate,
       maxDate,
-      locale = { lang: 'en' },
     } = {}) =>
       shallowMount(VDPickerPresets, {
         propsData: {
@@ -20,7 +19,9 @@ describe('VDPickerPresets', () => {
           minDate,
           maxDate,
           color: 'color',
-          locale,
+        },
+        mocks: {
+          $vuedatepicker: { lang: 'en' },
         },
       });
   });
@@ -37,13 +38,12 @@ describe('VDPickerPresets', () => {
     expect(wrapper.vm.minDate).toEqual(undefined);
     expect(wrapper.vm.maxDate).toEqual(undefined);
     expect(wrapper.vm.color).toEqual('color');
-    expect(wrapper.vm.locale).toEqual({ lang: 'en' });
   });
 
   describe('computed', () => {
     describe('presetsFormatted', () => {
       it.each([
-        [{}, undefined],
+        [undefined, undefined],
         [{
           rangePresets: [{ name: 'month', dates: { start: '2018-01-01', end: '2018-01-31' } }],
           minDate: '2018-01-29',
@@ -118,14 +118,14 @@ describe('VDPickerPresets', () => {
         const wrapper = mountComponent({ mutableDate: { start: '2018-01-29', end: '2018-01-31' } });
         const preset = { availableDates: [dayjs('2018-01-29'), dayjs('2018-01-30'), dayjs('2018-01-31')] };
         wrapper.vm.setPresetDates(preset);
-        expect(wrapper.emitted().updateRange).toBeFalsy();
+        expect(wrapper.emitted()['update-range']).toBeFalsy();
       });
 
       it('Should emit first & last day from available dates', () => {
         const wrapper = mountComponent();
         const preset = { availableDates: [dayjs('2018-01-29'), dayjs('2018-01-30'), dayjs('2018-01-31')] };
         wrapper.vm.setPresetDates(preset);
-        expect(wrapper.emitted().updateRange[0]).toEqual([
+        expect(wrapper.emitted()['update-range'][0]).toEqual([
           { start: dayjs('2018-01-29'), end: dayjs('2018-01-31') },
         ]);
       });
@@ -137,10 +137,10 @@ describe('VDPickerPresets', () => {
       const wrapper = mountComponent({
         rangePresets: [{ name: 'month', dates: { start: '2018-01-01', end: '2018-01-31' } }],
       });
-      const preset = wrapper.find('.vd-picker__preset');
+      const preset = wrapper.find('.vd-picker-preset');
       preset.trigger('click');
 
-      expect(wrapper.emitted().updateRange).toBeTruthy();
+      expect(wrapper.emitted()['update-range']).toBeTruthy();
     });
   });
 });

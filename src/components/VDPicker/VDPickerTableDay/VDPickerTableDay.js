@@ -3,22 +3,28 @@ import './VDPickerTableDay.scss';
 
 // Mixins
 import colorable from '../../../mixins/colorable';
-
-// Helpers
-import { getSlot } from '../../../utils/helpers';
+import Localable from '../../../mixins/localable';
 
 // Functions
 import {
+  isDateToday,
   isBeforeDate,
   isBetweenDates,
   isDateAllowed,
-  isDateToday,
-} from '../../../utils/Dates';
+} from '../utils/helpers';
 
-export default {
+// Helpers
+import { getSlot } from '../../../utils/helpers';
+import mixins from '../../../utils/mixins';
+
+const baseMixins = mixins(
+  colorable,
+  Localable,
+);
+
+export default baseMixins.extend({
   name: 'VDPickerTableDay',
   inject: ['VDPicker'],
-  mixins: [colorable],
   props: {
     allowedDates: { type: Function },
     color: { type: String },
@@ -98,7 +104,7 @@ export default {
     // Events
     // ------------------------------
     onDayClick (day) {
-      this.$emit('selectDate', day);
+      this.$emit('select-day', day);
     },
     // ------------------------------
     // Generate Template
@@ -123,9 +129,41 @@ export default {
       return this.$createElement('span', { staticClass: 'vd-picker__table-day__effect' });
     },
     genDayText () {
+      // -------------------------------------
+      // -- If there is not scopedSlots date
+      // => Show default date style
+      // -------------------------------------
+      if (!this.scopedSlotDay) {
+        return this.$createElement('span', {
+          staticClass: 'vd-picker__table-day__text',
+        }, [this.formattedDay]);
+      }
+
+      // -------------------------------------
+      // -- Else show day scoped slot
+      // -------------------------------------
+      /* istanbul ignore next */
+      const helpers = {
+        formattedDay: this.formattedDay,
+        isCurrent: this.isToday,
+        isSelected: this.isSelected && !this.isDisabled,
+        isBetween: this.range && this.isBetween,
+        isInRange: this.range && this.isInRange,
+        isFirstRangeDay: this.range && this.firstInRange,
+        isLastRangeDay: this.range && this.lastInRange && Boolean(this.mutableDate.end),
+        isFirstSelectedDay: this.range && !this.mutableDate.start,
+        isLastSelectedDay: this.range && this.mutableDate.start && !this.mutableDate.end,
+        isDisabled: this.isDisabled,
+      };
+
+      const scopedSlot = this.VDPicker.$scopedSlots.day({
+        day: this.formattedDay,
+        ...helpers,
+      });
+
       return this.$createElement('span', {
         staticClass: 'vd-picker__table-day__text',
-      }, [this.formattedDay]);
+      }, [scopedSlot]);
     },
   },
   render (h) {
@@ -142,40 +180,7 @@ export default {
         click: () => this.onDayClick(this.day),
       },
     };
-    // -------------------------------------
-    // -- If there is not scopedSlots date
-    // => Show default date style
-    // -------------------------------------
-    if (!this.scopedSlotDay) {
-      return h('button', this.setTextColor(this.color, data), [this.genWrapper()]);
-    }
-    // -------------------------------------
-    // -- Else show day scoped slot
-    // -------------------------------------
-    /* istanbul ignore next */
-    const helpers = {
-      formattedDay: this.formattedDay,
-      isCurrent: this.isToday,
-      isSelected: this.isSelected && !this.isDisabled,
-      isBetween: this.range && this.isBetween,
-      isInRange: this.range && this.isInRange,
-      isFirstRangeDay: this.range && this.firstInRange,
-      isLastRangeDay: this.range && this.lastInRange && Boolean(this.mutableDate.end),
-      isFirstSelectedDay: this.range && !this.mutableDate.start,
-      isLastSelectedDay: this.range && this.mutableDate.start && !this.mutableDate.end,
-      isDisabled: this.isDisabled,
-    };
 
-    const scopedSlot = this.VDPicker.$scopedSlots.day({
-      day: this.formattedDay,
-      ...helpers,
-      attrs: {
-        ...data.attrs,
-        ...data.props,
-      },
-      on: data.on,
-    });
-
-    return h('button', data, [scopedSlot]);
+    return h('button', this.setTextColor(this.color, data), [this.genWrapper()]);
   },
-};
+});

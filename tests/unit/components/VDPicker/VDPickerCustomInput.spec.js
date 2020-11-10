@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { mount } from '@vue/test-utils';
-import VDPickerCustomInput from '@/components/VDPicker/VDPickerCustomInput/VDPickerCustomInput';
+import VDPickerCustomInput from '@/components/VDPicker/VDPickerCustomInput';
 
 jest.useFakeTimers();
 
@@ -75,29 +75,6 @@ describe('VDPickerCustomInput', () => {
   });
 
   describe('behaviour', () => {
-    it('should emit focus when input has been focused', () => {
-      const wrapper = mountComponent({ props: { date: dummyDate } });
-      const input = wrapper.find('input').element;
-      input.focus();
-
-      expect(wrapper.emitted().focus).toBeTruthy();
-    });
-
-    it('should emit blur event when click outside', () => {
-      const wrapper = mountComponent();
-      jest.runOnlyPendingTimers(); // timeout when init click-outside directive
-
-      const button = document.createElement('button');
-      button.addEventListener('click', jest.fn());
-      document.body.appendChild(button);
-
-      // Should close menu when on a button outisde
-      button.click();
-      jest.runOnlyPendingTimers();
-
-      expect(wrapper.emitted().blur).toBeTruthy();
-    });
-
     it('should emit keydown', () => {
       const wrapper = mountComponent({ props: { date: dummyDate } });
       const input = wrapper.find('input');
@@ -107,13 +84,15 @@ describe('VDPickerCustomInput', () => {
     });
 
     it('should emit clearDate when clicking on clear icon', () => {
-      const wrapper = mountComponent({ props: {
-        date: dummyDate,
-        isDateDefined: true,
-        clearable: true,
-      } });
+      const wrapper = mountComponent({
+        props: {
+          date: dummyDate,
+          isDateDefined: true,
+          clearable: true,
+        },
+      });
 
-      const clearIcon = wrapper.find('.vd-picker__input-clear__icon button');
+      const clearIcon = wrapper.find('.vd-picker__input-clear__icon > button');
       clearIcon.trigger('mouseup');
       expect(wrapper.emitted().clearDate).toBeFalsy();
 
@@ -122,64 +101,5 @@ describe('VDPickerCustomInput', () => {
       expect(wrapper.emitted().clearDate).toBeTruthy();
     });
 
-    it('should hide icon when date is not defined', () => {
-      const wrapper = mountComponent({ props: {
-        isDateDefined: false,
-        clearable: true,
-      } });
-
-      const clearIconSvg = wrapper.find('.vd-picker__input-clear__icon svg');
-      expect(clearIconSvg.attributes('data-icon')).toEqual('');
-    });
-
-    describe('genButton', () => {
-      it('should generate a button instead of an input with placeholder inside', () => {
-        const wrapper = mountComponent({
-          props: {
-            date: dummyDate,
-            isDateDefined: false,
-            noInput: true,
-            placeholder: 'YYYY-MM-DD',
-          },
-        });
-        const button = wrapper.find('button').element;
-
-        expect(button).toBeDefined();
-        expect(button.innerHTML).toEqual('YYYY-MM-DD');
-      });
-
-      it('should generate a button instead of an input with date inside', () => {
-        const wrapper = mountComponent({
-          props: {
-            date: dummyDate,
-            isDateDefined: true,
-            noInput: true,
-            placeholder: 'YYYY-MM-DD',
-          },
-        });
-        const button = wrapper.find('button').element;
-
-        expect(button).toBeDefined();
-        expect(button.innerHTML).not.toEqual('YYYY-MM-DD');
-
-        wrapper.find('button').trigger('click');
-        expect(wrapper.emitted().focus).toBeTruthy();
-      });
-    });
-
-    describe('onFocus', () => {
-      it('should do nothing if $refs.input not defined', () => {
-        const wrapper = mountComponent();
-        wrapper.vm.$refs = {};
-        wrapper.vm.onFocus();
-        expect(wrapper.emitted().focus).toBeFalsy();
-      });
-
-      it('should emit a focus event', () => {
-        const wrapper = mountComponent();
-        wrapper.vm.onFocus();
-        expect(wrapper.emitted().focus).toBeTruthy();
-      });
-    });
   });
 });

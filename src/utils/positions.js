@@ -19,8 +19,11 @@ function getTopColPosition (colYs) {
   };
 }
 
-function computeYearsScrollPosition (container, elementToShow) {
-  return elementToShow.offsetTop - (container.offsetHeight / 2) + (elementToShow.offsetHeight / 2);
+function computeYearsScrollPosition ({ activeItem, container, min, max }) {
+  if (activeItem) return activeItem.offsetTop - container.offsetHeight / 2 + activeItem.offsetHeight / 2;
+  if (min || max) return 0;
+
+  return container.scrollHeight / 2 - container.offsetHeight / 2;
 }
 
 function computeAgendaHeight (agenda, classWeeks) {

@@ -1,3 +1,5 @@
+jest.useFakeTimers();
+
 export function touch (element) {
   const createTrigger = (eventName) => (clientX, clientY) => {
     const touches = [{ clientX, clientY }];
@@ -16,3 +18,11 @@ export function touch (element) {
     end: createTrigger('touchend'),
   };
 }
+
+export const resizeWindow = (width = global.innerWidth, height = global.innerHeight) => {
+  global.innerWidth = width;
+  global.innerHeight = height;
+  global.dispatchEvent(new Event('resize'));
+  jest.runOnlyPendingTimers();
+};
+

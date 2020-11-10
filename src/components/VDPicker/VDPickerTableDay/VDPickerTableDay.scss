@@ -1,4 +1,5 @@
 @import '../../../styles/abstracts/_index.scss',
+        '../index.scss',
         './variables';
 
 .vd-picker__table-day {
@@ -65,18 +66,13 @@
     height: $day-inner-size;
     border-radius: 50%;
     border: 1px solid currentColor;
-
-    @include mq(tablet) {
-      top: 2px;
-      width: $day-size;
-      height: $day-size;
-    }
   }
 
   &__current {
     color: $default-text-color;
     z-index: 1;
   }
+
 
   &__effect {
     background-color: currentColor;
@@ -91,6 +87,12 @@
 
   &__text {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    width: $day-inner-size;
+    height: $day-inner-size;
     color: $default-text-color;
     z-index: 1;
   }
@@ -213,7 +215,7 @@
     cursor: default;
 
     .vd-picker__table-day__text {
-      color: rgba(0,0,0,0.26);
+      color: color(typography, disabled);
     }
   }
 }

@@ -1,5 +1,6 @@
 @import   '../../../styles/abstracts/_index.scss',
-          '../../../styles/base/_transitions.scss';
+          '../../../styles/base/_transitions.scss',
+          '../index';
 
 .vd-picker,
 .vd-picker *,
@@ -25,18 +26,16 @@
     width: get-size(desktop, width);
   }
 
-  &--rtl {
-    direction: rtl;
+  &--bottomsheet {
+    width: 100%;
+
+    .vd-picker-header {
+      border-radius: 0;
+    }
   }
 
-  &--bottomsheet {
-    @include mq($to: 481px) {
-      width: 100%;
-
-      .vd-picker__header {
-        border-radius: 0;
-      }
-    }
+  &--rtl {
+    direction: rtl;
   }
 
   /* Title
@@ -51,7 +50,6 @@
     border-radius: get-border-radius(4) get-border-radius(4) 0 0;
 
     .vd-picker--rtl & {
-      direction: rtl;
       padding: 0 $gutter*2 0 0;
     }
 
@@ -86,8 +84,8 @@
       }
 
       svg {
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
       }
     }
   }
@@ -97,7 +95,10 @@
   &__body {
     position: relative;
     display: flex;
+    flex: 1 1 100%;
     flex-direction: column;
-    flex: 1 1 auto;
+    height: auto;
+    overflow: hidden;
+    z-index: 0;
   }
 }

@@ -4,28 +4,31 @@ import './VDPickerTableDate.scss';
 // Directives
 import Touch from '../../../directives/touch';
 
+// Mixins
+import colorable from '../../../mixins/colorable';
+
 // Components
 import VDPickerTableDay from '../VDPickerTableDay/VDPickerTableDay';
 
 // Helpers
-import { getWeekDays } from '../../../utils/Dates';
+import mixins from '../../../utils/mixins';
 
-export default {
+const baseMixins = mixins(
+  colorable,
+);
+
+export default baseMixins.extend({
   name: 'VDPickerTableDate',
   directives: { Touch },
-  components: { VDPickerTableDay },
   props: {
     allowedDates: { type: Function },
     color: { type: String },
-    currentDate: { type: [String, Object] },
+    pickerDate: { type: [String, Object] },
     isRangeSelected: { type: Boolean },
-    locale: { type: Object },
     maxDate: { type: [String, Number, Date] },
     minDate: { type: [String, Number, Date] },
     mutableDate: { type: [String, Object] },
     range: { type: Boolean },
-    rtl: { type: Boolean },
-    shouldShowYearMonthSelector: { type: Boolean },
     transitionName: { type: String },
   },
   data: () => ({
@@ -33,19 +36,10 @@ export default {
   }),
   computed: {
     weekDays () {
-      return getWeekDays(this.locale);
+      return this.pickerDate.getWeekDays();
     },
     spaceBeforeFirstDay () {
-      return [...Array(this.currentDate.getWeekStart()).keys()];
-    },
-    classWeeks () {
-      // if yearMonth selector is opened, stop changing class
-      if (this.shouldShowYearMonthSelector) return;
-
-      if (this.currentDate.getDays().length + this.currentDate.start.weekday() > 35) {
-        return `has-6-weeks`;
-      }
-      return `has-5-weeks`;
+      return [...Array(this.pickerDate.getWeekStart()).keys()];
     },
   },
   watch: {
@@ -54,7 +48,7 @@ export default {
     // Then we swap start / end date according to the result
     rangeCurrentHoveredDay (newHoveredDay) {
       if (!newHoveredDay) return;
-      this.$emit('reOrderSelectedDate', newHoveredDay);
+      this.$emit('update-hovered-day', newHoveredDay);
     },
   },
   methods: {
@@ -64,7 +58,7 @@ export default {
     onDayClick (day) {
       // Should reset current hovered days when selecting a date
       this.rangeCurrentHoveredDay = undefined;
-      this.$emit('selectDate', day);
+      this.$emit('select-date', day);
     },
     handleMouseMove (event) {
       let target = event.target;
@@ -90,12 +84,6 @@ export default {
     // ------------------------------
     // Generate Template
     // ------------------------------
-    genContent () {
-      return [
-        this.genWeek(),
-        this.genDaysWrapper(),
-      ];
-    },
     genWeek () {
       const weekDay = (day, key) => this.$createElement('div', {
         key,
@@ -112,12 +100,11 @@ export default {
     genDaysWrapper () {
       return this.$createElement('transition-group', {
         staticClass: 'vd-picker__table-days__wrapper',
-        class: this.classWeeks,
         props: {
           name: this.transitionName,
           tag: 'div',
         },
-      }, [this.currentDate].map(this.genDays));
+      }, [this.pickerDate].map(this.genDays));
     },
     genDays (dates) {
       const blankDay = (day) => this.$createElement('div', {
@@ -135,7 +122,7 @@ export default {
         // Generate blank days
         this.spaceBeforeFirstDay.map(blankDay),
         // Generate days
-        this.currentDate.getDays().map(this.genDay),
+        this.pickerDate.getDays().map(this.genDay),
       ]);
     },
     genDay (day, key) {
@@ -150,9 +137,10 @@ export default {
           mutableDate: this.mutableDate,
           range: this.range,
           rangeCurrentHoveredDay: this.rangeCurrentHoveredDay,
+          locale: this.currentLocale,
         },
         on: {
-          selectDate: this.onDayClick,
+          'select-day': this.onDayClick,
         },
       });
     },
@@ -163,13 +151,17 @@ export default {
       directives: [{
         name: 'touch',
         value: {
-          left: () => this.$emit('changeMonth', this.rtl ? 'prev' : 'next'),
-          right: () => this.$emit('changeMonth', this.rtl ? 'next' : 'prev'),
+          left: () => this.$emit('update-month', 'next'),
+          right: () => this.$emit('update-month', 'prev'),
         },
       }],
       on: {
         touchstart: (event) => event.stopPropagation(),
       },
-    }, this.genContent());
+    }, [
+      this.genWeek(),
+      this.genDaysWrapper(),
+    ]);
   },
-};
+});
+

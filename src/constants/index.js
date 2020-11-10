@@ -46,7 +46,12 @@ export const AVAILABLE_YEARS = {
   max: 3000,
 };
 
-export const yearMonthSelectorTypes = ['month', 'quarter', 'year'];
+export const DATEPICKER_MODES = {
+  date: 'date',
+  month: 'month',
+  quarter: 'quarter',
+  year: 'year',
+};
 
 export const MAX_PRESETS_NUMBER = 6;
 

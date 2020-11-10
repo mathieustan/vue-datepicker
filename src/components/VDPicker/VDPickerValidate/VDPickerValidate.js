@@ -27,7 +27,7 @@ export default {
     // ------------------------------
     genButtonCancel () {
       return this.$createElement('button', {
-        staticClass: 'vd-picker__validate-button vd-picker__validate-button__cancel',
+        staticClass: 'vd-picker-validate__button vd-picker-validate__button-cancel',
         attrs: {
           type: 'button',
         },
@@ -41,7 +41,7 @@ export default {
     },
     genButtonValidate () {
       return this.$createElement('button', this.setTextColor(this.color, {
-        staticClass: 'vd-picker__validate-button vd-picker__validate-button__validate',
+        staticClass: 'vd-picker-validate__button vd-picker-validate__button-validate',
         attrs: {
           type: 'button',
           disabled: this.isDisabledValidation,
@@ -56,12 +56,12 @@ export default {
     },
     genButtonEffect () {
       return this.$createElement('div', this.setBackgroundColor(this.color, {
-        staticClass: 'vd-picker__validate-effect',
+        staticClass: 'vd-picker-validate__effect',
       }));
     },
     genButtonText (text) {
       return this.$createElement('div', {
-        staticClass: 'vd-picker__validate-name',
+        staticClass: 'vd-picker-validate__name',
         domProps: {
           innerHTML: text,
         },
@@ -70,7 +70,7 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'vd-picker__validate',
+      staticClass: 'vd-picker-validate',
     }, [
       this.genButtonCancel(),
       this.genButtonValidate(),

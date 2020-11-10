@@ -1,4 +1,5 @@
 export {
+  addOnceEventListener,
   generateRandomId,
   validateAttachTarget,
   convertToUnit,
@@ -7,6 +8,15 @@ export {
   getZIndex,
   deepMerge,
 };
+
+function addOnceEventListener (el, eventName, cb, options = false) {
+  const once = (event) => {
+    cb(event);
+    el.removeEventListener(eventName, once, options);
+  };
+
+  el.addEventListener(eventName, once, options);
+}
 
 function generateRandomId () {
   return `_${Math.random().toString(36).substr(2, 9)}`;
