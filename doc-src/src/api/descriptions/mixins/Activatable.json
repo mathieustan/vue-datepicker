@@ -1,0 +1,9 @@
+{
+  "props": {
+    "activator": "Designate a custom activator when the `activator` slot is not used. String can be any valid querySelector and Object can be any valid Node.",
+    "disabled": "Disables the ability to open the component.",
+    "openOnClick": "Designates whether component should activate when its activator is clicked.",
+    "openOnHover": "Designates whether component should activate when its activator is hovered.",
+    "internalActivator": "Detaches the menu content inside of the component as opposed to the document."
+  }
+}

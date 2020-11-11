@@ -8,6 +8,16 @@ module.exports = {
     noInfo: true,
     contentBase: path.join(__dirname, '..', 'docs'),
   },
+  // Preprend styles for all components
+  css: {
+    loaderOptions: {
+      sass: {
+        data: `
+          @import '@/styles/abstracts/_index.scss';
+        `,
+      },
+    },
+  },
   configureWebpack: {
     resolve: {
       alias: {

@@ -1,0 +1,7 @@
+{
+  "props": {
+    "maxWidth": "Sets the maximum width for the content",
+    "minWidth": "Sets the minimum width for the content",
+    "zIndex": "The z-index used for the component"
+  }
+}

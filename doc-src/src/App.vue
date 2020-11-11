@@ -35,6 +35,14 @@
           <CodeWrapper type="HTML" :source="installSources.template" />
         </section>
 
+        <section id="section__api">
+          <div class="content-title">
+            <h2> Api </h2>
+          </div>
+
+          <ApiComponent :apis="['VueDatePicker']" />
+        </section>
+
         <!---------------------------------------------------------->
         <!-- EXAMPLES -->
         <!---------------------------------------------------------->
@@ -64,6 +72,7 @@
 import scroll from './directives/scroll';
 
 // Components
+import ApiComponent from '@/components/ApiComponent.vue';
 import CodeWrapper from '@/components/CodeWrapper.vue';
 import Header from '@/components/Header.vue';
 import Navigation from '@/components/Navigation.vue';
@@ -75,6 +84,7 @@ export default {
   name: 'App',
   directives: { scroll },
   components: {
+    ApiComponent,
     CodeWrapper,
     Header,
     Navigation,
@@ -330,7 +340,7 @@ export default  {
     &-inner {
       position: relative;
       margin: 0 auto;
-      max-width: 1000px;
+      max-width: 1200px;
       width: 100%;
       display: flex;
       flex-direction: column;

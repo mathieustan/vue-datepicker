@@ -3,6 +3,7 @@
     <ul>
       <li><a href="#section__about" @click.prevent="scrollToExample('#section__about')">About</a></li>
       <li><a href="#section__install" @click.prevent="scrollToExample('#section__install')">Install</a></li>
+      <li><a href="#section__api" @click.prevent="scrollToExample('#section__api')">Api</a></li>
       <li
         v-for="[key] in Object.entries(examples)"
         :key="key"

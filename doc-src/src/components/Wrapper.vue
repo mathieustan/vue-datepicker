@@ -60,7 +60,6 @@
 
 <script>
 import CodeWrapper from './CodeWrapper.vue';
-import 'intersection-observer';
 
 export default {
   name: 'Wrapper',
@@ -78,14 +77,7 @@ export default {
   mounted () {
     if (!this.filename) return;
     this.importComponent();
-
-    this.observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) this.importTemplate();
-      });
-    }, { threshold: 0 });
-
-    this.observer.observe(this.$el);
+    this.importTemplate();
   },
   computed: {
     style () {

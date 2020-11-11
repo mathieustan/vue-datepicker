@@ -1,0 +1,6 @@
+{
+  "props": {
+    "overlayColor": "Sets the overlay color.",
+    "overlayOpacity": "Sets the overlay opacity."
+  }
+}

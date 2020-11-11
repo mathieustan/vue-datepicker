@@ -1,0 +1,5 @@
+{
+  "props": {
+    "color": "Applies specified color to the control - it can be the name of our color (checkout our color styles) or css color (#033 or rgba(255, 0, 0, 0.5))."
+  }
+}

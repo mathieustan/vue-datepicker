@@ -1,0 +1,14 @@
+@import '../../styles/abstracts/_index.scss';
+
+$table-font-color: color(other, dark-purple);
+$table-border-color: color(other, light-purple);
+$table-header-color: transparentize(color(other, dark-purple), .3);
+$table-row-hover-color: transparentize(color(other, light-purple), .9);
+
+$table-regular-header-font-size: 14px !default;
+$table-regular-header-height: 48px !default;
+$table-regular-row-font-size: 14px !default;
+$table-regular-row-height: 48px !default;
+
+$table-dense-header-height: 32px !default;
+$table-dense-row-height: $table-dense-header-height !default;
