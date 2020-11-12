@@ -326,7 +326,7 @@ export default baseMixins.extend({
           locale: this.locale,
         },
         on: {
-          updateRange: this.emitSelectedDate,
+          'update-range': this.emitSelectedDate,
         },
       });
     },
