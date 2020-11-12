@@ -8,7 +8,7 @@ console.error = jest.fn();
 const defaultVDIconHtml =
 '<div class="mock">' +
   '<div class="content">' +
-    '<span aria-hidden="true" class="vd-icon" style="font-size: 16px; height: 16px; width: 16px;">' +
+    '<span aria-hidden="true" class="vd-icon">' +
       '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" role="img" aria-hidden="true" data-icon="fa fa-test"><path fill="currentColor"></path></svg>' +
     '</span>' +
   '</div>' +
@@ -101,7 +101,7 @@ describe('detachable', () => {
 
       expect(wrapper.html()).toEqual(
         '<div class="content">' +
-          '<span aria-hidden="true" class="vd-icon" style="font-size: 16px; height: 16px; width: 16px;">' +
+          '<span aria-hidden="true" class="vd-icon">' +
             '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" role="img" aria-hidden="true" data-icon="fa fa-test"><path fill="currentColor"></path></svg>' +
           '</span>' +
         '</div>'
@@ -110,7 +110,7 @@ describe('detachable', () => {
       await wrapper.vm.$nextTick();
       expect(wrapper.html()).toEqual(
         '<div class="content">' +
-          '<span aria-hidden="true" class="vd-icon" style="font-size: 16px; height: 16px; width: 16px;">' +
+          '<span aria-hidden="true" class="vd-icon">' +
             '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" role="img" aria-hidden="true" data-icon="fa fa-test"><path fill="currentColor"></path></svg>' +
           '</span>' +
         '</div>'

@@ -1,17 +1,25 @@
 // Styles
 import './VDIcon.scss';
 
+// Mixins
+import colorable from '../../mixins/colorable';
+
 // Constants
 import { ICONS } from '../../constants/icons';
 
 // Helpers
 import { convertToUnit } from '../../utils/helpers';
+import mixins from '../../utils/mixins';
 
-export default {
+const baseMixins = mixins(
+  colorable,
+);
+
+export default baseMixins.extend({
   name: 'VDIcon',
   inheritAttrs: false,
   props: {
-    size: { type: [Number, String], default: 16 },
+    size: { type: [Number, String] },
     disabled: { type: Boolean, default: false },
   },
   computed: {
@@ -39,6 +47,7 @@ export default {
           'aria-hidden': !this.hasClickListener,
           disabled: this.hasClickListener && this.disabled,
           type: this.hasClickListener ? 'button' : undefined,
+          ...this.$attrs,
         },
         on: this.$listeners,
       };
@@ -58,15 +67,15 @@ export default {
         attrs: {
           xmlns: 'http://www.w3.org/2000/svg',
           viewBox: icon.viewBox,
-          height: this.size,
-          width: this.size,
+          height: this.size || 16,
+          width: this.size || 16,
           role: 'img',
           'aria-hidden': true,
           'data-icon': this.getIconName(),
         },
       };
 
-      return h(tag, wrapperData, [
+      return h(tag, this.setTextColor(this.color, wrapperData), [
         h('svg', svgData, [
           h('path', {
             attrs: {
@@ -82,4 +91,4 @@ export default {
     const icon = this.getIcon();
     return this.renderSvgIcon(icon, h);
   },
-};
+});

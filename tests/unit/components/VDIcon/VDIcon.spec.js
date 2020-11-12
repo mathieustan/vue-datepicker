@@ -26,7 +26,7 @@ describe('VDIcon', () => {
   it('Should init data', () => {
     const wrapper = mountComponent();
     expect(wrapper.isVueInstance()).toBeTruthy();
-    expect(wrapper.vm.size).toEqual(16);
+    expect(wrapper.vm.size).toEqual(undefined);
   });
 
   describe('methods', () => {
