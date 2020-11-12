@@ -4,10 +4,10 @@
 .vd-picker__input {
   position: relative;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  flex: 1 1 auto;
   align-items: center;
-  width: 100%;
+  color: inherit;
+  min-height: inherit;
 
   .vd-wrapper--rtl & {
     direction: rtl;
@@ -63,18 +63,46 @@
     }
   }
 
+  &-icon {
+    display: inline-flex;
+    align-self: flex-start;
+    margin-top: 2px;
+    margin-right: auto;
+    padding-right: 4px;
+    line-height: 1;
+    user-select: none;
+
+    &__wrapper {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      flex: 1 0 auto;
+      justify-content: center;
+      min-width: 24px;
+      width: 24px;
+    }
+  }
+
   input {
-    display: flex;
-    flex: 1 1 auto;
     position: relative;
-    border: none;
-    box-shadow: none;
-    outline: 0;
-    font-size: 16px;
-    line-height: 19px;
-    margin-left: $gutter;
+    flex: 1 1 auto;
+    line-height: 20px;
+    max-height: 32px;
+    padding: 8px 0;
+    max-width: 100%;
+    min-width: 0;
+    width: 100%;
+
+    background-color: transparent;
+    border-style: none;
+    color: inherit;
+
+    font-stretch: normal;
+    line-height: inherit;
+    font-size: 16px!important;
+    font-weight: 400;
     font-family: inherit;
-    background: transparent;
+
     color: currentColor;
     cursor: inherit;
 

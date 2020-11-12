@@ -54,11 +54,19 @@ export default {
     // Generate Template
     // ------------------------------
     genCalendarIcon () {
-      return this.$createElement(VDIcon, {
+      const icon = this.$createElement(VDIcon, {
         props: {
           disabled: this.disabled,
         },
       }, ['calendarAlt']);
+
+      const iconWrapper = this.$createElement('div', {
+        staticClass: 'vd-picker__input-icon__wrapper',
+      }, [icon]);
+
+      return this.$createElement('div', {
+        staticClass: 'vd-picker__input-icon',
+      }, [iconWrapper]);
     },
     genInput () {
       return this.$createElement('input', {
