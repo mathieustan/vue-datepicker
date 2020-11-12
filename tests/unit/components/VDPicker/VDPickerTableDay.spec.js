@@ -272,7 +272,7 @@ describe('VDPickerTableDay', () => {
       });
     });
 
-    describe('isToday', () => {
+    describe('isCurrent', () => {
       [{
         description: 'be true if day is the same as today\'s date',
         props: {
@@ -288,7 +288,7 @@ describe('VDPickerTableDay', () => {
       }].forEach(({ description, props, expectedResult }) => {
         it(`should ${description}`, () => {
           const wrapper = mountComponent({ props });
-          expect(wrapper.vm.isToday).toEqual(expectedResult);
+          expect(wrapper.vm.isCurrent).toEqual(expectedResult);
         });
       });
     });

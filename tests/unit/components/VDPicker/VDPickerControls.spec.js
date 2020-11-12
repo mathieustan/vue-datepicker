@@ -61,23 +61,6 @@ describe('VDPickerControls', () => {
       });
     });
 
-    describe('isYearDisabled', () => {
-      // current date = dayjs(new Date([2019, 5, 16]))
-      it.each([
-        [{ min: undefined, max: undefined }, false],
-        [{ min: '2018-1-1', max: '2020-12-31' }, false],
-        [{ min: '2020-1-1', max: '2020-12-31' }, true],
-        [{ min: '2018-1-1', max: '2018-12-31' }, true],
-      ])(
-        'when allowed dates = %p, should return %p',
-        (allowedDates, expectedResult) => {
-          const { min, max } = allowedDates;
-          const wrapper = mountComponent({ min, max });
-          expect(wrapper.vm.isYearDisabled).toEqual(expectedResult);
-        }
-      );
-    });
-
     describe('isPreviousDateDisabled', () => {
       // current date = dayjs(new Date([2019, 5, 16]))
       it.each([

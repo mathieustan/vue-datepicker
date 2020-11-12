@@ -48,6 +48,9 @@ describe('VDPickerTableDate', () => {
           mutableDate,
           pickerDate,
         },
+        mocks: {
+          $vuedatepicker: { lang: 'en' },
+        },
         attachToDocument: true,
       });
     };

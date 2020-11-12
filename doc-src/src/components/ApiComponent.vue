@@ -83,7 +83,6 @@ export default {
   }),
   computed: {
     currentApi () {
-      console.log(api);
       return api[this.selectedApi];
     },
     currentApiProps () {

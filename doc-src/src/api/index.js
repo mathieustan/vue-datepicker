@@ -23,8 +23,6 @@ function generateApi () {
       component = component.options.$_wrapperFor;
     }
 
-    console.log(component);
-
     let options = parseComponent(component);
 
     components[name] = options;

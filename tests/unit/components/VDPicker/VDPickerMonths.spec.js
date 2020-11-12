@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import mockDate from 'mockdate';
 import { shallowMount } from '@vue/test-utils';
 import VDPickerMonths from '@/components/VDPicker/VDPickerMonths';
 
@@ -10,6 +11,7 @@ describe('VDPickerMonths', () => {
   const dummyDate = dayjs(new Date([2019, 5, 16]));
 
   beforeEach(() => {
+    mockDate.set(dummyDate);
     mountComponent = ({
       active = false,
       date = new PickerDate(dummyDate.month(), dummyDate.year(), { lang: 'en' }),
@@ -41,6 +43,7 @@ describe('VDPickerMonths', () => {
   });
 
   afterEach(() => {
+    mockDate.reset();
     jest.resetModules();
     jest.clearAllMocks();
   });
@@ -76,6 +79,30 @@ describe('VDPickerMonths', () => {
   });
 
   describe('methods', () => {
+    describe('isCurrent', () => {
+      // todaysDate = new Date([2019, 5, 16]);
+      [{
+        description: `be TRUE when month & year are same as today (type: month)`,
+        props: {
+          mutableDate: dayjs('2019-5-16'),
+        },
+        monthIndex: 4,
+        expectedResult: true,
+      }, {
+        description: `be FALSE when month & year are NOT same as today (type: month)`,
+        props: {
+          mutableDate: dayjs('2019-5-16'),
+        },
+        monthIndex: 5,
+        expectedResult: false,
+      }].forEach(({ description, props, monthIndex, expectedResult }) => {
+        it(`should ${description}`, () => {
+          const wrapper = mountComponent(props);
+          expect(wrapper.vm.isCurrent(monthIndex)).toEqual(expectedResult);
+        });
+      });
+    });
+
     describe('isSelected', () => {
       it.each([
         [{ mutableDate: undefined }, 4, false],

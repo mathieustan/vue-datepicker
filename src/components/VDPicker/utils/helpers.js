@@ -30,7 +30,7 @@ export {
   transformDateForModel,
   // -- Compare
   isDateAllowed,
-  isDateToday,
+  isCurrent,
   areSameDates,
   isBeforeDate,
   isAfterDate,
@@ -113,13 +113,28 @@ function isDateAllowed ({ date, min, max, type = 'date', allowedFn }) {
     (!max || areSameDates(formattedDate, max, type) || isBeforeDate(formattedDate, max, type));
 }
 
-function isDateToday (date) {
-  return date.isToday();
+function isCurrent ({ date, type = 'date', locale }) {
+  const formattedDate = generateDateFormatted({
+    date,
+    locale,
+    format: getDefaultOutputFormat(type),
+  });
+
+  const todaysDateFormatted = generateDateFormatted({
+    date: undefined,
+    locale,
+    format: getDefaultOutputFormat(type),
+  });
+
+  // if type is quarter, we need to compare year & month
+  // For example, formattedDate looks like 2020-1
+  // For example, todaysDateFormatted looks like 2020-1
+  return areSameDates(formattedDate, todaysDateFormatted, type === 'quarter' ? 'month' : type);
 }
 
 function areSameDates (date, dateSelected, type = 'date') {
   return dayjs(date, getDefaultOutputFormat(type))
-    .isSame(dayjs(dateSelected, getDefaultOutputFormat(type)));
+    .isSame(dayjs(dateSelected, getDefaultOutputFormat(type)), type);
 }
 
 function isBeforeDate (date, beforeDate, type = 'day') {

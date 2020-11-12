@@ -139,6 +139,30 @@ describe('VDPickerYears', () => {
   });
 
   describe('methods', () => {
+    describe('isCurrent', () => {
+      // todaysDate = new Date([2019, 5, 16]);
+      [{
+        description: `be TRUE when year is same as today`,
+        props: {
+          mutableDate: dayjs('2019-5-16'),
+        },
+        year: 2019,
+        expectedResult: true,
+      }, {
+        description: `be FALSE when year is NOT same as today`,
+        props: {
+          mutableDate: dayjs('2019-5-16'),
+        },
+        year: 2020,
+        expectedResult: false,
+      }].forEach(({ description, props, year, expectedResult }) => {
+        it(`should ${description}`, () => {
+          const wrapper = mountComponent(props);
+          expect(wrapper.vm.isCurrent(year)).toEqual(expectedResult);
+        });
+      });
+    });
+
     describe('isSelected', () => {
       it.each([
         [null, 2018, false],

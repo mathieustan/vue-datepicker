@@ -63,7 +63,6 @@ export default {
     },
     allowedQuarters: date => {
       // date is : YYYY-QQ
-      console.log(date.split('-')[1]);
       return parseInt(date.split('-')[1], 10) % 2 === 0;
     },
     allowedYears: date => {

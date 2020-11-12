@@ -23,7 +23,7 @@ import {
   transformDateForModel,
   // -- Compare
   isDateAllowed,
-  isDateToday,
+  isCurrent,
   areSameDates,
   isBeforeDate,
   isAfterDate,
@@ -297,16 +297,77 @@ describe('Dates: Functions', () => {
       });
     });
 
-    describe('isDateToday', () => {
-      it.each([
-        [dayjs(new Date([2019, 5, 16])), true],
-        [dayjs(new Date([2019, 9, 16])), false],
-      ])(
-        'when currentDate equal %p, should return %p',
-        (selectedDate, expectedResult) => {
-          expect(isDateToday(selectedDate)).toEqual(expectedResult);
-        }
-      );
+    describe('isCurrent', () => {
+      // todaysDate = new Date([2019, 5, 16]);
+      [{
+        description: `be TRUE when date is same as today (type: date)`,
+        options: {
+          date: dayjs('2019-5-16'),
+          type: 'date',
+          locale: { lang: en },
+        },
+        expectedResult: true,
+      }, {
+        description: `be FALSE when date is NOT same as today (type: date)`,
+        options: {
+          date: dayjs('2019-5-17'),
+          type: 'date',
+          locale: { lang: en },
+        },
+        expectedResult: false,
+      }, {
+        description: `be TRUE when month & year are same as today (type: month)`,
+        options: {
+          date: dayjs('2019-5-17'),
+          type: 'month',
+          locale: { lang: en },
+        },
+        expectedResult: true,
+      }, {
+        description: `be FALSE when month & year are NOT same as today (type: month)`,
+        options: {
+          date: dayjs('2019-6-16'),
+          type: 'month',
+          locale: { lang: en },
+        },
+        expectedResult: false,
+      }, {
+        description: `be TRUE when quarter & year are same as today (type: quarter)`,
+        options: {
+          date: dayjs('2019-4'),
+          type: 'quarter',
+          locale: { lang: en },
+        },
+        expectedResult: true,
+      }, {
+        description: `be FALSE when quarter & year are NOT same as today (type: quarter)`,
+        options: {
+          date: dayjs('2019-7'),
+          type: 'quarter',
+          locale: { lang: en },
+        },
+        expectedResult: false,
+      }, {
+        description: `be TRUE when year is same as today (type: year)`,
+        options: {
+          date: dayjs('2019-6-17'),
+          type: 'year',
+          locale: { lang: en },
+        },
+        expectedResult: true,
+      }, {
+        description: `be FALSE when year is NOT same as today (type: year)`,
+        options: {
+          date: dayjs('2020-5-16'),
+          type: 'year',
+          locale: { lang: en },
+        },
+        expectedResult: false,
+      }].forEach(({ description, options, expectedResult }) => {
+        it(`should ${description}`, () => {
+          expect(isCurrent(options)).toEqual(expectedResult);
+        });
+      });
     });
 
     describe('areSameDates', () => {
@@ -315,9 +376,7 @@ describe('Dates: Functions', () => {
         ['2019-01', '2019-01', 'month', true],
         ['2019-1', '2019-1', 'month', true],
         ['2018-1', '2019-1', 'month', false],
-        ['2019-01', '2019-02', 'month', false],
-        ['2019-1', '2019-1', 'quarter', true],
-        ['2019-1', '2019-2', 'quarter', false],
+        ['2019-1', '2019-2', 'month', false],
       ])(
         'when date = %p, selectedDate = %p and type is %p, should return %p',
         (date, selectedDate, type, expectedResult) => {

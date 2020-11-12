@@ -37,10 +37,6 @@ export default baseMixins.extend({
     yearFormatted () {
       return this.pickerDate.getYearFormatted();
     },
-    isYearDisabled () {
-      return isBeforeDate(this.yearFormatted, this.min, 'year') ||
-        isAfterDate(this.yearFormatted, this.max, 'year');
-    },
     isPreviousDateDisabled () {
       // If active mode is month or quater, controls will show year.
       // If active mode is date, controls will show month - year
@@ -105,12 +101,12 @@ export default baseMixins.extend({
         this.genYearSelector(),
       ]);
     },
-    genChildrenSelectors ({ value, key, type, disabled }) {
+    genChildrenSelectors ({ value, key, type }) {
       return this.$createElement('div', this.setTextColor(this.color, {
         key,
         staticClass: 'vd-picker__controls-label',
       }), [this.$createElement('button', {
-        attrs: { type: 'button', disabled },
+        attrs: { type: 'button' },
         on: { click: () => this.$emit('update-mode', type) },
       }, [value])]);
     },
@@ -144,7 +140,6 @@ export default baseMixins.extend({
           value: this.yearFormatted,
           key,
           type: 'year',
-          disabled: this.isYearDisabled,
         }))
       );
     },

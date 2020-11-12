@@ -9,6 +9,7 @@ import Localable from '../../../mixins/localable';
 import {
   areSameDates,
   generateDateWithYearAndMonth,
+  isCurrent,
   isDateAllowed,
 } from '../utils/helpers';
 
@@ -47,6 +48,19 @@ export default baseMixins.extend({
     // ------------------------------
     // States
     // ------------------------------
+    isCurrent (monthIndex) {
+      const selectedDate = generateDateWithYearAndMonth({
+        year: this.pickerDate.year,
+        month: monthIndex,
+        locale: this.currentLocale,
+      });
+
+      return isCurrent({
+        date: selectedDate,
+        type: 'month',
+        locale: this.currentLocale,
+      });
+    },
     isSelected (monthIndex) {
       if (this.range || !this.mutableDate) return false;
 
@@ -58,7 +72,7 @@ export default baseMixins.extend({
       return areSameDates(
         this.mutableDate.format('YYYY-MM'),
         selectedDate.format('YYYY-MM'),
-        this.mode
+        'month'
       );
     },
     isAllowed (monthIndex) {
@@ -97,12 +111,20 @@ export default baseMixins.extend({
       ]);
     },
     genMonthButton (value, index) {
+      const isCurrent = this.isCurrent(index) && !this.isSelected(index);
+      const isSelected = this.isSelected(index);
+
       const button = this.$createElement('button', {
         key: index,
         staticClass: 'vd-picker__months-button',
         style: {
-          ...(this.isSelected(index) && this.setTextColor('#fff')),
-          ...(this.isSelected(index) && this.setBackgroundColor(this.color)),
+          ...(isCurrent && {
+            'border-color': this.color,
+          }),
+          ...(isSelected && {
+            ...this.setTextColor('#fff'),
+            ...this.setBackgroundColor(this.color),
+          }),
         },
         attrs: {
           type: 'button',

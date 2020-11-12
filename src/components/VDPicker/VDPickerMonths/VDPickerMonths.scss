@@ -52,6 +52,7 @@
     border-radius: 2px;
     outline: none;
     transition: background-color .3s;
+    border: thin solid transparent;
 
     &:hover {
       background-color: color(other, light-gray);

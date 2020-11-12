@@ -41,13 +41,16 @@
     align-content: center;
 
     padding: $gutter 0;
+    margin-left: 12px;
+    margin-right: 12px;
     height: 40px;
     min-height: 40px;
-    width: 100%;
+    width: calc(100% - 24px);
     font-size: 15px;
     font-weight: get-font-weight(medium);
     outline: none;
     transition: background-color .3s;
+    border: thin solid transparent;
 
     &:hover {
       background-color: color(other, light-gray);
@@ -58,6 +61,10 @@
       cursor: default;
       color: rgba(0,0,0,0.26);
       pointer-events: none;;
+    }
+
+    & + li {
+      margin-top: $gutter/4;
     }
   }
 }

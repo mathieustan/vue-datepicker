@@ -7,7 +7,7 @@ import Localable from '../../../mixins/localable';
 
 // Functions
 import {
-  isDateToday,
+  isCurrent,
   isBeforeDate,
   isBetweenDates,
   isDateAllowed,
@@ -51,8 +51,12 @@ export default baseMixins.extend({
     formattedDay () {
       return this.day.format('D');
     },
-    isToday () {
-      return isDateToday(this.day);
+    isCurrent () {
+      return isCurrent({
+        date: this.day,
+        type: 'date',
+        locale: this.currentLocale,
+      });
     },
     isSelected () {
       if (this.range) {
@@ -117,7 +121,7 @@ export default baseMixins.extend({
           'data-date': this.day.format('YYYY-MM-DD'),
         },
       }, [
-        this.isToday && this.genDayCurrent(),
+        this.isCurrent && this.genDayCurrent(),
         this.genDayEffect(),
         this.genDayText(),
       ]);

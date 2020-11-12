@@ -7,6 +7,7 @@ import colorable from '../../../mixins/colorable';
 // Functions
 import {
   generateDateWithYearAndMonth,
+  isCurrent,
   isDateAllowed,
 } from '../utils/helpers';
 import { computeYearsScrollPosition } from '../../../utils/positions';
@@ -61,6 +62,19 @@ export default baseMixins.extend({
     // ------------------------------
     // States
     // ------------------------------
+    isCurrent (year) {
+      const selectedDate = generateDateWithYearAndMonth({
+        year,
+        month: 0,
+        locale: this.currentLocale,
+      });
+
+      return isCurrent({
+        date: selectedDate,
+        type: 'year',
+        locale: this.currentLocale,
+      });
+    },
     isSelected (year) {
       return this.activeYear === String(year);
     },
@@ -90,6 +104,9 @@ export default baseMixins.extend({
     // Generate Template
     // ------------------------------
     genYearButton (year) {
+      const isCurrent = this.isCurrent(year) && !this.isSelected(year);
+      const isSelected = this.isSelected(year);
+
       return this.$createElement('li', {
         key: year,
         staticClass: 'vd-picker__years-button',
@@ -97,8 +114,13 @@ export default baseMixins.extend({
           'active': this.isSelected(year),
         },
         style: {
-          ...(this.isSelected(year) && this.setTextColor('#fff')),
-          ...(this.isSelected(year) && this.setBackgroundColor(this.color)),
+          ...(isCurrent && {
+            'border-color': this.color,
+          }),
+          ...(isSelected && {
+            ...this.setTextColor('#fff'),
+            ...this.setBackgroundColor(this.color),
+          }),
         },
         attrs: {
           disabled: !this.isAllowed(year),

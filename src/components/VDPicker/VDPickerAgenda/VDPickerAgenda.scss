@@ -45,8 +45,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    min-height: get-size(mobile, title);
-    padding: 0 0 0 $gutter*2;
+    height: get-size(mobile, title);
+    padding: $gutter $gutter*2;
     border-radius: get-border-radius(4) get-border-radius(4) 0 0;
 
     .vd-picker--rtl & {
@@ -65,27 +65,20 @@
       position: relative;
       display: flex;
       align-items: center;
-      flex: 0 0 40px;
-      height: get-size(mobile, controls);
-      width: get-size(mobile, controls);
-      padding: 0 $gutter*2 0 $gutter;
+      height: 24px;
+      width: 24px;
       border: none;
       outline: none;
       background-color: transparent;
       user-select: none;
 
-      @include mq(tablet) {
-        height: get-size(desktop, controls);
-        width: get-size(desktop, controls);
+      svg {
+        width: 24px;
+        height: 24px;
       }
 
       button {
         @extend %reset-button;
-      }
-
-      svg {
-        width: 24px;
-        height: 24px;
       }
     }
   }

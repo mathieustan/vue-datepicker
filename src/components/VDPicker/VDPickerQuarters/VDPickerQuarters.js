@@ -7,9 +7,10 @@ import Localable from '../../../mixins/localable';
 
 // Functions
 import {
-  convertQuarterToMonth,
   areSameDates,
+  convertQuarterToMonth,
   generateDateWithYearAndMonth,
+  isCurrent,
   isDateAllowed,
 } from '../utils/helpers';
 
@@ -42,6 +43,19 @@ export default baseMixins.extend({
     // ------------------------------
     // States
     // ------------------------------
+    isCurrent (monthIndex) {
+      const selectedDate = generateDateWithYearAndMonth({
+        year: this.pickerDate.year,
+        month: monthIndex,
+        locale: this.currentLocale,
+      });
+
+      return isCurrent({
+        date: selectedDate,
+        type: 'quarter',
+        locale: this.currentLocale,
+      });
+    },
     isSelected (monthIndex) {
       if (!this.mutableDate) return false;
 
@@ -54,7 +68,7 @@ export default baseMixins.extend({
       return areSameDates(
         this.mutableDate.format('YYYY-MM'),
         selectedDate.format('YYYY-MM'),
-        'quarter'
+        'month'
       );
     },
     isAllowed (monthIndex) {
@@ -94,13 +108,20 @@ export default baseMixins.extend({
     },
     genQuarterButton (value, index) {
       const selectedIndex = convertQuarterToMonth(index);
+      const isCurrent = this.isCurrent(selectedIndex) && !this.isSelected(selectedIndex);
+      const isSelected = this.isSelected(selectedIndex);
 
       const button = this.$createElement('button', {
         key: index,
         staticClass: 'vd-picker__quarters-button',
         style: {
-          ...(this.isSelected(selectedIndex) && this.setTextColor('#fff')),
-          ...(this.isSelected(selectedIndex) && this.setBackgroundColor(this.color)),
+          ...(isCurrent && {
+            'border-color': this.color,
+          }),
+          ...(isSelected && {
+            ...this.setTextColor('#fff'),
+            ...this.setBackgroundColor(this.color),
+          }),
         },
         attrs: {
           type: 'button',
