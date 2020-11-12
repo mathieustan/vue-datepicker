@@ -38,21 +38,21 @@ export default baseMixins.extend({
       return this.pickerDate.getYearFormatted();
     },
     isPreviousDateDisabled () {
+      const compareYears = ['month', 'quarter'].includes(this.mode);
       // If active mode is month or quater, controls will show year.
       // If active mode is date, controls will show month - year
       const previousYear = parseInt(this.yearFormatted, 10) - 1;
-      const previousDate = ['month', 'quarter'].includes(this.mode)
-        ? previousYear : `${this.yearFormatted}-${this.pickerDate.month}`;
+      const previousDate = compareYears ? previousYear : `${this.yearFormatted}-${this.pickerDate.month}`;
 
-      return isBeforeDate(previousDate, this.min, this.mode === 'month' ? 'year' : 'month');
+      return isBeforeDate(previousDate, this.min, compareYears ? 'year' : 'month');
     },
     isNextDateDisabled () {
+      const compareYears = ['month', 'quarter'].includes(this.mode);
       // If active mode is month or quater, controls will show year.
       // If active mode is date, controls will show month - year
       const nextYear = parseInt(this.yearFormatted, 10) + 1;
-      const nextDate = ['month', 'quarter'].includes(this.mode)
-        ? nextYear : `${this.yearFormatted}-${this.pickerDate.month + 2}`;
-      return isAfterDate(nextDate, this.max, this.mode === 'month' ? 'year' : 'month');
+      const nextDate = compareYears ? nextYear : `${this.yearFormatted}-${this.pickerDate.month + 2}`;
+      return isAfterDate(nextDate, this.max, compareYears ? 'year' : 'month');
     },
   },
   methods: {

@@ -15,13 +15,15 @@
   // Browsers which partially support CSS Environment variables (iOS 11.0-11.2).
   @supports (padding-bottom: constant(safe-area-inset-bottom)) {
     --safe-area-inset-bottom: constant(safe-area-inset-bottom);
-    padding-bottom: var(--safe-area-inset-bottom);
+    $padding-bottom: calc(#{$gutter} + var(--safe-area-inset-bottom));
+    padding-bottom: $padding-bottom
   }
 
   // Browsers which fully support CSS Environment variables (iOS 11.2+).
   @supports (padding-bottom: env(safe-area-inset-bottom)) {
     --safe-area-inset-bottom: env(safe-area-inset-bottom);
-    padding-bottom: var(--safe-area-inset-bottom);
+    $padding-bottom: calc(#{$gutter}  + var(--safe-area-inset-bottom));
+    padding-bottom: $padding-bottom
   }
 
   .vd-picker--bottomsheet & {

@@ -116,7 +116,7 @@ export default baseMixins.extend({
     value: 'initAgenda',
     // When, date change (after being visibled),
     // should update pickerDate & mutableDate
-    date: 'updateDate',
+    date: 'initDatesForPicker',
     // When type change (after being visibled),
     // should update update active mode
     type: 'updateMode',
@@ -150,7 +150,7 @@ export default baseMixins.extend({
   },
   methods: {
     initAgenda () {
-      this.updateDate(this.date);
+      this.initDatesForPicker(this.date);
       this.updateMode(this.type);
     },
     updateTransitions (direction) {
@@ -201,7 +201,7 @@ export default baseMixins.extend({
       this.mutableDate = date;
       this.$emit('selectDate', this.mutableDate);
     },
-    updateDate (date) {
+    initDatesForPicker (date) {
       let newDate = generateDate({
         date: this.range ? (date.end || date.start) : date,
         locale: this.currentLocale,
@@ -218,9 +218,20 @@ export default baseMixins.extend({
         return;
       }
 
-      let month = this.type === 'quarter' ? convertQuarterToMonth(newDate.month()) : newDate.month();
-      this.pickerDate = new PickerDate(month, newDate.year(), this.currentLocale);
-      this.mutableDate = date && date.month(month).clone();
+      // When type is quarter && date is not defined -> newDate equals today's date
+      // So we need to convert it to quarter month -> for example : 2020-11-20 => 2020-4
+      if (date == null && this.type === 'quarter') {
+        newDate = newDate.month(newDate.quarter());
+      }
+
+      // When type is quarter && date is defined -> newDate will convert quarter date to month
+      // For example : 2020-2 => 2020-02-01 but quarter 2 should be 2020-04-01
+      if (date != null && this.type === 'quarter') {
+        newDate = newDate.month(convertQuarterToMonth(newDate.month()));
+      }
+
+      this.pickerDate = new PickerDate(newDate.month(), newDate.year(), this.currentLocale);
+      this.mutableDate = date && date.month(newDate.month()).clone();
     },
     changeMonth (direction) {
       let month = this.pickerDate.month + (direction === 'prev' ? -1 : +1);

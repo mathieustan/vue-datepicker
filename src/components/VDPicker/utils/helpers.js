@@ -180,14 +180,8 @@ function generateDateWithYearAndMonth ({ year, month, locale }) {
 }
 
 function generateMonthAndYear (value, pickerDate, mode) {
-  if (mode === 'year') {
-    return { year: value, month: pickerDate.month };
-  }
-
-  if (mode === 'quarter') {
-    return { year: pickerDate.year, month: convertQuarterToMonth(value) };
-  }
-
+  if (mode === 'year') return { year: value, month: pickerDate.month };
+  if (mode === 'quarter') return { year: pickerDate.year, month: convertQuarterToMonth(value) };
   return { year: pickerDate.year, month: value };
 }
 

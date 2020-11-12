@@ -375,7 +375,7 @@ describe('VDPickerAgenda', () => {
       });
     });
 
-    describe('updateDate', () => {
+    describe('initDatesForPicker', () => {
       it('Should update pickerDate & mutableDate for MONTH mode', () => {
         const newDate = dayjs('2019-04', 'YYYY-MM');
         const wrapper = mountComponent({
@@ -384,7 +384,7 @@ describe('VDPickerAgenda', () => {
           type: 'month',
         });
 
-        wrapper.vm.updateDate(newDate);
+        wrapper.vm.initDatesForPicker(newDate);
         expect(wrapper.vm.pickerDate).toEqual({
           start: newDate.startOf('month'),
           end: newDate.endOf('month'),
@@ -405,7 +405,7 @@ describe('VDPickerAgenda', () => {
           maxDate: '2019-03',
         });
 
-        wrapper.vm.updateDate(newDate);
+        wrapper.vm.initDatesForPicker(newDate);
         expect(wrapper.vm.pickerDate).toEqual({
           start: expectedDate.startOf('month'),
           end: expectedDate.endOf('month'),
@@ -424,7 +424,7 @@ describe('VDPickerAgenda', () => {
           type: 'quarter',
         });
 
-        wrapper.vm.updateDate(newDate);
+        wrapper.vm.initDatesForPicker(newDate);
         expect(wrapper.vm.pickerDate).toEqual({
           start: newDate.month(3).startOf('month'),
           end: newDate.month(3).endOf('month'),
@@ -560,15 +560,16 @@ describe('VDPickerAgenda', () => {
         description: 'should update year and show quarter',
         props: {
           type: 'quarter',
+          date: dayjs('2019-2'),
         },
         options: {
           value: 2018,
           mode: 'year',
         },
         expectedDate: {
-          start: dummyDate.set('year', 2018).set('month', 12).startOf('month'),
-          end: dummyDate.set('year', 2018).set('month', 12).endOf('month'),
-          month: 12,
+          start: dummyDate.set('year', 2018).set('month', 3).startOf('month'),
+          end: dummyDate.set('year', 2018).set('month', 3).endOf('month'),
+          month: 3,
           year: 2018,
           locale: { lang: en },
         },
