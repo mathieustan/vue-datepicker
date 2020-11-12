@@ -1,8 +1,8 @@
 <template>
   <VueDatePicker
     v-model="date"
-    min-date="2016"
-    max-date="2022"
+    min-date="1980"
+    max-date="2020"
     type="year"
   />
 </template>

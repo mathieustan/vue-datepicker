@@ -56,6 +56,6 @@ export default class PickerDate {
     const maxYear = max ? parseInt(max, 10) : (selectedYear + visibleYearsNumber);
     const minYear = Math.min(maxYear, min ? parseInt(min, 10) : (selectedYear - visibleYearsNumber));
 
-    return [...Array(maxYear - minYear + 1).keys()].map(i => minYear + i);
+    return [...Array(maxYear - minYear + 1).keys()].map(i => maxYear - i);
   }
 }
