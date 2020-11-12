@@ -2,7 +2,7 @@ import Vue from 'vue';
 import { shallowMount } from '@vue/test-utils';
 import localable from '@/mixins/localable';
 
-import { en, fr } from '@/locale';
+import { en } from '@/locale';
 
 describe('localable', () => {
   let mountComponent;
