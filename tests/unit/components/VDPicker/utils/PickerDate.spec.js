@@ -134,7 +134,7 @@ describe('Dates: Functions', () => {
     });
 
     it('should return an array with years range', () => {
-      expect(newDate.generateYearsRange({ activeYear: 2018, visibleYearsNumber: 2 })).toEqual([2016, 2017, 2018, 2019, 2020]);
+      expect(newDate.generateYearsRange({ activeYear: 2018, visibleYearsNumber: 2 })).toEqual([2020, 2019, 2018, 2017, 2016]);
     });
   });
 

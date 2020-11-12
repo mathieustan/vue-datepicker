@@ -102,7 +102,7 @@ describe('VDPickerYears', () => {
         const wrapper = mountComponent();
         // current year is 2019 - 10 => 2009
         // Should show 10 years before 2019 + 10 years after 2019 => 21 years
-        const years = [...Array(21).keys()].map(i => 2009 + i);
+        const years = [...Array(21).keys()].map(i => 2029 - i);
         expect(wrapper.vm.getYears).toEqual(years);
       });
     });
@@ -203,7 +203,7 @@ describe('VDPickerYears', () => {
       const yearButton = wrapper.find('.vd-picker__years-button');
 
       yearButton.trigger('click');
-      expect(wrapper.emitted().input[0]).toEqual([2009, 'year']);
+      expect(wrapper.emitted().input[0]).toEqual([2029, 'year']);
     });
   });
 });
