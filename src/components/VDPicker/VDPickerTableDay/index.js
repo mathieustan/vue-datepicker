@@ -1,3 +1,3 @@
-import VDpickerTableDay from './VDpickerTableDay';
+import VDPickerTableDay from './VDPickerTableDay';
 
-export default VDpickerTableDay;
+export default VDPickerTableDay;
