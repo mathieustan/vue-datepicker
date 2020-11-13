@@ -7,6 +7,7 @@
     "buttonValidate": "Sets validate text button",
     "clearable": "Allows to clear date",
     "color": "Allows you to customize color",
+    "contentClass": "Applies a custom class to the detached element. This is useful because the content is moved to the beginning of body (unless the attach prop is provided) and is not targetable by classes passed directly on the component.",
     "disabled": "Sets datepicker disabled",
     "format": "Allows you to customize input date format",
     "formatHeader": "Allows you to customize header date format",
@@ -26,11 +27,13 @@
     "rangeHeaderText": "Sets header text format",
     "rangeInputText": "Sets input text format",
     "rangePresets": "Allows to add custom range presets to range datepicker. (Max custom presets = 6) Example: [{ name: 'This year', dates: { start: ..., end: ... } }]",
+    "rtl": "Sets RTL direction",
     "tabindex": "Sets input tabindex",
     "type": "Determines the type of the picker - date/month/quarter",
     "validate": "Shows validation buttons to select date",
     "value": "Date picker model (ISO 8601 format, YY-mm-dd or YY-mm)",
     "visible": "Allows you to trigger datepicker visibility",
-    "visibleYearsNumber": "Sets years range in year selection panel (it'll see X years before and after current year)"
+    "visibleYearsNumber": "Sets years range in year selection panel (it'll see X years before and after current year)",
+    "zIndex": "Sets datepicker index"
   }
 }

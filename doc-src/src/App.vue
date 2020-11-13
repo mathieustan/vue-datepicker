@@ -178,11 +178,6 @@ export default  {
         description: 'Boolean to hide datepicker header',
         filename: 'noHeader',
       },
-      noInput: {
-        title: '# Props: NoInput',
-        description: 'Hide input to show a button instead (better when width needs to be dynamic)',
-        filename: 'noInput',
-      },
       noCalendarIcon: {
         title: '# Props: NoCalendarIcon',
         description: 'Hide to hide calendar icon',
