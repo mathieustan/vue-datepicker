@@ -1,11 +1,13 @@
-@import   '../../../styles/abstracts/_index.scss',
-          '../../../styles/base/_transitions.scss',
-          './variables';
+@import './variables';
 
 .vd-picker__table {
   position: relative;
   padding: 0 12px;
-  height: $table-height;
+  height: $table-height-md;
+
+  .vd-picker--bottomsheet & {
+    height: $table-height;
+  }
 
   /* Week
   ---------------------- */
@@ -35,7 +37,11 @@
   &-days__wrapper {
     position: relative;
     overflow: hidden;
-    height: $table-date-height;
+    height: $table-date-height-md;
+
+    .vd-picker--bottomsheet & {
+      height: $table-date-height;
+    }
   }
 
   &-days {

@@ -1,7 +1,9 @@
-@import '../../../styles/abstracts/index';
+@import '../index';
 
-$table-height: 242px;
-$table-date-height: 208px;
+$table-height: get-size(datepicker, table, mobile);
+$table-height-md: get-size(datepicker, table, desktop);
+$table-date-height: calc(#{get-size(datepicker, day-height, mobile)} * 6);
+$table-date-height-md: calc(#{get-size(datepicker, day-height, desktop)} * 6);
 
 $day-width: calc(100%/7);
 

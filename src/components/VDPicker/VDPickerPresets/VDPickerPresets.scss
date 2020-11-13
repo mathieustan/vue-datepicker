@@ -1,5 +1,4 @@
-@import '../../../styles/abstracts/_index.scss',
-        '../index.scss';
+@import '../index';
 
 .vd-picker-presets {
   position: relative;
@@ -29,8 +28,8 @@
 
   flex: 0 0 50%;
   max-width: 50%;
-  min-height: get-size(mobile, presets-row);
-  height: get-size(mobile, presets-row);
+  min-height: get-size(datepicker, presets-row, desktop);
+  height: get-size(datepicker, presets-row, desktop);
 
   padding: 0 $gutter;
   font-size: 14px;
@@ -41,9 +40,9 @@
   border-width: 0;
   transition: opacity .3s get-easing(swing);
 
-  @include mq(tablet) {
-    min-height: get-size(desktop, presets-row);
-    height: get-size(desktop, presets-row)
+  .vd-picker--bottomsheet & {
+    min-height: get-size(datepicker, presets-row, desktop);
+    height: get-size(datepicker, presets-row, desktop);
   }
 
   &:nth-child(odd) {

@@ -1,0 +1,12 @@
+@import '../index';
+
+$header-height: get-size(datepicker, header, mobile);
+$header-md-height: get-size(datepicker, header, desktop);
+
+$header-font-size: 18px;
+$header-md-font-size: 22px;
+$header-lg-font-size: 24px;
+
+$header-text-height: calc(#{$header-font-size} + #{$gutter});
+$header-md-text-height: calc(#{$header-md-font-size} + #{$gutter});
+$header-lg-text-height: calc(#{$header-lg-font-size} + #{$gutter});

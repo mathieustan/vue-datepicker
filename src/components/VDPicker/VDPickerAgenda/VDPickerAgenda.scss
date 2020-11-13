@@ -1,6 +1,4 @@
-@import   '../../../styles/abstracts/_index.scss',
-          '../../../styles/base/_transitions.scss',
-          '../index';
+@import '../index';
 
 .vd-picker,
 .vd-picker *,
@@ -12,7 +10,7 @@
 .vd-picker {
   display: flex;
   flex-direction: column;
-  width: get-size(mobile, width);
+  width: get-size(datepicker, width, desktop);
   background-color: white;
   border-radius: get-border-radius(2);
   box-shadow: 0 2px 8px rgba(50, 50, 93, 0.2);
@@ -22,12 +20,8 @@
     outline: 0;
   }
 
-  @include mq(tablet) {
-    width: get-size(desktop, width);
-  }
-
   &--bottomsheet {
-    width: 100%;
+    width: get-size(datepicker, width, mobile);
     box-shadow: none;
 
     .vd-picker-header {
@@ -46,7 +40,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: get-size(mobile, title);
+    height: get-size(datepicker, title, desktop);
     padding: $gutter $gutter*2;
     border-radius: get-border-radius(4) get-border-radius(4) 0 0;
 

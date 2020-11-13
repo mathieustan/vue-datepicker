@@ -1,5 +1,4 @@
-@import '../../../styles/abstracts/_index.scss',
-        '../index.scss';
+@import '../index.scss';
 
 .vd-picker__input {
   position: relative;
@@ -66,7 +65,7 @@
   &-icon {
     display: inline-flex;
     align-self: flex-start;
-    margin-top: 2px;
+    margin-top: 4px;
     margin-right: auto;
     padding-right: 4px;
     line-height: 1;
@@ -86,7 +85,6 @@
   input {
     position: relative;
     flex: 1 1 auto;
-    line-height: 20px;
     max-height: 32px;
     padding: 8px 0;
     max-width: 100%;

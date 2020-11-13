@@ -1,12 +1,14 @@
-@import '../../../styles/abstracts/_index.scss',
-        '../../../styles/base/_transitions.scss',
-        '../index.scss';
+@import '../index';
 
 .vd-picker__quarters {
   position: relative;
   display: flex;
   flex: 1 1 auto;
-  height: 242px;
+  height: get-size(datepicker, table, desktop);
+
+  .vd-picker--bottomsheet & {
+    height: get-size(datepicker, table, desktop);
+  }
 
   // Browsers which partially support CSS Environment variables (iOS 11.0-11.2).
   @supports (padding-bottom: constant(safe-area-inset-bottom)) {

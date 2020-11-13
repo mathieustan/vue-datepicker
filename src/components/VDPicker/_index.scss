@@ -1,3 +1,53 @@
+@import '../../styles/abstracts/index',
+        '../../styles/base/_transitions.scss';
+
+$datepicker-day-size: 48px;
+$datepicker-day-size-md: 40px;
+
+$datepicker-week-height: 34px;
+$datepicker-controls-height: 48px;
+
+$datepicker-width-md: calc(#{$datepicker-day-size-md * 7} + 24px);
+
+$datepicker-days-height: $datepicker-day-size * 6;
+$datepicker-days-height-md: $datepicker-day-size-md * 6;
+$datepicker-table-height: calc(#{$datepicker-days-height} + #{$datepicker-week-height});
+$datepicker-table-height-md: calc(#{$datepicker-days-height-md} + #{$datepicker-week-height});
+$datepicker-body-height: calc(#{$datepicker-table-height} + #{$datepicker-controls-height});
+$datepicker-body-height-md: calc(#{$datepicker-table-height-md} + #{$datepicker-controls-height});
+
+$sizes: map-deep-merge(
+  (
+    datepicker: (
+      mobile: (
+        width: 100%,
+        title: 48px,
+        header: 80px,
+        body: $datepicker-body-height,
+        table: $datepicker-table-height,
+        days: $datepicker-days-height,
+        week: $datepicker-week-height,
+        controls: $datepicker-controls-height,
+        presets-row: 32px,
+        day-height: $datepicker-day-size,
+      ),
+      desktop: (
+        width: $datepicker-width-md,
+        title: 48px,
+        header: 85px,
+        body: $datepicker-body-height-md,
+        table: $datepicker-table-height-md,
+        days: $datepicker-days-height-md,
+        week: $datepicker-week-height,
+        controls: $datepicker-controls-height,
+        presets-row: 32px,
+        day-height: $datepicker-day-size-md,
+      ),
+    ),
+  ),
+  $sizes,
+);
+
 // --------------------------------------------
 // Reset Button Mixin -------------------------
 // --------------------------------------------

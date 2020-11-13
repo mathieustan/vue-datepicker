@@ -1,4 +1,4 @@
-@import '../../styles/abstracts/_index.scss';
+@import './index';
 
 .vd-wrapper,
 .vd-wrapper *,
@@ -25,14 +25,10 @@
   }
 
   &--inline {
-    width: get-size(mobile, width);
+    width: get-size(datepicker, width, desktop);
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),
       0px 2px 2px 0px rgba(0,0,0,0.14),
       0px 1px 5px 0px rgba(0,0,0,0.12);
-
-    @include mq(tablet) {
-      width: get-size(desktop, width);
-    }
   }
 
   &--disabled {

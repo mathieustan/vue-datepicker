@@ -1,5 +1,4 @@
-@import   '../../../styles/abstracts/_index.scss',
-          '../../../styles/base/_transitions.scss';
+@import './variables';
 
 .vd-picker-header {
   color: white;
@@ -9,13 +8,13 @@
   flex-direction: column;
   flex-wrap: wrap;
   line-height: 1;
-  min-height: get-size(mobile, header);
-  max-height: get-size(mobile, header);
+  min-height: $header-height;
+  height: $header-height;
   border-radius: get-border-radius(2) get-border-radius(2) 0 0;
 
   @include mq(tablet) {
-    min-height: get-size(desktop, header);
-    max-height: get-size(desktop, header);
+    min-height: $header-md-height;
+    height: $header-md-height;
   }
 
   &--range {
@@ -25,12 +24,12 @@
       justify-content: space-between;
     }
     .vd-picker-header__date {
-      font-size: 18px;
-      height: calc(18px + #{$gutter});
+      font-size: $header-font-size;
+      height: $header-text-height;
 
       @include mq(tablet) {
-        font-size: 22px;
-        height: calc(22px + #{$gutter});
+        font-size: $header-md-font-size;
+        height: $header-md-text-height;
       }
     }
   }
@@ -38,8 +37,8 @@
   &--year {
     .vd-picker-header__year {
       flex: 1 1 auto;
-      font-size: 22px;
-      height: calc(22px + #{$gutter});
+      font-size: $header-md-font-size;
+      height: $header-md-text-height;
     }
   }
 
@@ -73,8 +72,8 @@
     position: relative;
     display: flex;
     width: 100%;
-    font-size: 22px;
-    height: calc(22px + #{$gutter});
+    font-size: $header-md-font-size;
+    height: $header-md-text-height;
     text-align: left;
     overflow: hidden;
     padding-bottom: $gutter;
@@ -94,8 +93,8 @@
     }
 
     @include mq(tablet) {
-      font-size: 24px;
-      height: calc(24px + #{$gutter});
+      font-size: $header-lg-font-size;
+      height: $header-lg-text-height;
     }
   }
 }

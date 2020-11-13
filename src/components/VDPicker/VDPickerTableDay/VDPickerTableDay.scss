@@ -1,13 +1,11 @@
-@import '../../../styles/abstracts/_index.scss',
-        '../index.scss',
-        './variables';
+@import './variables';
 
 .vd-picker__table-day {
   @extend %reset-button;
 
   position: relative;
   width: $day-width;
-  height: $day-size;
+  height: $day-size-md;
 
   line-height: 1;
   font-size: 12px;
@@ -18,11 +16,18 @@
   transition: $default-transition;
   overflow: hidden;
 
-  @include mq(tablet) {
-    height: $day-size-md;
+  .vd-picker--bottomsheet & {
+    height: $day-size;
   }
 
   &__wrapper {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    left: 0;
+    right: 0;
+    border: none;
+
     &:before {
       content: '';
       position: absolute;
@@ -38,18 +43,17 @@
     &:after {
       content: '';
       position: absolute;
-      top: 1px;
+      top: 0;
       left: 50%;
       width: calc(100% + 1px);
-      height: $day-inner-size;
+      height: $day-inner-size-md;
       border: 1px solid currentColor;
       background-color: currentColor;
       opacity: $default-effect-opacity;
       transform: translateX(-50%) scale(0);
 
-      @include mq(tablet) {
-        top: 2px;
-        height: $day-size;
+      .vd-picker--bottomsheet & {
+        height: $day-inner-size;
       }
     }
   }
@@ -59,13 +63,18 @@
   &__current,
   &__effect {
     position: absolute;
-    top: 1px;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: $day-inner-size;
-    height: $day-inner-size;
+    width: $day-inner-size-md;
+    height: $day-inner-size-md;
     border-radius: 50%;
     border: 1px solid currentColor;
+
+    .vd-picker--bottomsheet & {
+      width: $day-inner-size;
+      height: $day-inner-size;
+    }
   }
 
   &__current {
@@ -91,10 +100,15 @@
     align-items: center;
     justify-content: center;
     margin: auto;
-    width: $day-inner-size;
-    height: $day-inner-size;
+    width: $day-inner-size-md;
+    height: $day-inner-size-md;
     color: $default-text-color;
     z-index: 1;
+
+    .vd-picker--bottomsheet & {
+      width: $day-inner-size;
+      height: $day-inner-size;
+    }
   }
 
   /* Modifiers

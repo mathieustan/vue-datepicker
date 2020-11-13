@@ -1,11 +1,9 @@
-@import   '../../../styles/abstracts/_index.scss',
-          '../index.scss';
+@import '../index.scss';
 
 .vd-picker__controls {
   position: relative;
   display: flex;
-  height: get-size(mobile, controls);
-  min-height: get-size(mobile, controls);
+  height: get-size(datepicker, controls, desktop);
   text-align: center;
   position: relative;
   width: 100%;
@@ -70,8 +68,8 @@
   button.vd-picker__controls-next {
     position: relative;
     flex: 0 0 40px;
-    height: get-size(mobile, controls);
-    width: get-size(mobile, controls);
+    height: get-size(datepicker, controls, desktop);
+    width: get-size(datepicker, controls, desktop);
     padding: 0 0 0 $gutter*3;
     border: none;
     outline: none;
@@ -82,7 +80,6 @@
 
     @include mq(tablet) {
       padding: 0 $gutter 0 $gutter;
-      width: get-size(desktop, controls);
     }
 
     &:disabled,

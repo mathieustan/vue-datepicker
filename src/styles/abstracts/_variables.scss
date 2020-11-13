@@ -12,24 +12,7 @@ $gutter: 8px;
 // --------------------------------------------
 // Size ---------------------------------------
 // --------------------------------------------
-$sizes: (
-  desktop: (
-    width: 315px,
-    title: 48px,
-    header: 85px,
-    presets-row: 32px,
-    day-height: 34px,
-    controls: 48px,
-  ),
-  mobile: (
-    width: 290px,
-    title: 48px,
-    header: 80px,
-    presets-row: 32px,
-    day-height: 34px,
-    controls: 48px,
-  ),
-);
+$sizes: () !default;
 
 // --------------------------------------------
 // Colors -------------------------------------
