@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import dayjs from 'dayjs';
 import { mount } from '@vue/test-utils';
 import VDPickerCustomInput from '@/components/VDPicker/VDPickerCustomInput';
@@ -6,12 +7,21 @@ jest.useFakeTimers();
 
 describe('VDPickerCustomInput', () => {
   let mountComponent;
+  let vm = new Vue();
+
   const dummyDate = dayjs(new Date([2019, 5, 16]));
+  const defaultVDPickerProvider = { $scopedSlots: {}, $slots: {} };
 
   beforeEach(() => {
-    mountComponent = ({ props = {} } = {}) =>
+    mountComponent = ({
+      props = {},
+      provide = {
+        VDPicker: defaultVDPickerProvider,
+      },
+    } = {}) =>
       mount(VDPickerCustomInput, {
         propsData: props,
+        provide,
       });
   });
 
@@ -99,6 +109,22 @@ describe('VDPickerCustomInput', () => {
       clearIcon.trigger('click');
 
       expect(wrapper.emitted().clearDate).toBeTruthy();
+    });
+
+    it('should have an input-icon slot', () => {
+      const VDPickerProviderWithIcon = {
+        $scopedSlots: {},
+        $slots: {
+          'input-icon': vm.$createElement('div', { staticClass: 'icon-slot' }),
+        },
+      };
+      const wrapper = mountComponent({
+        provide: {
+          VDPicker: VDPickerProviderWithIcon,
+        },
+      });
+
+      expect(wrapper.find('.icon-slot').exists()).toBeTruthy();
     });
 
   });

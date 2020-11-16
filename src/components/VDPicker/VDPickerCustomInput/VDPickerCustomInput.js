@@ -7,9 +7,16 @@ import colorable from '../../../mixins/colorable';
 // Components
 import VDIcon from '../../VDIcon';
 
-export default {
+// Helpers
+import mixins from '../../../utils/mixins';
+
+const baseMixins = mixins(
+  colorable,
+);
+
+export default baseMixins.extend({
   name: 'VDPickerCustomInput',
-  mixins: [colorable],
+  inject: ['VDPicker'],
   props: {
     clearable: { type: Boolean },
     closeOnClickOutside: { type: Boolean, default: true },
@@ -54,15 +61,21 @@ export default {
     // Generate Template
     // ------------------------------
     genCalendarIcon () {
-      const icon = this.$createElement(VDIcon, {
-        props: {
-          disabled: this.disabled,
-        },
-      }, ['calendarAlt']);
+      let children = [];
+
+      if (this.VDPicker.$slots['input-icon']) {
+        children.push(this.VDPicker.$slots['input-icon']);
+      } else {
+        children.push(this.$createElement(VDIcon, {
+          props: {
+            disabled: this.disabled,
+          },
+        }, ['calendarAlt']));
+      }
 
       const iconWrapper = this.$createElement('div', {
         staticClass: 'vd-picker__input-icon__wrapper',
-      }, [icon]);
+      }, children);
 
       return this.$createElement('div', {
         staticClass: 'vd-picker__input-icon',
@@ -133,4 +146,4 @@ export default {
       this.clearable && this.genClearIcon(),
     ]);
   },
-};
+});

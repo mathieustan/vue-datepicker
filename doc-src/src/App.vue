@@ -258,6 +258,11 @@ export default  {
           Try to keep cursor on a day`,
         filename: 'daySlot',
       },
+      slotInputIcon: {
+        title: '# Custom input-icon slot',
+        description: `Allows to change icon appaearance`,
+        filename: 'slot-input-icon',
+      },
       // -- Misc
       birthdayPicker: {
         title: 'Birthday picker',
