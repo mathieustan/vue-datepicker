@@ -1,0 +1,22 @@
+{
+  "command": {
+    "publish": {
+      "allowBranch": [
+        "master",
+        "dev",
+        "next"
+      ],
+      "conventionalCommits": true,
+      "message": ":package:(release): publish %s"
+    },
+    "version": {
+      "push": true
+    }
+  },
+  "packages": [
+    "packages/*"
+  ],
+  "npmClient": "yarn",
+  "version": "0.2.11",
+  "useWorkspaces": true
+}
