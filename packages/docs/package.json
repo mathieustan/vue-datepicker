@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "name": "@mathieustan/vue-datepicker-docs",
+  "version": "0.2.11",
+  "description": "Documentation for vue-datepicker",
+  "main": "index.js",
+  "author": "Mathieu Stanowski <mathieu.stan@gmail.com>",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "yarn lint:fix && vuepress build src",
+    "build:clean": "rm -rf ./dist",
+    "lint": "eslint ./src/.vuepress ./build/ --ext .js,.vue",
+    "lint:fix": "yarn lint --fix"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "algoliasearch": "^4.8.5",
+    "lodash": "^4.17.21",
+    "prismjs": "^1.23.0",
+    "vue-instantsearch": "^3.4.3",
+    "vuepress-plugin-sitemap": "^2.3.1",
+    "vuetify": "^2.5.1",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9",
+    "dotenv": "^8.2.0",
+    "redent": "^3.0.0",
+    "vuepress": "^1.8.2"
+  }
+}

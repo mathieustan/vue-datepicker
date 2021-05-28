@@ -19,6 +19,7 @@
     "postinstall": "husky install",
     "dev": "node scripts/dev.js",
     "build": "node scripts/build.js",
+    "deploy": "node scripts/deploy.js",
     "test": "lerna run test:client --scope @mathieustan/vue-datepicker --stream",
     "lint": "lerna run lint --parallel --stream",
     "lint:fix": "lerna run lint:fix --parallel",
