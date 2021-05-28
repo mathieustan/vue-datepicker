@@ -336,6 +336,7 @@ export default baseMixins.extend({
 
       const menuProps = {
         ...defaultMenuProps,
+        contentClass: this.contentClass,
         value: this.isMenuActive,
         origin: this.origin,
         allowOverflow: this.allowOverflow,
