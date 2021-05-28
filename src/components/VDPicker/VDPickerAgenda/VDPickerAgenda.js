@@ -131,7 +131,7 @@ export default baseMixins.extend({
             disableBodyScroll(targetElement);
             this.genOverlay();
           } else {
-            this.removeOverlay(false);
+            this.removeOverlay(true);
             enableBodyScroll(targetElement);
           }
         });
