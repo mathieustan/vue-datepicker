@@ -33,24 +33,24 @@ export default {
   }),
   watch: {
     $lang (newValue) {
-      this.update(this.options, newValue)
+      this.update(this.options, newValue);
     },
 
     options (newValue) {
-      this.update(newValue, this.$lang)
-    }
+      this.update(newValue, this.$lang);
+    },
   },
   mounted () {
-    this.initialize(this.options, this.$lang)
+    this.initialize(this.options, this.$lang);
   },
   methods: {
     initialize (userOptions, lang) {
       Promise.all([
         import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.js'),
-        import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.css')
+        import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.css'),
       ]).then(([docsearch]) => {
-        docsearch = docsearch.default
-        const { algoliaOptions = {}} = userOptions
+        docsearch = docsearch.default;
+        const { algoliaOptions = {} } = userOptions;
         docsearch(Object.assign(
           {},
           userOptions,
@@ -59,22 +59,22 @@ export default {
             // #697 Make docsearch work well at i18n mode.
             algoliaOptions: {
               ...algoliaOptions,
-              facetFilters: [`lang:${lang}`].concat(algoliaOptions.facetFilters || [])
+              facetFilters: [`lang:${lang}`].concat(algoliaOptions.facetFilters || []),
             },
             handleSelected: (input, event, suggestion) => {
-              const { pathname, hash } = new URL(suggestion.url)
-              const routepath = pathname.replace(this.$site.base, '/')
-              const _hash = decodeURIComponent(hash)
-              this.$router.push(`${routepath}${_hash}`)
-            }
-          }
-        ))
-      })
+              const { pathname, hash } = new URL(suggestion.url);
+              const routepath = pathname.replace(this.$site.base, '/');
+              const _hash = decodeURIComponent(hash);
+              this.$router.push(`${routepath}${_hash}`);
+            },
+          },
+        ));
+      });
     },
     update (options, lang) {
-      this.$el.innerHTML = '<input id="algolia-search-input" class="search-query">'
-      this.initialize(options, lang)
-    }
-  }
+      this.$el.innerHTML = '<input id="algolia-search-input" class="search-query">';
+      this.initialize(options, lang);
+    },
+  },
 };
 </script>

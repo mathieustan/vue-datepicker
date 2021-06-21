@@ -3,7 +3,7 @@ require('dotenv').config();
 const webpack = require('webpack');
 const path = require('path');
 
-const { description } = require('../../package')
+const { description } = require('../../package');
 
 module.exports = {
   dest: './dist',
@@ -69,7 +69,7 @@ module.exports = {
   postcss: {
     plugins: [
       require('autoprefixer'),
-    ]
+    ],
   },
   configureWebpack: (/* config */) => {
     return {
@@ -86,4 +86,4 @@ module.exports = {
       ],
     };
   },
-}
+};

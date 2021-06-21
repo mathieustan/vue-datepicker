@@ -30,10 +30,10 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install
 
       - name: Lint
-        run: npm run lint
+        run: yarn lint
 
       - name: Run tests
-        run: npm run test:client -- --maxWorkers=2 --verbose false --silent --color
+        run: yarn test -- --maxWorkers=2 --verbose false --silent --color

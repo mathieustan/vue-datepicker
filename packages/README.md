@@ -1,6 +1,6 @@
 <p>These are the packages for the monorepo.</p>
 
-## Packages for the kit
+## Packages for the datepicker
 
-2. **doc-src** - documentation
+2. **docs** - documentation
 3. **datepicker** - main source code for datepicker

@@ -20,4 +20,4 @@ export default ({
   // Init plugins
   Vue.use(InstantSearch);
   Vue.use(VueDatePicker);
-}
+};

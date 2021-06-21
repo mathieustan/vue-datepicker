@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 // Components
 import SidebarLinks from '@theme/components/SidebarLinks.vue';

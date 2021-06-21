@@ -2,7 +2,6 @@ const spawn = require('cross-spawn');
 
 let target = process.argv[2];
 const alias = {
-  doc: '@mathieustan/vue-datepicker-demo',
   docs: '@mathieustan/vue-datepicker-docs',
   datepicker: '@mathieustan/vue-datepicker',
 };

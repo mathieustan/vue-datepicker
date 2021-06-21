@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import Markup from '~vuepress/components/code/Markup.vue';
 
 export default {

@@ -36,7 +36,7 @@ export default {
     ContentsLayout,
     MarkdownIt,
     PageEdit,
-    PageNav
+    PageNav,
   },
   props: ['sidebarItems'],
   computed: {
@@ -61,5 +61,4 @@ export default {
   },
 };
 </script>
-
 

@@ -14,52 +14,32 @@
     </PrismComponent>
 
     <div class="code-wrapper__copy">
-      <button
-        v-if="!updateCodeToCopy"
-        title="Copy code"
-        aria-label="Copy code"
-      >
-        <i :class="copied ? 'fal fa-check' : 'fal fa-copy'" />
-      </button>
+      <CopyBtn :target="target" />
     </div>
   </div>
 </template>
 
 <script>
+// Components
+import CopyBtn from '~vuepress/components/code/CopyBtn';
 import PrismComponent from '~vuepress/components/code/PrismComponent';
 
 export default {
   name: 'Markup',
-  components: { PrismComponent },
+  components: { CopyBtn, PrismComponent },
   props: {
     type: { type: String, default: String },
     source: { type: String },
   },
   data: () => ({
     rendered: false,
-    copied: false,
-    updateCodeToCopy: false,
-    copyTimeout: undefined,
-    codeToCopy: undefined,
   }),
   mounted () {
     setTimeout(() => (this.rendered = true), 100);
   },
-  watch: {
-    source: {
-      handler (newSource) {
-        this.updateCodeToCopy = true;
-        this.codeToCopy = newSource;
-        setTimeout(() => (this.updateCodeToCopy = false), 100);
-      },
-      immediate: true,
-    },
-  },
   methods: {
-    onCopy () {
-      this.copied = true;
-      clearTimeout(this.copyTimeout);
-      this.copyTimeout = setTimeout(() => { this.copied = false; }, 2000);
+    target () {
+      return this.$el.querySelector('pre');
     },
   },
 };
@@ -68,6 +48,10 @@ export default {
 <style lang="scss" scoped>
   .code-wrapper {
     position: relative;
+
+    pre {
+      border-radius: 0;
+    }
 
     &__copy {
       position: absolute;
@@ -78,7 +62,7 @@ export default {
       height: 32px;
       z-index: 1;
 
-      .g-button {
+      .v-btn {
         color: inherit;
         position: absolute;
         right: 0;
@@ -86,6 +70,7 @@ export default {
         opacity: 1;
         top: 0;
         z-index: 4;
+        color: white;
       }
     }
   }

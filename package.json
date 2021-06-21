@@ -41,6 +41,7 @@
     "eslint-plugin-vue": "^7.6.0",
     "husky": "^5.1.1",
     "lerna": "^3.22.1",
+    "node-sass": "^6.0.0",
     "sass": "^1.32.8",
     "sass-loader": "10.1.1"
   }

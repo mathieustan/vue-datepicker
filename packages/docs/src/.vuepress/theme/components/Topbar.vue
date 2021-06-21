@@ -33,7 +33,7 @@ export default {
   name: 'Topbar',
   components: {
     AlgoliaSearchBox,
-    MenuButton
+    MenuButton,
   },
   data: () => ({
     links: {
@@ -64,7 +64,7 @@ export default {
     updateActiveTheme () {
       this.toggleTheme();
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-    }
+    },
   },
 };
 </script>
