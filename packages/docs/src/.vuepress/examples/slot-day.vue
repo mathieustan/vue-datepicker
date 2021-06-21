@@ -7,12 +7,15 @@
         isFirstSelectedDay, isLastSelectedDay, isDisabled
       -->
       <template #day="{ day }">
-        <GTooltip top :disabled="!isEventDay(day)">
-            <template #activator="{ on }">
-              <span v-on="on"> {{ day }} <span v-if="isEventDay(day)" class="event"/> </span>
-            </template>
-            <span>There is an event</span>
-          </GTooltip>
+        <v-tooltip top :z-index="1100" :disabled="!isEventDay(day)">
+          <template #activator="{ on, attrs }">
+            <span v-on="on" v-bind="attrs">
+              {{ day }}
+              <span v-if="isEventDay(day)" class="event"/>
+            </span>
+          </template>
+          <span>There is an event</span>
+        </v-tooltip>
       </template>
     </VueDatePicker>
   </v-container>
