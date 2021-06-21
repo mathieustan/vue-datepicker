@@ -20,6 +20,7 @@
           v-for="[key, link] in Object.entries(headerLinks)"
           :key="key"
           :to="link.href"
+          :class="{ 'v-btn--active': isLinkActive(link.section) }"
           plain
           block
           class="pa-0 align-center justify-start"
@@ -103,6 +104,7 @@ export default {
       setSidebarOpened: 'setSidebarOpened',
     }),
     isLinkActive (section) {
+      console.log(this.$route.path, section, this.$route.path.includes(section));
       return this.$route.path.includes(section);
     },
     closeConditional (event) {
