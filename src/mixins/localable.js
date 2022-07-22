@@ -18,12 +18,13 @@ export default Vue.extend({
   },
   methods: {
     getDefaultLang () {
-      return (
-        (this.$vuedatepicker && this.$vuedatepicker.lang) ||
-        window.navigator.userLanguage ||
-        window.navigator.language ||
-        'en'
-      ).substr(0, 2);
+      return 'en';
+      // return (
+      //   (this.$vuedatepicker && this.$vuedatepicker.lang) ||
+      //   window.navigator.userLanguage ||
+      //   window.navigator.language ||
+      //   'en'
+      // ).substr(0, 2);
     },
     isValidLocale (lang = {}) {
       const properties = Object.keys(lang);
