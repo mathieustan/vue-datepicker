@@ -1,3 +1,7 @@
+⚠️ No longer maintained. 
+Sorry everyone, as you see I couldn't maintain this project properly. Feel free to use it/copy it to improve this datepicker.
+
+
 # vue-datepicker
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/22e0f8947502421bb85192ef11d7c2f9)](https://www.codacy.com/app/mathieustan/vue-datepicker?utm_source=github.com&utm_medium=referral&utm_content=mathieustan/vue-datepicker&utm_campaign=Badge_Grade)
