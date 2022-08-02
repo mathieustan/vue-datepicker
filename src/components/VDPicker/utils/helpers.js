@@ -139,7 +139,7 @@ function areSameDates (date, dateSelected, type = 'date') {
 
 function isBeforeDate (date, beforeDate, type = 'day') {
   if (type === 'year') {
-    return Boolean(beforeDate) && date < dayjs(beforeDate, 'YYYY-MM-DD').get(type);
+    return Boolean(beforeDate) && date < dayjs(`${beforeDate}-01-01`, 'YYYY-MM-DD').get(type);
   }
 
   const selectedDate = dayjs.isDayjs(date) ? date : dayjs(date).startOf('day');
